@@ -1,2 +1,2 @@
 # MemoryBridgeProject
-Progetto di HUM per l'usabilità delle interfacce
+Progetto di IUM per l'usabilità delle interfacce
