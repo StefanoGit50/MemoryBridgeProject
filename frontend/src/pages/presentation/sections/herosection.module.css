@@ -1,0 +1,38 @@
+/* src/public/presentazione/sections/HeroSection.module.css */
+.section {
+    text-align: center;
+    padding-top: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.eyebrow {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--color-accent-cyan);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.headline {
+    font-size: clamp(2.5rem, 6vw, 4.8rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subheadline {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.5;
+    font-weight: 400;
+}

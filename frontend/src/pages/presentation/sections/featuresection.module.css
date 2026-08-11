@@ -1,0 +1,36 @@
+.section {
+    max-width: 1000px;
+    margin: 100px auto 0 auto;
+    padding: 0 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.eyebrow {
+    color: var(--color-accent-purple);
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.headline {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-top: 8px;
+}
+
+.subheadline {
+    color: var(--color-accent-cyan);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}

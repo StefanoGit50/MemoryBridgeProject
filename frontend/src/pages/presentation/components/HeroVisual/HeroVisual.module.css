@@ -1,0 +1,133 @@
+/* src/public/presentazione/components/MemoryBridgeHeroVisual.module.css */
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 40px auto 0 auto;
+}
+
+.mascotWrapper {
+    position: absolute;
+    top: -65px;
+    transform: translateX(-50%);
+    z-index: 30;
+    transition: left 0.1s ease-out;
+    pointer-events: none;
+}
+
+.mascotLabel {
+    background-color: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.4);
+    color: var(--color-eye-light);
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: -6px;
+    letter-spacing: 1px;
+    backdrop-filter: blur(8px);
+}
+
+.frame {
+    width: 100%;
+    height: 460px;
+    border-radius: 32px;
+    border: 1px solid var(--border-subtle-strong);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(6, 182, 212, 0.15);
+    background-color: var(--color-bg-dark);
+}
+
+.futureLayer,
+.pastLayer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.pastLayer {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    filter: grayscale(100%) contrast(120%) sepia(20%);
+    border-right: 2px solid var(--color-accent-cyan);
+    overflow: hidden;
+    transition: width 0.1s ease-out;
+}
+
+.futureLabel,
+.pastLabel {
+    position: absolute;
+    bottom: 24px;
+    background: rgba(3, 7, 18, 0.65);
+    backdrop-filter: blur(12px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.futureLabel {
+    right: 28px;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    color: #c084fc;
+}
+
+.pastLabel {
+    left: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+}
+
+.bridgeSvg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.scanLine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--color-accent-cyan);
+    box-shadow: 0 0 20px var(--color-accent-cyan), 0 0 40px var(--color-accent-purple);
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    z-index: 20;
+}
+
+.scanHandle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--color-bg-dark);
+    border: 2px solid var(--color-accent-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent-cyan);
+    font-size: 0.8rem;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+}
+
+.rangeInput {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: ew-resize;
+    z-index: 25;
+}

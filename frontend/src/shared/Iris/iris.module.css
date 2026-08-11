@@ -1,0 +1,12 @@
+/* src/shared/components/IrisOwlMascot.module.css */
+.wrapper {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    filter: drop-shadow(0 0 20px var(--color-accent-cyan-glow));
+}
+
+.svg {
+    width: 100%;
+    height: 100%;
+}

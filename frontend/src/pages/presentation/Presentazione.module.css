@@ -1,0 +1,8 @@
+.page {
+    min-height: 100vh;
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-primary);
+    font-family: system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    padding-bottom: 80px;
+}
