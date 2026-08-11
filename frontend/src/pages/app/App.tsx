@@ -1,25 +1,26 @@
-// ============================================================================
-// MEMORYBRIDGE - REACT MONOLITH (LOGICA E INTERFACCIA)
-// ============================================================================
-
+import React, { useState } from 'react';
 import {createRoot} from "react-dom/client";
-import React from "react";
 
-const { useState } = React;
+// ============================================================================
+// MEMORYBRIDGE - INTERFACCIA ED ELEMENTI CARATTERISTICI (REACT MONOLITH)
+// ============================================================================
 
 function MemoryBridgeApp() {
     // --- STATO ACCESSIBILITÀ (ISO 9241 & WCAG) ---
     const [highContrast, setHighContrast] = useState(false);
     const [largeFont, setLargeFont] = useState(false);
 
-    // --- STATO GUIDA & REGISTRAZIONE VOCALE (Per Maria) ---
+    // --- STATO INTERFACCIA ---
+    const [isSpeaking, setIsSpeaking] = useState(false);
+
+    // --- STATO GUIDA & REGISTRAZIONE VOCALE (Per Nonna Maria) ---
     const [isInterviewOpen, setIsInterviewOpen] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const [interviewStep, setInterviewStep] = useState(0);
     const [interviewAnswers, setInterviewAnswers] = useState({ who: '', when: '', story: '' });
 
     // --- STATO FEED & INTERAZIONI (Per Sofia & Marco) ---
-    const [likes, setLikes] = useState(6);
+    const [likes, setLikes] = useState(12);
     const [hasLiked, setHasLiked] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState([
@@ -46,134 +47,169 @@ function MemoryBridgeApp() {
             setComments([...comments, newComment.trim()]);
             setNewComment("");
         }
-    }
+    };
+    const toggleSpeech = (text: string) => {
+        if ('speechSynthesis' in window) {
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();  //API per lettura vocale su web
+                setIsSpeaking(false);
+            } else {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'it-IT';
+                utterance.onend = () => setIsSpeaking(false);
+                window.speechSynthesis.speak(utterance);
+                setIsSpeaking(true);
+            }
+        } else {
+            alert("La sintesi vocale non è supportata da questo browser.");
+        }
+    };
 
     const theme = {
-        bg: highContrast ? '#000000' : '#f3f4f6',
+        bg: highContrast ? '#000000' : '#f8fafc',
         cardBg: highContrast ? '#121212' : '#ffffff',
-        text: highContrast ? '#ffffff' : '#1f2937',
-        textMuted: highContrast ? '#d1d5db' : '#6b7280',
+        text: highContrast ? '#ffffff' : '#0f172a',
+        textMuted: highContrast ? '#cbd5e1' : '#64748b',
         primary: highContrast ? '#ffff00' : '#2563eb',
+        primaryBg: highContrast ? '#ffff00' : '#eff6ff',
         primaryText: highContrast ? '#000000' : '#ffffff',
-        border: highContrast ? '#ffffff' : '#e5e7eb',
+        accent: highContrast ? '#00ffff' : '#0284c7',
+        border: highContrast ? '#ffffff' : '#e2e8f0',
         fontSizeMultiplier: largeFont ? 1.25 : 1,
     };
+
+    const sampleStoryText = "Il nonno Orazio al matrimonio del cugino Antonio. Trovato questo gioiello in un vecchio album fotografico. Si può vedere tutta la famiglia riunita, tutti eleganti e sorridenti.";
 
     return (
         <div style={{
             backgroundColor: theme.bg,
             color: theme.text,
             minHeight: '100vh',
-            fontFamily: 'system-ui, -apple-system, sans-serif',
+            fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.02em', // Rende la spaziatura compatta come nell'immagine
             fontSize: `${16 * theme.fontSizeMultiplier}px`,
-            lineHeight: '1.5',
+            lineHeight: '1.6',
             transition: 'all 0.2s ease-in-out'
         }}>
 
-            {/* BARRA ACCESSIBILITÀ */}
+            {/* 1. BARRA ACCESSIBILITÀ DEDICATA (WCAG / ISO 9241) */}
             <section style={{
-                backgroundColor: highContrast ? '#1f2937' : '#1e293b',
+                backgroundColor: highContrast ? '#1f2937' : '#0f172a',
                 color: '#ffffff',
-                padding: '8px 16px',
+                padding: '10px 20px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                fontSize: '14px'
+                flexWrap: 'wrap',
+                gap: '10px',
+                borderBottom: `2px solid ${theme.primary}`
             }}>
-                <span>♿ <strong>Modalità Accessibile</strong></span>
-                <div style={{ display: 'flex', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+                    <span>♿ <strong>Modalità Senior & Accessibilità</strong></span>
+                </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
                     <button
                         onClick={() => setLargeFont(!largeFont)}
                         style={{
-                            padding: '6px 12px',
+                            padding: '6px 14px',
                             minHeight: '44px',
                             backgroundColor: largeFont ? theme.primary : 'transparent',
                             color: largeFont ? theme.primaryText : '#ffffff',
-                            border: '1px solid #ffffff',
-                            borderRadius: '6px',
+                            border: '2px solid #ffffff',
+                            borderRadius: '8px',
                             cursor: 'pointer',
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
+                            fontSize: '14px'
                         }}
                     >
-                        {largeFont ? 'A- Testo Normale' : 'A+ Testo Grande'}
+                        {largeFont ? '🔍 Testo Normale' : '🔍 Testo Ingrandito'}
                     </button>
 
                     <button
                         onClick={() => setHighContrast(!highContrast)}
                         style={{
-                            padding: '6px 12px',
+                            padding: '6px 14px',
                             minHeight: '44px',
                             backgroundColor: highContrast ? '#ffff00' : 'transparent',
                             color: highContrast ? '#000000' : '#ffffff',
-                            border: '1px solid #ffffff',
-                            borderRadius: '6px',
+                            border: '2px solid #ffffff',
+                            borderRadius: '8px',
                             cursor: 'pointer',
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
+                            fontSize: '14px'
                         }}
                     >
-                        {highContrast ? '☀️ Contrasto Normale' : '👁️ Alto Contrasto'}
+                        {highContrast ? '☀️ Contrasto Standard' : '👁️ Alto Contrasto'}
                     </button>
                 </div>
             </section>
 
-            {/* HEADER / NAVIGATION BAR */}
+            {/* 2. HEADER / BRANDING MEMORYBRIDGE */}
             <header style={{
                 backgroundColor: theme.cardBg,
                 borderBottom: `2px solid ${theme.border}`,
                 position: 'sticky',
                 top: 0,
                 zIndex: 40,
-                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
             }}>
                 <div style={{
-                    maxWidth: '1100px',
+                    maxWidth: '1200px', /* Aumentato da 1000px per distanziare Logo e Menu */
                     margin: '0 auto',
-                    padding: '12px 16px',
+                    padding: '12px 20px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
-                    gap: '12px'
+                    gap: '16px'
                 }}>
+                    {/* LOGO */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div style={{
-                            width: '48px',
-                            height: '48px',
-                            borderRadius: '50%',
-                            backgroundColor: '#0284c7',
+                            width: '46px',
+                            height: '46px',
+                            borderRadius: '12px',
+                            backgroundColor: theme.primary,
+                            color: theme.primaryText,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '24px'
+                            fontSize: '24px',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
                         }}>🌉</div>
-                        <h1 style={{ margin: 0, fontSize: `${22 * theme.fontSizeMultiplier}px`, fontWeight: 'bold', color: theme.primary }}>
-                            MemoryBridge
-                        </h1>
+                        <div>
+                            <h1 style={{ margin: 0, fontSize: `${22 * theme.fontSizeMultiplier}px`, fontWeight: '800', color: theme.primary, lineHeight: 1 }}>
+                                MemoryBridge
+                            </h1>
+                            <span style={{ fontSize: '12px', color: theme.textMuted, fontWeight: '500' }}>Ponte tra Memorie Familiari</span>
+                        </div>
                     </div>
 
+                    {/* NAVIGAZIONE CARATTERISTICA */}
                     <nav>
-                        <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, gap: '8px', alignItems: 'center' }}>
+                        <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, gap: '28px' }}> {/* Aumentato gap da 6px a 28px per distanziare le voci tra loro */}
                             {[
-                                { label: 'Home', icon: '🏠', active: true },
+                                { label: 'Ricordi', icon: '🏠', active: true },
                                 { label: 'Albero Genealogico', icon: '🌳', active: false },
-                                { label: 'Ricerca', icon: '🔍', active: false },
-                                { label: 'Racconta un ricordo', icon: '📅', active: false },
-                                { label: 'Profilo', icon: '👤', active: false },
+                                { label: 'Esplora Epoche', icon: '⏳', active: false },
+                                { label: 'Profilo', icon: '👤', active: false }
                             ].map((item, idx) => (
                                 <li key={idx}>
                                     <a href="#" style={{
                                         display: 'flex',
-                                        flexDirection: 'column',
                                         alignItems: 'center',
-                                        padding: '8px 12px',
-                                        minHeight: '48px',
+                                        gap: '6px',
+                                        padding: '8px 14px',
+                                        minHeight: '44px',
+                                        borderRadius: '10px',
                                         textDecoration: 'none',
-                                        color: item.active ? theme.primary : theme.text,
-                                        fontWeight: item.active ? 'bold' : 'normal',
-                                        borderBottom: item.active ? `3px solid ${theme.primary}` : 'none'
+                                        backgroundColor: item.active ? (highContrast ? '#ffff00' : '#e0f2fe') : 'transparent',
+                                        color: item.active ? (highContrast ? '#000000' : '#0369a1') : theme.text,
+                                        fontWeight: item.active ? 'bold' : '500',
+                                        fontSize: `${14 * theme.fontSizeMultiplier}px`
                                     }}>
-                                        <span style={{ fontSize: '20px' }}>{item.icon}</span>
-                                        <span style={{ fontSize: '13px' }}>{item.label}</span>
+                                        <span>{item.icon}</span>
+                                        <span>{item.label}</span>
                                     </a>
                                 </li>
                             ))}
@@ -182,17 +218,17 @@ function MemoryBridgeApp() {
                 </div>
             </header>
 
-            {/* MAIN CONTENT */}
-            <main style={{ maxWidth: '700px', margin: '24px auto', padding: '0 16px' }}>
+            {/* 3. CONTENUTO PRINCIPALE */}
+            <main style={{ maxWidth: '720px', margin: '24px auto', padding: '0 16px' }}>
 
-                {/* CREATION BOX */}
+                {/* BOX DI CREAZIONE / INTERVISTA */}
                 <section style={{
                     backgroundColor: theme.cardBg,
                     borderRadius: '16px',
                     padding: '20px',
                     border: `1px solid ${theme.border}`,
                     marginBottom: '24px',
-                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
                 }}>
                     <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                         <div style={{
@@ -212,19 +248,19 @@ function MemoryBridgeApp() {
                             onClick={() => setIsInterviewOpen(true)}
                             style={{
                                 flexGrow: 1,
-                                padding: '16px',
+                                padding: '14px 18px',
                                 minHeight: '52px',
                                 textAlign: 'left',
                                 backgroundColor: theme.bg,
                                 border: `2px dashed ${theme.primary}`,
                                 borderRadius: '12px',
                                 color: theme.text,
-                                fontSize: `${16 * theme.fontSizeMultiplier}px`,
+                                fontSize: `${15 * theme.fontSizeMultiplier}px`,
                                 cursor: 'pointer',
                                 fontWeight: '500'
                             }}
                         >
-                            💭 Cosa vuoi condividere oggi? <span style={{ color: theme.primary, fontWeight: 'bold' }}>(Clicca qui)</span>
+                            💭 Clicca qui per raccontare una foto o un ricordo...
                         </button>
                     </div>
 
@@ -249,107 +285,181 @@ function MemoryBridgeApp() {
                         <button
                             onClick={() => setIsInterviewOpen(true)}
                             style={{
-                                flex: '1 1 45%',
+                                flex: 1,
                                 minHeight: '48px',
-                                backgroundColor: highContrast ? '#333' : '#e0f2fe',
-                                color: highContrast ? '#fff' : '#0369a1',
+                                backgroundColor: theme.bg,
+                                color: theme.text,
                                 border: `1px solid ${theme.border}`,
                                 borderRadius: '10px',
-                                padding: '10px 16px',
                                 fontWeight: 'bold',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '8px'
                             }}
                         >
-                            📷 Carica Foto o Documento
+                            📷 Carica Vecchia Foto
                         </button>
                     </div>
                 </section>
 
-                {/* FEED CARD */}
+                {/* FEED CARD RICORDO */}
                 <article style={{
                     backgroundColor: theme.cardBg,
-                    borderRadius: '16px',
+                    borderRadius: '20px',
                     border: `1px solid ${theme.border}`,
                     padding: '24px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.04)'
                 }}>
-                    <header style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                    {/* HEADER POST — STILE INSTAGRAM: nome + "con..." sotto, niente badge separati */}
+                    <header style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
                         <div style={{
-                            width: '52px',
-                            height: '52px',
+                            width: '54px',
+                            height: '54px',
                             borderRadius: '50%',
-                            backgroundColor: '#e5e7eb',
+                            backgroundColor: '#e2e8f0',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '24px'
+                            fontSize: '28px',
+                            border: `2px solid ${theme.primary}`
                         }}>👵</div>
 
                         <div style={{ flexGrow: 1 }}>
-                            <h3 style={{ margin: 0, fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: 'bold' }}>
-                                Shila Han
-                            </h3>
-                            <p style={{ margin: 0, fontSize: '14px', color: theme.textMuted }}>
-                                📍 New York, NY • 15 Giugno 1965
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <h3 style={{ margin: 0, fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: 'bold' }}>
+                                    Maria Han (Nonna)
+                                </h3>
+                                <span style={{
+                                    backgroundColor: highContrast ? '#ffff00' : '#dbeafe',
+                                    color: highContrast ? '#000000' : '#1e40af',
+                                    fontSize: '12px',
+                                    fontWeight: 'bold',
+                                    padding: '2px 8px',
+                                    borderRadius: '6px'
+                                }}>
+                  👵 Ramo Materno
+                                </span>
+                            </div>
+                            {/* Riga "con..." in stile Instagram, al posto dei tag a pillola */}
+                            <p style={{ margin: '2px 0 0 0', fontSize: '17px', color: theme.textMuted }}>
+                                con{' '}
+                                <span style={{ color: theme.primary, fontWeight: '700', cursor: 'pointer' }}>
+                                 Nonno Orazio
+                                </span>
+                                {' '}· Matrimonio Antonio
+                            </p>
+                            <p style={{ margin: 0, fontSize: '13px', color: theme.textMuted }}>
+                                📍 New York • 15 Giugno 1965
                             </p>
                         </div>
-
-                        <span style={{
-                            padding: '4px 10px',
-                            backgroundColor: highContrast ? '#333' : '#fef3c7',
-                            color: highContrast ? '#fff' : '#92400e',
-                            fontSize: '12px',
-                            fontWeight: 'bold',
-                            borderRadius: '12px',
-                            border: '1px solid #f59e0b'
-                        }}>
-              🔒 Solo Famiglia
-            </span>
                     </header>
 
-                    <p style={{ fontSize: `${17 * theme.fontSizeMultiplier}px`, margin: '0 0 16px 0', lineHeight: '1.6' }}>
-                        Il nonno Orazio al matrimonio del cugino Antonio. Trovato questo gioiello in un vecchio album fotografico.
-                        Si può vedere tutta la famiglia riunita, tutti eleganti e sorridenti.
-                    </p>
+                    {/* TESTO DEL RICORDO + SINTESI VOCALE */}
+                    <div style={{ marginBottom: '16px' }}>
+                        <p style={{ fontSize: `${17 * theme.fontSizeMultiplier}px`, margin: '0 0 12px 0', lineHeight: '1.6' }}>
+                            {sampleStoryText}
+                        </p>
 
-                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
-            <span style={{ backgroundColor: theme.bg, padding: '4px 12px', borderRadius: '16px', fontSize: '13px', border: `1px solid ${theme.border}` }}>
-              👤 <strong>Parente:</strong> Nonno Orazio
-            </span>
-                        <span style={{ backgroundColor: theme.bg, padding: '4px 12px', borderRadius: '16px', fontSize: '13px', border: `1px solid ${theme.border}` }}>
-              🎉 <strong>Evento:</strong> Matrimonio Antonio
-            </span>
+                        <button
+                            onClick={() => toggleSpeech(sampleStoryText)}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                padding: '8px 14px',
+                                minHeight: '40px',
+                                backgroundColor: isSpeaking ? '#dc2626' : theme.primaryBg,
+                                color: isSpeaking ? '#ffffff' : (highContrast ? '#000' : theme.primary),
+                                border: `1px solid ${theme.primary}`,
+                                borderRadius: '20px',
+                                fontWeight: 'bold',
+                                fontSize: '14px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            {isSpeaking ? '🛑 Ferma Lettura Vocale' : '🔊 Ascolta Racconto A Voce'}
+                        </button>
                     </div>
 
-                    {/* IMMAGINE */}
-                    <div style={{ borderRadius: '12px', overflow: 'hidden', marginBottom: '20px' }}>
+                    {/* FOTO STORICA (con tag persone in overlay, stile Instagram) */}
+                    <div style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
                         <img
                             src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&auto=format&fit=crop&q=80"
-                            alt="Foto di famiglia a tavola"
-                            style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '500px', objectFit: 'cover' }}
+                            alt="Foto d'epoca della famiglia riunita"
+                            style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '480px', objectFit: 'cover' }}
                         />
+                        <span style={{
+                            position: 'absolute',
+                            bottom: '10px',
+                            left: '10px',
+                            backgroundColor: 'rgba(0,0,0,0.55)',
+                            color: '#ffffff',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            padding: '4px 10px',
+                            borderRadius: '20px',
+                            backdropFilter: 'blur(2px)'
+                        }}>
+                            🌳 Collegato all'Albero Genealogico
+                        </span>
                     </div>
 
-                    {/* BOTTOM ACTIONS */}
+                    {/* AUDIOPLAYER NOTA VOCALE ORIGINALE */}
+                    <div style={{
+                        backgroundColor: theme.bg,
+                        padding: '12px 16px',
+                        borderRadius: '12px',
+                        border: `1px solid ${theme.border}`,
+                        marginBottom: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px'
+                    }}>
+                        <button style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            backgroundColor: theme.primary,
+                            color: theme.primaryText,
+                            border: 'none',
+                            fontSize: '18px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            ▶️
+                        </button>
+                        <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: '13px', fontWeight: 'bold' }}>🎙️ Audio originale di Nonna Maria (1:24)</div>
+                            <div style={{ height: '6px', backgroundColor: theme.border, borderRadius: '3px', marginTop: '4px', overflow: 'hidden' }}>
+                                <div style={{ width: '35%', height: '100%', backgroundColor: theme.primary }}></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* AZIONI POST */}
                     <footer style={{ borderTop: `1px solid ${theme.border}`, paddingTop: '16px' }}>
-                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                             <button
                                 onClick={toggleLike}
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '8px',
-                                    minHeight: '48px',
-                                    padding: '8px 16px',
+                                    minHeight: '46px',
+                                    padding: '8px 18px',
                                     border: `1px solid ${hasLiked ? theme.primary : theme.border}`,
                                     borderRadius: '24px',
                                     backgroundColor: hasLiked ? (highContrast ? '#ffff00' : '#dbeafe') : 'transparent',
-                                    color: hasLiked ? (highContrast ? '#000' : theme.primary) : theme.text,
+                                    color: hasLiked ? (highContrast ? '#000000' : theme.primary) : theme.text,
                                     fontWeight: 'bold',
                                     cursor: 'pointer'
                                 }}
                             >
-                                👍 {likes} {hasLiked ? 'Apprezzato' : 'Mi piace'}
+                                ❤️ {likes} {hasLiked ? 'Ti Piace' : 'Mi Piace'}
                             </button>
 
                             <button
@@ -358,8 +468,8 @@ function MemoryBridgeApp() {
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '8px',
-                                    minHeight: '48px',
-                                    padding: '8px 16px',
+                                    minHeight: '46px',
+                                    padding: '8px 18px',
                                     border: `1px solid ${theme.border}`,
                                     borderRadius: '24px',
                                     backgroundColor: 'transparent',
@@ -368,29 +478,52 @@ function MemoryBridgeApp() {
                                     cursor: 'pointer'
                                 }}
                             >
-                                💬 {comments.length} Commenti
+                                💬 {comments.length} Risposte
                             </button>
                         </div>
 
+                        {/* SEZIONE COMMENTI */}
                         {showComments && (
                             <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: `1px dashed ${theme.border}` }}>
-                                <h4 style={{ margin: '0 0 12px 0' }}>Commenti della Famiglia</h4>
+                                <h4 style={{ margin: '0 0 12px 0', fontSize: '15px' }}>💬 Commenti dei Nipoti e della Famiglia</h4>
                                 <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px 0' }}>
                                     {comments.map((comment, i) => (
-                                        <li key={i} style={{ backgroundColor: theme.bg, padding: '12px', borderRadius: '8px', marginBottom: '8px', border: `1px solid ${theme.border}` }}>
+                                        <li key={i} style={{ backgroundColor: theme.bg, padding: '12px', borderRadius: '10px', marginBottom: '8px', border: `1px solid ${theme.border}`, fontSize: '14px' }}>
                                             {comment}
                                         </li>
                                     ))}
                                 </ul>
+
                                 <form onSubmit={handleAddComment} style={{ display: 'flex', gap: '8px' }}>
                                     <input
                                         type="text"
                                         value={newComment}
                                         onChange={(e) => setNewComment(e.target.value)}
-                                        placeholder="Scrivi un pensiero per la nonna..."
-                                        style={{ flexGrow: 1, minHeight: '44px', padding: '8px 12px', borderRadius: '8px', border: `1px solid ${theme.border}`, backgroundColor: theme.cardBg, color: theme.text }}
+                                        placeholder="Lascia un messaggio o una domanda alla nonna..."
+                                        style={{
+                                            flexGrow: 1,
+                                            minHeight: '46px',
+                                            padding: '8px 14px',
+                                            borderRadius: '10px',
+                                            border: `1px solid ${theme.border}`,
+                                            backgroundColor: theme.cardBg,
+                                            color: theme.text,
+                                            fontSize: '14px'
+                                        }}
                                     />
-                                    <button type="submit" style={{ minHeight: '44px', padding: '0 20px', backgroundColor: theme.primary, color: theme.primaryText, border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
+                                    <button
+                                        type="submit"
+                                        style={{
+                                            minHeight: '46px',
+                                            padding: '0 20px',
+                                            backgroundColor: theme.primary,
+                                            color: theme.primaryText,
+                                            border: 'none',
+                                            borderRadius: '10px',
+                                            fontWeight: 'bold',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
                                         Invia
                                     </button>
                                 </form>
@@ -401,12 +534,12 @@ function MemoryBridgeApp() {
 
             </main>
 
-            {/* MODALE DI GUIDA */}
+            {/* 4. MODALE INTERVISTA GUIDATA PER GLI ANZIANI */}
             {isInterviewOpen && (
                 <div style={{
                     position: 'fixed',
                     inset: 0,
-                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    backgroundColor: 'rgba(0,0,0,0.8)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -416,20 +549,44 @@ function MemoryBridgeApp() {
                     <div style={{
                         backgroundColor: theme.cardBg,
                         border: `3px solid ${theme.primary}`,
-                        borderRadius: '20px',
-                        maxWidth: '600px',
+                        borderRadius: '24px',
+                        maxWidth: '620px',
                         width: '100%',
-                        padding: '28px'
+                        padding: '28px',
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.3)'
                     }}>
                         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <h2 style={{ margin: 0, color: theme.primary }}>👵 Assistente Raccolta Ricordi</h2>
-                            <button onClick={() => setIsInterviewOpen(false)} style={{ border: 'none', background: 'transparent', fontSize: '24px', cursor: 'pointer', color: theme.text }}>✖</button>
+                            <h2 style={{ margin: 0, color: theme.primary, fontSize: `${20 * theme.fontSizeMultiplier}px` }}>
+                                👵 Assistente Guidato Raccolta Ricordi
+                            </h2>
+                            <button
+                                onClick={() => setIsInterviewOpen(false)}
+                                style={{ border: 'none', background: 'transparent', fontSize: '28px', cursor: 'pointer', color: theme.text }}
+                            >
+                                ✖
+                            </button>
                         </header>
 
-                        <p style={{ fontWeight: 'bold', color: theme.primary }}>Passo {interviewStep + 1} di {guidedQuestions.length}</p>
+                        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                            {guidedQuestions.map((_, index) => (
+                                <div
+                                    key={index}
+                                    style={{
+                                        flex: 1,
+                                        height: '8px',
+                                        borderRadius: '4px',
+                                        backgroundColor: index <= interviewStep ? theme.primary : theme.border
+                                    }}
+                                />
+                            ))}
+                        </div>
 
-                        <div style={{ backgroundColor: theme.bg, padding: '20px', borderRadius: '12px', marginBottom: '20px', border: `1px solid ${theme.border}` }}>
-                            <label style={{ display: 'block', fontSize: '18px', fontWeight: 'bold', marginBottom: '12px' }}>
+                        <p style={{ fontWeight: 'bold', color: theme.accent, marginTop: 0 }}>
+                            Passaggio {interviewStep + 1} di {guidedQuestions.length}
+                        </p>
+
+                        <div style={{ backgroundColor: theme.bg, padding: '20px', borderRadius: '16px', marginBottom: '20px', border: `1px solid ${theme.border}` }}>
+                            <label style={{ display: 'block', fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: 'bold', marginBottom: '12px' }}>
                                 {guidedQuestions[interviewStep].question}
                             </label>
 
@@ -443,7 +600,15 @@ function MemoryBridgeApp() {
                                     if (interviewStep === 1) setInterviewAnswers({ ...interviewAnswers, when: val });
                                     if (interviewStep === 2) setInterviewAnswers({ ...interviewAnswers, story: val });
                                 }}
-                                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: `2px solid ${theme.border}`, backgroundColor: theme.cardBg, color: theme.text, fontSize: '16px' }}
+                                style={{
+                                    width: '100%',
+                                    padding: '14px',
+                                    borderRadius: '10px',
+                                    border: `2px solid ${theme.border}`,
+                                    backgroundColor: theme.cardBg,
+                                    color: theme.text,
+                                    fontSize: '16px'
+                                }}
                             />
 
                             <div style={{ marginTop: '16px', textAlign: 'center' }}>
@@ -451,27 +616,42 @@ function MemoryBridgeApp() {
                                     type="button"
                                     onClick={() => setIsRecording(!isRecording)}
                                     style={{
-                                        minHeight: '52px',
-                                        padding: '12px 24px',
+                                        minHeight: '54px',
+                                        padding: '12px 28px',
                                         backgroundColor: isRecording ? '#dc2626' : '#16a34a',
                                         color: '#ffffff',
                                         border: 'none',
                                         borderRadius: '30px',
                                         fontWeight: 'bold',
-                                        cursor: 'pointer'
+                                        fontSize: '16px',
+                                        cursor: 'pointer',
+                                        boxShadow: isRecording ? '0 0 12px rgba(220, 38, 38, 0.5)' : 'none'
                                     }}
                                 >
-                                    {isRecording ? '🔴 Interrompi Registrazione' : '🎙️ Parla invece di scrivere'}
+                                    {isRecording ? '🔴 Interrompi Registrazione' : '🎙️ Premi qui e parla a voce'}
                                 </button>
-                                {isRecording && <p style={{ color: '#dc2626', fontWeight: 'bold', marginTop: '8px' }}>Sto ascoltando la tua voce...</p>}
+                                {isRecording && (
+                                    <p style={{ color: '#dc2626', fontWeight: 'bold', marginTop: '10px', animation: 'pulse 1s infinite' }}>
+                                        🎙️ Sto ascoltando la tua voce... parla pure liberamente!
+                                    </p>
+                                )}
                             </div>
                         </div>
 
-                        <footer style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <footer style={{ display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
                             <button
                                 disabled={interviewStep === 0}
                                 onClick={() => setInterviewStep(prev => prev - 1)}
-                                style={{ minHeight: '48px', padding: '0 20px', borderRadius: '10px', border: `1px solid ${theme.border}`, backgroundColor: theme.bg, color: theme.text, cursor: interviewStep === 0 ? 'not-allowed' : 'pointer' }}
+                                style={{
+                                    minHeight: '48px',
+                                    padding: '0 20px',
+                                    borderRadius: '10px',
+                                    border: `1px solid ${theme.border}`,
+                                    backgroundColor: theme.bg,
+                                    color: theme.text,
+                                    cursor: interviewStep === 0 ? 'not-allowed' : 'pointer',
+                                    opacity: interviewStep === 0 ? 0.5 : 1
+                                }}
                             >
                                 ← Indietro
                             </button>
@@ -479,18 +659,36 @@ function MemoryBridgeApp() {
                             {interviewStep < guidedQuestions.length - 1 ? (
                                 <button
                                     onClick={() => setInterviewStep(prev => prev + 1)}
-                                    style={{ minHeight: '48px', padding: '0 24px', borderRadius: '10px', border: 'none', backgroundColor: theme.primary, color: theme.primaryText, fontWeight: 'bold', cursor: 'pointer' }}
+                                    style={{
+                                        minHeight: '48px',
+                                        padding: '0 24px',
+                                        borderRadius: '10px',
+                                        border: 'none',
+                                        backgroundColor: theme.primary,
+                                        color: theme.primaryText,
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer'
+                                    }}
                                 >
-                                    Prossima Domanda →
+                                    Avanti →
                                 </button>
                             ) : (
                                 <button
                                     onClick={() => {
-                                        alert("Ricordo salvato con successo!");
+                                        alert("Ricordo salvato e condiviso con tutta la famiglia!");
                                         setIsInterviewOpen(false);
                                         setInterviewStep(0);
                                     }}
-                                    style={{ minHeight: '48px', padding: '0 24px', borderRadius: '10px', border: 'none', backgroundColor: '#16a34a', color: '#ffffff', fontWeight: 'bold', cursor: 'pointer' }}
+                                    style={{
+                                        minHeight: '48px',
+                                        padding: '0 24px',
+                                        borderRadius: '10px',
+                                        border: 'none',
+                                        backgroundColor: '#16a34a',
+                                        color: '#ffffff',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer'
+                                    }}
                                 >
                                     💾 Salva per la Famiglia
                                 </button>
@@ -504,7 +702,6 @@ function MemoryBridgeApp() {
     );
 }
 
-// Renderizza l'applicazione nel DOM
 const container = document.getElementById('root');
 if (container) {
     const root = createRoot(container);

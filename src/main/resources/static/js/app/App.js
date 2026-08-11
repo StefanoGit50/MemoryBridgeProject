@@ -30,277 +30,6 @@
     mod
   ));
 
-  // node_modules/scheduler/cjs/scheduler.development.js
-  var require_scheduler_development = __commonJS({
-    "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
-      "use strict";
-      (function() {
-        function performWorkUntilDeadline() {
-          needsPaint = false;
-          if (isMessageLoopRunning) {
-            var currentTime = exports.unstable_now();
-            startTime = currentTime;
-            var hasMoreWork = true;
-            try {
-              a: {
-                isHostCallbackScheduled = false;
-                isHostTimeoutScheduled && (isHostTimeoutScheduled = false, localClearTimeout(taskTimeoutID), taskTimeoutID = -1);
-                isPerformingWork = true;
-                var previousPriorityLevel = currentPriorityLevel;
-                try {
-                  b: {
-                    advanceTimers(currentTime);
-                    for (currentTask = peek(taskQueue); null !== currentTask && !(currentTask.expirationTime > currentTime && shouldYieldToHost()); ) {
-                      var callback = currentTask.callback;
-                      if ("function" === typeof callback) {
-                        currentTask.callback = null;
-                        currentPriorityLevel = currentTask.priorityLevel;
-                        var continuationCallback = callback(
-                          currentTask.expirationTime <= currentTime
-                        );
-                        currentTime = exports.unstable_now();
-                        if ("function" === typeof continuationCallback) {
-                          currentTask.callback = continuationCallback;
-                          advanceTimers(currentTime);
-                          hasMoreWork = true;
-                          break b;
-                        }
-                        currentTask === peek(taskQueue) && pop(taskQueue);
-                        advanceTimers(currentTime);
-                      } else pop(taskQueue);
-                      currentTask = peek(taskQueue);
-                    }
-                    if (null !== currentTask) hasMoreWork = true;
-                    else {
-                      var firstTimer = peek(timerQueue);
-                      null !== firstTimer && requestHostTimeout(
-                        handleTimeout,
-                        firstTimer.startTime - currentTime
-                      );
-                      hasMoreWork = false;
-                    }
-                  }
-                  break a;
-                } finally {
-                  currentTask = null, currentPriorityLevel = previousPriorityLevel, isPerformingWork = false;
-                }
-                hasMoreWork = void 0;
-              }
-            } finally {
-              hasMoreWork ? schedulePerformWorkUntilDeadline() : isMessageLoopRunning = false;
-            }
-          }
-        }
-        function push(heap, node) {
-          var index = heap.length;
-          heap.push(node);
-          a: for (; 0 < index; ) {
-            var parentIndex = index - 1 >>> 1, parent = heap[parentIndex];
-            if (0 < compare(parent, node))
-              heap[parentIndex] = node, heap[index] = parent, index = parentIndex;
-            else break a;
-          }
-        }
-        function peek(heap) {
-          return 0 === heap.length ? null : heap[0];
-        }
-        function pop(heap) {
-          if (0 === heap.length) return null;
-          var first = heap[0], last = heap.pop();
-          if (last !== first) {
-            heap[0] = last;
-            a: for (var index = 0, length = heap.length, halfLength = length >>> 1; index < halfLength; ) {
-              var leftIndex = 2 * (index + 1) - 1, left = heap[leftIndex], rightIndex = leftIndex + 1, right = heap[rightIndex];
-              if (0 > compare(left, last))
-                rightIndex < length && 0 > compare(right, left) ? (heap[index] = right, heap[rightIndex] = last, index = rightIndex) : (heap[index] = left, heap[leftIndex] = last, index = leftIndex);
-              else if (rightIndex < length && 0 > compare(right, last))
-                heap[index] = right, heap[rightIndex] = last, index = rightIndex;
-              else break a;
-            }
-          }
-          return first;
-        }
-        function compare(a, b) {
-          var diff = a.sortIndex - b.sortIndex;
-          return 0 !== diff ? diff : a.id - b.id;
-        }
-        function advanceTimers(currentTime) {
-          for (var timer = peek(timerQueue); null !== timer; ) {
-            if (null === timer.callback) pop(timerQueue);
-            else if (timer.startTime <= currentTime)
-              pop(timerQueue), timer.sortIndex = timer.expirationTime, push(taskQueue, timer);
-            else break;
-            timer = peek(timerQueue);
-          }
-        }
-        function handleTimeout(currentTime) {
-          isHostTimeoutScheduled = false;
-          advanceTimers(currentTime);
-          if (!isHostCallbackScheduled)
-            if (null !== peek(taskQueue))
-              isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline());
-            else {
-              var firstTimer = peek(timerQueue);
-              null !== firstTimer && requestHostTimeout(
-                handleTimeout,
-                firstTimer.startTime - currentTime
-              );
-            }
-        }
-        function shouldYieldToHost() {
-          return needsPaint ? true : exports.unstable_now() - startTime < frameInterval ? false : true;
-        }
-        function requestHostTimeout(callback, ms) {
-          taskTimeoutID = localSetTimeout(function() {
-            callback(exports.unstable_now());
-          }, ms);
-        }
-        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        exports.unstable_now = void 0;
-        if ("object" === typeof performance && "function" === typeof performance.now) {
-          var localPerformance = performance;
-          exports.unstable_now = function() {
-            return localPerformance.now();
-          };
-        } else {
-          var localDate = Date, initialTime = localDate.now();
-          exports.unstable_now = function() {
-            return localDate.now() - initialTime;
-          };
-        }
-        var taskQueue = [], timerQueue = [], taskIdCounter = 1, currentTask = null, currentPriorityLevel = 3, isPerformingWork = false, isHostCallbackScheduled = false, isHostTimeoutScheduled = false, needsPaint = false, localSetTimeout = "function" === typeof setTimeout ? setTimeout : null, localClearTimeout = "function" === typeof clearTimeout ? clearTimeout : null, localSetImmediate = "undefined" !== typeof setImmediate ? setImmediate : null, isMessageLoopRunning = false, taskTimeoutID = -1, frameInterval = 5, startTime = -1;
-        if ("function" === typeof localSetImmediate)
-          var schedulePerformWorkUntilDeadline = function() {
-            localSetImmediate(performWorkUntilDeadline);
-          };
-        else if ("undefined" !== typeof MessageChannel) {
-          var channel = new MessageChannel(), port = channel.port2;
-          channel.port1.onmessage = performWorkUntilDeadline;
-          schedulePerformWorkUntilDeadline = function() {
-            port.postMessage(null);
-          };
-        } else
-          schedulePerformWorkUntilDeadline = function() {
-            localSetTimeout(performWorkUntilDeadline, 0);
-          };
-        exports.unstable_IdlePriority = 5;
-        exports.unstable_ImmediatePriority = 1;
-        exports.unstable_LowPriority = 4;
-        exports.unstable_NormalPriority = 3;
-        exports.unstable_Profiling = null;
-        exports.unstable_UserBlockingPriority = 2;
-        exports.unstable_cancelCallback = function(task) {
-          task.callback = null;
-        };
-        exports.unstable_forceFrameRate = function(fps) {
-          0 > fps || 125 < fps ? console.error(
-            "forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"
-          ) : frameInterval = 0 < fps ? Math.floor(1e3 / fps) : 5;
-        };
-        exports.unstable_getCurrentPriorityLevel = function() {
-          return currentPriorityLevel;
-        };
-        exports.unstable_next = function(eventHandler) {
-          switch (currentPriorityLevel) {
-            case 1:
-            case 2:
-            case 3:
-              var priorityLevel = 3;
-              break;
-            default:
-              priorityLevel = currentPriorityLevel;
-          }
-          var previousPriorityLevel = currentPriorityLevel;
-          currentPriorityLevel = priorityLevel;
-          try {
-            return eventHandler();
-          } finally {
-            currentPriorityLevel = previousPriorityLevel;
-          }
-        };
-        exports.unstable_requestPaint = function() {
-          needsPaint = true;
-        };
-        exports.unstable_runWithPriority = function(priorityLevel, eventHandler) {
-          switch (priorityLevel) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-              break;
-            default:
-              priorityLevel = 3;
-          }
-          var previousPriorityLevel = currentPriorityLevel;
-          currentPriorityLevel = priorityLevel;
-          try {
-            return eventHandler();
-          } finally {
-            currentPriorityLevel = previousPriorityLevel;
-          }
-        };
-        exports.unstable_scheduleCallback = function(priorityLevel, callback, options) {
-          var currentTime = exports.unstable_now();
-          "object" === typeof options && null !== options ? (options = options.delay, options = "number" === typeof options && 0 < options ? currentTime + options : currentTime) : options = currentTime;
-          switch (priorityLevel) {
-            case 1:
-              var timeout = -1;
-              break;
-            case 2:
-              timeout = 250;
-              break;
-            case 5:
-              timeout = 1073741823;
-              break;
-            case 4:
-              timeout = 1e4;
-              break;
-            default:
-              timeout = 5e3;
-          }
-          timeout = options + timeout;
-          priorityLevel = {
-            id: taskIdCounter++,
-            callback,
-            priorityLevel,
-            startTime: options,
-            expirationTime: timeout,
-            sortIndex: -1
-          };
-          options > currentTime ? (priorityLevel.sortIndex = options, push(timerQueue, priorityLevel), null === peek(taskQueue) && priorityLevel === peek(timerQueue) && (isHostTimeoutScheduled ? (localClearTimeout(taskTimeoutID), taskTimeoutID = -1) : isHostTimeoutScheduled = true, requestHostTimeout(handleTimeout, options - currentTime))) : (priorityLevel.sortIndex = timeout, push(taskQueue, priorityLevel), isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline())));
-          return priorityLevel;
-        };
-        exports.unstable_shouldYield = shouldYieldToHost;
-        exports.unstable_wrapCallback = function(callback) {
-          var parentPriorityLevel = currentPriorityLevel;
-          return function() {
-            var previousPriorityLevel = currentPriorityLevel;
-            currentPriorityLevel = parentPriorityLevel;
-            try {
-              return callback.apply(this, arguments);
-            } finally {
-              currentPriorityLevel = previousPriorityLevel;
-            }
-          };
-        };
-        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
-      })();
-    }
-  });
-
-  // node_modules/scheduler/index.js
-  var require_scheduler = __commonJS({
-    "node_modules/scheduler/index.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
-      } else {
-        module.exports = require_scheduler_development();
-      }
-    }
-  });
-
   // node_modules/react/cjs/react.development.js
   var require_react_development = __commonJS({
     "node_modules/react/cjs/react.development.js"(exports, module) {
@@ -1281,6 +1010,277 @@
         module.exports = null;
       } else {
         module.exports = require_react_development();
+      }
+    }
+  });
+
+  // node_modules/scheduler/cjs/scheduler.development.js
+  var require_scheduler_development = __commonJS({
+    "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
+      "use strict";
+      (function() {
+        function performWorkUntilDeadline() {
+          needsPaint = false;
+          if (isMessageLoopRunning) {
+            var currentTime = exports.unstable_now();
+            startTime = currentTime;
+            var hasMoreWork = true;
+            try {
+              a: {
+                isHostCallbackScheduled = false;
+                isHostTimeoutScheduled && (isHostTimeoutScheduled = false, localClearTimeout(taskTimeoutID), taskTimeoutID = -1);
+                isPerformingWork = true;
+                var previousPriorityLevel = currentPriorityLevel;
+                try {
+                  b: {
+                    advanceTimers(currentTime);
+                    for (currentTask = peek(taskQueue); null !== currentTask && !(currentTask.expirationTime > currentTime && shouldYieldToHost()); ) {
+                      var callback = currentTask.callback;
+                      if ("function" === typeof callback) {
+                        currentTask.callback = null;
+                        currentPriorityLevel = currentTask.priorityLevel;
+                        var continuationCallback = callback(
+                          currentTask.expirationTime <= currentTime
+                        );
+                        currentTime = exports.unstable_now();
+                        if ("function" === typeof continuationCallback) {
+                          currentTask.callback = continuationCallback;
+                          advanceTimers(currentTime);
+                          hasMoreWork = true;
+                          break b;
+                        }
+                        currentTask === peek(taskQueue) && pop(taskQueue);
+                        advanceTimers(currentTime);
+                      } else pop(taskQueue);
+                      currentTask = peek(taskQueue);
+                    }
+                    if (null !== currentTask) hasMoreWork = true;
+                    else {
+                      var firstTimer = peek(timerQueue);
+                      null !== firstTimer && requestHostTimeout(
+                        handleTimeout,
+                        firstTimer.startTime - currentTime
+                      );
+                      hasMoreWork = false;
+                    }
+                  }
+                  break a;
+                } finally {
+                  currentTask = null, currentPriorityLevel = previousPriorityLevel, isPerformingWork = false;
+                }
+                hasMoreWork = void 0;
+              }
+            } finally {
+              hasMoreWork ? schedulePerformWorkUntilDeadline() : isMessageLoopRunning = false;
+            }
+          }
+        }
+        function push(heap, node) {
+          var index = heap.length;
+          heap.push(node);
+          a: for (; 0 < index; ) {
+            var parentIndex = index - 1 >>> 1, parent = heap[parentIndex];
+            if (0 < compare(parent, node))
+              heap[parentIndex] = node, heap[index] = parent, index = parentIndex;
+            else break a;
+          }
+        }
+        function peek(heap) {
+          return 0 === heap.length ? null : heap[0];
+        }
+        function pop(heap) {
+          if (0 === heap.length) return null;
+          var first = heap[0], last = heap.pop();
+          if (last !== first) {
+            heap[0] = last;
+            a: for (var index = 0, length = heap.length, halfLength = length >>> 1; index < halfLength; ) {
+              var leftIndex = 2 * (index + 1) - 1, left = heap[leftIndex], rightIndex = leftIndex + 1, right = heap[rightIndex];
+              if (0 > compare(left, last))
+                rightIndex < length && 0 > compare(right, left) ? (heap[index] = right, heap[rightIndex] = last, index = rightIndex) : (heap[index] = left, heap[leftIndex] = last, index = leftIndex);
+              else if (rightIndex < length && 0 > compare(right, last))
+                heap[index] = right, heap[rightIndex] = last, index = rightIndex;
+              else break a;
+            }
+          }
+          return first;
+        }
+        function compare(a, b) {
+          var diff = a.sortIndex - b.sortIndex;
+          return 0 !== diff ? diff : a.id - b.id;
+        }
+        function advanceTimers(currentTime) {
+          for (var timer = peek(timerQueue); null !== timer; ) {
+            if (null === timer.callback) pop(timerQueue);
+            else if (timer.startTime <= currentTime)
+              pop(timerQueue), timer.sortIndex = timer.expirationTime, push(taskQueue, timer);
+            else break;
+            timer = peek(timerQueue);
+          }
+        }
+        function handleTimeout(currentTime) {
+          isHostTimeoutScheduled = false;
+          advanceTimers(currentTime);
+          if (!isHostCallbackScheduled)
+            if (null !== peek(taskQueue))
+              isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline());
+            else {
+              var firstTimer = peek(timerQueue);
+              null !== firstTimer && requestHostTimeout(
+                handleTimeout,
+                firstTimer.startTime - currentTime
+              );
+            }
+        }
+        function shouldYieldToHost() {
+          return needsPaint ? true : exports.unstable_now() - startTime < frameInterval ? false : true;
+        }
+        function requestHostTimeout(callback, ms) {
+          taskTimeoutID = localSetTimeout(function() {
+            callback(exports.unstable_now());
+          }, ms);
+        }
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
+        exports.unstable_now = void 0;
+        if ("object" === typeof performance && "function" === typeof performance.now) {
+          var localPerformance = performance;
+          exports.unstable_now = function() {
+            return localPerformance.now();
+          };
+        } else {
+          var localDate = Date, initialTime = localDate.now();
+          exports.unstable_now = function() {
+            return localDate.now() - initialTime;
+          };
+        }
+        var taskQueue = [], timerQueue = [], taskIdCounter = 1, currentTask = null, currentPriorityLevel = 3, isPerformingWork = false, isHostCallbackScheduled = false, isHostTimeoutScheduled = false, needsPaint = false, localSetTimeout = "function" === typeof setTimeout ? setTimeout : null, localClearTimeout = "function" === typeof clearTimeout ? clearTimeout : null, localSetImmediate = "undefined" !== typeof setImmediate ? setImmediate : null, isMessageLoopRunning = false, taskTimeoutID = -1, frameInterval = 5, startTime = -1;
+        if ("function" === typeof localSetImmediate)
+          var schedulePerformWorkUntilDeadline = function() {
+            localSetImmediate(performWorkUntilDeadline);
+          };
+        else if ("undefined" !== typeof MessageChannel) {
+          var channel = new MessageChannel(), port = channel.port2;
+          channel.port1.onmessage = performWorkUntilDeadline;
+          schedulePerformWorkUntilDeadline = function() {
+            port.postMessage(null);
+          };
+        } else
+          schedulePerformWorkUntilDeadline = function() {
+            localSetTimeout(performWorkUntilDeadline, 0);
+          };
+        exports.unstable_IdlePriority = 5;
+        exports.unstable_ImmediatePriority = 1;
+        exports.unstable_LowPriority = 4;
+        exports.unstable_NormalPriority = 3;
+        exports.unstable_Profiling = null;
+        exports.unstable_UserBlockingPriority = 2;
+        exports.unstable_cancelCallback = function(task) {
+          task.callback = null;
+        };
+        exports.unstable_forceFrameRate = function(fps) {
+          0 > fps || 125 < fps ? console.error(
+            "forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"
+          ) : frameInterval = 0 < fps ? Math.floor(1e3 / fps) : 5;
+        };
+        exports.unstable_getCurrentPriorityLevel = function() {
+          return currentPriorityLevel;
+        };
+        exports.unstable_next = function(eventHandler) {
+          switch (currentPriorityLevel) {
+            case 1:
+            case 2:
+            case 3:
+              var priorityLevel = 3;
+              break;
+            default:
+              priorityLevel = currentPriorityLevel;
+          }
+          var previousPriorityLevel = currentPriorityLevel;
+          currentPriorityLevel = priorityLevel;
+          try {
+            return eventHandler();
+          } finally {
+            currentPriorityLevel = previousPriorityLevel;
+          }
+        };
+        exports.unstable_requestPaint = function() {
+          needsPaint = true;
+        };
+        exports.unstable_runWithPriority = function(priorityLevel, eventHandler) {
+          switch (priorityLevel) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+              break;
+            default:
+              priorityLevel = 3;
+          }
+          var previousPriorityLevel = currentPriorityLevel;
+          currentPriorityLevel = priorityLevel;
+          try {
+            return eventHandler();
+          } finally {
+            currentPriorityLevel = previousPriorityLevel;
+          }
+        };
+        exports.unstable_scheduleCallback = function(priorityLevel, callback, options) {
+          var currentTime = exports.unstable_now();
+          "object" === typeof options && null !== options ? (options = options.delay, options = "number" === typeof options && 0 < options ? currentTime + options : currentTime) : options = currentTime;
+          switch (priorityLevel) {
+            case 1:
+              var timeout = -1;
+              break;
+            case 2:
+              timeout = 250;
+              break;
+            case 5:
+              timeout = 1073741823;
+              break;
+            case 4:
+              timeout = 1e4;
+              break;
+            default:
+              timeout = 5e3;
+          }
+          timeout = options + timeout;
+          priorityLevel = {
+            id: taskIdCounter++,
+            callback,
+            priorityLevel,
+            startTime: options,
+            expirationTime: timeout,
+            sortIndex: -1
+          };
+          options > currentTime ? (priorityLevel.sortIndex = options, push(timerQueue, priorityLevel), null === peek(taskQueue) && priorityLevel === peek(timerQueue) && (isHostTimeoutScheduled ? (localClearTimeout(taskTimeoutID), taskTimeoutID = -1) : isHostTimeoutScheduled = true, requestHostTimeout(handleTimeout, options - currentTime))) : (priorityLevel.sortIndex = timeout, push(taskQueue, priorityLevel), isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline())));
+          return priorityLevel;
+        };
+        exports.unstable_shouldYield = shouldYieldToHost;
+        exports.unstable_wrapCallback = function(callback) {
+          var parentPriorityLevel = currentPriorityLevel;
+          return function() {
+            var previousPriorityLevel = currentPriorityLevel;
+            currentPriorityLevel = parentPriorityLevel;
+            try {
+              return callback.apply(this, arguments);
+            } finally {
+              currentPriorityLevel = previousPriorityLevel;
+            }
+          };
+        };
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
+      })();
+    }
+  });
+
+  // node_modules/scheduler/index.js
+  var require_scheduler = __commonJS({
+    "node_modules/scheduler/index.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_scheduler_development();
       }
     }
   });
@@ -21726,26 +21726,26 @@
   // src/pages/app/App.tsx
   var require_App = __commonJS({
     "src/pages/app/App.tsx"() {
-      var import_client = __toESM(require_client());
       var import_react = __toESM(require_react());
+      var import_client = __toESM(require_client());
       var import_jsx_runtime = __toESM(require_jsx_runtime());
-      var { useState } = import_react.default;
       function MemoryBridgeApp() {
-        const [highContrast, setHighContrast] = useState(false);
-        const [largeFont, setLargeFont] = useState(false);
-        const [isInterviewOpen, setIsInterviewOpen] = useState(false);
-        const [isRecording, setIsRecording] = useState(false);
-        const [interviewStep, setInterviewStep] = useState(0);
-        const [interviewAnswers, setInterviewAnswers] = useState({ who: "", when: "", story: "" });
-        const [likes, setLikes] = useState(6);
-        const [hasLiked, setHasLiked] = useState(false);
-        const [showComments, setShowComments] = useState(false);
-        const [comments, setComments] = useState([
+        const [highContrast, setHighContrast] = (0, import_react.useState)(false);
+        const [largeFont, setLargeFont] = (0, import_react.useState)(false);
+        const [isSpeaking, setIsSpeaking] = (0, import_react.useState)(false);
+        const [isInterviewOpen, setIsInterviewOpen] = (0, import_react.useState)(false);
+        const [isRecording, setIsRecording] = (0, import_react.useState)(false);
+        const [interviewStep, setInterviewStep] = (0, import_react.useState)(0);
+        const [interviewAnswers, setInterviewAnswers] = (0, import_react.useState)({ who: "", when: "", story: "" });
+        const [likes, setLikes] = (0, import_react.useState)(12);
+        const [hasLiked, setHasLiked] = (0, import_react.useState)(false);
+        const [showComments, setShowComments] = (0, import_react.useState)(false);
+        const [comments, setComments] = (0, import_react.useState)([
           "Che bella foto di famiglia! Che anno era precisamente?",
           "Zio Orazio aveva sempre lo stesso sorriso!",
           "Grazie per aver condiviso questo ricordo \u2764\uFE0F"
         ]);
-        const [newComment, setNewComment] = useState("");
+        const [newComment, setNewComment] = (0, import_react.useState)("");
         const guidedQuestions = [
           { id: "who", question: "Chi c\u2019\xE8 in questa fotografia o in questo ricordo?", placeholder: "Es. Nonno Orazio, Cugino Antonio..." },
           { id: "when", question: "In che anno o occasione speciale \xE8 successo?", placeholder: "Es. Matrimonio del 1965, Estate a Salerno..." },
@@ -21762,54 +21762,78 @@
             setNewComment("");
           }
         };
+        const toggleSpeech = (text) => {
+          if ("speechSynthesis" in window) {
+            if (isSpeaking) {
+              window.speechSynthesis.cancel();
+              setIsSpeaking(false);
+            } else {
+              const utterance = new SpeechSynthesisUtterance(text);
+              utterance.lang = "it-IT";
+              utterance.onend = () => setIsSpeaking(false);
+              window.speechSynthesis.speak(utterance);
+              setIsSpeaking(true);
+            }
+          } else {
+            alert("La sintesi vocale non \xE8 supportata da questo browser.");
+          }
+        };
         const theme = {
-          bg: highContrast ? "#000000" : "#f3f4f6",
+          bg: highContrast ? "#000000" : "#f8fafc",
           cardBg: highContrast ? "#121212" : "#ffffff",
-          text: highContrast ? "#ffffff" : "#1f2937",
-          textMuted: highContrast ? "#d1d5db" : "#6b7280",
+          text: highContrast ? "#ffffff" : "#0f172a",
+          textMuted: highContrast ? "#cbd5e1" : "#64748b",
           primary: highContrast ? "#ffff00" : "#2563eb",
+          primaryBg: highContrast ? "#ffff00" : "#eff6ff",
           primaryText: highContrast ? "#000000" : "#ffffff",
-          border: highContrast ? "#ffffff" : "#e5e7eb",
+          accent: highContrast ? "#00ffff" : "#0284c7",
+          border: highContrast ? "#ffffff" : "#e2e8f0",
           fontSizeMultiplier: largeFont ? 1.25 : 1
         };
+        const sampleStoryText = "Il nonno Orazio al matrimonio del cugino Antonio. Trovato questo gioiello in un vecchio album fotografico. Si pu\xF2 vedere tutta la famiglia riunita, tutti eleganti e sorridenti.";
         return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
           backgroundColor: theme.bg,
           color: theme.text,
           minHeight: "100vh",
-          fontFamily: "system-ui, -apple-system, sans-serif",
+          fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          letterSpacing: "-0.02em",
+          // Rende la spaziatura compatta come nell'immagine
           fontSize: `${16 * theme.fontSizeMultiplier}px`,
-          lineHeight: "1.5",
+          lineHeight: "1.6",
           transition: "all 0.2s ease-in-out"
         }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { style: {
-            backgroundColor: highContrast ? "#1f2937" : "#1e293b",
+            backgroundColor: highContrast ? "#1f2937" : "#0f172a",
             color: "#ffffff",
-            padding: "8px 16px",
+            padding: "10px 20px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            fontSize: "14px"
+            flexWrap: "wrap",
+            gap: "10px",
+            borderBottom: `2px solid ${theme.primary}`
           }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", alignItems: "center", gap: "8px", fontSize: "14px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
               "\u267F ",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Modalit\xE0 Accessibile" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "12px" }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Modalit\xE0 Senior & Accessibilit\xE0" })
+            ] }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "10px" }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "button",
                 {
                   onClick: () => setLargeFont(!largeFont),
                   style: {
-                    padding: "6px 12px",
+                    padding: "6px 14px",
                     minHeight: "44px",
                     backgroundColor: largeFont ? theme.primary : "transparent",
                     color: largeFont ? theme.primaryText : "#ffffff",
-                    border: "1px solid #ffffff",
-                    borderRadius: "6px",
+                    border: "2px solid #ffffff",
+                    borderRadius: "8px",
                     cursor: "pointer",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
+                    fontSize: "14px"
                   },
-                  children: largeFont ? "A- Testo Normale" : "A+ Testo Grande"
+                  children: largeFont ? "\u{1F50D} Testo Normale" : "\u{1F50D} Testo Ingrandito"
                 }
               ),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -21817,16 +21841,17 @@
                 {
                   onClick: () => setHighContrast(!highContrast),
                   style: {
-                    padding: "6px 12px",
+                    padding: "6px 14px",
                     minHeight: "44px",
                     backgroundColor: highContrast ? "#ffff00" : "transparent",
                     color: highContrast ? "#000000" : "#ffffff",
-                    border: "1px solid #ffffff",
-                    borderRadius: "6px",
+                    border: "2px solid #ffffff",
+                    borderRadius: "8px",
                     cursor: "pointer",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
+                    fontSize: "14px"
                   },
-                  children: highContrast ? "\u2600\uFE0F Contrasto Normale" : "\u{1F441}\uFE0F Alto Contrasto"
+                  children: highContrast ? "\u2600\uFE0F Contrasto Standard" : "\u{1F441}\uFE0F Alto Contrasto"
                 }
               )
             ] })
@@ -21837,59 +21862,69 @@
             position: "sticky",
             top: 0,
             zIndex: 40,
-            boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
+            boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
           }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-            maxWidth: "1100px",
+            maxWidth: "1200px",
+            /* Aumentato da 1000px per distanziare Logo e Menu */
             margin: "0 auto",
-            padding: "12px 16px",
+            padding: "12px 20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: "12px"
+            gap: "16px"
           }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "12px" }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-                width: "48px",
-                height: "48px",
-                borderRadius: "50%",
-                backgroundColor: "#0284c7",
+                width: "46px",
+                height: "46px",
+                borderRadius: "12px",
+                backgroundColor: theme.primary,
+                color: theme.primaryText,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "24px"
+                fontSize: "24px",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.15)"
               }, children: "\u{1F309}" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: 0, fontSize: `${22 * theme.fontSizeMultiplier}px`, fontWeight: "bold", color: theme.primary }, children: "MemoryBridge" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: 0, fontSize: `${22 * theme.fontSizeMultiplier}px`, fontWeight: "800", color: theme.primary, lineHeight: 1 }, children: "MemoryBridge" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: "12px", color: theme.textMuted, fontWeight: "500" }, children: "Ponte tra Memorie Familiari" })
+              ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("nav", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", { style: { display: "flex", listStyle: "none", margin: 0, padding: 0, gap: "8px", alignItems: "center" }, children: [
-              { label: "Home", icon: "\u{1F3E0}", active: true },
-              { label: "Albero Genealogico", icon: "\u{1F333}", active: false },
-              { label: "Ricerca", icon: "\u{1F50D}", active: false },
-              { label: "Racconta un ricordo", icon: "\u{1F4C5}", active: false },
-              { label: "Profilo", icon: "\u{1F464}", active: false }
-            ].map((item, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { href: "#", style: {
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "8px 12px",
-              minHeight: "48px",
-              textDecoration: "none",
-              color: item.active ? theme.primary : theme.text,
-              fontWeight: item.active ? "bold" : "normal",
-              borderBottom: item.active ? `3px solid ${theme.primary}` : "none"
-            }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: "20px" }, children: item.icon }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: "13px" }, children: item.label })
-            ] }) }, idx)) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("nav", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", { style: { display: "flex", listStyle: "none", margin: 0, padding: 0, gap: "28px" }, children: [
+              " ",
+              [
+                { label: "Ricordi", icon: "\u{1F3E0}", active: true },
+                { label: "Albero Genealogico", icon: "\u{1F333}", active: false },
+                { label: "Esplora Epoche", icon: "\u23F3", active: false },
+                { label: "Profilo", icon: "\u{1F464}", active: false }
+              ].map((item, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { href: "#", style: {
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "8px 14px",
+                minHeight: "44px",
+                borderRadius: "10px",
+                textDecoration: "none",
+                backgroundColor: item.active ? highContrast ? "#ffff00" : "#e0f2fe" : "transparent",
+                color: item.active ? highContrast ? "#000000" : "#0369a1" : theme.text,
+                fontWeight: item.active ? "bold" : "500",
+                fontSize: `${14 * theme.fontSizeMultiplier}px`
+              }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.icon }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.label })
+              ] }) }, idx))
+            ] }) })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { style: { maxWidth: "700px", margin: "24px auto", padding: "0 16px" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { style: { maxWidth: "720px", margin: "24px auto", padding: "0 16px" }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { style: {
               backgroundColor: theme.cardBg,
               borderRadius: "16px",
               padding: "20px",
               border: `1px solid ${theme.border}`,
               marginBottom: "24px",
-              boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)"
+              boxShadow: "0 4px 12px rgba(0,0,0,0.03)"
             }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "16px", alignItems: "center" }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
@@ -21904,27 +21939,24 @@
                   fontSize: "28px",
                   flexShrink: 0
                 }, children: "\u{1F464}" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   "button",
                   {
                     onClick: () => setIsInterviewOpen(true),
                     style: {
                       flexGrow: 1,
-                      padding: "16px",
+                      padding: "14px 18px",
                       minHeight: "52px",
                       textAlign: "left",
                       backgroundColor: theme.bg,
                       border: `2px dashed ${theme.primary}`,
                       borderRadius: "12px",
                       color: theme.text,
-                      fontSize: `${16 * theme.fontSizeMultiplier}px`,
+                      fontSize: `${15 * theme.fontSizeMultiplier}px`,
                       cursor: "pointer",
                       fontWeight: "500"
                     },
-                    children: [
-                      "\u{1F4AD} Cosa vuoi condividere oggi? ",
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: theme.primary, fontWeight: "bold" }, children: "(Clicca qui)" })
-                    ]
+                    children: "\u{1F4AD} Clicca qui per raccontare una foto o un ricordo..."
                   }
                 )
               ] }),
@@ -21952,76 +21984,141 @@
                   {
                     onClick: () => setIsInterviewOpen(true),
                     style: {
-                      flex: "1 1 45%",
+                      flex: 1,
                       minHeight: "48px",
-                      backgroundColor: highContrast ? "#333" : "#e0f2fe",
-                      color: highContrast ? "#fff" : "#0369a1",
+                      backgroundColor: theme.bg,
+                      color: theme.text,
                       border: `1px solid ${theme.border}`,
                       borderRadius: "10px",
-                      padding: "10px 16px",
                       fontWeight: "bold",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px"
                     },
-                    children: "\u{1F4F7} Carica Foto o Documento"
+                    children: "\u{1F4F7} Carica Vecchia Foto"
                   }
                 )
               ] })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { style: {
               backgroundColor: theme.cardBg,
-              borderRadius: "16px",
+              borderRadius: "20px",
               border: `1px solid ${theme.border}`,
               padding: "24px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
+              boxShadow: "0 4px 16px rgba(0,0,0,0.04)"
             }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { style: { display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { style: { display: "flex", alignItems: "center", gap: "14px", marginBottom: "16px" }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-                  width: "52px",
-                  height: "52px",
+                  width: "54px",
+                  height: "54px",
                   borderRadius: "50%",
-                  backgroundColor: "#e5e7eb",
+                  backgroundColor: "#e2e8f0",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "24px"
+                  fontSize: "28px",
+                  border: `2px solid ${theme.primary}`
                 }, children: "\u{1F475}" }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flexGrow: 1 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: "bold" }, children: "Shila Han" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: "14px", color: theme.textMuted }, children: "\u{1F4CD} New York, NY \u2022 15 Giugno 1965" })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  padding: "4px 10px",
-                  backgroundColor: highContrast ? "#333" : "#fef3c7",
-                  color: highContrast ? "#fff" : "#92400e",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  borderRadius: "12px",
-                  border: "1px solid #f59e0b"
-                }, children: "\u{1F512} Solo Famiglia" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: `${17 * theme.fontSizeMultiplier}px`, margin: "0 0 16px 0", lineHeight: "1.6" }, children: "Il nonno Orazio al matrimonio del cugino Antonio. Trovato questo gioiello in un vecchio album fotografico. Si pu\xF2 vedere tutta la famiglia riunita, tutti eleganti e sorridenti." }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { backgroundColor: theme.bg, padding: "4px 12px", borderRadius: "16px", fontSize: "13px", border: `1px solid ${theme.border}` }, children: [
-                  "\u{1F464} ",
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Parente:" }),
-                  " Nonno Orazio"
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { backgroundColor: theme.bg, padding: "4px 12px", borderRadius: "16px", fontSize: "13px", border: `1px solid ${theme.border}` }, children: [
-                  "\u{1F389} ",
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Evento:" }),
-                  " Matrimonio Antonio"
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px" }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: "bold" }, children: "Maria Han (Nonna)" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                      backgroundColor: highContrast ? "#ffff00" : "#dbeafe",
+                      color: highContrast ? "#000000" : "#1e40af",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      padding: "2px 8px",
+                      borderRadius: "6px"
+                    }, children: "\u{1F475} Ramo Materno" })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { margin: "2px 0 0 0", fontSize: "17px", color: theme.textMuted }, children: [
+                    "con",
+                    " ",
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: theme.primary, fontWeight: "700", cursor: "pointer" }, children: "Nonno Orazio" }),
+                    " ",
+                    "\xB7 Matrimonio Antonio"
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: "13px", color: theme.textMuted }, children: "\u{1F4CD} New York \u2022 15 Giugno 1965" })
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { borderRadius: "12px", overflow: "hidden", marginBottom: "20px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "img",
-                {
-                  src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&auto=format&fit=crop&q=80",
-                  alt: "Foto di famiglia a tavola",
-                  style: { width: "100%", height: "auto", display: "block", maxHeight: "500px", objectFit: "cover" }
-                }
-              ) }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: "16px" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: `${17 * theme.fontSizeMultiplier}px`, margin: "0 0 12px 0", lineHeight: "1.6" }, children: sampleStoryText }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "button",
+                  {
+                    onClick: () => toggleSpeech(sampleStoryText),
+                    style: {
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      padding: "8px 14px",
+                      minHeight: "40px",
+                      backgroundColor: isSpeaking ? "#dc2626" : theme.primaryBg,
+                      color: isSpeaking ? "#ffffff" : highContrast ? "#000" : theme.primary,
+                      border: `1px solid ${theme.primary}`,
+                      borderRadius: "20px",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      cursor: "pointer"
+                    },
+                    children: isSpeaking ? "\u{1F6D1} Ferma Lettura Vocale" : "\u{1F50A} Ascolta Racconto A Voce"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { position: "relative", borderRadius: "14px", overflow: "hidden", marginBottom: "16px", border: `1px solid ${theme.border}` }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "img",
+                  {
+                    src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&auto=format&fit=crop&q=80",
+                    alt: "Foto d'epoca della famiglia riunita",
+                    style: { width: "100%", height: "auto", display: "block", maxHeight: "480px", objectFit: "cover" }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                  position: "absolute",
+                  bottom: "10px",
+                  left: "10px",
+                  backgroundColor: "rgba(0,0,0,0.55)",
+                  color: "#ffffff",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  padding: "4px 10px",
+                  borderRadius: "20px",
+                  backdropFilter: "blur(2px)"
+                }, children: "\u{1F333} Collegato all'Albero Genealogico" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+                backgroundColor: theme.bg,
+                padding: "12px 16px",
+                borderRadius: "12px",
+                border: `1px solid ${theme.border}`,
+                marginBottom: "20px",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px"
+              }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: {
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  backgroundColor: theme.primary,
+                  color: theme.primaryText,
+                  border: "none",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }, children: "\u25B6\uFE0F" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "13px", fontWeight: "bold" }, children: "\u{1F399}\uFE0F Audio originale di Nonna Maria (1:24)" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "6px", backgroundColor: theme.border, borderRadius: "3px", marginTop: "4px", overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: "35%", height: "100%", backgroundColor: theme.primary } }) })
+                ] })
+              ] }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { style: { borderTop: `1px solid ${theme.border}`, paddingTop: "16px" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "16px", alignItems: "center" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "12px", alignItems: "center" }, children: [
                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                     "button",
                     {
@@ -22030,20 +22127,20 @@
                         display: "flex",
                         alignItems: "center",
                         gap: "8px",
-                        minHeight: "48px",
-                        padding: "8px 16px",
+                        minHeight: "46px",
+                        padding: "8px 18px",
                         border: `1px solid ${hasLiked ? theme.primary : theme.border}`,
                         borderRadius: "24px",
                         backgroundColor: hasLiked ? highContrast ? "#ffff00" : "#dbeafe" : "transparent",
-                        color: hasLiked ? highContrast ? "#000" : theme.primary : theme.text,
+                        color: hasLiked ? highContrast ? "#000000" : theme.primary : theme.text,
                         fontWeight: "bold",
                         cursor: "pointer"
                       },
                       children: [
-                        "\u{1F44D} ",
+                        "\u2764\uFE0F ",
                         likes,
                         " ",
-                        hasLiked ? "Apprezzato" : "Mi piace"
+                        hasLiked ? "Ti Piace" : "Mi Piace"
                       ]
                     }
                   ),
@@ -22055,8 +22152,8 @@
                         display: "flex",
                         alignItems: "center",
                         gap: "8px",
-                        minHeight: "48px",
-                        padding: "8px 16px",
+                        minHeight: "46px",
+                        padding: "8px 18px",
                         border: `1px solid ${theme.border}`,
                         borderRadius: "24px",
                         backgroundColor: "transparent",
@@ -22067,14 +22164,14 @@
                       children: [
                         "\u{1F4AC} ",
                         comments.length,
-                        " Commenti"
+                        " Risposte"
                       ]
                     }
                   )
                 ] }),
                 showComments && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: "20px", paddingTop: "16px", borderTop: `1px dashed ${theme.border}` }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 12px 0" }, children: "Commenti della Famiglia" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", { style: { listStyle: "none", padding: 0, margin: "0 0 16px 0" }, children: comments.map((comment, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { style: { backgroundColor: theme.bg, padding: "12px", borderRadius: "8px", marginBottom: "8px", border: `1px solid ${theme.border}` }, children: comment }, i)) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 12px 0", fontSize: "15px" }, children: "\u{1F4AC} Commenti dei Nipoti e della Famiglia" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", { style: { listStyle: "none", padding: 0, margin: "0 0 16px 0" }, children: comments.map((comment, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { style: { backgroundColor: theme.bg, padding: "12px", borderRadius: "10px", marginBottom: "8px", border: `1px solid ${theme.border}`, fontSize: "14px" }, children: comment }, i)) }),
                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", { onSubmit: handleAddComment, style: { display: "flex", gap: "8px" }, children: [
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                       "input",
@@ -22082,11 +22179,36 @@
                         type: "text",
                         value: newComment,
                         onChange: (e) => setNewComment(e.target.value),
-                        placeholder: "Scrivi un pensiero per la nonna...",
-                        style: { flexGrow: 1, minHeight: "44px", padding: "8px 12px", borderRadius: "8px", border: `1px solid ${theme.border}`, backgroundColor: theme.cardBg, color: theme.text }
+                        placeholder: "Lascia un messaggio o una domanda alla nonna...",
+                        style: {
+                          flexGrow: 1,
+                          minHeight: "46px",
+                          padding: "8px 14px",
+                          borderRadius: "10px",
+                          border: `1px solid ${theme.border}`,
+                          backgroundColor: theme.cardBg,
+                          color: theme.text,
+                          fontSize: "14px"
+                        }
                       }
                     ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "submit", style: { minHeight: "44px", padding: "0 20px", backgroundColor: theme.primary, color: theme.primaryText, border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" }, children: "Invia" })
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "button",
+                      {
+                        type: "submit",
+                        style: {
+                          minHeight: "46px",
+                          padding: "0 20px",
+                          backgroundColor: theme.primary,
+                          color: theme.primaryText,
+                          border: "none",
+                          borderRadius: "10px",
+                          fontWeight: "bold",
+                          cursor: "pointer"
+                        },
+                        children: "Invia"
+                      }
+                    )
                   ] })
                 ] })
               ] })
@@ -22095,7 +22217,7 @@
           isInterviewOpen && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
             position: "fixed",
             inset: 0,
-            backgroundColor: "rgba(0,0,0,0.75)",
+            backgroundColor: "rgba(0,0,0,0.8)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -22104,23 +22226,43 @@
           }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
             backgroundColor: theme.cardBg,
             border: `3px solid ${theme.primary}`,
-            borderRadius: "20px",
-            maxWidth: "600px",
+            borderRadius: "24px",
+            maxWidth: "620px",
             width: "100%",
-            padding: "28px"
+            padding: "28px",
+            boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
           }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, color: theme.primary }, children: "\u{1F475} Assistente Raccolta Ricordi" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setIsInterviewOpen(false), style: { border: "none", background: "transparent", fontSize: "24px", cursor: "pointer", color: theme.text }, children: "\u2716" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, color: theme.primary, fontSize: `${20 * theme.fontSizeMultiplier}px` }, children: "\u{1F475} Assistente Guidato Raccolta Ricordi" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                "button",
+                {
+                  onClick: () => setIsInterviewOpen(false),
+                  style: { border: "none", background: "transparent", fontSize: "28px", cursor: "pointer", color: theme.text },
+                  children: "\u2716"
+                }
+              )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { fontWeight: "bold", color: theme.primary }, children: [
-              "Passo ",
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: "8px", marginBottom: "16px" }, children: guidedQuestions.map((_, index) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "div",
+              {
+                style: {
+                  flex: 1,
+                  height: "8px",
+                  borderRadius: "4px",
+                  backgroundColor: index <= interviewStep ? theme.primary : theme.border
+                }
+              },
+              index
+            )) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { fontWeight: "bold", color: theme.accent, marginTop: 0 }, children: [
+              "Passaggio ",
               interviewStep + 1,
               " di ",
               guidedQuestions.length
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: theme.bg, padding: "20px", borderRadius: "12px", marginBottom: "20px", border: `1px solid ${theme.border}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: "18px", fontWeight: "bold", marginBottom: "12px" }, children: guidedQuestions[interviewStep].question }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: theme.bg, padding: "20px", borderRadius: "16px", marginBottom: "20px", border: `1px solid ${theme.border}` }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: "bold", marginBottom: "12px" }, children: guidedQuestions[interviewStep].question }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "textarea",
                 {
@@ -22133,7 +22275,15 @@
                     if (interviewStep === 1) setInterviewAnswers({ ...interviewAnswers, when: val });
                     if (interviewStep === 2) setInterviewAnswers({ ...interviewAnswers, story: val });
                   },
-                  style: { width: "100%", padding: "12px", borderRadius: "8px", border: `2px solid ${theme.border}`, backgroundColor: theme.cardBg, color: theme.text, fontSize: "16px" }
+                  style: {
+                    width: "100%",
+                    padding: "14px",
+                    borderRadius: "10px",
+                    border: `2px solid ${theme.border}`,
+                    backgroundColor: theme.cardBg,
+                    color: theme.text,
+                    fontSize: "16px"
+                  }
                 }
               ),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: "16px", textAlign: "center" }, children: [
@@ -22143,28 +22293,39 @@
                     type: "button",
                     onClick: () => setIsRecording(!isRecording),
                     style: {
-                      minHeight: "52px",
-                      padding: "12px 24px",
+                      minHeight: "54px",
+                      padding: "12px 28px",
                       backgroundColor: isRecording ? "#dc2626" : "#16a34a",
                       color: "#ffffff",
                       border: "none",
                       borderRadius: "30px",
                       fontWeight: "bold",
-                      cursor: "pointer"
+                      fontSize: "16px",
+                      cursor: "pointer",
+                      boxShadow: isRecording ? "0 0 12px rgba(220, 38, 38, 0.5)" : "none"
                     },
-                    children: isRecording ? "\u{1F534} Interrompi Registrazione" : "\u{1F399}\uFE0F Parla invece di scrivere"
+                    children: isRecording ? "\u{1F534} Interrompi Registrazione" : "\u{1F399}\uFE0F Premi qui e parla a voce"
                   }
                 ),
-                isRecording && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: "#dc2626", fontWeight: "bold", marginTop: "8px" }, children: "Sto ascoltando la tua voce..." })
+                isRecording && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: "#dc2626", fontWeight: "bold", marginTop: "10px", animation: "pulse 1s infinite" }, children: "\u{1F399}\uFE0F Sto ascoltando la tua voce... parla pure liberamente!" })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { style: { display: "flex", justifyContent: "space-between" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { style: { display: "flex", justifyContent: "space-between", gap: "12px" }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "button",
                 {
                   disabled: interviewStep === 0,
                   onClick: () => setInterviewStep((prev) => prev - 1),
-                  style: { minHeight: "48px", padding: "0 20px", borderRadius: "10px", border: `1px solid ${theme.border}`, backgroundColor: theme.bg, color: theme.text, cursor: interviewStep === 0 ? "not-allowed" : "pointer" },
+                  style: {
+                    minHeight: "48px",
+                    padding: "0 20px",
+                    borderRadius: "10px",
+                    border: `1px solid ${theme.border}`,
+                    backgroundColor: theme.bg,
+                    color: theme.text,
+                    cursor: interviewStep === 0 ? "not-allowed" : "pointer",
+                    opacity: interviewStep === 0 ? 0.5 : 1
+                  },
                   children: "\u2190 Indietro"
                 }
               ),
@@ -22172,18 +22333,36 @@
                 "button",
                 {
                   onClick: () => setInterviewStep((prev) => prev + 1),
-                  style: { minHeight: "48px", padding: "0 24px", borderRadius: "10px", border: "none", backgroundColor: theme.primary, color: theme.primaryText, fontWeight: "bold", cursor: "pointer" },
-                  children: "Prossima Domanda \u2192"
+                  style: {
+                    minHeight: "48px",
+                    padding: "0 24px",
+                    borderRadius: "10px",
+                    border: "none",
+                    backgroundColor: theme.primary,
+                    color: theme.primaryText,
+                    fontWeight: "bold",
+                    cursor: "pointer"
+                  },
+                  children: "Avanti \u2192"
                 }
               ) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "button",
                 {
                   onClick: () => {
-                    alert("Ricordo salvato con successo!");
+                    alert("Ricordo salvato e condiviso con tutta la famiglia!");
                     setIsInterviewOpen(false);
                     setInterviewStep(0);
                   },
-                  style: { minHeight: "48px", padding: "0 24px", borderRadius: "10px", border: "none", backgroundColor: "#16a34a", color: "#ffffff", fontWeight: "bold", cursor: "pointer" },
+                  style: {
+                    minHeight: "48px",
+                    padding: "0 24px",
+                    borderRadius: "10px",
+                    border: "none",
+                    backgroundColor: "#16a34a",
+                    color: "#ffffff",
+                    fontWeight: "bold",
+                    cursor: "pointer"
+                  },
                   children: "\u{1F4BE} Salva per la Famiglia"
                 }
               )
@@ -22202,10 +22381,10 @@
 })();
 /*! Bundled license information:
 
-scheduler/cjs/scheduler.development.js:
+react/cjs/react.development.js:
   (**
    * @license React
-   * scheduler.development.js
+   * react.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *
@@ -22213,10 +22392,10 @@ scheduler/cjs/scheduler.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react/cjs/react.development.js:
+scheduler/cjs/scheduler.development.js:
   (**
    * @license React
-   * react.development.js
+   * scheduler.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *
