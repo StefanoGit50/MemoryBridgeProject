@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/pages/presentation/main.tsx src/pages/app/App.tsx --bundle --outdir=../src/main/resources/static/js",
+    "build": "esbuild src/pages/presentation/main.tsx src/pages/app/App.tsx --bundle --outdir=../src/main/resources/static/js --loader:.png=dataurl" ,
     "dev": "esbuild src/pages/presentation/main.tsx src/pages/app/App.tsx --bundle --outdir=../src/main/resources/static/js --watch",
     "snapshot": "xcopy /E /I /Y ..\\src\\main\\resources\\static ..\\src\\main\\resources\\static-backup"
   },

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {createRoot} from "react-dom/client";
+import IrisAvatar from "@/images/Iris.png"
 
 // ============================================================================
 // MEMORYBRIDGE - INTERFACCIA ED ELEMENTI CARATTERISTICI (REACT MONOLITH)
@@ -12,6 +13,7 @@ function MemoryBridgeApp() {
 
     // --- STATO INTERFACCIA ---
     const [isSpeaking, setIsSpeaking] = useState(false);
+    const [accessibilityOpen, setAccessibilityOpen] = useState(false);
 
     // --- STATO GUIDA & REGISTRAZIONE VOCALE (Per Nonna Maria) ---
     const [isInterviewOpen, setIsInterviewOpen] = useState(false);
@@ -92,57 +94,6 @@ function MemoryBridgeApp() {
             transition: 'all 0.2s ease-in-out'
         }}>
 
-            {/* 1. BARRA ACCESSIBILITÀ DEDICATA (WCAG / ISO 9241) */}
-            <section style={{
-                backgroundColor: highContrast ? '#1f2937' : '#0f172a',
-                color: '#ffffff',
-                padding: '10px 20px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '10px',
-                borderBottom: `2px solid ${theme.primary}`
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-                    <span>♿ <strong>Modalità Senior & Accessibilità</strong></span>
-                </div>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                    <button
-                        onClick={() => setLargeFont(!largeFont)}
-                        style={{
-                            padding: '6px 14px',
-                            minHeight: '44px',
-                            backgroundColor: largeFont ? theme.primary : 'transparent',
-                            color: largeFont ? theme.primaryText : '#ffffff',
-                            border: '2px solid #ffffff',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontWeight: 'bold',
-                            fontSize: '14px'
-                        }}
-                    >
-                        {largeFont ? '🔍 Testo Normale' : '🔍 Testo Ingrandito'}
-                    </button>
-
-                    <button
-                        onClick={() => setHighContrast(!highContrast)}
-                        style={{
-                            padding: '6px 14px',
-                            minHeight: '44px',
-                            backgroundColor: highContrast ? '#ffff00' : 'transparent',
-                            color: highContrast ? '#000000' : '#ffffff',
-                            border: '2px solid #ffffff',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontWeight: 'bold',
-                            fontSize: '14px'
-                        }}
-                    >
-                        {highContrast ? '☀️ Contrasto Standard' : '👁️ Alto Contrasto'}
-                    </button>
-                </div>
-            </section>
 
             {/* 2. HEADER / BRANDING MEMORYBRIDGE */}
             <header style={{
@@ -220,6 +171,71 @@ function MemoryBridgeApp() {
 
             {/* 3. CONTENUTO PRINCIPALE */}
             <main style={{ maxWidth: '720px', margin: '24px auto', padding: '0 16px' }}>
+
+                {/* SPUNTO DEL GIORNO — a cura di IRIS IA */}
+                <section style={{
+                    background: highContrast ? '#1a1a1a' : 'linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%)',
+                    borderRadius: '16px',
+                    padding: '16px 20px',
+                    border: `2px solid ${highContrast ? '#ffff00' : '#c4b5fd'}`,
+                    marginBottom: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    flexWrap: 'wrap'
+                }}>
+                    <img
+                        src={IrisAvatar}
+                        alt="Iris IA"
+                        style={{
+                            width: '54px',
+                            height: '54px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                            flexShrink: 0,
+                            border: `2px solid ${highContrast ? '#ffff00' : '#7c3aed'}`,
+                            boxShadow: '0 2px 6px rgba(124,58,237,0.35)'
+                        }}
+                    />
+
+                    <div style={{ flex: 1, minWidth: '240px' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ fontSize: '14px', fontWeight: 'bold', color: highContrast ? '#ffff00' : '#7c3aed' }}>
+                                Iris IA consiglia :
+                            </span>
+                            <span style={{
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                backgroundColor: highContrast ? '#ffff00' : '#ede9fe',
+                                color: highContrast ? '#000000' : '#6d28d9',
+                                padding: '1px 6px',
+                                borderRadius: '6px',
+                                letterSpacing: '0.5px'
+                            }}>
+                                AI
+                            </span>
+                        </span>
+                        <p style={{ margin: '4px 0 0 0', fontWeight: 'bold', fontSize: `${16 * theme.fontSizeMultiplier}px` }}>
+                            "Nonna Maria, ti va di raccontarci qual è stato il tuo primo viaggio importante?"
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => setIsInterviewOpen(true)}
+                        style={{
+                            padding: '10px 18px',
+                            minHeight: '44px',
+                            backgroundColor: highContrast ? '#ffff00' : '#7c3aed',
+                            color: highContrast ? '#000000' : '#ffffff',
+                            border: 'none',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap'
+                        }}
+                    >
+                        ✨ Crea Ricordo
+                    </button>
+                </section>
 
                 {/* BOX DI CREAZIONE / INTERVISTA */}
                 <section style={{
@@ -697,7 +713,81 @@ function MemoryBridgeApp() {
                     </div>
                 </div>
             )}
+            {/* WIDGET ACCESSIBILITÀ — Dial Radiale */}
+            <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 200 }}>
+                <button
+                    onClick={() => setLargeFont(!largeFont)}
+                    title="Testo Ingrandito"
+                    style={{
+                        position: 'absolute',
+                        bottom: accessibilityOpen ? '92px' : '0px',
+                        right: accessibilityOpen ? '8px' : '0px',
+                        width: '52px',
+                        height: '52px',
+                        borderRadius: '50%',
+                        border: 'none',
+                        backgroundColor: largeFont ? theme.primary : (highContrast ? '#1f2937' : '#ffffff'),
+                        color: largeFont ? theme.primaryText : theme.text,
+                        boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
+                        fontSize: '20px',
+                        cursor: 'pointer',
+                        opacity: accessibilityOpen ? 1 : 0,
+                        transform: accessibilityOpen ? 'scale(1)' : 'scale(0.3)',
+                        pointerEvents: accessibilityOpen ? 'auto' : 'none',
+                        transition: 'all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    }}
+                >
+                    🔍
+                </button>
 
+                <button
+                    onClick={() => setHighContrast(!highContrast)}
+                    title="Alto Contrasto"
+                    style={{
+                        position: 'absolute',
+                        bottom: accessibilityOpen ? '68px' : '0px',
+                        right: accessibilityOpen ? '80px' : '0px',
+                        width: '52px',
+                        height: '52px',
+                        borderRadius: '50%',
+                        border: 'none',
+                        backgroundColor: highContrast ? '#ffff00' : '#ffffff',
+                        color: highContrast ? '#000000' : theme.text,
+                        boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
+                        fontSize: '20px',
+                        cursor: 'pointer',
+                        opacity: accessibilityOpen ? 1 : 0,
+                        transform: accessibilityOpen ? 'scale(1)' : 'scale(0.3)',
+                        pointerEvents: accessibilityOpen ? 'auto' : 'none',
+                        transition: 'all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    }}
+                >
+                    👁️
+                </button>
+
+                <button
+                    onClick={() => setAccessibilityOpen(!accessibilityOpen)}
+                    title="Opzioni di Accessibilità"
+                    style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '50%',
+                        border: 'none',
+                        backgroundColor: highContrast ? '#ffff00' : theme.primary,
+                        color: highContrast ? '#000000' : theme.primaryText,
+                        fontSize: accessibilityOpen ? '26px' : '20px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        boxShadow: '0 6px 18px rgba(0,0,0,0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transform: accessibilityOpen ? 'rotate(135deg)' : 'rotate(0deg)',
+                    }}
+                >
+                    {accessibilityOpen ? '✖' : '⚙️'}
+                </button>
+            </div>
         </div>
     );
 }
