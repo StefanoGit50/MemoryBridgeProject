@@ -38,6 +38,7 @@ node_modules/
 
 # Spring Boot / Java
 .gradle/
+.mvn/
 
 # Compiled class file
 *.class
