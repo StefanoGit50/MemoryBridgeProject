@@ -6,15 +6,13 @@
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __esm = (fn, res, err) => function __init() {
-    if (err) throw err[0];
-    try {
-      return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-    } catch (e) {
-      throw err = [e], e;
-    }
-  };
-  var __commonJS = (cb, mod) => function __require() {
+  var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+    get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+  }) : x)(function(x) {
+    if (typeof require !== "undefined") return require.apply(this, arguments);
+    throw Error('Dynamic require of "' + x + '" is not supported');
+  });
+  var __commonJS = (cb, mod) => function __require2() {
     try {
       return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
     } catch (e) {
@@ -44,7 +42,7 @@
       "use strict";
       (function() {
         function defineDeprecationWarning(methodName, info) {
-          Object.defineProperty(Component.prototype, methodName, {
+          Object.defineProperty(Component3.prototype, methodName, {
             get: function() {
               console.warn(
                 "%s(...) is deprecated in plain JavaScript React classes. %s",
@@ -69,7 +67,7 @@
             publicInstance
           ), didWarnStateUpdateForUnmountedComponent[warningKey] = true);
         }
-        function Component(props, context, updater) {
+        function Component3(props, context, updater) {
           this.props = props;
           this.context = context;
           this.refs = emptyObject;
@@ -83,7 +81,7 @@
           this.refs = emptyObject;
           this.updater = updater || ReactNoopUpdateQueue;
         }
-        function noop() {
+        function noop2() {
         }
         function testStringCoercion(value) {
           return "" + value;
@@ -253,9 +251,9 @@
           return newKey;
         }
         function validateChildKeys(node) {
-          isValidElement(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node._payload.status ? isValidElement(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
+          isValidElement2(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node._payload.status ? isValidElement2(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
         }
-        function isValidElement(object) {
+        function isValidElement2(object) {
           return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
         }
         function escape(key) {
@@ -274,7 +272,7 @@
             case "rejected":
               throw thenable.reason;
             default:
-              switch ("string" === typeof thenable.status ? thenable.then(noop, noop) : (thenable.status = "pending", thenable.then(
+              switch ("string" === typeof thenable.status ? thenable.then(noop2, noop2) : (thenable.status = "pending", thenable.then(
                 function(fulfilledValue) {
                   "pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
                 },
@@ -324,13 +322,13 @@
             var childKey = "" === nameSoFar ? "." + getElementKey(invokeCallback, 0) : nameSoFar;
             isArrayImpl(callback) ? (escapedPrefix = "", null != childKey && (escapedPrefix = childKey.replace(userProvidedKeyEscapeRegex, "$&/") + "/"), mapIntoArray(callback, array, escapedPrefix, "", function(c) {
               return c;
-            })) : null != callback && (isValidElement(callback) && (null != callback.key && (invokeCallback && invokeCallback.key === callback.key || checkKeyStringCoercion(callback.key)), escapedPrefix = cloneAndReplaceKey(
+            })) : null != callback && (isValidElement2(callback) && (null != callback.key && (invokeCallback && invokeCallback.key === callback.key || checkKeyStringCoercion(callback.key)), escapedPrefix = cloneAndReplaceKey(
               callback,
               escapedPrefix + (null == callback.key || invokeCallback && invokeCallback.key === callback.key ? "" : ("" + callback.key).replace(
                 userProvidedKeyEscapeRegex,
                 "$&/"
               ) + "/") + childKey
-            ), "" !== nameSoFar && null != invokeCallback && isValidElement(invokeCallback) && null == invokeCallback.key && invokeCallback._store && !invokeCallback._store.validated && (escapedPrefix._store.validated = 2), callback = escapedPrefix), array.push(callback));
+            ), "" !== nameSoFar && null != invokeCallback && isValidElement2(invokeCallback) && null == invokeCallback.key && invokeCallback._store && !invokeCallback._store.validated && (escapedPrefix._store.validated = 2), callback = escapedPrefix), array.push(callback));
             return 1;
           }
           invokeCallback = 0;
@@ -522,15 +520,15 @@
           }
         }, assign = Object.assign, emptyObject = {};
         Object.freeze(emptyObject);
-        Component.prototype.isReactComponent = {};
-        Component.prototype.setState = function(partialState, callback) {
+        Component3.prototype.isReactComponent = {};
+        Component3.prototype.setState = function(partialState, callback) {
           if ("object" !== typeof partialState && "function" !== typeof partialState && null != partialState)
             throw Error(
               "takes an object of state variables to update or a function which returns an object of state variables."
             );
           this.updater.enqueueSetState(this, partialState, callback, "setState");
         };
-        Component.prototype.forceUpdate = function(callback) {
+        Component3.prototype.forceUpdate = function(callback) {
           this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
         };
         var deprecatedAPIs = {
@@ -545,10 +543,10 @@
         };
         for (fnName in deprecatedAPIs)
           deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
-        ComponentDummy.prototype = Component.prototype;
+        ComponentDummy.prototype = Component3.prototype;
         deprecatedAPIs = PureComponent.prototype = new ComponentDummy();
         deprecatedAPIs.constructor = PureComponent;
-        assign(deprecatedAPIs, Component.prototype);
+        assign(deprecatedAPIs, Component3.prototype);
         deprecatedAPIs.isPureReactComponent = true;
         var isArrayImpl = Array.isArray, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = {
           H: null,
@@ -627,7 +625,7 @@
             }) || [];
           },
           only: function(children) {
-            if (!isValidElement(children))
+            if (!isValidElement2(children))
               throw Error(
                 "React.Children.only expected to receive a single React element child."
               );
@@ -636,7 +634,7 @@
         };
         exports.Activity = REACT_ACTIVITY_TYPE;
         exports.Children = fnName;
-        exports.Component = Component;
+        exports.Component = Component3;
         exports.Fragment = REACT_FRAGMENT_TYPE;
         exports.Profiler = REACT_PROFILER_TYPE;
         exports.PureComponent = PureComponent;
@@ -861,7 +859,7 @@
           });
           return elementType;
         };
-        exports.isValidElement = isValidElement;
+        exports.isValidElement = isValidElement2;
         exports.lazy = function(ctor) {
           ctor = { _status: -1, _result: ctor };
           var lazyType = {
@@ -912,7 +910,7 @@
           try {
             var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
             null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop, reportGlobalError));
+            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop2, reportGlobalError));
           } catch (error) {
             reportGlobalError(error);
           } finally {
@@ -1018,6 +1016,275 @@
         module.exports = null;
       } else {
         module.exports = require_react_development();
+      }
+    }
+  });
+
+  // node_modules/react/cjs/react-jsx-runtime.development.js
+  var require_react_jsx_runtime_development = __commonJS({
+    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+      "use strict";
+      (function() {
+        function getComponentNameFromType(type) {
+          if (null == type) return null;
+          if ("function" === typeof type)
+            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
+          if ("string" === typeof type) return type;
+          switch (type) {
+            case REACT_FRAGMENT_TYPE:
+              return "Fragment";
+            case REACT_PROFILER_TYPE:
+              return "Profiler";
+            case REACT_STRICT_MODE_TYPE:
+              return "StrictMode";
+            case REACT_SUSPENSE_TYPE:
+              return "Suspense";
+            case REACT_SUSPENSE_LIST_TYPE:
+              return "SuspenseList";
+            case REACT_ACTIVITY_TYPE:
+              return "Activity";
+          }
+          if ("object" === typeof type)
+            switch ("number" === typeof type.tag && console.error(
+              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
+            ), type.$$typeof) {
+              case REACT_PORTAL_TYPE:
+                return "Portal";
+              case REACT_CONTEXT_TYPE:
+                return type.displayName || "Context";
+              case REACT_CONSUMER_TYPE:
+                return (type._context.displayName || "Context") + ".Consumer";
+              case REACT_FORWARD_REF_TYPE:
+                var innerType = type.render;
+                type = type.displayName;
+                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
+                return type;
+              case REACT_MEMO_TYPE:
+                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
+              case REACT_LAZY_TYPE:
+                innerType = type._payload;
+                type = type._init;
+                try {
+                  return getComponentNameFromType(type(innerType));
+                } catch (x) {
+                }
+            }
+          return null;
+        }
+        function testStringCoercion(value) {
+          return "" + value;
+        }
+        function checkKeyStringCoercion(value) {
+          try {
+            testStringCoercion(value);
+            var JSCompiler_inline_result = false;
+          } catch (e) {
+            JSCompiler_inline_result = true;
+          }
+          if (JSCompiler_inline_result) {
+            JSCompiler_inline_result = console;
+            var JSCompiler_temp_const = JSCompiler_inline_result.error;
+            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+            JSCompiler_temp_const.call(
+              JSCompiler_inline_result,
+              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
+              JSCompiler_inline_result$jscomp$0
+            );
+            return testStringCoercion(value);
+          }
+        }
+        function getTaskName(type) {
+          if (type === REACT_FRAGMENT_TYPE) return "<>";
+          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
+            return "<...>";
+          try {
+            var name = getComponentNameFromType(type);
+            return name ? "<" + name + ">" : "<...>";
+          } catch (x) {
+            return "<...>";
+          }
+        }
+        function getOwner() {
+          var dispatcher = ReactSharedInternals.A;
+          return null === dispatcher ? null : dispatcher.getOwner();
+        }
+        function UnknownOwner() {
+          return Error("react-stack-top-frame");
+        }
+        function hasValidKey(config) {
+          if (hasOwnProperty.call(config, "key")) {
+            var getter = Object.getOwnPropertyDescriptor(config, "key").get;
+            if (getter && getter.isReactWarning) return false;
+          }
+          return void 0 !== config.key;
+        }
+        function defineKeyPropWarningGetter(props, displayName) {
+          function warnAboutAccessingKey() {
+            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
+              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
+              displayName
+            ));
+          }
+          warnAboutAccessingKey.isReactWarning = true;
+          Object.defineProperty(props, "key", {
+            get: warnAboutAccessingKey,
+            configurable: true
+          });
+        }
+        function elementRefGetterWithDeprecationWarning() {
+          var componentName = getComponentNameFromType(this.type);
+          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
+            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
+          ));
+          componentName = this.props.ref;
+          return void 0 !== componentName ? componentName : null;
+        }
+        function ReactElement(type, key, props, owner, debugStack, debugTask) {
+          var refProp = props.ref;
+          type = {
+            $$typeof: REACT_ELEMENT_TYPE,
+            type,
+            key,
+            props,
+            _owner: owner
+          };
+          null !== (void 0 !== refProp ? refProp : null) ? Object.defineProperty(type, "ref", {
+            enumerable: false,
+            get: elementRefGetterWithDeprecationWarning
+          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
+          type._store = {};
+          Object.defineProperty(type._store, "validated", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: 0
+          });
+          Object.defineProperty(type, "_debugInfo", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: null
+          });
+          Object.defineProperty(type, "_debugStack", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugStack
+          });
+          Object.defineProperty(type, "_debugTask", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugTask
+          });
+          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
+          return type;
+        }
+        function jsxDEVImpl(type, config, maybeKey, isStaticChildren, debugStack, debugTask) {
+          var children = config.children;
+          if (void 0 !== children)
+            if (isStaticChildren)
+              if (isArrayImpl(children)) {
+                for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++)
+                  validateChildKeys(children[isStaticChildren]);
+                Object.freeze && Object.freeze(children);
+              } else
+                console.error(
+                  "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
+                );
+            else validateChildKeys(children);
+          if (hasOwnProperty.call(config, "key")) {
+            children = getComponentNameFromType(type);
+            var keys = Object.keys(config).filter(function(k) {
+              return "key" !== k;
+            });
+            isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
+            didWarnAboutKeySpread[children + isStaticChildren] || (keys = 0 < keys.length ? "{" + keys.join(": ..., ") + ": ...}" : "{}", console.error(
+              'A props object containing a "key" prop is being spread into JSX:\n  let props = %s;\n  <%s {...props} />\nReact keys must be passed directly to JSX without using spread:\n  let props = %s;\n  <%s key={someKey} {...props} />',
+              isStaticChildren,
+              children,
+              keys,
+              children
+            ), didWarnAboutKeySpread[children + isStaticChildren] = true);
+          }
+          children = null;
+          void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
+          hasValidKey(config) && (checkKeyStringCoercion(config.key), children = "" + config.key);
+          if ("key" in config) {
+            maybeKey = {};
+            for (var propName in config)
+              "key" !== propName && (maybeKey[propName] = config[propName]);
+          } else maybeKey = config;
+          children && defineKeyPropWarningGetter(
+            maybeKey,
+            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
+          );
+          return ReactElement(
+            type,
+            children,
+            maybeKey,
+            getOwner(),
+            debugStack,
+            debugTask
+          );
+        }
+        function validateChildKeys(node) {
+          isValidElement2(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node._payload.status ? isValidElement2(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
+        }
+        function isValidElement2(object) {
+          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+        }
+        var React5 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React5.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+          return null;
+        };
+        React5 = {
+          react_stack_bottom_frame: function(callStackForError) {
+            return callStackForError();
+          }
+        };
+        var specialPropKeyWarningShown;
+        var didWarnAboutElementRef = {};
+        var unknownOwnerDebugStack = React5.react_stack_bottom_frame.bind(
+          React5,
+          UnknownOwner
+        )();
+        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
+        var didWarnAboutKeySpread = {};
+        exports.Fragment = REACT_FRAGMENT_TYPE;
+        exports.jsx = function(type, config, maybeKey) {
+          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return jsxDEVImpl(
+            type,
+            config,
+            maybeKey,
+            false,
+            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+        exports.jsxs = function(type, config, maybeKey) {
+          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return jsxDEVImpl(
+            type,
+            config,
+            maybeKey,
+            true,
+            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+      })();
+    }
+  });
+
+  // node_modules/react/jsx-runtime.js
+  var require_jsx_runtime = __commonJS({
+    "node_modules/react/jsx-runtime.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_jsx_runtime_development();
       }
     }
   });
@@ -1298,7 +1565,7 @@
     "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
       "use strict";
       (function() {
-        function noop() {
+        function noop2() {
         }
         function testStringCoercion(value) {
           return "" + value;
@@ -1342,34 +1609,34 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React = require_react(), Internals = {
+        var React5 = require_react(), Internals = {
           d: {
-            f: noop,
+            f: noop2,
             r: function() {
               throw Error(
                 "Invalid form element. requestFormReset must be passed a form that was rendered by React."
               );
             },
-            D: noop,
-            C: noop,
-            L: noop,
-            m: noop,
-            X: noop,
-            S: noop,
-            M: noop
+            D: noop2,
+            C: noop2,
+            L: noop2,
+            m: noop2,
+            X: noop2,
+            S: noop2,
+            M: noop2
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React5.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
         exports.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = Internals;
-        exports.createPortal = function(children, container) {
+        exports.createPortal = function(children, container2) {
           var key = 2 < arguments.length && void 0 !== arguments[2] ? arguments[2] : null;
-          if (!container || 1 !== container.nodeType && 9 !== container.nodeType && 11 !== container.nodeType)
+          if (!container2 || 1 !== container2.nodeType && 9 !== container2.nodeType && 11 !== container2.nodeType)
             throw Error("Target container is not a DOM element.");
-          return createPortal$1(children, container, null, key);
+          return createPortal$1(children, container2, null, key);
         };
         exports.flushSync = function(fn) {
           var previousTransition = ReactSharedInternals.T, previousUpdatePriority = Internals.p;
@@ -1555,9 +1822,9 @@
     "node_modules/react-dom/cjs/react-dom-client.development.js"(exports) {
       "use strict";
       (function() {
-        function findHook(fiber, id) {
-          for (fiber = fiber.memoizedState; null !== fiber && 0 < id; )
-            fiber = fiber.next, id--;
+        function findHook(fiber, id3) {
+          for (fiber = fiber.memoizedState; null !== fiber && 0 < id3; )
+            fiber = fiber.next, id3--;
           return fiber;
         }
         function copyWithSetImpl(obj, path, index, value) {
@@ -1613,7 +1880,7 @@
             "Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo()."
           );
         }
-        function noop() {
+        function noop2() {
         }
         function warnForMissingKey() {
         }
@@ -2038,10 +2305,10 @@
         }
         function describeNativeComponentFrame(fn, construct) {
           if (!fn || reentry) return "";
-          var frame = componentFrameCache.get(fn);
-          if (void 0 !== frame) return frame;
+          var frame2 = componentFrameCache.get(fn);
+          if (void 0 !== frame2) return frame2;
           reentry = true;
-          frame = Error.prepareStackTrace;
+          frame2 = Error.prepareStackTrace;
           Error.prepareStackTrace = void 0;
           var previousDispatcher2 = null;
           previousDispatcher2 = ReactSharedInternals.H;
@@ -2134,7 +2401,7 @@
                 }
             }
           } finally {
-            reentry = false, ReactSharedInternals.H = previousDispatcher2, reenableLogs(), Error.prepareStackTrace = frame;
+            reentry = false, ReactSharedInternals.H = previousDispatcher2, reenableLogs(), Error.prepareStackTrace = frame2;
           }
           sampleLines = (sampleLines = fn ? fn.displayName || fn.name : "") ? describeBuiltInComponentFrame(sampleLines) : "";
           "function" === typeof fn && componentFrameCache.set(fn, sampleLines);
@@ -2895,7 +3162,7 @@
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React5.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -4571,7 +4838,7 @@
         }
         function logRenderPhase(startTime, endTime, lanes, debugTask) {
           if (supportsUserTiming && !(endTime <= startTime)) {
-            var color = (lanes & 738197653) === lanes ? "tertiary-dark" : "primary-dark";
+            var color2 = (lanes & 738197653) === lanes ? "tertiary-dark" : "primary-dark";
             lanes = (lanes & 536870912) === lanes ? "Prepared" : (lanes & 201326741) === lanes ? "Hydrated" : "Render";
             debugTask ? debugTask.run(
               console.timeStamp.bind(
@@ -4581,7 +4848,7 @@
                 endTime,
                 currentTrack,
                 LANES_TRACK_GROUP,
-                color
+                color2
               )
             ) : console.timeStamp(
               lanes,
@@ -4589,7 +4856,7 @@
               endTime,
               currentTrack,
               LANES_TRACK_GROUP,
-              color
+              color2
             );
           }
         }
@@ -4895,9 +5162,9 @@
           this._debugHookTypes = null;
           hasBadMapPolyfill || "function" !== typeof Object.preventExtensions || Object.preventExtensions(this);
         }
-        function shouldConstruct(Component) {
-          Component = Component.prototype;
-          return !(!Component || !Component.isReactComponent);
+        function shouldConstruct(Component3) {
+          Component3 = Component3.prototype;
+          return !(!Component3 || !Component3.isReactComponent);
         }
         function createWorkInProgress(current2, pendingProps) {
           var workInProgress2 = current2.alternate;
@@ -5541,8 +5808,8 @@
         }
         function startUpdateTimerByLane(lane, method, fiber) {
           if (0 !== (lane & 127))
-            0 > blockingUpdateTime && (blockingUpdateTime = now(), blockingUpdateTask = createTask(method), blockingUpdateMethodName = method, null != fiber && (blockingUpdateComponentName = getComponentNameFromFiber(fiber)), (executionContext & (RenderContext | CommitContext)) !== NoContext && (componentEffectSpawnedUpdate = true, blockingUpdateType = SPAWNED_UPDATE), lane = resolveEventTimeStamp(), method = resolveEventType(), lane !== blockingEventRepeatTime || method !== blockingEventType ? blockingEventRepeatTime = -1.1 : null !== method && (blockingUpdateType = SPAWNED_UPDATE), blockingEventTime = lane, blockingEventType = method);
-          else if (0 !== (lane & 4194048) && 0 > transitionUpdateTime && (transitionUpdateTime = now(), transitionUpdateTask = createTask(method), transitionUpdateMethodName = method, null != fiber && (transitionUpdateComponentName = getComponentNameFromFiber(fiber)), 0 > transitionStartTime)) {
+            0 > blockingUpdateTime && (blockingUpdateTime = now2(), blockingUpdateTask = createTask(method), blockingUpdateMethodName = method, null != fiber && (blockingUpdateComponentName = getComponentNameFromFiber(fiber)), (executionContext & (RenderContext | CommitContext)) !== NoContext && (componentEffectSpawnedUpdate = true, blockingUpdateType = SPAWNED_UPDATE), lane = resolveEventTimeStamp(), method = resolveEventType(), lane !== blockingEventRepeatTime || method !== blockingEventType ? blockingEventRepeatTime = -1.1 : null !== method && (blockingUpdateType = SPAWNED_UPDATE), blockingEventTime = lane, blockingEventType = method);
+          else if (0 !== (lane & 4194048) && 0 > transitionUpdateTime && (transitionUpdateTime = now2(), transitionUpdateTask = createTask(method), transitionUpdateMethodName = method, null != fiber && (transitionUpdateComponentName = getComponentNameFromFiber(fiber)), 0 > transitionStartTime)) {
             lane = resolveEventTimeStamp();
             method = resolveEventType();
             if (lane !== transitionEventRepeatTime || method !== transitionEventType)
@@ -5553,7 +5820,7 @@
         }
         function startHostActionTimer(fiber) {
           if (0 > blockingUpdateTime) {
-            blockingUpdateTime = now();
+            blockingUpdateTime = now2();
             blockingUpdateTask = null != fiber._debugTask ? fiber._debugTask : null;
             (executionContext & (RenderContext | CommitContext)) !== NoContext && (blockingUpdateType = SPAWNED_UPDATE);
             var newEventTime = resolveEventTimeStamp(), newEventType = resolveEventType();
@@ -5561,7 +5828,7 @@
             blockingEventTime = newEventTime;
             blockingEventType = newEventType;
           }
-          if (0 > transitionUpdateTime && (transitionUpdateTime = now(), transitionUpdateTask = null != fiber._debugTask ? fiber._debugTask : null, 0 > transitionStartTime)) {
+          if (0 > transitionUpdateTime && (transitionUpdateTime = now2(), transitionUpdateTask = null != fiber._debugTask ? fiber._debugTask : null, 0 > transitionStartTime)) {
             fiber = resolveEventTimeStamp();
             newEventTime = resolveEventType();
             if (fiber !== transitionEventRepeatTime || newEventTime !== transitionEventType)
@@ -5615,12 +5882,12 @@
           return prev;
         }
         function startProfilerTimer(fiber) {
-          profilerStartTime = now();
+          profilerStartTime = now2();
           0 > fiber.actualStartTime && (fiber.actualStartTime = profilerStartTime);
         }
         function stopProfilerTimerIfRunningAndRecordDuration(fiber) {
           if (0 <= profilerStartTime) {
-            var elapsedTime = now() - profilerStartTime;
+            var elapsedTime = now2() - profilerStartTime;
             fiber.actualDuration += elapsedTime;
             fiber.selfBaseDuration = elapsedTime;
             profilerStartTime = -1;
@@ -5628,14 +5895,14 @@
         }
         function stopProfilerTimerIfRunningAndRecordIncompleteDuration(fiber) {
           if (0 <= profilerStartTime) {
-            var elapsedTime = now() - profilerStartTime;
+            var elapsedTime = now2() - profilerStartTime;
             fiber.actualDuration += elapsedTime;
             profilerStartTime = -1;
           }
         }
         function recordEffectDuration() {
           if (0 <= profilerStartTime) {
-            var endTime = now(), elapsedTime = endTime - profilerStartTime;
+            var endTime = now2(), elapsedTime = endTime - profilerStartTime;
             profilerStartTime = -1;
             profilerEffectDuration += elapsedTime;
             componentEffectDuration += elapsedTime;
@@ -5649,7 +5916,7 @@
           commitErrors.push(errorInfo);
         }
         function startEffectTimer() {
-          profilerStartTime = now();
+          profilerStartTime = now2();
           0 > componentEffectStartTime && (componentEffectStartTime = profilerStartTime);
         }
         function transferActualDuration(fiber) {
@@ -6906,13 +7173,13 @@
             if (!objectIs(nextDeps[i], prevDeps[i])) return false;
           return true;
         }
-        function renderWithHooks(current2, workInProgress2, Component, props, secondArg, nextRenderLanes) {
+        function renderWithHooks(current2, workInProgress2, Component3, props, secondArg, nextRenderLanes) {
           renderLanes = nextRenderLanes;
           currentlyRenderingFiber = workInProgress2;
           hookTypesDev = null !== current2 ? current2._debugHookTypes : null;
           hookTypesUpdateIndexDev = -1;
           ignorePreviousDependencies = null !== current2 && current2.type !== workInProgress2.type;
-          if ("[object AsyncFunction]" === Object.prototype.toString.call(Component) || "[object AsyncGeneratorFunction]" === Object.prototype.toString.call(Component))
+          if ("[object AsyncFunction]" === Object.prototype.toString.call(Component3) || "[object AsyncGeneratorFunction]" === Object.prototype.toString.call(Component3))
             nextRenderLanes = getComponentNameFromFiber(currentlyRenderingFiber), didWarnAboutAsyncClientComponent.has(nextRenderLanes) || (didWarnAboutAsyncClientComponent.add(nextRenderLanes), console.error(
               "%s is an async Client Component. Only Server Components can be async at the moment. This error is often caused by accidentally adding `'use client'` to a module that was originally written for the server.",
               null === nextRenderLanes ? "An unknown Component" : "<" + nextRenderLanes + ">"
@@ -6922,11 +7189,11 @@
           workInProgress2.lanes = 0;
           ReactSharedInternals.H = null !== current2 && null !== current2.memoizedState ? HooksDispatcherOnUpdateInDEV : null !== hookTypesDev ? HooksDispatcherOnMountWithHookTypesInDEV : HooksDispatcherOnMountInDEV;
           shouldDoubleInvokeUserFnsInHooksDEV = nextRenderLanes = (workInProgress2.mode & StrictLegacyMode) !== NoMode;
-          var children = callComponentInDEV(Component, props, secondArg);
+          var children = callComponentInDEV(Component3, props, secondArg);
           shouldDoubleInvokeUserFnsInHooksDEV = false;
           didScheduleRenderPhaseUpdateDuringThisPass && (children = renderWithHooksAgain(
             workInProgress2,
-            Component,
+            Component3,
             props,
             secondArg
           ));
@@ -6935,7 +7202,7 @@
             try {
               children = renderWithHooksAgain(
                 workInProgress2,
-                Component,
+                Component3,
                 props,
                 secondArg
               );
@@ -6974,7 +7241,7 @@
             "`use` was called from inside a try/catch block. This is not allowed and can lead to unexpected behavior. To handle errors triggered by `use`, wrap your component in a error boundary."
           )));
         }
-        function renderWithHooksAgain(workInProgress2, Component, props, secondArg) {
+        function renderWithHooksAgain(workInProgress2, Component3, props, secondArg) {
           currentlyRenderingFiber = workInProgress2;
           var numberOfReRenders = 0;
           do {
@@ -6997,7 +7264,7 @@
             }
             hookTypesUpdateIndexDev = -1;
             ReactSharedInternals.H = HooksDispatcherOnRerenderInDEV;
-            children = callComponentInDEV(Component, props, secondArg);
+            children = callComponentInDEV(Component3, props, secondArg);
           } while (didScheduleRenderPhaseUpdateDuringThisPass);
           return children;
         }
@@ -7928,7 +8195,7 @@
             queue,
             pendingState,
             NotPendingTransition,
-            null === action ? noop : function() {
+            null === action ? noop2 : function() {
               requestFormReset$1(formFiber);
               return action(formData);
             }
@@ -8218,17 +8485,17 @@
             null
           ));
         }
-        function resolveClassComponentProps(Component, baseProps) {
+        function resolveClassComponentProps(Component3, baseProps) {
           var newProps = baseProps;
           if ("ref" in baseProps) {
             newProps = {};
             for (var propName in baseProps)
               "ref" !== propName && (newProps[propName] = baseProps[propName]);
           }
-          if (Component = Component.defaultProps) {
+          if (Component3 = Component3.defaultProps) {
             newProps === baseProps && (newProps = assign({}, newProps));
-            for (var _propName in Component)
-              void 0 === newProps[_propName] && (newProps[_propName] = Component[_propName]);
+            for (var _propName in Component3)
+              void 0 === newProps[_propName] && (newProps[_propName] = Component3[_propName]);
           }
           return newProps;
         }
@@ -8457,8 +8724,8 @@
             renderLanes2
           );
         }
-        function updateForwardRef(current2, workInProgress2, Component, nextProps, renderLanes2) {
-          Component = Component.render;
+        function updateForwardRef(current2, workInProgress2, Component3, nextProps, renderLanes2) {
+          Component3 = Component3.render;
           var ref = workInProgress2.ref;
           if ("ref" in nextProps) {
             var propsWithoutRef = {};
@@ -8469,7 +8736,7 @@
           nextProps = renderWithHooks(
             current2,
             workInProgress2,
-            Component,
+            Component3,
             propsWithoutRef,
             ref,
             renderLanes2
@@ -8482,19 +8749,19 @@
           reconcileChildren(current2, workInProgress2, nextProps, renderLanes2);
           return workInProgress2.child;
         }
-        function updateMemoComponent(current2, workInProgress2, Component, nextProps, renderLanes2) {
+        function updateMemoComponent(current2, workInProgress2, Component3, nextProps, renderLanes2) {
           if (null === current2) {
-            var type = Component.type;
-            if ("function" === typeof type && !shouldConstruct(type) && void 0 === type.defaultProps && null === Component.compare)
-              return Component = resolveFunctionForHotReloading(type), workInProgress2.tag = 15, workInProgress2.type = Component, validateFunctionComponentInDev(workInProgress2, type), updateSimpleMemoComponent(
+            var type = Component3.type;
+            if ("function" === typeof type && !shouldConstruct(type) && void 0 === type.defaultProps && null === Component3.compare)
+              return Component3 = resolveFunctionForHotReloading(type), workInProgress2.tag = 15, workInProgress2.type = Component3, validateFunctionComponentInDev(workInProgress2, type), updateSimpleMemoComponent(
                 current2,
                 workInProgress2,
-                Component,
+                Component3,
                 nextProps,
                 renderLanes2
               );
             current2 = createFiberFromTypeAndProps(
-              Component.type,
+              Component3.type,
               null,
               nextProps,
               workInProgress2,
@@ -8508,9 +8775,9 @@
           type = current2.child;
           if (!checkScheduledUpdateOrContext(current2, renderLanes2)) {
             var prevProps = type.memoizedProps;
-            Component = Component.compare;
-            Component = null !== Component ? Component : shallowEqual;
-            if (Component(prevProps, nextProps) && current2.ref === workInProgress2.ref)
+            Component3 = Component3.compare;
+            Component3 = null !== Component3 ? Component3 : shallowEqual;
+            if (Component3(prevProps, nextProps) && current2.ref === workInProgress2.ref)
               return bailoutOnAlreadyFinishedWork(
                 current2,
                 workInProgress2,
@@ -8523,7 +8790,7 @@
           current2.return = workInProgress2;
           return workInProgress2.child = current2;
         }
-        function updateSimpleMemoComponent(current2, workInProgress2, Component, nextProps, renderLanes2) {
+        function updateSimpleMemoComponent(current2, workInProgress2, Component3, nextProps, renderLanes2) {
           if (null !== current2) {
             var prevProps = current2.memoizedProps;
             if (shallowEqual(prevProps, nextProps) && current2.ref === workInProgress2.ref && workInProgress2.type === current2.type)
@@ -8535,7 +8802,7 @@
           return updateFunctionComponent(
             current2,
             workInProgress2,
-            Component,
+            Component3,
             nextProps,
             renderLanes2
           );
@@ -8725,9 +8992,9 @@
               workInProgress2.flags |= 4194816;
           }
         }
-        function updateFunctionComponent(current2, workInProgress2, Component, nextProps, renderLanes2) {
-          if (Component.prototype && "function" === typeof Component.prototype.render) {
-            var componentName2 = getComponentNameFromType(Component) || "Unknown";
+        function updateFunctionComponent(current2, workInProgress2, Component3, nextProps, renderLanes2) {
+          if (Component3.prototype && "function" === typeof Component3.prototype.render) {
+            var componentName2 = getComponentNameFromType(Component3) || "Unknown";
             didWarnAboutBadClass[componentName2] || (console.error(
               "The <%s /> component appears to have a render method, but doesn't extend React.Component. This is likely to cause errors. Change %s to extend React.Component instead.",
               componentName2,
@@ -8738,15 +9005,15 @@
             workInProgress2,
             null
           );
-          null === current2 && (validateFunctionComponentInDev(workInProgress2, workInProgress2.type), Component.contextTypes && (componentName2 = getComponentNameFromType(Component) || "Unknown", didWarnAboutContextTypes[componentName2] || (didWarnAboutContextTypes[componentName2] = true, console.error(
+          null === current2 && (validateFunctionComponentInDev(workInProgress2, workInProgress2.type), Component3.contextTypes && (componentName2 = getComponentNameFromType(Component3) || "Unknown", didWarnAboutContextTypes[componentName2] || (didWarnAboutContextTypes[componentName2] = true, console.error(
             "%s uses the legacy contextTypes API which was removed in React 19. Use React.createContext() with React.useContext() instead. (https://react.dev/link/legacy-context)",
             componentName2
           ))));
           prepareToReadContext(workInProgress2);
-          Component = renderWithHooks(
+          Component3 = renderWithHooks(
             current2,
             workInProgress2,
-            Component,
+            Component3,
             nextProps,
             void 0,
             renderLanes2
@@ -8756,30 +9023,30 @@
             return bailoutHooks(current2, workInProgress2, renderLanes2), bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
           isHydrating && nextProps && pushMaterializedTreeId(workInProgress2);
           workInProgress2.flags |= 1;
-          reconcileChildren(current2, workInProgress2, Component, renderLanes2);
+          reconcileChildren(current2, workInProgress2, Component3, renderLanes2);
           return workInProgress2.child;
         }
-        function replayFunctionComponent(current2, workInProgress2, nextProps, Component, secondArg, renderLanes2) {
+        function replayFunctionComponent(current2, workInProgress2, nextProps, Component3, secondArg, renderLanes2) {
           prepareToReadContext(workInProgress2);
           hookTypesUpdateIndexDev = -1;
           ignorePreviousDependencies = null !== current2 && current2.type !== workInProgress2.type;
           workInProgress2.updateQueue = null;
           nextProps = renderWithHooksAgain(
             workInProgress2,
-            Component,
+            Component3,
             nextProps,
             secondArg
           );
           finishRenderingHooks(current2, workInProgress2);
-          Component = checkDidRenderIdHook();
+          Component3 = checkDidRenderIdHook();
           if (null !== current2 && !didReceiveUpdate)
             return bailoutHooks(current2, workInProgress2, renderLanes2), bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
-          isHydrating && Component && pushMaterializedTreeId(workInProgress2);
+          isHydrating && Component3 && pushMaterializedTreeId(workInProgress2);
           workInProgress2.flags |= 1;
           reconcileChildren(current2, workInProgress2, nextProps, renderLanes2);
           return workInProgress2.child;
         }
-        function updateClassComponent(current2, workInProgress2, Component, nextProps, renderLanes2) {
+        function updateClassComponent(current2, workInProgress2, Component3, nextProps, renderLanes2) {
           switch (shouldErrorImpl(workInProgress2)) {
             case false:
               var _instance = workInProgress2.stateNode, state = new workInProgress2.type(
@@ -8811,18 +9078,18 @@
           prepareToReadContext(workInProgress2);
           if (null === workInProgress2.stateNode) {
             state = emptyContextObject;
-            _instance = Component.contextType;
-            "contextType" in Component && null !== _instance && (void 0 === _instance || _instance.$$typeof !== REACT_CONTEXT_TYPE) && !didWarnAboutInvalidateContextType.has(Component) && (didWarnAboutInvalidateContextType.add(Component), lane = void 0 === _instance ? " However, it is set to undefined. This can be caused by a typo or by mixing up named and default imports. This can also happen due to a circular dependency, so try moving the createContext() call to a separate file." : "object" !== typeof _instance ? " However, it is set to a " + typeof _instance + "." : _instance.$$typeof === REACT_CONSUMER_TYPE ? " Did you accidentally pass the Context.Consumer instead?" : " However, it is set to an object with keys {" + Object.keys(_instance).join(", ") + "}.", console.error(
+            _instance = Component3.contextType;
+            "contextType" in Component3 && null !== _instance && (void 0 === _instance || _instance.$$typeof !== REACT_CONTEXT_TYPE) && !didWarnAboutInvalidateContextType.has(Component3) && (didWarnAboutInvalidateContextType.add(Component3), lane = void 0 === _instance ? " However, it is set to undefined. This can be caused by a typo or by mixing up named and default imports. This can also happen due to a circular dependency, so try moving the createContext() call to a separate file." : "object" !== typeof _instance ? " However, it is set to a " + typeof _instance + "." : _instance.$$typeof === REACT_CONSUMER_TYPE ? " Did you accidentally pass the Context.Consumer instead?" : " However, it is set to an object with keys {" + Object.keys(_instance).join(", ") + "}.", console.error(
               "%s defines an invalid contextType. contextType should point to the Context object returned by React.createContext().%s",
-              getComponentNameFromType(Component) || "Component",
+              getComponentNameFromType(Component3) || "Component",
               lane
             ));
             "object" === typeof _instance && null !== _instance && (state = readContext(_instance));
-            _instance = new Component(nextProps, state);
+            _instance = new Component3(nextProps, state);
             if (workInProgress2.mode & StrictLegacyMode) {
               setIsStrictModeForDevtools(true);
               try {
-                _instance = new Component(nextProps, state);
+                _instance = new Component3(nextProps, state);
               } finally {
                 setIsStrictModeForDevtools(false);
               }
@@ -8832,20 +9099,20 @@
             workInProgress2.stateNode = _instance;
             _instance._reactInternals = workInProgress2;
             _instance._reactInternalInstance = fakeInternalInstance;
-            "function" === typeof Component.getDerivedStateFromProps && null === state && (state = getComponentNameFromType(Component) || "Component", didWarnAboutUninitializedState.has(state) || (didWarnAboutUninitializedState.add(state), console.error(
+            "function" === typeof Component3.getDerivedStateFromProps && null === state && (state = getComponentNameFromType(Component3) || "Component", didWarnAboutUninitializedState.has(state) || (didWarnAboutUninitializedState.add(state), console.error(
               "`%s` uses `getDerivedStateFromProps` but its initial state is %s. This is not recommended. Instead, define the initial state by assigning an object to `this.state` in the constructor of `%s`. This ensures that `getDerivedStateFromProps` arguments have a consistent shape.",
               state,
               null === _instance.state ? "null" : "undefined",
               state
             )));
-            if ("function" === typeof Component.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate) {
+            if ("function" === typeof Component3.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate) {
               var foundWillUpdateName = lane = state = null;
               "function" === typeof _instance.componentWillMount && true !== _instance.componentWillMount.__suppressDeprecationWarning ? state = "componentWillMount" : "function" === typeof _instance.UNSAFE_componentWillMount && (state = "UNSAFE_componentWillMount");
               "function" === typeof _instance.componentWillReceiveProps && true !== _instance.componentWillReceiveProps.__suppressDeprecationWarning ? lane = "componentWillReceiveProps" : "function" === typeof _instance.UNSAFE_componentWillReceiveProps && (lane = "UNSAFE_componentWillReceiveProps");
               "function" === typeof _instance.componentWillUpdate && true !== _instance.componentWillUpdate.__suppressDeprecationWarning ? foundWillUpdateName = "componentWillUpdate" : "function" === typeof _instance.UNSAFE_componentWillUpdate && (foundWillUpdateName = "UNSAFE_componentWillUpdate");
               if (null !== state || null !== lane || null !== foundWillUpdateName) {
-                _instance = getComponentNameFromType(Component) || "Component";
-                var newApiName = "function" === typeof Component.getDerivedStateFromProps ? "getDerivedStateFromProps()" : "getSnapshotBeforeUpdate()";
+                _instance = getComponentNameFromType(Component3) || "Component";
+                var newApiName = "function" === typeof Component3.getDerivedStateFromProps ? "getDerivedStateFromProps()" : "getSnapshotBeforeUpdate()";
                 didWarnAboutLegacyLifecyclesAndDerivedState.has(_instance) || (didWarnAboutLegacyLifecyclesAndDerivedState.add(_instance), console.error(
                   "Unsafe legacy lifecycles will not be called for components using new component APIs.\n\n%s uses %s but also contains the following legacy lifecycles:%s%s%s\n\nThe above lifecycles should be removed. Learn more about this warning here:\nhttps://react.dev/link/unsafe-component-lifecycles",
                   _instance,
@@ -8857,8 +9124,8 @@
               }
             }
             _instance = workInProgress2.stateNode;
-            state = getComponentNameFromType(Component) || "Component";
-            _instance.render || (Component.prototype && "function" === typeof Component.prototype.render ? console.error(
+            state = getComponentNameFromType(Component3) || "Component";
+            _instance.render || (Component3.prototype && "function" === typeof Component3.prototype.render ? console.error(
               "No `render` method found on the %s instance: did you accidentally return an object from the constructor?",
               state
             ) : console.error(
@@ -8877,11 +9144,11 @@
               "contextType was defined as an instance property on %s. Use a static property to define contextType instead.",
               state
             );
-            Component.childContextTypes && !didWarnAboutChildContextTypes.has(Component) && (didWarnAboutChildContextTypes.add(Component), console.error(
+            Component3.childContextTypes && !didWarnAboutChildContextTypes.has(Component3) && (didWarnAboutChildContextTypes.add(Component3), console.error(
               "%s uses the legacy childContextTypes API which was removed in React 19. Use React.createContext() instead. (https://react.dev/link/legacy-context)",
               state
             ));
-            Component.contextTypes && !didWarnAboutContextTypes$1.has(Component) && (didWarnAboutContextTypes$1.add(Component), console.error(
+            Component3.contextTypes && !didWarnAboutContextTypes$1.has(Component3) && (didWarnAboutContextTypes$1.add(Component3), console.error(
               "%s uses the legacy contextTypes API which was removed in React 19. Use React.createContext() with static contextType instead. (https://react.dev/link/legacy-context)",
               state
             ));
@@ -8889,9 +9156,9 @@
               "%s has a method called componentShouldUpdate(). Did you mean shouldComponentUpdate()? The name is phrased as a question because the function is expected to return a value.",
               state
             );
-            Component.prototype && Component.prototype.isPureReactComponent && "undefined" !== typeof _instance.shouldComponentUpdate && console.error(
+            Component3.prototype && Component3.prototype.isPureReactComponent && "undefined" !== typeof _instance.shouldComponentUpdate && console.error(
               "%s has a method called shouldComponentUpdate(). shouldComponentUpdate should not be used when extending React.PureComponent. Please extend React.Component if shouldComponentUpdate is used.",
-              getComponentNameFromType(Component) || "A pure component"
+              getComponentNameFromType(Component3) || "A pure component"
             );
             "function" === typeof _instance.componentDidUnmount && console.error(
               "%s has a method called componentDidUnmount(). But there is no such lifecycle method. Did you mean componentWillUnmount()?",
@@ -8919,9 +9186,9 @@
               state,
               state
             );
-            "function" !== typeof _instance.getSnapshotBeforeUpdate || "function" === typeof _instance.componentDidUpdate || didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.has(Component) || (didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.add(Component), console.error(
+            "function" !== typeof _instance.getSnapshotBeforeUpdate || "function" === typeof _instance.componentDidUpdate || didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.has(Component3) || (didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.add(Component3), console.error(
               "%s: getSnapshotBeforeUpdate() should be used with componentDidUpdate(). This component defines getSnapshotBeforeUpdate() only.",
-              getComponentNameFromType(Component)
+              getComponentNameFromType(Component3)
             ));
             "function" === typeof _instance.getDerivedStateFromProps && console.error(
               "%s: getDerivedStateFromProps() is defined as an instance method and will be ignored. Instead, declare it as a static method.",
@@ -8931,12 +9198,12 @@
               "%s: getDerivedStateFromError() is defined as an instance method and will be ignored. Instead, declare it as a static method.",
               state
             );
-            "function" === typeof Component.getSnapshotBeforeUpdate && console.error(
+            "function" === typeof Component3.getSnapshotBeforeUpdate && console.error(
               "%s: getSnapshotBeforeUpdate() is defined as a static method and will be ignored. Instead, declare it as an instance method.",
               state
             );
             (lane = _instance.state) && ("object" !== typeof lane || isArrayImpl(lane)) && console.error("%s.state: must be set to an object or null", state);
-            "function" === typeof _instance.getChildContext && "object" !== typeof Component.childContextTypes && console.error(
+            "function" === typeof _instance.getChildContext && "object" !== typeof Component3.childContextTypes && console.error(
               "%s.getChildContext(): childContextTypes must be defined in order to use getChildContext().",
               state
             );
@@ -8945,9 +9212,9 @@
             _instance.state = workInProgress2.memoizedState;
             _instance.refs = {};
             initializeUpdateQueue(workInProgress2);
-            state = Component.contextType;
+            state = Component3.contextType;
             _instance.context = "object" === typeof state && null !== state ? readContext(state) : emptyContextObject;
-            _instance.state === nextProps && (state = getComponentNameFromType(Component) || "Component", didWarnAboutDirectlyAssigningPropsToState.has(state) || (didWarnAboutDirectlyAssigningPropsToState.add(state), console.error(
+            _instance.state === nextProps && (state = getComponentNameFromType(Component3) || "Component", didWarnAboutDirectlyAssigningPropsToState.has(state) || (didWarnAboutDirectlyAssigningPropsToState.add(state), console.error(
               "%s: It is not recommended to assign props directly to state because updates to props won't be reflected in state. In most cases, it is better to use props directly.",
               state
             )));
@@ -8960,14 +9227,14 @@
               _instance
             );
             _instance.state = workInProgress2.memoizedState;
-            state = Component.getDerivedStateFromProps;
+            state = Component3.getDerivedStateFromProps;
             "function" === typeof state && (applyDerivedStateFromProps(
               workInProgress2,
-              Component,
+              Component3,
               state,
               nextProps
             ), _instance.state = workInProgress2.memoizedState);
-            "function" === typeof Component.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate || "function" !== typeof _instance.UNSAFE_componentWillMount && "function" !== typeof _instance.componentWillMount || (state = _instance.state, "function" === typeof _instance.componentWillMount && _instance.componentWillMount(), "function" === typeof _instance.UNSAFE_componentWillMount && _instance.UNSAFE_componentWillMount(), state !== _instance.state && (console.error(
+            "function" === typeof Component3.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate || "function" !== typeof _instance.UNSAFE_componentWillMount && "function" !== typeof _instance.componentWillMount || (state = _instance.state, "function" === typeof _instance.componentWillMount && _instance.componentWillMount(), "function" === typeof _instance.UNSAFE_componentWillMount && _instance.UNSAFE_componentWillMount(), state !== _instance.state && (console.error(
               "%s.componentWillMount(): Assigning directly to this.state is deprecated (except inside a component's constructor). Use setState instead.",
               getComponentNameFromFiber(workInProgress2) || "Component"
             ), classComponentUpdater.enqueueReplaceState(
@@ -8981,13 +9248,13 @@
           } else if (null === current2) {
             _instance = workInProgress2.stateNode;
             var unresolvedOldProps = workInProgress2.memoizedProps;
-            lane = resolveClassComponentProps(Component, unresolvedOldProps);
+            lane = resolveClassComponentProps(Component3, unresolvedOldProps);
             _instance.props = lane;
             var oldContext = _instance.context;
-            foundWillUpdateName = Component.contextType;
+            foundWillUpdateName = Component3.contextType;
             state = emptyContextObject;
             "object" === typeof foundWillUpdateName && null !== foundWillUpdateName && (state = readContext(foundWillUpdateName));
-            newApiName = Component.getDerivedStateFromProps;
+            newApiName = Component3.getDerivedStateFromProps;
             foundWillUpdateName = "function" === typeof newApiName || "function" === typeof _instance.getSnapshotBeforeUpdate;
             unresolvedOldProps = workInProgress2.pendingProps !== unresolvedOldProps;
             foundWillUpdateName || "function" !== typeof _instance.UNSAFE_componentWillReceiveProps && "function" !== typeof _instance.componentWillReceiveProps || (unresolvedOldProps || oldContext !== state) && callComponentWillReceiveProps(
@@ -9004,12 +9271,12 @@
             oldContext = workInProgress2.memoizedState;
             unresolvedOldProps || oldState !== oldContext || hasForceUpdate ? ("function" === typeof newApiName && (applyDerivedStateFromProps(
               workInProgress2,
-              Component,
+              Component3,
               newApiName,
               nextProps
             ), oldContext = workInProgress2.memoizedState), (lane = hasForceUpdate || checkShouldComponentUpdate(
               workInProgress2,
-              Component,
+              Component3,
               lane,
               nextProps,
               oldState,
@@ -9020,14 +9287,14 @@
             _instance = workInProgress2.stateNode;
             cloneUpdateQueue(current2, workInProgress2);
             state = workInProgress2.memoizedProps;
-            foundWillUpdateName = resolveClassComponentProps(Component, state);
+            foundWillUpdateName = resolveClassComponentProps(Component3, state);
             _instance.props = foundWillUpdateName;
             newApiName = workInProgress2.pendingProps;
             oldState = _instance.context;
-            oldContext = Component.contextType;
+            oldContext = Component3.contextType;
             lane = emptyContextObject;
             "object" === typeof oldContext && null !== oldContext && (lane = readContext(oldContext));
-            unresolvedOldProps = Component.getDerivedStateFromProps;
+            unresolvedOldProps = Component3.getDerivedStateFromProps;
             (oldContext = "function" === typeof unresolvedOldProps || "function" === typeof _instance.getSnapshotBeforeUpdate) || "function" !== typeof _instance.UNSAFE_componentWillReceiveProps && "function" !== typeof _instance.componentWillReceiveProps || (state !== newApiName || oldState !== lane) && callComponentWillReceiveProps(
               workInProgress2,
               _instance,
@@ -9042,12 +9309,12 @@
             var newState = workInProgress2.memoizedState;
             state !== newApiName || oldState !== newState || hasForceUpdate || null !== current2 && null !== current2.dependencies && checkIfContextChanged(current2.dependencies) ? ("function" === typeof unresolvedOldProps && (applyDerivedStateFromProps(
               workInProgress2,
-              Component,
+              Component3,
               unresolvedOldProps,
               nextProps
             ), newState = workInProgress2.memoizedState), (foundWillUpdateName = hasForceUpdate || checkShouldComponentUpdate(
               workInProgress2,
-              Component,
+              Component3,
               foundWillUpdateName,
               nextProps,
               oldState,
@@ -9065,9 +9332,9 @@
           if (lane || state) {
             lane = workInProgress2.stateNode;
             setCurrentFiber(workInProgress2);
-            if (state && "function" !== typeof Component.getDerivedStateFromError)
-              Component = null, profilerStartTime = -1;
-            else if (Component = callRenderInDEV(lane), workInProgress2.mode & StrictLegacyMode) {
+            if (state && "function" !== typeof Component3.getDerivedStateFromError)
+              Component3 = null, profilerStartTime = -1;
+            else if (Component3 = callRenderInDEV(lane), workInProgress2.mode & StrictLegacyMode) {
               setIsStrictModeForDevtools(true);
               try {
                 callRenderInDEV(lane);
@@ -9084,9 +9351,9 @@
             ), workInProgress2.child = reconcileChildFibers(
               workInProgress2,
               null,
-              Component,
+              Component3,
               renderLanes2
-            )) : reconcileChildren(current2, workInProgress2, Component, renderLanes2);
+            )) : reconcileChildren(current2, workInProgress2, Component3, renderLanes2);
             workInProgress2.memoizedState = lane.state;
             current2 = workInProgress2.child;
           } else
@@ -9108,19 +9375,19 @@
           reconcileChildren(current2, workInProgress2, nextChildren, renderLanes2);
           return workInProgress2.child;
         }
-        function validateFunctionComponentInDev(workInProgress2, Component) {
-          Component && Component.childContextTypes && console.error(
+        function validateFunctionComponentInDev(workInProgress2, Component3) {
+          Component3 && Component3.childContextTypes && console.error(
             "childContextTypes cannot be defined on a function component.\n  %s.childContextTypes = ...",
-            Component.displayName || Component.name || "Component"
+            Component3.displayName || Component3.name || "Component"
           );
-          "function" === typeof Component.getDerivedStateFromProps && (workInProgress2 = getComponentNameFromType(Component) || "Unknown", didWarnAboutGetDerivedStateOnFunctionComponent[workInProgress2] || (console.error(
+          "function" === typeof Component3.getDerivedStateFromProps && (workInProgress2 = getComponentNameFromType(Component3) || "Unknown", didWarnAboutGetDerivedStateOnFunctionComponent[workInProgress2] || (console.error(
             "%s: Function components do not support getDerivedStateFromProps.",
             workInProgress2
           ), didWarnAboutGetDerivedStateOnFunctionComponent[workInProgress2] = true));
-          "object" === typeof Component.contextType && null !== Component.contextType && (Component = getComponentNameFromType(Component) || "Unknown", didWarnAboutContextTypeOnFunctionComponent[Component] || (console.error(
+          "object" === typeof Component3.contextType && null !== Component3.contextType && (Component3 = getComponentNameFromType(Component3) || "Unknown", didWarnAboutContextTypeOnFunctionComponent[Component3] || (console.error(
             "%s: Function components do not support contextType.",
-            Component
-          ), didWarnAboutContextTypeOnFunctionComponent[Component] = true));
+            Component3
+          ), didWarnAboutContextTypeOnFunctionComponent[Component3] = true));
         }
         function mountSuspenseOffscreenState(renderLanes2) {
           return { baseLanes: renderLanes2, cachePool: getSuspendedCache() };
@@ -10895,19 +11162,19 @@
             else ref.current = null;
         }
         function commitProfiler(finishedWork, current2, commitStartTime2, effectDuration) {
-          var _finishedWork$memoize = finishedWork.memoizedProps, id = _finishedWork$memoize.id, onCommit = _finishedWork$memoize.onCommit;
+          var _finishedWork$memoize = finishedWork.memoizedProps, id3 = _finishedWork$memoize.id, onCommit = _finishedWork$memoize.onCommit;
           _finishedWork$memoize = _finishedWork$memoize.onRender;
           current2 = null === current2 ? "mount" : "update";
           currentUpdateIsNested && (current2 = "nested-update");
           "function" === typeof _finishedWork$memoize && _finishedWork$memoize(
-            id,
+            id3,
             current2,
             finishedWork.actualDuration,
             finishedWork.treeBaseDuration,
             finishedWork.actualStartTime,
             commitStartTime2
           );
-          "function" === typeof onCommit && onCommit(id, current2, effectDuration, commitStartTime2);
+          "function" === typeof onCommit && onCommit(id3, current2, effectDuration, commitStartTime2);
         }
         function commitProfilerPostCommitImpl(finishedWork, current2, commitStartTime2, passiveEffectDuration) {
           var _finishedWork$memoize2 = finishedWork.memoizedProps;
@@ -13040,7 +13307,7 @@
             if (startTime === RootInProgress) {
               workInProgressRootIsPrerendering && !forceSync && markRootSuspended(root2, lanes, 0, false);
               lanes = workInProgressSuspendedReason;
-              yieldStartTime = now();
+              yieldStartTime = now2();
               yieldReason = lanes;
               break;
             } else {
@@ -13394,7 +13661,7 @@
             "primary-light"
           ));
           var previousRenderStartTime = renderStartTime;
-          renderStartTime = now();
+          renderStartTime = now2();
           if (0 !== workInProgressRootRenderLanes && 0 < previousRenderStartTime) {
             setCurrentTrackFromLanes(workInProgressRootRenderLanes);
             if (workInProgressRootExitStatus === RootSuspended || workInProgressRootExitStatus === RootSuspendedWithDelay)
@@ -13407,7 +13674,7 @@
             else {
               var endTime = renderStartTime, debugTask = workInProgressUpdateTask;
               if (supportsUserTiming && !(endTime <= previousRenderStartTime)) {
-                var color = (lanes & 738197653) === lanes ? "tertiary-dark" : "primary-dark", label = (lanes & 536870912) === lanes ? "Prewarm" : (lanes & 201326741) === lanes ? "Interrupted Hydration" : "Interrupted Render";
+                var color2 = (lanes & 738197653) === lanes ? "tertiary-dark" : "primary-dark", label = (lanes & 536870912) === lanes ? "Prewarm" : (lanes & 201326741) === lanes ? "Interrupted Hydration" : "Interrupted Render";
                 debugTask ? debugTask.run(
                   console.timeStamp.bind(
                     console,
@@ -13416,7 +13683,7 @@
                     endTime,
                     currentTrack,
                     LANES_TRACK_GROUP,
-                    color
+                    color2
                   )
                 ) : console.timeStamp(
                   label,
@@ -13424,7 +13691,7 @@
                   endTime,
                   currentTrack,
                   LANES_TRACK_GROUP,
-                  color
+                  color2
                 );
               }
             }
@@ -13436,18 +13703,18 @@
             workInProgressUpdateTask = blockingUpdateTask;
             debugTask = 0 <= blockingUpdateTime && blockingUpdateTime < blockingClampTime ? blockingClampTime : blockingUpdateTime;
             endTime = 0 <= blockingEventTime && blockingEventTime < blockingClampTime ? blockingClampTime : blockingEventTime;
-            color = 0 <= endTime ? endTime : 0 <= debugTask ? debugTask : renderStartTime;
+            color2 = 0 <= endTime ? endTime : 0 <= debugTask ? debugTask : renderStartTime;
             0 <= blockingSuspendedTime ? (setCurrentTrackFromLanes(2), logSuspendedWithDelayPhase(
               blockingSuspendedTime,
-              color,
+              color2,
               lanes,
               previousRenderStartTime
-            )) : 0 !== (animatingLanes & 127) && (setCurrentTrackFromLanes(2), logAnimatingPhase(blockingClampTime, color, animatingTask));
+            )) : 0 !== (animatingLanes & 127) && (setCurrentTrackFromLanes(2), logAnimatingPhase(blockingClampTime, color2, animatingTask));
             previousRenderStartTime = debugTask;
             var eventTime = endTime, eventType = blockingEventType, eventIsRepeat = 0 < blockingEventRepeatTime, isSpawnedUpdate = blockingUpdateType === SPAWNED_UPDATE, isPingedUpdate = blockingUpdateType === PINGED_UPDATE;
             debugTask = renderStartTime;
             endTime = blockingUpdateTask;
-            color = blockingUpdateMethodName;
+            color2 = blockingUpdateMethodName;
             label = blockingUpdateComponentName;
             if (supportsUserTiming) {
               currentTrack = "Blocking";
@@ -13474,7 +13741,7 @@
                   color$jscomp$0
                 );
               }
-              debugTask > previousRenderStartTime && (eventTime = isSpawnedUpdate ? "error" : (lanes & 738197653) === lanes ? "tertiary-light" : "primary-light", isSpawnedUpdate = isPingedUpdate ? "Promise Resolved" : isSpawnedUpdate ? "Cascading Update" : 5 < debugTask - previousRenderStartTime ? "Update Blocked" : "Update", isPingedUpdate = [], null != label && isPingedUpdate.push(["Component name", label]), null != color && isPingedUpdate.push(["Method name", color]), previousRenderStartTime = {
+              debugTask > previousRenderStartTime && (eventTime = isSpawnedUpdate ? "error" : (lanes & 738197653) === lanes ? "tertiary-light" : "primary-light", isSpawnedUpdate = isPingedUpdate ? "Promise Resolved" : isSpawnedUpdate ? "Cascading Update" : 5 < debugTask - previousRenderStartTime ? "Update Blocked" : "Update", isPingedUpdate = [], null != label && isPingedUpdate.push(["Component name", label]), null != color2 && isPingedUpdate.push(["Method name", color2]), previousRenderStartTime = {
                 start: previousRenderStartTime,
                 end: debugTask,
                 detail: {
@@ -13499,14 +13766,14 @@
             blockingSuspendedTime = -1.1;
             blockingEventRepeatTime = blockingEventTime;
             blockingEventTime = -1.1;
-            blockingClampTime = now();
+            blockingClampTime = now2();
           }
-          0 !== (lanes & 4194048) && (workInProgressUpdateTask = transitionUpdateTask, debugTask = 0 <= transitionStartTime && transitionStartTime < transitionClampTime ? transitionClampTime : transitionStartTime, previousRenderStartTime = 0 <= transitionUpdateTime && transitionUpdateTime < transitionClampTime ? transitionClampTime : transitionUpdateTime, endTime = 0 <= transitionEventTime && transitionEventTime < transitionClampTime ? transitionClampTime : transitionEventTime, color = 0 <= endTime ? endTime : 0 <= previousRenderStartTime ? previousRenderStartTime : renderStartTime, 0 <= transitionSuspendedTime ? (setCurrentTrackFromLanes(256), logSuspendedWithDelayPhase(
+          0 !== (lanes & 4194048) && (workInProgressUpdateTask = transitionUpdateTask, debugTask = 0 <= transitionStartTime && transitionStartTime < transitionClampTime ? transitionClampTime : transitionStartTime, previousRenderStartTime = 0 <= transitionUpdateTime && transitionUpdateTime < transitionClampTime ? transitionClampTime : transitionUpdateTime, endTime = 0 <= transitionEventTime && transitionEventTime < transitionClampTime ? transitionClampTime : transitionEventTime, color2 = 0 <= endTime ? endTime : 0 <= previousRenderStartTime ? previousRenderStartTime : renderStartTime, 0 <= transitionSuspendedTime ? (setCurrentTrackFromLanes(256), logSuspendedWithDelayPhase(
             transitionSuspendedTime,
-            color,
+            color2,
             lanes,
             workInProgressUpdateTask
-          )) : 0 !== (animatingLanes & 4194048) && (setCurrentTrackFromLanes(256), logAnimatingPhase(transitionClampTime, color, animatingTask)), isPingedUpdate = endTime, eventTime = transitionEventType, eventType = 0 < transitionEventRepeatTime, eventIsRepeat = transitionUpdateType === PINGED_UPDATE, color = renderStartTime, endTime = transitionUpdateTask, label = transitionUpdateMethodName, isSpawnedUpdate = transitionUpdateComponentName, supportsUserTiming && (currentTrack = "Transition", 0 < previousRenderStartTime ? previousRenderStartTime > color && (previousRenderStartTime = color) : previousRenderStartTime = color, 0 < debugTask ? debugTask > previousRenderStartTime && (debugTask = previousRenderStartTime) : debugTask = previousRenderStartTime, 0 < isPingedUpdate ? isPingedUpdate > debugTask && (isPingedUpdate = debugTask) : isPingedUpdate = debugTask, debugTask > isPingedUpdate && null !== eventTime && (color$jscomp$0 = eventType ? "secondary-light" : "warning", endTime ? endTime.run(
+          )) : 0 !== (animatingLanes & 4194048) && (setCurrentTrackFromLanes(256), logAnimatingPhase(transitionClampTime, color2, animatingTask)), isPingedUpdate = endTime, eventTime = transitionEventType, eventType = 0 < transitionEventRepeatTime, eventIsRepeat = transitionUpdateType === PINGED_UPDATE, color2 = renderStartTime, endTime = transitionUpdateTask, label = transitionUpdateMethodName, isSpawnedUpdate = transitionUpdateComponentName, supportsUserTiming && (currentTrack = "Transition", 0 < previousRenderStartTime ? previousRenderStartTime > color2 && (previousRenderStartTime = color2) : previousRenderStartTime = color2, 0 < debugTask ? debugTask > previousRenderStartTime && (debugTask = previousRenderStartTime) : debugTask = previousRenderStartTime, 0 < isPingedUpdate ? isPingedUpdate > debugTask && (isPingedUpdate = debugTask) : isPingedUpdate = debugTask, debugTask > isPingedUpdate && null !== eventTime && (color$jscomp$0 = eventType ? "secondary-light" : "warning", endTime ? endTime.run(
             console.timeStamp.bind(
               console,
               eventType ? "Consecutive" : "Event: " + eventTime,
@@ -13540,9 +13807,9 @@
             currentTrack,
             LANES_TRACK_GROUP,
             "primary-dark"
-          )), color > previousRenderStartTime && (debugTask = eventIsRepeat ? "Promise Resolved" : 5 < color - previousRenderStartTime ? "Update Blocked" : "Update", isPingedUpdate = [], null != isSpawnedUpdate && isPingedUpdate.push(["Component name", isSpawnedUpdate]), null != label && isPingedUpdate.push(["Method name", label]), previousRenderStartTime = {
+          )), color2 > previousRenderStartTime && (debugTask = eventIsRepeat ? "Promise Resolved" : 5 < color2 - previousRenderStartTime ? "Update Blocked" : "Update", isPingedUpdate = [], null != isSpawnedUpdate && isPingedUpdate.push(["Component name", isSpawnedUpdate]), null != label && isPingedUpdate.push(["Method name", label]), previousRenderStartTime = {
             start: previousRenderStartTime,
-            end: color,
+            end: color2,
             detail: {
               devtools: {
                 properties: isPingedUpdate,
@@ -13557,7 +13824,7 @@
               debugTask,
               previousRenderStartTime
             )
-          ) : performance.measure(debugTask, previousRenderStartTime))), transitionUpdateTime = transitionStartTime = -1.1, transitionUpdateType = 0, transitionSuspendedTime = -1.1, transitionEventRepeatTime = transitionEventTime, transitionEventTime = -1.1, transitionClampTime = now());
+          ) : performance.measure(debugTask, previousRenderStartTime))), transitionUpdateTime = transitionStartTime = -1.1, transitionUpdateType = 0, transitionSuspendedTime = -1.1, transitionEventRepeatTime = transitionEventTime, transitionEventTime = -1.1, transitionClampTime = now2());
           0 !== (lanes & 62914560) && 0 !== (animatingLanes & 62914560) && (setCurrentTrackFromLanes(4194304), logAnimatingPhase(retryClampTime, renderStartTime, animatingTask));
           0 !== (lanes & 2080374784) && 0 !== (animatingLanes & 2080374784) && (setCurrentTrackFromLanes(268435456), logAnimatingPhase(idleClampTime, renderStartTime, animatingTask));
           previousRenderStartTime = root2.timeoutHandle;
@@ -13585,7 +13852,7 @@
           endTime = root2.entangledLanes;
           if (0 !== endTime)
             for (root2 = root2.entanglements, endTime &= lanes; 0 < endTime; )
-              debugTask = 31 - clz32(endTime), color = 1 << debugTask, lanes |= root2[debugTask], endTime &= ~color;
+              debugTask = 31 - clz32(endTime), color2 = 1 << debugTask, lanes |= root2[debugTask], endTime &= ~color2;
           entangledRenderLanes = lanes;
           finishQueueingConcurrentUpdates();
           root2 = getCurrentTime();
@@ -14048,7 +14315,7 @@
               return null;
             })) : (root2.callbackNode = null, root2.callbackPriority = 0);
             commitErrors = null;
-            commitStartTime = now();
+            commitStartTime = now2();
             null !== suspendedCommitReason && logSuspendedCommitPhase(
               completedRenderEndTime,
               commitStartTime,
@@ -14159,7 +14426,7 @@
             pendingEffectsStatus = NO_PENDING_EFFECTS;
             var suspendedViewTransitionReason = pendingSuspendedViewTransitionReason;
             if (null !== suspendedViewTransitionReason) {
-              commitStartTime = now();
+              commitStartTime = now2();
               var startTime = commitEndTime, endTime = commitStartTime;
               !supportsUserTiming || endTime <= startTime || (animatingTask ? animatingTask.run(
                 console.timeStamp.bind(
@@ -14203,7 +14470,7 @@
             }
             suspendedViewTransitionReason = pendingEffectsRenderEndTime;
             startTime = pendingSuspendedCommitReason;
-            commitEndTime = now();
+            commitEndTime = now2();
             suspendedViewTransitionReason = null === startTime ? suspendedViewTransitionReason : commitStartTime;
             startTime = commitEndTime;
             endTime = pendingDelayedCommitReason === ABORTED_VIEW_TRANSITION_COMMIT;
@@ -14239,7 +14506,7 @@
           if (pendingEffectsStatus === PENDING_SPAWNED_WORK || pendingEffectsStatus === PENDING_AFTER_MUTATION_PHASE) {
             if (pendingEffectsStatus === PENDING_SPAWNED_WORK) {
               var startViewTransitionStartTime = commitEndTime;
-              commitEndTime = now();
+              commitEndTime = now2();
               var endTime = commitEndTime, abortedViewTransition = pendingDelayedCommitReason === ABORTED_VIEW_TRANSITION_COMMIT;
               !supportsUserTiming || endTime <= startViewTransitionStartTime || (animatingTask ? animatingTask.run(
                 console.timeStamp.bind(
@@ -14535,7 +14802,7 @@
           null !== pingCache && pingCache.delete(wakeable);
           root2.pingedLanes |= root2.suspendedLanes & pingedLanes;
           root2.warmLanes &= ~pingedLanes;
-          0 !== (pingedLanes & 127) ? 0 > blockingUpdateTime && (blockingClampTime = blockingUpdateTime = now(), blockingUpdateTask = createTask("Promise Resolved"), blockingUpdateType = PINGED_UPDATE) : 0 !== (pingedLanes & 4194048) && 0 > transitionUpdateTime && (transitionClampTime = transitionUpdateTime = now(), transitionUpdateTask = createTask("Promise Resolved"), transitionUpdateType = PINGED_UPDATE);
+          0 !== (pingedLanes & 127) ? 0 > blockingUpdateTime && (blockingClampTime = blockingUpdateTime = now2(), blockingUpdateTask = createTask("Promise Resolved"), blockingUpdateType = PINGED_UPDATE) : 0 !== (pingedLanes & 4194048) && 0 > transitionUpdateTime && (transitionClampTime = transitionUpdateTime = now2(), transitionUpdateTask = createTask("Promise Resolved"), transitionUpdateType = PINGED_UPDATE);
           isConcurrentActEnvironment() && null === ReactSharedInternals.actQueue && console.error(
             "A suspended resource finished loading inside a test, but the event was not wrapped in act(...).\n\nWhen testing, code that resolves suspended data should be wrapped into act(...):\n\nact(() => {\n  /* finish loading suspended data */\n});\n/* assert on the output */\n\nThis ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act"
           );
@@ -15009,8 +15276,8 @@
               if (null === targetInst$jscomp$0) return;
               var nodeTag = targetInst$jscomp$0.tag;
               if (3 === nodeTag || 4 === nodeTag) {
-                var container = targetInst$jscomp$0.stateNode.containerInfo;
-                if (container === targetContainer) break;
+                var container2 = targetInst$jscomp$0.stateNode.containerInfo;
+                if (container2 === targetContainer) break;
                 if (4 === nodeTag)
                   for (nodeTag = targetInst$jscomp$0.return; null !== nodeTag; ) {
                     var grandTag = nodeTag.tag;
@@ -15018,15 +15285,15 @@
                       return;
                     nodeTag = nodeTag.return;
                   }
-                for (; null !== container; ) {
-                  nodeTag = getClosestInstanceFromNode(container);
+                for (; null !== container2; ) {
+                  nodeTag = getClosestInstanceFromNode(container2);
                   if (null === nodeTag) return;
                   grandTag = nodeTag.tag;
                   if (5 === grandTag || 6 === grandTag || 26 === grandTag || 27 === grandTag) {
                     targetInst$jscomp$0 = ancestorInst = nodeTag;
                     continue a;
                   }
-                  container = container.parentNode;
+                  container2 = container2.parentNode;
                 }
               }
               targetInst$jscomp$0 = targetInst$jscomp$0.return;
@@ -17165,16 +17432,16 @@
         function commitTextUpdate(textInstance, oldText, newText) {
           textInstance.nodeValue = newText;
         }
-        function warnForReactChildrenConflict(container) {
-          if (!container.__reactWarnedAboutChildrenConflict) {
-            var props = container[internalPropsKey] || null;
+        function warnForReactChildrenConflict(container2) {
+          if (!container2.__reactWarnedAboutChildrenConflict) {
+            var props = container2[internalPropsKey] || null;
             if (null !== props) {
-              var fiber = getInstanceFromNode(container);
-              null !== fiber && ("string" === typeof props.children || "number" === typeof props.children ? (container.__reactWarnedAboutChildrenConflict = true, runWithFiberInDEV(fiber, function() {
+              var fiber = getInstanceFromNode(container2);
+              null !== fiber && ("string" === typeof props.children || "number" === typeof props.children ? (container2.__reactWarnedAboutChildrenConflict = true, runWithFiberInDEV(fiber, function() {
                 console.error(
                   'Cannot use a ref on a React element as a container to `createRoot` or `createPortal` if that element also sets "children" text content using React. It should be a leaf with no children. Otherwise it\'s ambiguous which children should be used.'
                 );
-              })) : null != props.dangerouslySetInnerHTML && (container.__reactWarnedAboutChildrenConflict = true, runWithFiberInDEV(fiber, function() {
+              })) : null != props.dangerouslySetInnerHTML && (container2.__reactWarnedAboutChildrenConflict = true, runWithFiberInDEV(fiber, function() {
                 console.error(
                   'Cannot use a ref on a React element as a container to `createRoot` or `createPortal` if that element also sets "dangerouslySetInnerHTML" using React. It should be a leaf with no children. Otherwise it\'s ambiguous which children should be used.'
                 );
@@ -17188,8 +17455,8 @@
         function removeChild(parentInstance, child) {
           parentInstance.removeChild(child);
         }
-        function removeChildFromContainer(container, child) {
-          (9 === container.nodeType ? container.body : "HTML" === container.nodeName ? container.ownerDocument.body : container).removeChild(child);
+        function removeChildFromContainer(container2, child) {
+          (9 === container2.nodeType ? container2.body : "HTML" === container2.nodeName ? container2.ownerDocument.body : container2).removeChild(child);
         }
         function clearHydrationBoundary(parentInstance, hydrationInstance) {
           var node = hydrationInstance, depth = 0;
@@ -17260,8 +17527,8 @@
         function unhideTextInstance(textInstance, text) {
           textInstance.nodeValue = text;
         }
-        function clearContainerSparingly(container) {
-          var nextNode = container.firstChild;
+        function clearContainerSparingly(container2) {
+          var nextNode = container2.firstChild;
           nextNode && 10 === nextNode.nodeType && (nextNode = nextNode.nextSibling);
           for (; nextNode; ) {
             var node = nextNode;
@@ -17279,7 +17546,7 @@
               case "LINK":
                 if ("stylesheet" === node.rel.toLowerCase()) continue;
             }
-            container.removeChild(node);
+            container2.removeChild(node);
           }
         }
         function canHydrateInstance(instance, type, props, inRootOrSingleton) {
@@ -17421,8 +17688,8 @@
           }
           return null;
         }
-        function commitHydratedContainer(container) {
-          retryIfBlockedOn(container);
+        function commitHydratedContainer(container2) {
+          retryIfBlockedOn(container2);
         }
         function commitHydratedActivityInstance(activityInstance) {
           retryIfBlockedOn(activityInstance);
@@ -17492,8 +17759,8 @@
             instance.removeAttributeNode(attributes[0]);
           detachDeletedInstance(instance);
         }
-        function getHoistableRoot(container) {
-          return "function" === typeof container.getRootNode ? container.getRootNode() : 9 === container.nodeType ? container : container.ownerDocument;
+        function getHoistableRoot(container2) {
+          return "function" === typeof container2.getRootNode ? container2.getRootNode() : 9 === container2.nodeType ? container2 : container2.ownerDocument;
         }
         function preconnectAs(rel, href, crossOrigin) {
           var ownerDocument = globalDocument;
@@ -17972,10 +18239,10 @@
           parentComponent = emptyContextObject;
           return parentComponent;
         }
-        function updateContainerImpl(rootFiber, lane, element, container, parentComponent, callback) {
+        function updateContainerImpl(rootFiber, lane, element, container2, parentComponent, callback) {
           if (injectedHook && "function" === typeof injectedHook.onScheduleFiberRoot)
             try {
-              injectedHook.onScheduleFiberRoot(rendererID, container, element);
+              injectedHook.onScheduleFiberRoot(rendererID, container2, element);
             } catch (err) {
               hasLoggedError || (hasLoggedError = true, console.error(
                 "React instrumentation encountered an error: %o",
@@ -17983,19 +18250,19 @@
               ));
             }
           parentComponent = getContextForSubtree(parentComponent);
-          null === container.context ? container.context = parentComponent : container.pendingContext = parentComponent;
+          null === container2.context ? container2.context = parentComponent : container2.pendingContext = parentComponent;
           isRendering && null !== current && !didWarnAboutNestedUpdates && (didWarnAboutNestedUpdates = true, console.error(
             "Render methods should be a pure function of props and state; triggering nested component updates from render is not allowed. If necessary, trigger nested updates in componentDidUpdate.\n\nCheck the render method of %s.",
             getComponentNameFromFiber(current) || "Unknown"
           ));
-          container = createUpdate(lane);
-          container.payload = { element };
+          container2 = createUpdate(lane);
+          container2.payload = { element };
           callback = void 0 === callback ? null : callback;
           null !== callback && ("function" !== typeof callback && console.error(
             "Expected the last optional `callback` argument to be a function. Instead received: %s.",
             callback
-          ), container.callback = callback);
-          element = enqueueUpdate(rootFiber, container, lane);
+          ), container2.callback = callback);
+          element = enqueueUpdate(rootFiber, container2, lane);
           null !== element && (startUpdateTimerByLane(lane, "root.render()", null), scheduleUpdateOnFiber(element, rootFiber, lane), entangleTransitions(element, rootFiber, lane));
         }
         function markRetryLaneImpl(fiber, retryLane) {
@@ -18028,22 +18295,22 @@
         function getCurrentFiberForDevTools() {
           return current;
         }
-        function dispatchDiscreteEvent(domEventName, eventSystemFlags, container, nativeEvent) {
+        function dispatchDiscreteEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
           var prevTransition = ReactSharedInternals.T;
           ReactSharedInternals.T = null;
           var previousPriority = ReactDOMSharedInternals.p;
           try {
-            ReactDOMSharedInternals.p = DiscreteEventPriority, dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
+            ReactDOMSharedInternals.p = DiscreteEventPriority, dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
           } finally {
             ReactDOMSharedInternals.p = previousPriority, ReactSharedInternals.T = prevTransition;
           }
         }
-        function dispatchContinuousEvent(domEventName, eventSystemFlags, container, nativeEvent) {
+        function dispatchContinuousEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
           var prevTransition = ReactSharedInternals.T;
           ReactSharedInternals.T = null;
           var previousPriority = ReactDOMSharedInternals.p;
           try {
-            ReactDOMSharedInternals.p = ContinuousEventPriority, dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
+            ReactDOMSharedInternals.p = ContinuousEventPriority, dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
           } finally {
             ReactDOMSharedInternals.p = previousPriority, ReactSharedInternals.T = prevTransition;
           }
@@ -18519,22 +18786,22 @@
         function ReactDOMHydrationRoot(internalRoot) {
           this._internalRoot = internalRoot;
         }
-        function warnIfReactDOMContainerInDEV(container) {
-          container[internalContainerInstanceKey] && (container._reactRootContainer ? console.error(
+        function warnIfReactDOMContainerInDEV(container2) {
+          container2[internalContainerInstanceKey] && (container2._reactRootContainer ? console.error(
             "You are calling ReactDOMClient.createRoot() on a container that was previously passed to ReactDOM.render(). This is not supported."
           ) : console.error(
             "You are calling ReactDOMClient.createRoot() on a container that has already been passed to createRoot() before. Instead, call root.render() on the existing root instead if you want to update it."
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React5 = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React5.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -19622,14 +19889,14 @@
           _threadCount: 0,
           _currentRenderer: null,
           _currentRenderer2: null
-        }, now = Scheduler.unstable_now, createTask = console.createTask ? console.createTask : function() {
+        }, now2 = Scheduler.unstable_now, createTask = console.createTask ? console.createTask : function() {
           return null;
         }, SPAWNED_UPDATE = 1, PINGED_UPDATE = 2, renderStartTime = -0, commitStartTime = -0, commitEndTime = -0, commitErrors = null, profilerStartTime = -1.1, profilerEffectDuration = -0, componentEffectDuration = -0, componentEffectStartTime = -1.1, componentEffectEndTime = -1.1, componentEffectErrors = null, componentEffectSpawnedUpdate = false, blockingClampTime = -0, blockingUpdateTime = -1.1, blockingUpdateTask = null, blockingUpdateType = 0, blockingUpdateMethodName = null, blockingUpdateComponentName = null, blockingEventTime = -1.1, blockingEventType = null, blockingEventRepeatTime = -1.1, blockingSuspendedTime = -1.1, transitionClampTime = -0, transitionStartTime = -1.1, transitionUpdateTime = -1.1, transitionUpdateType = 0, transitionUpdateTask = null, transitionUpdateMethodName = null, transitionUpdateComponentName = null, transitionEventTime = -1.1, transitionEventType = null, transitionEventRepeatTime = -1.1, transitionSuspendedTime = -1.1, retryClampTime = -0, idleClampTime = -0, animatingLanes = 0, animatingTask = null, yieldReason = 0, yieldStartTime = -1.1, currentUpdateIsNested = false, nestedUpdateScheduled = false, currentEntangledListeners = null, currentEntangledPendingCount = 0, currentEntangledLane = 0, currentEntangledActionThenable = null, prevOnStartTransitionFinish = ReactSharedInternals.S;
         ReactSharedInternals.S = function(transition, returnValue) {
           globalMostRecentTransitionTime = now$1();
           if ("object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then) {
             if (0 > transitionStartTime && 0 > transitionUpdateTime) {
-              transitionStartTime = now();
+              transitionStartTime = now2();
               var newEventTime = resolveEventTimeStamp(), newEventType = resolveEventType();
               if (newEventTime !== transitionEventRepeatTime || newEventType !== transitionEventType)
                 transitionEventRepeatTime = -1.1;
@@ -19773,11 +20040,11 @@
           pendingLegacyContextWarning = /* @__PURE__ */ new Map();
         };
         var callComponent = {
-          react_stack_bottom_frame: function(Component, props, secondArg) {
+          react_stack_bottom_frame: function(Component3, props, secondArg) {
             var wasRendering = isRendering;
             isRendering = true;
             try {
-              return Component(props, secondArg);
+              return Component3(props, secondArg);
             } finally {
               isRendering = wasRendering;
             }
@@ -21229,17 +21496,17 @@
         }, badgeFormat = "%c%s%c", badgeStyle = "background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px", resetStyle = "", pad = " ", bind = Function.prototype.bind;
         var didWarnAboutNestedUpdates = false;
         var overrideHookState = null, overrideHookStateDeletePath = null, overrideHookStateRenamePath = null, overrideProps = null, overridePropsDeletePath = null, overridePropsRenamePath = null, scheduleUpdate = null, scheduleRetry = null, setErrorHandler = null, setSuspenseHandler = null;
-        overrideHookState = function(fiber, id, path, value) {
-          id = findHook(fiber, id);
-          null !== id && (path = copyWithSetImpl(id.memoizedState, path, 0, value), id.memoizedState = path, id.baseState = path, fiber.memoizedProps = assign({}, fiber.memoizedProps), path = enqueueConcurrentRenderForLane(fiber, 2), null !== path && scheduleUpdateOnFiber(path, fiber, 2));
+        overrideHookState = function(fiber, id3, path, value) {
+          id3 = findHook(fiber, id3);
+          null !== id3 && (path = copyWithSetImpl(id3.memoizedState, path, 0, value), id3.memoizedState = path, id3.baseState = path, fiber.memoizedProps = assign({}, fiber.memoizedProps), path = enqueueConcurrentRenderForLane(fiber, 2), null !== path && scheduleUpdateOnFiber(path, fiber, 2));
         };
-        overrideHookStateDeletePath = function(fiber, id, path) {
-          id = findHook(fiber, id);
-          null !== id && (path = copyWithDeleteImpl(id.memoizedState, path, 0), id.memoizedState = path, id.baseState = path, fiber.memoizedProps = assign({}, fiber.memoizedProps), path = enqueueConcurrentRenderForLane(fiber, 2), null !== path && scheduleUpdateOnFiber(path, fiber, 2));
+        overrideHookStateDeletePath = function(fiber, id3, path) {
+          id3 = findHook(fiber, id3);
+          null !== id3 && (path = copyWithDeleteImpl(id3.memoizedState, path, 0), id3.memoizedState = path, id3.baseState = path, fiber.memoizedProps = assign({}, fiber.memoizedProps), path = enqueueConcurrentRenderForLane(fiber, 2), null !== path && scheduleUpdateOnFiber(path, fiber, 2));
         };
-        overrideHookStateRenamePath = function(fiber, id, oldPath, newPath) {
-          id = findHook(fiber, id);
-          null !== id && (oldPath = copyWithRename(id.memoizedState, oldPath, newPath), id.memoizedState = oldPath, id.baseState = oldPath, fiber.memoizedProps = assign({}, fiber.memoizedProps), oldPath = enqueueConcurrentRenderForLane(fiber, 2), null !== oldPath && scheduleUpdateOnFiber(oldPath, fiber, 2));
+        overrideHookStateRenamePath = function(fiber, id3, oldPath, newPath) {
+          id3 = findHook(fiber, id3);
+          null !== id3 && (oldPath = copyWithRename(id3.memoizedState, oldPath, newPath), id3.memoizedState = oldPath, id3.baseState = oldPath, fiber.memoizedProps = assign({}, fiber.memoizedProps), oldPath = enqueueConcurrentRenderForLane(fiber, 2), null !== oldPath && scheduleUpdateOnFiber(oldPath, fiber, 2));
         };
         overrideProps = function(fiber, path, value) {
           fiber.pendingProps = copyWithSetImpl(fiber.memoizedProps, path, 0, value);
@@ -21303,13 +21570,13 @@
           args = this._internalRoot;
           if (null !== args) {
             this._internalRoot = null;
-            var container = args.containerInfo;
+            var container2 = args.containerInfo;
             (executionContext & (RenderContext | CommitContext)) !== NoContext && console.error(
               "Attempted to synchronously unmount a root while React was already rendering. React cannot finish unmounting the root until the current render has completed, which may lead to a race condition."
             );
             updateContainerImpl(args.current, 2, null, args, null, null);
             flushSyncWork$1();
-            container[internalContainerInstanceKey] = null;
+            container2[internalContainerInstanceKey] = null;
           }
         };
         ReactDOMHydrationRoot.prototype.unstable_scheduleHydration = function(target) {
@@ -21322,7 +21589,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React.version;
+          var isomorphicReactPackageVersion = React5.version;
           if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21376,10 +21643,10 @@
             "font-weight:bold"
           );
         }
-        exports.createRoot = function(container, options) {
-          if (!isValidContainer(container))
+        exports.createRoot = function(container2, options) {
+          if (!isValidContainer(container2))
             throw Error("Target container is not a DOM element.");
-          warnIfReactDOMContainerInDEV(container);
+          warnIfReactDOMContainerInDEV(container2);
           var isStrictMode = false, identifierPrefix = "", onUncaughtError = defaultOnUncaughtError, onCaughtError = defaultOnCaughtError, onRecoverableError = defaultOnRecoverableError;
           null !== options && void 0 !== options && (options.hydrate ? console.warn(
             "hydrate through createRoot is deprecated. Use ReactDOMClient.hydrateRoot(container, <App />) instead."
@@ -21387,7 +21654,7 @@
             "You passed a JSX element to createRoot. You probably meant to call root.render instead. Example usage:\n\n  let root = createRoot(domContainer);\n  root.render(<App />);"
           ), true === options.unstable_strictMode && (isStrictMode = true), void 0 !== options.identifierPrefix && (identifierPrefix = options.identifierPrefix), void 0 !== options.onUncaughtError && (onUncaughtError = options.onUncaughtError), void 0 !== options.onCaughtError && (onCaughtError = options.onCaughtError), void 0 !== options.onRecoverableError && (onRecoverableError = options.onRecoverableError));
           options = createFiberRoot(
-            container,
+            container2,
             1,
             false,
             null,
@@ -21400,21 +21667,21 @@
             onRecoverableError,
             defaultOnDefaultTransitionIndicator
           );
-          container[internalContainerInstanceKey] = options.current;
-          listenToAllSupportedEvents(container);
+          container2[internalContainerInstanceKey] = options.current;
+          listenToAllSupportedEvents(container2);
           return new ReactDOMRoot(options);
         };
-        exports.hydrateRoot = function(container, initialChildren, options) {
-          if (!isValidContainer(container))
+        exports.hydrateRoot = function(container2, initialChildren, options) {
+          if (!isValidContainer(container2))
             throw Error("Target container is not a DOM element.");
-          warnIfReactDOMContainerInDEV(container);
+          warnIfReactDOMContainerInDEV(container2);
           void 0 === initialChildren && console.error(
             "Must provide initial children as second argument to hydrateRoot. Example usage: hydrateRoot(domContainer, <App />)"
           );
           var isStrictMode = false, identifierPrefix = "", onUncaughtError = defaultOnUncaughtError, onCaughtError = defaultOnCaughtError, onRecoverableError = defaultOnRecoverableError, formState = null;
           null !== options && void 0 !== options && (true === options.unstable_strictMode && (isStrictMode = true), void 0 !== options.identifierPrefix && (identifierPrefix = options.identifierPrefix), void 0 !== options.onUncaughtError && (onUncaughtError = options.onUncaughtError), void 0 !== options.onCaughtError && (onCaughtError = options.onCaughtError), void 0 !== options.onRecoverableError && (onRecoverableError = options.onRecoverableError), void 0 !== options.formState && (formState = options.formState));
           initialChildren = createFiberRoot(
-            container,
+            container2,
             1,
             true,
             initialChildren,
@@ -21439,8 +21706,8 @@
           initialChildren.current.lanes = options;
           markRootUpdated$1(initialChildren, options);
           ensureRootIsScheduled(initialChildren);
-          container[internalContainerInstanceKey] = initialChildren.current;
-          listenToAllSupportedEvents(container);
+          container2[internalContainerInstanceKey] = initialChildren.current;
+          listenToAllSupportedEvents(container2);
           return new ReactDOMHydrationRoot(initialChildren);
         };
         exports.version = "19.2.8";
@@ -21462,1025 +21729,9536 @@
     }
   });
 
-  // src/images/Iris.png
-  var Iris_default;
-  var init_Iris = __esm({
-    "src/images/Iris.png"() {
-      Iris_default = "data:image/png;base64,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";
-    }
-  });
+  // src/pages/app/App.tsx
+  var import_react24 = __toESM(require_react());
 
-  // node_modules/react/cjs/react-jsx-runtime.development.js
-  var require_react_jsx_runtime_development = __commonJS({
-    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
-      "use strict";
-      (function() {
-        function getComponentNameFromType(type) {
-          if (null == type) return null;
-          if ("function" === typeof type)
-            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
-          if ("string" === typeof type) return type;
-          switch (type) {
-            case REACT_FRAGMENT_TYPE:
-              return "Fragment";
-            case REACT_PROFILER_TYPE:
-              return "Profiler";
-            case REACT_STRICT_MODE_TYPE:
-              return "StrictMode";
-            case REACT_SUSPENSE_TYPE:
-              return "Suspense";
-            case REACT_SUSPENSE_LIST_TYPE:
-              return "SuspenseList";
-            case REACT_ACTIVITY_TYPE:
-              return "Activity";
-          }
-          if ("object" === typeof type)
-            switch ("number" === typeof type.tag && console.error(
-              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-            ), type.$$typeof) {
-              case REACT_PORTAL_TYPE:
-                return "Portal";
-              case REACT_CONTEXT_TYPE:
-                return type.displayName || "Context";
-              case REACT_CONSUMER_TYPE:
-                return (type._context.displayName || "Context") + ".Consumer";
-              case REACT_FORWARD_REF_TYPE:
-                var innerType = type.render;
-                type = type.displayName;
-                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
-                return type;
-              case REACT_MEMO_TYPE:
-                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
-              case REACT_LAZY_TYPE:
-                innerType = type._payload;
-                type = type._init;
-                try {
-                  return getComponentNameFromType(type(innerType));
-                } catch (x) {
-                }
-            }
-          return null;
-        }
-        function testStringCoercion(value) {
-          return "" + value;
-        }
-        function checkKeyStringCoercion(value) {
-          try {
-            testStringCoercion(value);
-            var JSCompiler_inline_result = false;
-          } catch (e) {
-            JSCompiler_inline_result = true;
-          }
-          if (JSCompiler_inline_result) {
-            JSCompiler_inline_result = console;
-            var JSCompiler_temp_const = JSCompiler_inline_result.error;
-            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
-            JSCompiler_temp_const.call(
-              JSCompiler_inline_result,
-              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-              JSCompiler_inline_result$jscomp$0
-            );
-            return testStringCoercion(value);
-          }
-        }
-        function getTaskName(type) {
-          if (type === REACT_FRAGMENT_TYPE) return "<>";
-          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
-            return "<...>";
-          try {
-            var name = getComponentNameFromType(type);
-            return name ? "<" + name + ">" : "<...>";
-          } catch (x) {
-            return "<...>";
-          }
-        }
-        function getOwner() {
-          var dispatcher = ReactSharedInternals.A;
-          return null === dispatcher ? null : dispatcher.getOwner();
-        }
-        function UnknownOwner() {
-          return Error("react-stack-top-frame");
-        }
-        function hasValidKey(config) {
-          if (hasOwnProperty.call(config, "key")) {
-            var getter = Object.getOwnPropertyDescriptor(config, "key").get;
-            if (getter && getter.isReactWarning) return false;
-          }
-          return void 0 !== config.key;
-        }
-        function defineKeyPropWarningGetter(props, displayName) {
-          function warnAboutAccessingKey() {
-            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
-              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-              displayName
-            ));
-          }
-          warnAboutAccessingKey.isReactWarning = true;
-          Object.defineProperty(props, "key", {
-            get: warnAboutAccessingKey,
-            configurable: true
-          });
-        }
-        function elementRefGetterWithDeprecationWarning() {
-          var componentName = getComponentNameFromType(this.type);
-          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
-            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-          ));
-          componentName = this.props.ref;
-          return void 0 !== componentName ? componentName : null;
-        }
-        function ReactElement(type, key, props, owner, debugStack, debugTask) {
-          var refProp = props.ref;
-          type = {
-            $$typeof: REACT_ELEMENT_TYPE,
-            type,
-            key,
-            props,
-            _owner: owner
-          };
-          null !== (void 0 !== refProp ? refProp : null) ? Object.defineProperty(type, "ref", {
-            enumerable: false,
-            get: elementRefGetterWithDeprecationWarning
-          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
-          type._store = {};
-          Object.defineProperty(type._store, "validated", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: 0
-          });
-          Object.defineProperty(type, "_debugInfo", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: null
-          });
-          Object.defineProperty(type, "_debugStack", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugStack
-          });
-          Object.defineProperty(type, "_debugTask", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugTask
-          });
-          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
-          return type;
-        }
-        function jsxDEVImpl(type, config, maybeKey, isStaticChildren, debugStack, debugTask) {
-          var children = config.children;
-          if (void 0 !== children)
-            if (isStaticChildren)
-              if (isArrayImpl(children)) {
-                for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++)
-                  validateChildKeys(children[isStaticChildren]);
-                Object.freeze && Object.freeze(children);
-              } else
-                console.error(
-                  "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
-                );
-            else validateChildKeys(children);
-          if (hasOwnProperty.call(config, "key")) {
-            children = getComponentNameFromType(type);
-            var keys = Object.keys(config).filter(function(k) {
-              return "key" !== k;
-            });
-            isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
-            didWarnAboutKeySpread[children + isStaticChildren] || (keys = 0 < keys.length ? "{" + keys.join(": ..., ") + ": ...}" : "{}", console.error(
-              'A props object containing a "key" prop is being spread into JSX:\n  let props = %s;\n  <%s {...props} />\nReact keys must be passed directly to JSX without using spread:\n  let props = %s;\n  <%s key={someKey} {...props} />',
-              isStaticChildren,
-              children,
-              keys,
-              children
-            ), didWarnAboutKeySpread[children + isStaticChildren] = true);
-          }
-          children = null;
-          void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
-          hasValidKey(config) && (checkKeyStringCoercion(config.key), children = "" + config.key);
-          if ("key" in config) {
-            maybeKey = {};
-            for (var propName in config)
-              "key" !== propName && (maybeKey[propName] = config[propName]);
-          } else maybeKey = config;
-          children && defineKeyPropWarningGetter(
-            maybeKey,
-            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
-          );
-          return ReactElement(
-            type,
-            children,
-            maybeKey,
-            getOwner(),
-            debugStack,
-            debugTask
-          );
-        }
-        function validateChildKeys(node) {
-          isValidElement(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node._payload.status ? isValidElement(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
-        }
-        function isValidElement(object) {
-          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-        }
-        var React = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
-          return null;
-        };
-        React = {
-          react_stack_bottom_frame: function(callStackForError) {
-            return callStackForError();
-          }
-        };
-        var specialPropKeyWarningShown;
-        var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React.react_stack_bottom_frame.bind(
-          React,
-          UnknownOwner
-        )();
-        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
-        var didWarnAboutKeySpread = {};
-        exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.jsx = function(type, config, maybeKey) {
-          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return jsxDEVImpl(
-            type,
-            config,
-            maybeKey,
-            false,
-            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
-            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
-          );
-        };
-        exports.jsxs = function(type, config, maybeKey) {
-          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return jsxDEVImpl(
-            type,
-            config,
-            maybeKey,
-            true,
-            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
-            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
-          );
-        };
-      })();
-    }
-  });
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var import_react10 = __toESM(require_react(), 1);
 
-  // node_modules/react/jsx-runtime.js
-  var require_jsx_runtime = __commonJS({
-    "node_modules/react/jsx-runtime.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
+  // node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs
+  var import_react = __toESM(require_react(), 1);
+  var LayoutGroupContext = (0, import_react.createContext)({});
+
+  // node_modules/framer-motion/dist/es/utils/use-constant.mjs
+  var import_react2 = __toESM(require_react(), 1);
+  function useConstant(init) {
+    const ref = (0, import_react2.useRef)(null);
+    if (ref.current === null) {
+      ref.current = init();
+    }
+    return ref.current;
+  }
+
+  // node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs
+  var import_react3 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/utils/is-browser.mjs
+  var isBrowser = typeof window !== "undefined";
+
+  // node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs
+  var useIsomorphicLayoutEffect = isBrowser ? import_react3.useLayoutEffect : import_react3.useEffect;
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var React3 = __toESM(require_react(), 1);
+  var import_react7 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/context/PresenceContext.mjs
+  var import_react4 = __toESM(require_react(), 1);
+  var PresenceContext = /* @__PURE__ */ (0, import_react4.createContext)(null);
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+
+  // node_modules/motion-utils/dist/es/array.mjs
+  function addUniqueItem(arr, item) {
+    if (arr.indexOf(item) === -1)
+      arr.push(item);
+  }
+  function removeItem(arr, item) {
+    const index = arr.indexOf(item);
+    if (index > -1)
+      arr.splice(index, 1);
+  }
+
+  // node_modules/motion-utils/dist/es/clamp.mjs
+  var clamp = (min, max, v) => {
+    if (v > max)
+      return max;
+    if (v < min)
+      return min;
+    return v;
+  };
+
+  // node_modules/motion-utils/dist/es/format-error-message.mjs
+  function formatErrorMessage(message, errorCode) {
+    return errorCode ? `${message}. For more information and steps for solving, visit https://motion.dev/troubleshooting/${errorCode}` : message;
+  }
+
+  // node_modules/motion-utils/dist/es/errors.mjs
+  var warning = () => {
+  };
+  var invariant = () => {
+  };
+  if (typeof process !== "undefined" && true) {
+    warning = (check, message, errorCode) => {
+      if (!check && typeof console !== "undefined") {
+        console.warn(formatErrorMessage(message, errorCode));
+      }
+    };
+    invariant = (check, message, errorCode) => {
+      if (!check) {
+        throw new Error(formatErrorMessage(message, errorCode));
+      }
+    };
+  }
+
+  // node_modules/motion-utils/dist/es/global-config.mjs
+  var MotionGlobalConfig = {};
+
+  // node_modules/motion-utils/dist/es/is-numerical-string.mjs
+  var isNumericalString = (v) => /^-?(?:\d+(?:\.\d+)?|\.\d+)$/u.test(v);
+
+  // node_modules/motion-utils/dist/es/is-object.mjs
+  var isObject = (value) => typeof value === "object" && value !== null;
+
+  // node_modules/motion-utils/dist/es/is-zero-value-string.mjs
+  var isZeroValueString = (v) => /^0[^.\s]+$/u.test(v);
+
+  // node_modules/motion-utils/dist/es/memo.mjs
+  // @__NO_SIDE_EFFECTS__
+  function memo(callback) {
+    let result;
+    return () => {
+      if (result === void 0)
+        result = callback();
+      return result;
+    };
+  }
+
+  // node_modules/motion-utils/dist/es/noop.mjs
+  var noop = /* @__NO_SIDE_EFFECTS__ */ (any) => any;
+
+  // node_modules/motion-utils/dist/es/pipe.mjs
+  var pipe = (...transformers) => transformers.reduce((a, b) => (v) => b(a(v)));
+
+  // node_modules/motion-utils/dist/es/progress.mjs
+  var progress = /* @__NO_SIDE_EFFECTS__ */ (from, to, value) => {
+    const range = to - from;
+    return range ? (value - from) / range : 1;
+  };
+
+  // node_modules/motion-utils/dist/es/subscription-manager.mjs
+  var SubscriptionManager = class {
+    constructor() {
+      this.subscriptions = [];
+    }
+    add(handler) {
+      addUniqueItem(this.subscriptions, handler);
+      return () => removeItem(this.subscriptions, handler);
+    }
+    notify(a, b, c) {
+      const numSubscriptions = this.subscriptions.length;
+      if (!numSubscriptions)
+        return;
+      if (numSubscriptions === 1) {
+        this.subscriptions[0](a, b, c);
       } else {
-        module.exports = require_react_jsx_runtime_development();
+        for (let i = 0; i < numSubscriptions; i++) {
+          const handler = this.subscriptions[i];
+          handler && handler(a, b, c);
+        }
       }
     }
+    getSize() {
+      return this.subscriptions.length;
+    }
+    clear() {
+      this.subscriptions.length = 0;
+    }
+  };
+
+  // node_modules/motion-utils/dist/es/time-conversion.mjs
+  var secondsToMilliseconds = /* @__NO_SIDE_EFFECTS__ */ (seconds) => seconds * 1e3;
+  var millisecondsToSeconds = /* @__NO_SIDE_EFFECTS__ */ (milliseconds) => milliseconds / 1e3;
+
+  // node_modules/motion-utils/dist/es/velocity-per-second.mjs
+  var velocityPerSecond = /* @__NO_SIDE_EFFECTS__ */ (velocity, frameDuration) => frameDuration ? velocity * (1e3 / frameDuration) : 0;
+
+  // node_modules/motion-utils/dist/es/warn-once.mjs
+  var warned = /* @__PURE__ */ new Set();
+  function warnOnce(condition, message, errorCode) {
+    if (condition || warned.has(message))
+      return;
+    console.warn(formatErrorMessage(message, errorCode));
+    warned.add(message);
+  }
+
+  // node_modules/motion-utils/dist/es/easing/cubic-bezier.mjs
+  var calcBezier = (t, a1, a2) => (((1 - 3 * a2 + 3 * a1) * t + (3 * a2 - 6 * a1)) * t + 3 * a1) * t;
+  var subdivisionPrecision = 1e-7;
+  var subdivisionMaxIterations = 12;
+  function binarySubdivide(x, lowerBound, upperBound, mX1, mX2) {
+    let currentX;
+    let currentT;
+    let i = 0;
+    do {
+      currentT = lowerBound + (upperBound - lowerBound) / 2;
+      currentX = calcBezier(currentT, mX1, mX2) - x;
+      if (currentX > 0) {
+        upperBound = currentT;
+      } else {
+        lowerBound = currentT;
+      }
+    } while (Math.abs(currentX) > subdivisionPrecision && ++i < subdivisionMaxIterations);
+    return currentT;
+  }
+  // @__NO_SIDE_EFFECTS__
+  function cubicBezier(mX1, mY1, mX2, mY2) {
+    if (mX1 === mY1 && mX2 === mY2)
+      return noop;
+    const getTForX = (aX) => binarySubdivide(aX, 0, 1, mX1, mX2);
+    return (t) => t === 0 || t === 1 ? t : calcBezier(getTForX(t), mY1, mY2);
+  }
+
+  // node_modules/motion-utils/dist/es/easing/modifiers/mirror.mjs
+  var mirrorEasing = /* @__NO_SIDE_EFFECTS__ */ (easing) => (p) => p <= 0.5 ? easing(2 * p) / 2 : (2 - easing(2 * (1 - p))) / 2;
+
+  // node_modules/motion-utils/dist/es/easing/modifiers/reverse.mjs
+  var reverseEasing = /* @__NO_SIDE_EFFECTS__ */ (easing) => (p) => 1 - easing(1 - p);
+
+  // node_modules/motion-utils/dist/es/easing/back.mjs
+  var backOut = /* @__PURE__ */ cubicBezier(0.33, 1.53, 0.69, 0.99);
+  var backIn = /* @__PURE__ */ reverseEasing(backOut);
+  var backInOut = /* @__PURE__ */ mirrorEasing(backIn);
+
+  // node_modules/motion-utils/dist/es/easing/anticipate.mjs
+  var anticipate = (p) => p >= 1 ? 1 : (p *= 2) < 1 ? 0.5 * backIn(p) : 0.5 * (2 - Math.pow(2, -10 * (p - 1)));
+
+  // node_modules/motion-utils/dist/es/easing/circ.mjs
+  var circIn = (p) => 1 - Math.sin(Math.acos(p));
+  var circOut = reverseEasing(circIn);
+  var circInOut = mirrorEasing(circIn);
+
+  // node_modules/motion-utils/dist/es/easing/ease.mjs
+  var easeIn = /* @__PURE__ */ cubicBezier(0.42, 0, 1, 1);
+  var easeOut = /* @__PURE__ */ cubicBezier(0, 0, 0.58, 1);
+  var easeInOut = /* @__PURE__ */ cubicBezier(0.42, 0, 0.58, 1);
+
+  // node_modules/motion-utils/dist/es/easing/utils/is-easing-array.mjs
+  var isEasingArray = /* @__NO_SIDE_EFFECTS__ */ (ease2) => {
+    return Array.isArray(ease2) && typeof ease2[0] !== "number";
+  };
+
+  // node_modules/motion-utils/dist/es/easing/utils/is-bezier-definition.mjs
+  var isBezierDefinition = /* @__NO_SIDE_EFFECTS__ */ (easing) => Array.isArray(easing) && typeof easing[0] === "number";
+
+  // node_modules/motion-utils/dist/es/easing/utils/map.mjs
+  var easingLookup = {
+    linear: noop,
+    easeIn,
+    easeInOut,
+    easeOut,
+    circIn,
+    circInOut,
+    circOut,
+    backIn,
+    backInOut,
+    backOut,
+    anticipate
+  };
+  var isValidEasing = (easing) => {
+    return typeof easing === "string";
+  };
+  var easingDefinitionToFunction = (definition) => {
+    if (isBezierDefinition(definition)) {
+      invariant(definition.length === 4, `Cubic bezier arrays must contain four numerical values.`, "cubic-bezier-length");
+      const [x1, y1, x2, y2] = definition;
+      return cubicBezier(x1, y1, x2, y2);
+    } else if (isValidEasing(definition)) {
+      invariant(easingLookup[definition] !== void 0, `Invalid easing type '${definition}'`, "invalid-easing-type");
+      return easingLookup[definition];
+    }
+    return definition;
+  };
+
+  // node_modules/motion-dom/dist/es/frameloop/order.mjs
+  var stepsOrder = [
+    "setup",
+    // Compute
+    "read",
+    // Read
+    "resolveKeyframes",
+    // Write/Read/Write/Read
+    "preUpdate",
+    // Compute
+    "update",
+    // Compute
+    "preRender",
+    // Compute
+    "render",
+    // Write
+    "postRender"
+    // Compute
+  ];
+
+  // node_modules/motion-dom/dist/es/frameloop/render-step.mjs
+  function createRenderStep(runNextFrame) {
+    let thisFrame = /* @__PURE__ */ new Set();
+    let nextFrame = /* @__PURE__ */ new Set();
+    let isProcessing = false;
+    let flushNextFrame = false;
+    const toKeepAlive = /* @__PURE__ */ new WeakSet();
+    let latestFrameData = {
+      delta: 0,
+      timestamp: 0,
+      isProcessing: false
+    };
+    function triggerCallback(callback) {
+      if (toKeepAlive.has(callback)) {
+        step.schedule(callback);
+        runNextFrame();
+      }
+      callback(latestFrameData);
+    }
+    const step = {
+      /**
+       * Schedule a process to run on the next frame.
+       */
+      schedule: (callback, keepAlive = false, immediate = false) => {
+        const addToCurrentFrame = immediate && isProcessing;
+        const queue = addToCurrentFrame ? thisFrame : nextFrame;
+        if (keepAlive)
+          toKeepAlive.add(callback);
+        queue.add(callback);
+        return callback;
+      },
+      /**
+       * Cancel the provided callback from running on the next frame.
+       */
+      cancel: (callback) => {
+        nextFrame.delete(callback);
+        toKeepAlive.delete(callback);
+      },
+      /**
+       * Execute all schedule callbacks.
+       */
+      process: (frameData2) => {
+        latestFrameData = frameData2;
+        if (isProcessing) {
+          flushNextFrame = true;
+          return;
+        }
+        isProcessing = true;
+        const prevFrame = thisFrame;
+        thisFrame = nextFrame;
+        nextFrame = prevFrame;
+        thisFrame.forEach(triggerCallback);
+        thisFrame.clear();
+        isProcessing = false;
+        if (flushNextFrame) {
+          flushNextFrame = false;
+          step.process(frameData2);
+        }
+      }
+    };
+    return step;
+  }
+
+  // node_modules/motion-dom/dist/es/frameloop/batcher.mjs
+  var maxElapsed = 40;
+  function createRenderBatcher(scheduleNextBatch, allowKeepAlive) {
+    let runNextFrame = false;
+    let useDefaultElapsed = true;
+    const state = {
+      delta: 0,
+      timestamp: 0,
+      isProcessing: false
+    };
+    const flagRunNextFrame = () => runNextFrame = true;
+    const steps = stepsOrder.reduce((acc, key) => {
+      acc[key] = createRenderStep(flagRunNextFrame);
+      return acc;
+    }, {});
+    const { setup, read, resolveKeyframes, preUpdate, update, preRender, render, postRender } = steps;
+    const processBatch = () => {
+      const useManualTiming = MotionGlobalConfig.useManualTiming;
+      const timestamp = useManualTiming ? state.timestamp : performance.now();
+      runNextFrame = false;
+      if (!useManualTiming) {
+        state.delta = useDefaultElapsed ? 1e3 / 60 : Math.max(Math.min(timestamp - state.timestamp, maxElapsed), 1);
+      }
+      state.timestamp = timestamp;
+      state.isProcessing = true;
+      setup.process(state);
+      read.process(state);
+      resolveKeyframes.process(state);
+      preUpdate.process(state);
+      update.process(state);
+      preRender.process(state);
+      render.process(state);
+      postRender.process(state);
+      state.isProcessing = false;
+      if (runNextFrame && allowKeepAlive) {
+        useDefaultElapsed = false;
+        scheduleNextBatch(processBatch);
+      }
+    };
+    const wake = () => {
+      runNextFrame = true;
+      useDefaultElapsed = true;
+      if (!state.isProcessing) {
+        scheduleNextBatch(processBatch);
+      }
+    };
+    const schedule = stepsOrder.reduce((acc, key) => {
+      const step = steps[key];
+      acc[key] = (process2, keepAlive = false, immediate = false) => {
+        if (!runNextFrame)
+          wake();
+        return step.schedule(process2, keepAlive, immediate);
+      };
+      return acc;
+    }, {});
+    const cancel = (process2) => {
+      for (let i = 0; i < stepsOrder.length; i++) {
+        steps[stepsOrder[i]].cancel(process2);
+      }
+    };
+    return { schedule, cancel, state, steps };
+  }
+
+  // node_modules/motion-dom/dist/es/frameloop/frame.mjs
+  var { schedule: frame, cancel: cancelFrame, state: frameData, steps: frameSteps } = /* @__PURE__ */ createRenderBatcher(typeof requestAnimationFrame !== "undefined" ? requestAnimationFrame : noop, true);
+
+  // node_modules/motion-dom/dist/es/frameloop/sync-time.mjs
+  var now;
+  function clearTime() {
+    now = void 0;
+  }
+  var time = {
+    now: () => {
+      if (now === void 0) {
+        time.set(frameData.isProcessing || MotionGlobalConfig.useManualTiming ? frameData.timestamp : performance.now());
+      }
+      return now;
+    },
+    set: (newTime) => {
+      now = newTime;
+      queueMicrotask(clearTime);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/animation/utils/is-css-variable.mjs
+  var checkStringStartsWith = (token) => (key) => typeof key === "string" && key.startsWith(token);
+  var isCSSVariableName = /* @__PURE__ */ checkStringStartsWith("--");
+  var startsAsVariableToken = /* @__PURE__ */ checkStringStartsWith("var(--");
+  var isCSSVariableToken = (value) => {
+    const startsWithToken = startsAsVariableToken(value);
+    if (!startsWithToken)
+      return false;
+    return singleCssVariableRegex.test(value.split("/*")[0].trim());
+  };
+  var singleCssVariableRegex = /var\(--(?:[\w-]+\s*|[\w-]+\s*,(?:\s*[^)(\s]|\s*\((?:[^)(]|\([^)(]*\))*\))+\s*)\)$/iu;
+  function containsCSSVariable(value) {
+    if (typeof value !== "string")
+      return false;
+    return value.split("/*")[0].includes("var(--");
+  }
+
+  // node_modules/motion-dom/dist/es/value/types/numbers/index.mjs
+  var number = {
+    test: (v) => typeof v === "number",
+    parse: parseFloat,
+    transform: (v) => v
+  };
+  var alpha = {
+    ...number,
+    transform: (v) => clamp(0, 1, v)
+  };
+  var scale = {
+    ...number,
+    default: 1
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/utils/sanitize.mjs
+  var sanitize = (v) => Math.round(v * 1e5) / 1e5;
+
+  // node_modules/motion-dom/dist/es/value/types/utils/float-regex.mjs
+  var floatRegex = /-?(?:\d+(?:\.\d+)?|\.\d+)/gu;
+
+  // node_modules/motion-dom/dist/es/value/types/utils/is-nullish.mjs
+  function isNullish(v) {
+    return v == null;
+  }
+
+  // node_modules/motion-dom/dist/es/value/types/utils/single-color-regex.mjs
+  var singleColorRegex = /^(?:#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]+%?\s*(?:[,/]\s*)?(?:\b\d+(?:\.\d+)?|\.\d+)?%?\))$/iu;
+
+  // node_modules/motion-dom/dist/es/value/types/color/utils.mjs
+  var isColorString = (type, testProp) => (v) => {
+    return Boolean(typeof v === "string" && singleColorRegex.test(v) && v.startsWith(type) || testProp && !isNullish(v) && Object.prototype.hasOwnProperty.call(v, testProp));
+  };
+  var splitColor = (aName, bName, cName) => (v) => {
+    if (typeof v !== "string")
+      return v;
+    const [a, b, c, alpha2] = v.match(floatRegex);
+    return {
+      [aName]: parseFloat(a),
+      [bName]: parseFloat(b),
+      [cName]: parseFloat(c),
+      alpha: alpha2 !== void 0 ? parseFloat(alpha2) : 1
+    };
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/color/rgba.mjs
+  var clampRgbUnit = (v) => clamp(0, 255, v);
+  var rgbUnit = {
+    ...number,
+    transform: (v) => Math.round(clampRgbUnit(v))
+  };
+  var rgba = {
+    test: /* @__PURE__ */ isColorString("rgb", "red"),
+    parse: /* @__PURE__ */ splitColor("red", "green", "blue"),
+    transform: ({ red, green, blue, alpha: alpha$1 = 1 }) => "rgba(" + rgbUnit.transform(red) + ", " + rgbUnit.transform(green) + ", " + rgbUnit.transform(blue) + ", " + sanitize(alpha.transform(alpha$1)) + ")"
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/color/hex.mjs
+  function parseHex(v) {
+    let r = "";
+    let g = "";
+    let b = "";
+    let a = "";
+    if (v.length > 5) {
+      r = v.substring(1, 3);
+      g = v.substring(3, 5);
+      b = v.substring(5, 7);
+      a = v.substring(7, 9);
+    } else {
+      r = v.substring(1, 2);
+      g = v.substring(2, 3);
+      b = v.substring(3, 4);
+      a = v.substring(4, 5);
+      r += r;
+      g += g;
+      b += b;
+      a += a;
+    }
+    return {
+      red: parseInt(r, 16),
+      green: parseInt(g, 16),
+      blue: parseInt(b, 16),
+      alpha: a ? parseInt(a, 16) / 255 : 1
+    };
+  }
+  var hex = {
+    test: /* @__PURE__ */ isColorString("#"),
+    parse: parseHex,
+    transform: rgba.transform
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/numbers/units.mjs
+  var createUnitType = /* @__NO_SIDE_EFFECTS__ */ (unit) => ({
+    test: (v) => typeof v === "string" && v.endsWith(unit) && v.split(" ").length === 1,
+    parse: parseFloat,
+    transform: (v) => `${v}${unit}`
+  });
+  var degrees = /* @__PURE__ */ createUnitType("deg");
+  var percent = /* @__PURE__ */ createUnitType("%");
+  var px = /* @__PURE__ */ createUnitType("px");
+  var vh = /* @__PURE__ */ createUnitType("vh");
+  var vw = /* @__PURE__ */ createUnitType("vw");
+  var progressPercentage = /* @__PURE__ */ (() => ({
+    ...percent,
+    parse: (v) => percent.parse(v) / 100,
+    transform: (v) => percent.transform(v * 100)
+  }))();
+
+  // node_modules/motion-dom/dist/es/value/types/color/hsla.mjs
+  var hsla = {
+    test: /* @__PURE__ */ isColorString("hsl", "hue"),
+    parse: /* @__PURE__ */ splitColor("hue", "saturation", "lightness"),
+    transform: ({ hue, saturation, lightness, alpha: alpha$1 = 1 }) => {
+      return "hsla(" + Math.round(hue) + ", " + percent.transform(sanitize(saturation)) + ", " + percent.transform(sanitize(lightness)) + ", " + sanitize(alpha.transform(alpha$1)) + ")";
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/color/index.mjs
+  var color = {
+    test: (v) => rgba.test(v) || hex.test(v) || hsla.test(v),
+    parse: (v) => {
+      if (rgba.test(v)) {
+        return rgba.parse(v);
+      } else if (hsla.test(v)) {
+        return hsla.parse(v);
+      } else {
+        return hex.parse(v);
+      }
+    },
+    transform: (v) => {
+      return typeof v === "string" ? v : v.hasOwnProperty("red") ? rgba.transform(v) : hsla.transform(v);
+    },
+    getAnimatableNone: (v) => {
+      const parsed = color.parse(v);
+      parsed.alpha = 0;
+      return color.transform(parsed);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/utils/color-regex.mjs
+  var colorRegex = /(?:#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]+%?\s*(?:[,/]\s*)?(?:\b\d+(?:\.\d+)?|\.\d+)?%?\))/giu;
+
+  // node_modules/motion-dom/dist/es/value/types/complex/index.mjs
+  function test(v) {
+    return isNaN(v) && typeof v === "string" && (v.match(floatRegex)?.length || 0) + (v.match(colorRegex)?.length || 0) > 0;
+  }
+  var NUMBER_TOKEN = "number";
+  var COLOR_TOKEN = "color";
+  var VAR_TOKEN = "var";
+  var VAR_FUNCTION_TOKEN = "var(";
+  var SPLIT_TOKEN = "${}";
+  var complexRegex = /var\s*\(\s*--(?:[\w-]+\s*|[\w-]+\s*,(?:\s*[^)(\s]|\s*\((?:[^)(]|\([^)(]*\))*\))+\s*)\)|#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]+%?\s*(?:[,/]\s*)?(?:\b\d+(?:\.\d+)?|\.\d+)?%?\)|-?(?:\d+(?:\.\d+)?|\.\d+)/giu;
+  function analyseComplexValue(value) {
+    const originalValue = value.toString();
+    const values = [];
+    const indexes = {
+      color: [],
+      number: [],
+      var: []
+    };
+    const types = [];
+    let i = 0;
+    const tokenised = originalValue.replace(complexRegex, (parsedValue) => {
+      if (color.test(parsedValue)) {
+        indexes.color.push(i);
+        types.push(COLOR_TOKEN);
+        values.push(color.parse(parsedValue));
+      } else if (parsedValue.startsWith(VAR_FUNCTION_TOKEN)) {
+        indexes.var.push(i);
+        types.push(VAR_TOKEN);
+        values.push(parsedValue);
+      } else {
+        indexes.number.push(i);
+        types.push(NUMBER_TOKEN);
+        values.push(parseFloat(parsedValue));
+      }
+      ++i;
+      return SPLIT_TOKEN;
+    });
+    const split = tokenised.split(SPLIT_TOKEN);
+    return { values, split, indexes, types };
+  }
+  function parseComplexValue(v) {
+    return analyseComplexValue(v).values;
+  }
+  function buildTransformer({ split, types }) {
+    const numSections = split.length;
+    return (v) => {
+      let output = "";
+      for (let i = 0; i < numSections; i++) {
+        output += split[i];
+        if (v[i] !== void 0) {
+          const type = types[i];
+          if (type === NUMBER_TOKEN) {
+            output += sanitize(v[i]);
+          } else if (type === COLOR_TOKEN) {
+            output += color.transform(v[i]);
+          } else {
+            output += v[i];
+          }
+        }
+      }
+      return output;
+    };
+  }
+  function createTransformer(source) {
+    return buildTransformer(analyseComplexValue(source));
+  }
+  var convertNumbersToZero = (v) => typeof v === "number" ? 0 : color.test(v) ? color.getAnimatableNone(v) : v;
+  var convertToZero = (value, splitBefore) => {
+    if (typeof value === "number") {
+      return splitBefore?.trim().endsWith("/") ? value : 0;
+    }
+    return convertNumbersToZero(value);
+  };
+  function getAnimatableNone(v) {
+    const info = analyseComplexValue(v);
+    const transformer = buildTransformer(info);
+    return transformer(info.values.map((value, i) => convertToZero(value, info.split[i])));
+  }
+  var complex = {
+    test,
+    parse: parseComplexValue,
+    createTransformer,
+    getAnimatableNone
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/color/hsla-to-rgba.mjs
+  function hueToRgb(p, q, t) {
+    if (t < 0)
+      t += 1;
+    if (t > 1)
+      t -= 1;
+    if (t < 1 / 6)
+      return p + (q - p) * 6 * t;
+    if (t < 1 / 2)
+      return q;
+    if (t < 2 / 3)
+      return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  }
+  function hslaToRgba({ hue, saturation, lightness, alpha: alpha2 }) {
+    hue /= 360;
+    saturation /= 100;
+    lightness /= 100;
+    let red = 0;
+    let green = 0;
+    let blue = 0;
+    if (!saturation) {
+      red = green = blue = lightness;
+    } else {
+      const q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation;
+      const p = 2 * lightness - q;
+      red = hueToRgb(p, q, hue + 1 / 3);
+      green = hueToRgb(p, q, hue);
+      blue = hueToRgb(p, q, hue - 1 / 3);
+    }
+    return {
+      red: Math.round(red * 255),
+      green: Math.round(green * 255),
+      blue: Math.round(blue * 255),
+      alpha: alpha2
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/utils/mix/immediate.mjs
+  function mixImmediate(a, b) {
+    return (p) => p > 0 ? b : a;
+  }
+
+  // node_modules/motion-dom/dist/es/utils/mix/number.mjs
+  var mixNumber = (from, to, progress2) => {
+    return from + (to - from) * progress2;
+  };
+
+  // node_modules/motion-dom/dist/es/utils/mix/color.mjs
+  var mixLinearColor = (from, to, v) => {
+    const fromExpo = from * from;
+    const expo = v * (to * to - fromExpo) + fromExpo;
+    return expo < 0 ? 0 : Math.sqrt(expo);
+  };
+  var colorTypes = [hex, rgba, hsla];
+  var getColorType = (v) => colorTypes.find((type) => type.test(v));
+  function asRGBA(color2) {
+    const type = getColorType(color2);
+    warning(Boolean(type), `'${color2}' is not an animatable color. Use the equivalent color code instead.`, "color-not-animatable");
+    if (!Boolean(type))
+      return false;
+    let model = type.parse(color2);
+    if (type === hsla) {
+      model = hslaToRgba(model);
+    }
+    return model;
+  }
+  var mixColor = (from, to) => {
+    const fromRGBA = asRGBA(from);
+    const toRGBA = asRGBA(to);
+    if (!fromRGBA || !toRGBA) {
+      return mixImmediate(from, to);
+    }
+    const blended = { ...fromRGBA };
+    return (v) => {
+      blended.red = mixLinearColor(fromRGBA.red, toRGBA.red, v);
+      blended.green = mixLinearColor(fromRGBA.green, toRGBA.green, v);
+      blended.blue = mixLinearColor(fromRGBA.blue, toRGBA.blue, v);
+      blended.alpha = mixNumber(fromRGBA.alpha, toRGBA.alpha, v);
+      return rgba.transform(blended);
+    };
+  };
+
+  // node_modules/motion-dom/dist/es/utils/mix/visibility.mjs
+  var invisibleValues = /* @__PURE__ */ new Set(["none", "hidden"]);
+  function mixVisibility(origin, target) {
+    if (invisibleValues.has(origin)) {
+      return (p) => p <= 0 ? origin : target;
+    } else {
+      return (p) => p >= 1 ? target : origin;
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/utils/mix/complex.mjs
+  function mixNumber2(a, b) {
+    return (p) => mixNumber(a, b, p);
+  }
+  function getMixer(a) {
+    if (typeof a === "number") {
+      return mixNumber2;
+    } else if (typeof a === "string") {
+      return isCSSVariableToken(a) ? mixImmediate : color.test(a) ? mixColor : mixComplex;
+    } else if (Array.isArray(a)) {
+      return mixArray;
+    } else if (typeof a === "object") {
+      return color.test(a) ? mixColor : mixObject;
+    }
+    return mixImmediate;
+  }
+  function mixArray(a, b) {
+    const output = [...a];
+    const numValues = output.length;
+    const blendValue = a.map((v, i) => getMixer(v)(v, b[i]));
+    return (p) => {
+      for (let i = 0; i < numValues; i++) {
+        output[i] = blendValue[i](p);
+      }
+      return output;
+    };
+  }
+  function mixObject(a, b) {
+    const output = { ...a, ...b };
+    const blendValue = {};
+    for (const key in output) {
+      if (a[key] !== void 0 && b[key] !== void 0) {
+        blendValue[key] = getMixer(a[key])(a[key], b[key]);
+      }
+    }
+    return (v) => {
+      for (const key in blendValue) {
+        output[key] = blendValue[key](v);
+      }
+      return output;
+    };
+  }
+  function matchOrder(origin, target) {
+    const orderedOrigin = [];
+    const pointers = { color: 0, var: 0, number: 0 };
+    for (let i = 0; i < target.values.length; i++) {
+      const type = target.types[i];
+      const originIndex = origin.indexes[type][pointers[type]];
+      const originValue = origin.values[originIndex] ?? 0;
+      orderedOrigin[i] = originValue;
+      pointers[type]++;
+    }
+    return orderedOrigin;
+  }
+  var mixComplex = (origin, target) => {
+    const template = complex.createTransformer(target);
+    const originStats = analyseComplexValue(origin);
+    const targetStats = analyseComplexValue(target);
+    const canInterpolate = originStats.indexes.var.length === targetStats.indexes.var.length && originStats.indexes.color.length === targetStats.indexes.color.length && originStats.indexes.number.length >= targetStats.indexes.number.length;
+    if (canInterpolate) {
+      if (invisibleValues.has(origin) && !targetStats.values.length || invisibleValues.has(target) && !originStats.values.length) {
+        return mixVisibility(origin, target);
+      }
+      return pipe(mixArray(matchOrder(originStats, targetStats), targetStats.values), template);
+    } else {
+      warning(true, `Complex values '${origin}' and '${target}' too different to mix. Ensure all colors are of the same type, and that each contains the same quantity of number and color values. Falling back to instant transition.`, "complex-values-different");
+      return mixImmediate(origin, target);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/utils/mix/index.mjs
+  function mix(from, to, p) {
+    if (typeof from === "number" && typeof to === "number" && typeof p === "number") {
+      return mixNumber(from, to, p);
+    }
+    const mixer = getMixer(from);
+    return mixer(from, to);
+  }
+
+  // node_modules/motion-dom/dist/es/animation/drivers/frame.mjs
+  var frameloopDriver = (update) => {
+    const passTimestamp = ({ timestamp }) => update(timestamp);
+    return {
+      start: (keepAlive = true) => frame.update(passTimestamp, keepAlive),
+      stop: () => cancelFrame(passTimestamp),
+      /**
+       * If we're processing this frame we can use the
+       * framelocked timestamp to keep things in sync.
+       */
+      now: () => frameData.isProcessing ? frameData.timestamp : time.now()
+    };
+  };
+
+  // node_modules/motion-dom/dist/es/animation/waapi/utils/linear.mjs
+  var generateLinearEasing = (easing, duration, resolution = 10) => {
+    let points = "";
+    const numPoints = Math.max(Math.round(duration / resolution), 2);
+    for (let i = 0; i < numPoints; i++) {
+      points += Math.round(easing(i / (numPoints - 1)) * 1e4) / 1e4 + ", ";
+    }
+    return `linear(${points.substring(0, points.length - 2)})`;
+  };
+
+  // node_modules/motion-dom/dist/es/animation/generators/utils/calc-duration.mjs
+  var maxGeneratorDuration = 2e4;
+  function calcGeneratorDuration(generator) {
+    let duration = 0;
+    const timeStep = 50;
+    let state = generator.next(duration);
+    while (!state.done && duration < maxGeneratorDuration) {
+      duration += timeStep;
+      state = generator.next(duration);
+    }
+    return duration >= maxGeneratorDuration ? Infinity : duration;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/generators/utils/create-generator-easing.mjs
+  function createGeneratorEasing(options, scale2 = 100, createGenerator) {
+    const generator = createGenerator({ ...options, keyframes: [0, scale2] });
+    const duration = Math.min(calcGeneratorDuration(generator), maxGeneratorDuration);
+    return {
+      type: "keyframes",
+      ease: (progress2) => {
+        return generator.next(duration * progress2).value / scale2;
+      },
+      duration: millisecondsToSeconds(duration)
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/animation/generators/spring.mjs
+  var springDefaults = {
+    // Default spring physics
+    stiffness: 100,
+    damping: 10,
+    mass: 1,
+    velocity: 0,
+    // Default duration/bounce-based options
+    duration: 800,
+    // in ms
+    bounce: 0.3,
+    visualDuration: 0.3,
+    // in seconds
+    // Rest thresholds
+    restSpeed: {
+      granular: 0.01,
+      default: 2
+    },
+    restDelta: {
+      granular: 5e-3,
+      default: 0.5
+    },
+    // Limits
+    minDuration: 0.01,
+    // in seconds
+    maxDuration: 10,
+    // in seconds
+    minDamping: 0.05,
+    maxDamping: 1
+  };
+  function calcAngularFreq(undampedFreq, dampingRatio) {
+    return undampedFreq * Math.sqrt(1 - dampingRatio * dampingRatio);
+  }
+  var rootIterations = 12;
+  function approximateRoot(envelope, derivative, initialGuess) {
+    let result = initialGuess;
+    for (let i = 1; i < rootIterations; i++) {
+      result = result - envelope(result) / derivative(result);
+    }
+    return result;
+  }
+  var safeMin = 1e-3;
+  function findSpring({ duration = springDefaults.duration, bounce = springDefaults.bounce, velocity = springDefaults.velocity, mass = springDefaults.mass }) {
+    let envelope;
+    let derivative;
+    warning(duration <= secondsToMilliseconds(springDefaults.maxDuration), "Spring duration must be 10 seconds or less", "spring-duration-limit");
+    let dampingRatio = 1 - bounce;
+    dampingRatio = clamp(springDefaults.minDamping, springDefaults.maxDamping, dampingRatio);
+    duration = clamp(springDefaults.minDuration, springDefaults.maxDuration, millisecondsToSeconds(duration));
+    if (dampingRatio < 1) {
+      envelope = (undampedFreq2) => {
+        const exponentialDecay = undampedFreq2 * dampingRatio;
+        const delta = exponentialDecay * duration;
+        const a = exponentialDecay - velocity;
+        const b = calcAngularFreq(undampedFreq2, dampingRatio);
+        const c = Math.exp(-delta);
+        return safeMin - a / b * c;
+      };
+      derivative = (undampedFreq2) => {
+        const exponentialDecay = undampedFreq2 * dampingRatio;
+        const delta = exponentialDecay * duration;
+        const d = delta * velocity + velocity;
+        const e = Math.pow(dampingRatio, 2) * Math.pow(undampedFreq2, 2) * duration;
+        const f = Math.exp(-delta);
+        const g = calcAngularFreq(Math.pow(undampedFreq2, 2), dampingRatio);
+        const factor = -envelope(undampedFreq2) + safeMin > 0 ? -1 : 1;
+        return factor * ((d - e) * f) / g;
+      };
+    } else {
+      envelope = (undampedFreq2) => {
+        const a = Math.exp(-undampedFreq2 * duration);
+        const b = (undampedFreq2 - velocity) * duration + 1;
+        return -safeMin + a * b;
+      };
+      derivative = (undampedFreq2) => {
+        const a = Math.exp(-undampedFreq2 * duration);
+        const b = (velocity - undampedFreq2) * (duration * duration);
+        return a * b;
+      };
+    }
+    const initialGuess = 5 / duration;
+    const undampedFreq = approximateRoot(envelope, derivative, initialGuess);
+    duration = secondsToMilliseconds(duration);
+    if (isNaN(undampedFreq)) {
+      return {
+        stiffness: springDefaults.stiffness,
+        damping: springDefaults.damping,
+        duration
+      };
+    } else {
+      const stiffness = Math.pow(undampedFreq, 2) * mass;
+      return {
+        stiffness,
+        damping: dampingRatio * 2 * Math.sqrt(mass * stiffness),
+        duration
+      };
+    }
+  }
+  var durationKeys = ["duration", "bounce"];
+  var physicsKeys = ["stiffness", "damping", "mass"];
+  function isSpringType(options, keys) {
+    return keys.some((key) => options[key] !== void 0);
+  }
+  function getSpringOptions(options) {
+    let springOptions = {
+      velocity: springDefaults.velocity,
+      stiffness: springDefaults.stiffness,
+      damping: springDefaults.damping,
+      mass: springDefaults.mass,
+      isResolvedFromDuration: false,
+      ...options
+    };
+    if (!isSpringType(options, physicsKeys) && isSpringType(options, durationKeys)) {
+      springOptions.velocity = 0;
+      if (options.visualDuration) {
+        const visualDuration = options.visualDuration;
+        const root = 2 * Math.PI / (visualDuration * 1.2);
+        const stiffness = root * root;
+        const damping = 2 * clamp(0.05, 1, 1 - (options.bounce || 0)) * Math.sqrt(stiffness);
+        springOptions = {
+          ...springOptions,
+          mass: springDefaults.mass,
+          stiffness,
+          damping
+        };
+      } else {
+        const derived = findSpring({ ...options, velocity: 0 });
+        springOptions = {
+          ...springOptions,
+          ...derived,
+          mass: springDefaults.mass
+        };
+        springOptions.isResolvedFromDuration = true;
+      }
+    }
+    return springOptions;
+  }
+  function spring(optionsOrVisualDuration = springDefaults.visualDuration, bounce = springDefaults.bounce) {
+    const options = typeof optionsOrVisualDuration !== "object" ? {
+      visualDuration: optionsOrVisualDuration,
+      keyframes: [0, 1],
+      bounce
+    } : optionsOrVisualDuration;
+    let { restSpeed, restDelta } = options;
+    const origin = options.keyframes[0];
+    const target = options.keyframes[options.keyframes.length - 1];
+    const state = { done: false, value: origin };
+    const { stiffness, damping, mass, duration, velocity, isResolvedFromDuration } = getSpringOptions({
+      ...options,
+      velocity: -millisecondsToSeconds(options.velocity || 0)
+    });
+    const initialVelocity = velocity || 0;
+    const dampingRatio = damping / (2 * Math.sqrt(stiffness * mass));
+    const initialDelta = target - origin;
+    const undampedAngularFreq = millisecondsToSeconds(Math.sqrt(stiffness / mass));
+    const isGranularScale = Math.abs(initialDelta) < 5;
+    restSpeed || (restSpeed = isGranularScale ? springDefaults.restSpeed.granular : springDefaults.restSpeed.default);
+    restDelta || (restDelta = isGranularScale ? springDefaults.restDelta.granular : springDefaults.restDelta.default);
+    let resolveSpring;
+    let resolveVelocity;
+    let angularFreq;
+    let A;
+    let sinCoeff;
+    let cosCoeff;
+    if (dampingRatio < 1) {
+      angularFreq = calcAngularFreq(undampedAngularFreq, dampingRatio);
+      A = (initialVelocity + dampingRatio * undampedAngularFreq * initialDelta) / angularFreq;
+      resolveSpring = (t) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t);
+        return target - envelope * (A * Math.sin(angularFreq * t) + initialDelta * Math.cos(angularFreq * t));
+      };
+      sinCoeff = dampingRatio * undampedAngularFreq * A + initialDelta * angularFreq;
+      cosCoeff = dampingRatio * undampedAngularFreq * initialDelta - A * angularFreq;
+      resolveVelocity = (t) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t);
+        return envelope * (sinCoeff * Math.sin(angularFreq * t) + cosCoeff * Math.cos(angularFreq * t));
+      };
+    } else if (dampingRatio === 1) {
+      resolveSpring = (t) => target - Math.exp(-undampedAngularFreq * t) * (initialDelta + (initialVelocity + undampedAngularFreq * initialDelta) * t);
+      const C = initialVelocity + undampedAngularFreq * initialDelta;
+      resolveVelocity = (t) => Math.exp(-undampedAngularFreq * t) * (undampedAngularFreq * C * t - initialVelocity);
+    } else {
+      const dampedAngularFreq = undampedAngularFreq * Math.sqrt(dampingRatio * dampingRatio - 1);
+      resolveSpring = (t) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t);
+        const freqForT = Math.min(dampedAngularFreq * t, 300);
+        return target - envelope * ((initialVelocity + dampingRatio * undampedAngularFreq * initialDelta) * Math.sinh(freqForT) + dampedAngularFreq * initialDelta * Math.cosh(freqForT)) / dampedAngularFreq;
+      };
+      const P = (initialVelocity + dampingRatio * undampedAngularFreq * initialDelta) / dampedAngularFreq;
+      const sinhCoeff = dampingRatio * undampedAngularFreq * P - initialDelta * dampedAngularFreq;
+      const coshCoeff = dampingRatio * undampedAngularFreq * initialDelta - P * dampedAngularFreq;
+      resolveVelocity = (t) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t);
+        const freqForT = Math.min(dampedAngularFreq * t, 300);
+        return envelope * (sinhCoeff * Math.sinh(freqForT) + coshCoeff * Math.cosh(freqForT));
+      };
+    }
+    const generator = {
+      calculatedDuration: isResolvedFromDuration ? duration || null : null,
+      velocity: (t) => secondsToMilliseconds(resolveVelocity(t)),
+      next: (t) => {
+        if (!isResolvedFromDuration && dampingRatio < 1) {
+          const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t);
+          const sin = Math.sin(angularFreq * t);
+          const cos = Math.cos(angularFreq * t);
+          const current2 = target - envelope * (A * sin + initialDelta * cos);
+          const currentVelocity = secondsToMilliseconds(envelope * (sinCoeff * sin + cosCoeff * cos));
+          state.done = Math.abs(currentVelocity) <= restSpeed && Math.abs(target - current2) <= restDelta;
+          state.value = state.done ? target : current2;
+          return state;
+        }
+        const current = resolveSpring(t);
+        if (!isResolvedFromDuration) {
+          const currentVelocity = secondsToMilliseconds(resolveVelocity(t));
+          state.done = Math.abs(currentVelocity) <= restSpeed && Math.abs(target - current) <= restDelta;
+        } else {
+          state.done = t >= duration;
+        }
+        state.value = state.done ? target : current;
+        return state;
+      },
+      toString: () => {
+        const calculatedDuration = Math.min(calcGeneratorDuration(generator), maxGeneratorDuration);
+        const easing = generateLinearEasing((progress2) => generator.next(calculatedDuration * progress2).value, calculatedDuration, 30);
+        return calculatedDuration + "ms " + easing;
+      },
+      toTransition: () => {
+      }
+    };
+    return generator;
+  }
+  spring.applyToOptions = (options) => {
+    const generatorOptions = createGeneratorEasing(options, 100, spring);
+    options.ease = generatorOptions.ease;
+    options.duration = secondsToMilliseconds(generatorOptions.duration);
+    options.type = "keyframes";
+    return options;
+  };
+
+  // node_modules/motion-dom/dist/es/animation/generators/utils/velocity.mjs
+  var velocitySampleDuration = 5;
+  function getGeneratorVelocity(resolveValue, t, current) {
+    const prevT = Math.max(t - velocitySampleDuration, 0);
+    return velocityPerSecond(current - resolveValue(prevT), t - prevT);
+  }
+
+  // node_modules/motion-dom/dist/es/animation/generators/inertia.mjs
+  function inertia({ keyframes: keyframes2, velocity = 0, power = 0.8, timeConstant = 325, bounceDamping = 10, bounceStiffness = 500, modifyTarget, min, max, restDelta = 0.5, restSpeed }) {
+    const origin = keyframes2[0];
+    const state = {
+      done: false,
+      value: origin
+    };
+    const isOutOfBounds = (v) => min !== void 0 && v < min || max !== void 0 && v > max;
+    const nearestBoundary = (v) => {
+      if (min === void 0)
+        return max;
+      if (max === void 0)
+        return min;
+      return Math.abs(min - v) < Math.abs(max - v) ? min : max;
+    };
+    let amplitude = power * velocity;
+    const ideal = origin + amplitude;
+    const target = modifyTarget === void 0 ? ideal : modifyTarget(ideal);
+    if (target !== ideal)
+      amplitude = target - origin;
+    const calcDelta = (t) => -amplitude * Math.exp(-t / timeConstant);
+    const calcLatest = (t) => target + calcDelta(t);
+    const applyFriction = (t) => {
+      const delta = calcDelta(t);
+      const latest = calcLatest(t);
+      state.done = Math.abs(delta) <= restDelta;
+      state.value = state.done ? target : latest;
+    };
+    let timeReachedBoundary;
+    let spring$1;
+    const checkCatchBoundary = (t) => {
+      if (!isOutOfBounds(state.value))
+        return;
+      timeReachedBoundary = t;
+      spring$1 = spring({
+        keyframes: [state.value, nearestBoundary(state.value)],
+        velocity: getGeneratorVelocity(calcLatest, t, state.value),
+        // TODO: This should be passing * 1000
+        damping: bounceDamping,
+        stiffness: bounceStiffness,
+        restDelta,
+        restSpeed
+      });
+    };
+    checkCatchBoundary(0);
+    return {
+      calculatedDuration: null,
+      next: (t) => {
+        let hasUpdatedFrame = false;
+        if (!spring$1 && timeReachedBoundary === void 0) {
+          hasUpdatedFrame = true;
+          applyFriction(t);
+          checkCatchBoundary(t);
+        }
+        if (timeReachedBoundary !== void 0 && t >= timeReachedBoundary) {
+          return spring$1.next(t - timeReachedBoundary);
+        } else {
+          !hasUpdatedFrame && applyFriction(t);
+          return state;
+        }
+      }
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/utils/interpolate.mjs
+  function createMixers(output, ease2, customMixer) {
+    const mixers = [];
+    const mixerFactory = customMixer || MotionGlobalConfig.mix || mix;
+    const numMixers = output.length - 1;
+    for (let i = 0; i < numMixers; i++) {
+      let mixer = mixerFactory(output[i], output[i + 1]);
+      if (ease2) {
+        const easingFunction = Array.isArray(ease2) ? ease2[i] || noop : ease2;
+        mixer = pipe(easingFunction, mixer);
+      }
+      mixers.push(mixer);
+    }
+    return mixers;
+  }
+  function interpolate(input, output, { clamp: isClamp = true, ease: ease2, mixer } = {}) {
+    const inputLength = input.length;
+    invariant(inputLength === output.length, "Both input and output ranges must be the same length", "range-length");
+    if (inputLength === 1)
+      return () => output[0];
+    if (inputLength === 2 && output[0] === output[1])
+      return () => output[1];
+    const isZeroDeltaRange = input[0] === input[1];
+    if (input[0] > input[inputLength - 1]) {
+      input = [...input].reverse();
+      output = [...output].reverse();
+    }
+    const mixers = createMixers(output, ease2, mixer);
+    const numMixers = mixers.length;
+    const interpolator = (v) => {
+      if (isZeroDeltaRange && v < input[0])
+        return output[0];
+      let i = 0;
+      if (numMixers > 1) {
+        for (; i < input.length - 2; i++) {
+          if (v < input[i + 1])
+            break;
+        }
+      }
+      const progressInRange = progress(input[i], input[i + 1], v);
+      return mixers[i](progressInRange);
+    };
+    return isClamp ? (v) => interpolator(clamp(input[0], input[inputLength - 1], v)) : interpolator;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/offsets/fill.mjs
+  function fillOffset(offset, remaining) {
+    const min = offset[offset.length - 1];
+    for (let i = 1; i <= remaining; i++) {
+      const offsetProgress = progress(0, remaining, i);
+      offset.push(mixNumber(min, 1, offsetProgress));
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/offsets/default.mjs
+  function defaultOffset(arr) {
+    const offset = [0];
+    fillOffset(offset, arr.length - 1);
+    return offset;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/offsets/time.mjs
+  function convertOffsetToTimes(offset, duration) {
+    return offset.map((o) => o * duration);
+  }
+
+  // node_modules/motion-dom/dist/es/animation/generators/keyframes.mjs
+  function defaultEasing(values, easing) {
+    return values.map(() => easing || easeInOut).splice(0, values.length - 1);
+  }
+  function keyframes({ duration = 300, keyframes: keyframeValues, times, ease: ease2 = "easeInOut" }) {
+    const easingFunctions = isEasingArray(ease2) ? ease2.map(easingDefinitionToFunction) : easingDefinitionToFunction(ease2);
+    const state = {
+      done: false,
+      value: keyframeValues[0]
+    };
+    const absoluteTimes = convertOffsetToTimes(
+      // Only use the provided offsets if they're the correct length
+      // TODO Maybe we should warn here if there's a length mismatch
+      times && times.length === keyframeValues.length ? times : defaultOffset(keyframeValues),
+      duration
+    );
+    const mapTimeToKeyframe = interpolate(absoluteTimes, keyframeValues, {
+      ease: Array.isArray(easingFunctions) ? easingFunctions : defaultEasing(keyframeValues, easingFunctions)
+    });
+    return {
+      calculatedDuration: duration,
+      next: (t) => {
+        state.value = mapTimeToKeyframe(t);
+        state.done = t >= duration;
+        return state;
+      }
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/get-final.mjs
+  var isNotNull = (value) => value !== null;
+  function getFinalKeyframe(keyframes2, { repeat, repeatType = "loop" }, finalKeyframe, speed = 1) {
+    const resolvedKeyframes = keyframes2.filter(isNotNull);
+    const useFirstKeyframe = speed < 0 || repeat && repeatType !== "loop" && repeat % 2 === 1;
+    const index = useFirstKeyframe ? 0 : resolvedKeyframes.length - 1;
+    return !index || finalKeyframe === void 0 ? resolvedKeyframes[index] : finalKeyframe;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/utils/replace-transition-type.mjs
+  var transitionTypeMap = {
+    decay: inertia,
+    inertia,
+    tween: keyframes,
+    keyframes,
+    spring
+  };
+  function replaceTransitionType(transition) {
+    if (typeof transition.type === "string") {
+      transition.type = transitionTypeMap[transition.type];
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/animation/utils/WithPromise.mjs
+  var WithPromise = class {
+    constructor() {
+      this.updateFinished();
+    }
+    get finished() {
+      return this._finished;
+    }
+    updateFinished() {
+      this._finished = new Promise((resolve) => {
+        this.resolve = resolve;
+      });
+    }
+    notifyFinished() {
+      this.resolve();
+    }
+    /**
+     * Allows the animation to be awaited.
+     *
+     * @deprecated Use `finished` instead.
+     */
+    then(onResolve, onReject) {
+      return this.finished.then(onResolve, onReject);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/animation/JSAnimation.mjs
+  var percentToProgress = (percent2) => percent2 / 100;
+  var JSAnimation = class extends WithPromise {
+    constructor(options) {
+      super();
+      this.state = "idle";
+      this.startTime = null;
+      this.isStopped = false;
+      this.currentTime = 0;
+      this.holdTime = null;
+      this.playbackSpeed = 1;
+      this.delayState = {
+        done: false,
+        value: void 0
+      };
+      this.stop = () => {
+        const { motionValue: motionValue2 } = this.options;
+        if (motionValue2 && motionValue2.updatedAt !== time.now()) {
+          this.tick(time.now());
+        }
+        this.isStopped = true;
+        if (this.state === "idle")
+          return;
+        this.teardown();
+        this.options.onStop?.();
+      };
+      this.options = options;
+      this.initAnimation();
+      this.play();
+      if (options.autoplay === false)
+        this.pause();
+    }
+    initAnimation() {
+      const { options } = this;
+      replaceTransitionType(options);
+      const { type = keyframes, repeat = 0, repeatDelay = 0, repeatType, velocity = 0 } = options;
+      let { keyframes: keyframes$1 } = options;
+      const generatorFactory = type || keyframes;
+      if (generatorFactory !== keyframes) {
+        invariant(keyframes$1.length <= 2, `Only two keyframes currently supported with spring and inertia animations. Trying to animate ${keyframes$1}`, "spring-two-frames");
+      }
+      if (generatorFactory !== keyframes && typeof keyframes$1[0] !== "number") {
+        this.mixKeyframes = pipe(percentToProgress, mix(keyframes$1[0], keyframes$1[1]));
+        keyframes$1 = [0, 100];
+      }
+      const generator = generatorFactory({ ...options, keyframes: keyframes$1 });
+      if (repeatType === "mirror") {
+        this.mirroredGenerator = generatorFactory({
+          ...options,
+          keyframes: [...keyframes$1].reverse(),
+          velocity: -velocity
+        });
+      }
+      if (generator.calculatedDuration === null) {
+        generator.calculatedDuration = calcGeneratorDuration(generator);
+      }
+      const { calculatedDuration } = generator;
+      this.calculatedDuration = calculatedDuration;
+      this.resolvedDuration = calculatedDuration + repeatDelay;
+      this.totalDuration = this.resolvedDuration * (repeat + 1) - repeatDelay;
+      this.generator = generator;
+    }
+    updateTime(timestamp) {
+      const animationTime = Math.round(timestamp - this.startTime) * this.playbackSpeed;
+      if (this.holdTime !== null) {
+        this.currentTime = this.holdTime;
+      } else {
+        this.currentTime = animationTime;
+      }
+    }
+    tick(timestamp, sample = false) {
+      const { generator, totalDuration, mixKeyframes, mirroredGenerator, resolvedDuration, calculatedDuration } = this;
+      if (this.startTime === null)
+        return generator.next(0);
+      const { delay: delay2 = 0, keyframes: keyframes2, repeat, repeatType, repeatDelay, type, onUpdate, finalKeyframe } = this.options;
+      if (this.speed > 0) {
+        this.startTime = Math.min(this.startTime, timestamp);
+      } else if (this.speed < 0) {
+        this.startTime = Math.min(timestamp - totalDuration / this.speed, this.startTime);
+      }
+      if (sample) {
+        this.currentTime = timestamp;
+      } else {
+        this.updateTime(timestamp);
+      }
+      const timeWithoutDelay = this.currentTime - delay2 * (this.playbackSpeed >= 0 ? 1 : -1);
+      const isInDelayPhase = this.playbackSpeed >= 0 ? timeWithoutDelay < 0 : timeWithoutDelay > totalDuration;
+      this.currentTime = Math.max(timeWithoutDelay, 0);
+      if (this.state === "finished" && this.holdTime === null) {
+        this.currentTime = totalDuration;
+      }
+      let elapsed = this.currentTime;
+      let frameGenerator = generator;
+      if (repeat) {
+        const progress2 = Math.min(this.currentTime, totalDuration) / resolvedDuration;
+        let currentIteration = Math.floor(progress2);
+        let iterationProgress = progress2 % 1;
+        if (!iterationProgress && progress2 >= 1) {
+          iterationProgress = 1;
+        }
+        iterationProgress === 1 && currentIteration--;
+        currentIteration = Math.min(currentIteration, repeat + 1);
+        const isOddIteration = Boolean(currentIteration % 2);
+        if (isOddIteration) {
+          if (repeatType === "reverse") {
+            iterationProgress = 1 - iterationProgress;
+            if (repeatDelay) {
+              iterationProgress -= repeatDelay / resolvedDuration;
+            }
+          } else if (repeatType === "mirror") {
+            frameGenerator = mirroredGenerator;
+          }
+        }
+        elapsed = clamp(0, 1, iterationProgress) * resolvedDuration;
+      }
+      let state;
+      if (isInDelayPhase) {
+        this.delayState.value = keyframes2[0];
+        state = this.delayState;
+      } else {
+        state = frameGenerator.next(elapsed);
+      }
+      if (mixKeyframes && !isInDelayPhase) {
+        state.value = mixKeyframes(state.value);
+      }
+      let { done } = state;
+      if (!isInDelayPhase && calculatedDuration !== null) {
+        done = this.playbackSpeed >= 0 ? this.currentTime >= totalDuration : this.currentTime <= 0;
+      }
+      const isAnimationFinished = this.holdTime === null && (this.state === "finished" || this.state === "running" && done);
+      if (isAnimationFinished && type !== inertia) {
+        state.value = getFinalKeyframe(keyframes2, this.options, finalKeyframe, this.speed);
+      }
+      if (onUpdate) {
+        onUpdate(state.value);
+      }
+      if (isAnimationFinished) {
+        this.finish();
+      }
+      return state;
+    }
+    /**
+     * Allows the returned animation to be awaited or promise-chained. Currently
+     * resolves when the animation finishes at all but in a future update could/should
+     * reject if its cancels.
+     */
+    then(resolve, reject) {
+      return this.finished.then(resolve, reject);
+    }
+    get duration() {
+      return millisecondsToSeconds(this.calculatedDuration);
+    }
+    get iterationDuration() {
+      const { delay: delay2 = 0 } = this.options || {};
+      return this.duration + millisecondsToSeconds(delay2);
+    }
+    get time() {
+      return millisecondsToSeconds(this.currentTime);
+    }
+    set time(newTime) {
+      newTime = secondsToMilliseconds(newTime);
+      this.currentTime = newTime;
+      if (this.startTime === null || this.holdTime !== null || this.playbackSpeed === 0) {
+        this.holdTime = newTime;
+      } else if (this.driver) {
+        this.startTime = this.driver.now() - newTime / this.playbackSpeed;
+      }
+      if (this.driver) {
+        this.driver.start(false);
+      } else {
+        this.startTime = 0;
+        this.state = "paused";
+        this.holdTime = newTime;
+        this.tick(newTime);
+      }
+    }
+    /**
+     * Returns the generator's velocity at the current time in units/second.
+     * Uses the analytical derivative when available (springs), avoiding
+     * the MotionValue's frame-dependent velocity estimation.
+     */
+    getGeneratorVelocity() {
+      const t = this.currentTime;
+      if (t <= 0)
+        return this.options.velocity || 0;
+      if (this.generator.velocity) {
+        return this.generator.velocity(t);
+      }
+      const current = this.generator.next(t).value;
+      return getGeneratorVelocity((s) => this.generator.next(s).value, t, current);
+    }
+    get speed() {
+      return this.playbackSpeed;
+    }
+    set speed(newSpeed) {
+      const hasChanged = this.playbackSpeed !== newSpeed;
+      if (hasChanged && this.driver) {
+        this.updateTime(time.now());
+      }
+      this.playbackSpeed = newSpeed;
+      if (hasChanged && this.driver) {
+        this.time = millisecondsToSeconds(this.currentTime);
+      }
+    }
+    play() {
+      if (this.isStopped)
+        return;
+      const { driver = frameloopDriver, startTime } = this.options;
+      if (!this.driver) {
+        this.driver = driver((timestamp) => this.tick(timestamp));
+      }
+      this.options.onPlay?.();
+      const now2 = this.driver.now();
+      if (this.state === "finished") {
+        this.updateFinished();
+        this.startTime = now2;
+      } else if (this.holdTime !== null) {
+        this.startTime = now2 - this.holdTime;
+      } else if (!this.startTime) {
+        this.startTime = startTime ?? now2;
+      }
+      if (this.state === "finished" && this.speed < 0) {
+        this.startTime += this.calculatedDuration;
+      }
+      this.holdTime = null;
+      this.state = "running";
+      this.driver.start();
+    }
+    pause() {
+      this.state = "paused";
+      this.updateTime(time.now());
+      this.holdTime = this.currentTime;
+    }
+    complete() {
+      if (this.state !== "running") {
+        this.play();
+      }
+      this.state = "finished";
+      this.holdTime = null;
+    }
+    finish() {
+      this.notifyFinished();
+      this.teardown();
+      this.state = "finished";
+      this.options.onComplete?.();
+    }
+    cancel() {
+      this.holdTime = null;
+      this.startTime = 0;
+      this.tick(0);
+      this.teardown();
+      this.options.onCancel?.();
+    }
+    teardown() {
+      this.state = "idle";
+      this.stopDriver();
+      this.startTime = this.holdTime = null;
+    }
+    stopDriver() {
+      if (!this.driver)
+        return;
+      this.driver.stop();
+      this.driver = void 0;
+    }
+    sample(sampleTime) {
+      this.startTime = 0;
+      return this.tick(sampleTime, true);
+    }
+    attachTimeline(timeline) {
+      if (this.options.allowFlatten) {
+        this.options.type = "keyframes";
+        this.options.ease = "linear";
+        this.initAnimation();
+      }
+      this.driver?.stop();
+      return timeline.observe(this);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/utils/fill-wildcards.mjs
+  function fillWildcards(keyframes2) {
+    for (let i = 1; i < keyframes2.length; i++) {
+      keyframes2[i] ?? (keyframes2[i] = keyframes2[i - 1]);
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/render/dom/parse-transform.mjs
+  var radToDeg = (rad) => rad * 180 / Math.PI;
+  var rotate = (v) => {
+    const angle = radToDeg(Math.atan2(v[1], v[0]));
+    return rebaseAngle(angle);
+  };
+  var matrix2dParsers = {
+    x: 4,
+    y: 5,
+    translateX: 4,
+    translateY: 5,
+    scaleX: 0,
+    scaleY: 3,
+    scale: (v) => (Math.abs(v[0]) + Math.abs(v[3])) / 2,
+    rotate,
+    rotateZ: rotate,
+    skewX: (v) => radToDeg(Math.atan(v[1])),
+    skewY: (v) => radToDeg(Math.atan(v[2])),
+    skew: (v) => (Math.abs(v[1]) + Math.abs(v[2])) / 2
+  };
+  var rebaseAngle = (angle) => {
+    angle = angle % 360;
+    if (angle < 0)
+      angle += 360;
+    return angle;
+  };
+  var rotateZ = rotate;
+  var scaleX = (v) => Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+  var scaleY = (v) => Math.sqrt(v[4] * v[4] + v[5] * v[5]);
+  var matrix3dParsers = {
+    x: 12,
+    y: 13,
+    z: 14,
+    translateX: 12,
+    translateY: 13,
+    translateZ: 14,
+    scaleX,
+    scaleY,
+    scale: (v) => (scaleX(v) + scaleY(v)) / 2,
+    rotateX: (v) => rebaseAngle(radToDeg(Math.atan2(v[6], v[5]))),
+    rotateY: (v) => rebaseAngle(radToDeg(Math.atan2(-v[2], v[0]))),
+    rotateZ,
+    rotate: rotateZ,
+    skewX: (v) => radToDeg(Math.atan(v[4])),
+    skewY: (v) => radToDeg(Math.atan(v[1])),
+    skew: (v) => (Math.abs(v[1]) + Math.abs(v[4])) / 2
+  };
+  function defaultTransformValue(name) {
+    return name.includes("scale") ? 1 : 0;
+  }
+  function parseValueFromTransform(transform, name) {
+    if (!transform || transform === "none") {
+      return defaultTransformValue(name);
+    }
+    const matrix3dMatch = transform.match(/^matrix3d\(([-\d.e\s,]+)\)$/u);
+    let parsers;
+    let match;
+    if (matrix3dMatch) {
+      parsers = matrix3dParsers;
+      match = matrix3dMatch;
+    } else {
+      const matrix2dMatch = transform.match(/^matrix\(([-\d.e\s,]+)\)$/u);
+      parsers = matrix2dParsers;
+      match = matrix2dMatch;
+    }
+    if (!match) {
+      return defaultTransformValue(name);
+    }
+    const valueParser = parsers[name];
+    const values = match[1].split(",").map(convertTransformToNumber);
+    return typeof valueParser === "function" ? valueParser(values) : values[valueParser];
+  }
+  var readTransformValue = (instance, name) => {
+    const { transform = "none" } = getComputedStyle(instance);
+    return parseValueFromTransform(transform, name);
+  };
+  function convertTransformToNumber(value) {
+    return parseFloat(value.trim());
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/keys-transform.mjs
+  var transformPropOrder = [
+    "transformPerspective",
+    "x",
+    "y",
+    "z",
+    "translateX",
+    "translateY",
+    "translateZ",
+    "scale",
+    "scaleX",
+    "scaleY",
+    "rotate",
+    "rotateX",
+    "rotateY",
+    "rotateZ",
+    "skew",
+    "skewX",
+    "skewY"
+  ];
+  var transformProps = /* @__PURE__ */ (() => /* @__PURE__ */ new Set([...transformPropOrder, "pathRotation"]))();
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/utils/unit-conversion.mjs
+  var isNumOrPxType = (v) => v === number || v === px;
+  var transformKeys = /* @__PURE__ */ new Set(["x", "y", "z"]);
+  var nonTranslationalTransformKeys = transformPropOrder.filter((key) => !transformKeys.has(key));
+  function removeNonTranslationalTransform(visualElement) {
+    const removedTransforms = [];
+    nonTranslationalTransformKeys.forEach((key) => {
+      const value = visualElement.getValue(key);
+      if (value !== void 0) {
+        removedTransforms.push([key, value.get()]);
+        value.set(key.startsWith("scale") ? 1 : 0);
+      }
+    });
+    return removedTransforms;
+  }
+  var positionalValues = {
+    // Dimensions
+    width: ({ x }, { paddingLeft = "0", paddingRight = "0", boxSizing }) => {
+      const width = x.max - x.min;
+      return boxSizing === "border-box" ? width : width - parseFloat(paddingLeft) - parseFloat(paddingRight);
+    },
+    height: ({ y }, { paddingTop = "0", paddingBottom = "0", boxSizing }) => {
+      const height = y.max - y.min;
+      return boxSizing === "border-box" ? height : height - parseFloat(paddingTop) - parseFloat(paddingBottom);
+    },
+    top: (_bbox, { top }) => parseFloat(top),
+    left: (_bbox, { left }) => parseFloat(left),
+    bottom: ({ y }, { top }) => parseFloat(top) + (y.max - y.min),
+    right: ({ x }, { left }) => parseFloat(left) + (x.max - x.min),
+    // Transform
+    x: (_bbox, { transform }) => parseValueFromTransform(transform, "x"),
+    y: (_bbox, { transform }) => parseValueFromTransform(transform, "y")
+  };
+  positionalValues.translateX = positionalValues.x;
+  positionalValues.translateY = positionalValues.y;
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/KeyframesResolver.mjs
+  var toResolve = /* @__PURE__ */ new Set();
+  var isScheduled = false;
+  var anyNeedsMeasurement = false;
+  var isForced = false;
+  function measureAllKeyframes() {
+    if (anyNeedsMeasurement) {
+      const resolversToMeasure = Array.from(toResolve).filter((resolver) => resolver.needsMeasurement);
+      const elementsToMeasure = new Set(resolversToMeasure.map((resolver) => resolver.element));
+      const transformsToRestore = /* @__PURE__ */ new Map();
+      elementsToMeasure.forEach((element) => {
+        const removedTransforms = removeNonTranslationalTransform(element);
+        if (!removedTransforms.length)
+          return;
+        transformsToRestore.set(element, removedTransforms);
+        element.render();
+      });
+      resolversToMeasure.forEach((resolver) => resolver.measureInitialState());
+      elementsToMeasure.forEach((element) => {
+        element.render();
+        const restore = transformsToRestore.get(element);
+        if (restore) {
+          restore.forEach(([key, value]) => {
+            element.getValue(key)?.set(value);
+          });
+        }
+      });
+      resolversToMeasure.forEach((resolver) => resolver.measureEndState());
+      resolversToMeasure.forEach((resolver) => {
+        if (resolver.suspendedScrollY !== void 0) {
+          window.scrollTo(0, resolver.suspendedScrollY);
+        }
+      });
+    }
+    anyNeedsMeasurement = false;
+    isScheduled = false;
+    toResolve.forEach((resolver) => resolver.complete(isForced));
+    toResolve.clear();
+  }
+  function readAllKeyframes() {
+    toResolve.forEach((resolver) => {
+      resolver.readKeyframes();
+      if (resolver.needsMeasurement) {
+        anyNeedsMeasurement = true;
+      }
+    });
+  }
+  function flushKeyframeResolvers() {
+    isForced = true;
+    readAllKeyframes();
+    measureAllKeyframes();
+    isForced = false;
+  }
+  var KeyframeResolver = class {
+    constructor(unresolvedKeyframes, onComplete, name, motionValue2, element, isAsync = false) {
+      this.state = "pending";
+      this.isAsync = false;
+      this.needsMeasurement = false;
+      this.unresolvedKeyframes = [...unresolvedKeyframes];
+      this.onComplete = onComplete;
+      this.name = name;
+      this.motionValue = motionValue2;
+      this.element = element;
+      this.isAsync = isAsync;
+    }
+    scheduleResolve() {
+      this.state = "scheduled";
+      if (this.isAsync) {
+        toResolve.add(this);
+        if (!isScheduled) {
+          isScheduled = true;
+          frame.read(readAllKeyframes);
+          frame.resolveKeyframes(measureAllKeyframes);
+        }
+      } else {
+        this.readKeyframes();
+        this.complete();
+      }
+    }
+    readKeyframes() {
+      const { unresolvedKeyframes, name, element, motionValue: motionValue2 } = this;
+      if (unresolvedKeyframes[0] === null) {
+        const currentValue = motionValue2?.get();
+        const finalKeyframe = unresolvedKeyframes[unresolvedKeyframes.length - 1];
+        if (currentValue !== void 0) {
+          unresolvedKeyframes[0] = currentValue;
+        } else if (element && name) {
+          const valueAsRead = element.readValue(name, finalKeyframe);
+          if (valueAsRead !== void 0 && valueAsRead !== null) {
+            unresolvedKeyframes[0] = valueAsRead;
+          }
+        }
+        if (unresolvedKeyframes[0] === void 0) {
+          unresolvedKeyframes[0] = finalKeyframe;
+        }
+        if (motionValue2 && currentValue === void 0) {
+          motionValue2.set(unresolvedKeyframes[0]);
+        }
+      }
+      fillWildcards(unresolvedKeyframes);
+    }
+    setFinalKeyframe() {
+    }
+    measureInitialState() {
+    }
+    renderEndStyles() {
+    }
+    measureEndState() {
+    }
+    complete(isForcedComplete = false) {
+      this.state = "complete";
+      this.onComplete(this.unresolvedKeyframes, this.finalKeyframe, isForcedComplete);
+      toResolve.delete(this);
+    }
+    cancel() {
+      if (this.state === "scheduled") {
+        toResolve.delete(this);
+        this.state = "pending";
+      }
+    }
+    resume() {
+      if (this.state === "pending")
+        this.scheduleResolve();
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/render/dom/is-css-var.mjs
+  var isCSSVar = (name) => name.startsWith("--");
+
+  // node_modules/motion-dom/dist/es/render/dom/style-set.mjs
+  function setStyle(element, name, value) {
+    isCSSVar(name) ? element.style.setProperty(name, value) : element.style[name] = value;
+  }
+
+  // node_modules/motion-dom/dist/es/utils/supports/flags.mjs
+  var supportsFlags = {};
+
+  // node_modules/motion-dom/dist/es/utils/supports/memo.mjs
+  function memoSupports(callback, supportsFlag) {
+    const memoized = memo(callback);
+    return () => supportsFlags[supportsFlag] ?? memoized();
+  }
+
+  // node_modules/motion-dom/dist/es/utils/supports/scroll-timeline.mjs
+  var supportsScrollTimeline = /* @__PURE__ */ memoSupports(() => window.ScrollTimeline !== void 0, "scrollTimeline");
+
+  // node_modules/motion-dom/dist/es/utils/supports/linear-easing.mjs
+  var supportsLinearEasing = /* @__PURE__ */ memoSupports(() => {
+    try {
+      document.createElement("div").animate({ opacity: 0 }, { easing: "linear(0, 1)" });
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }, "linearEasing");
+
+  // node_modules/motion-dom/dist/es/animation/waapi/easing/cubic-bezier.mjs
+  var cubicBezierAsString = ([a, b, c, d]) => `cubic-bezier(${a}, ${b}, ${c}, ${d})`;
+
+  // node_modules/motion-dom/dist/es/animation/waapi/easing/supported.mjs
+  var supportedWaapiEasing = {
+    linear: "linear",
+    ease: "ease",
+    easeIn: "ease-in",
+    easeOut: "ease-out",
+    easeInOut: "ease-in-out",
+    circIn: /* @__PURE__ */ cubicBezierAsString([0, 0.65, 0.55, 1]),
+    circOut: /* @__PURE__ */ cubicBezierAsString([0.55, 0, 1, 0.45]),
+    backIn: /* @__PURE__ */ cubicBezierAsString([0.31, 0.01, 0.66, -0.59]),
+    backOut: /* @__PURE__ */ cubicBezierAsString([0.33, 1.53, 0.69, 0.99])
+  };
+
+  // node_modules/motion-dom/dist/es/animation/waapi/easing/map-easing.mjs
+  function mapEasingToNativeEasing(easing, duration) {
+    if (!easing) {
+      return void 0;
+    } else if (typeof easing === "function") {
+      return supportsLinearEasing() ? generateLinearEasing(easing, duration) : "ease-out";
+    } else if (isBezierDefinition(easing)) {
+      return cubicBezierAsString(easing);
+    } else if (Array.isArray(easing)) {
+      return easing.map((segmentEasing) => mapEasingToNativeEasing(segmentEasing, duration) || supportedWaapiEasing.easeOut);
+    } else {
+      return supportedWaapiEasing[easing];
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/animation/waapi/start-waapi-animation.mjs
+  function startWaapiAnimation(element, valueName, keyframes2, { delay: delay2 = 0, duration = 300, repeat = 0, repeatType = "loop", ease: ease2 = "easeOut", times } = {}, pseudoElement = void 0) {
+    const keyframeOptions = {
+      [valueName]: keyframes2
+    };
+    if (times)
+      keyframeOptions.offset = times;
+    const easing = mapEasingToNativeEasing(ease2, duration);
+    if (Array.isArray(easing))
+      keyframeOptions.easing = easing;
+    const options = {
+      delay: delay2,
+      duration,
+      easing: !Array.isArray(easing) ? easing : "linear",
+      fill: "both",
+      iterations: repeat + 1,
+      direction: repeatType === "reverse" ? "alternate" : "normal"
+    };
+    if (pseudoElement)
+      options.pseudoElement = pseudoElement;
+    return element.animate(keyframeOptions, options);
+  }
+
+  // node_modules/motion-dom/dist/es/animation/generators/utils/is-generator.mjs
+  function isGenerator(type) {
+    return typeof type === "function" && "applyToOptions" in type;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/waapi/utils/apply-generator.mjs
+  function applyGeneratorOptions({ type, ...options }) {
+    if (isGenerator(type) && supportsLinearEasing()) {
+      return type.applyToOptions(options);
+    } else {
+      options.duration ?? (options.duration = 300);
+      options.ease ?? (options.ease = "easeOut");
+    }
+    return options;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/NativeAnimation.mjs
+  var NativeAnimation = class extends WithPromise {
+    constructor(options) {
+      super();
+      this.finishedTime = null;
+      this.isStopped = false;
+      this.manualStartTime = null;
+      if (!options)
+        return;
+      const { element, name, keyframes: keyframes2, pseudoElement, allowFlatten = false, finalKeyframe, onComplete } = options;
+      this.isPseudoElement = Boolean(pseudoElement);
+      this.allowFlatten = allowFlatten;
+      this.options = options;
+      invariant(typeof options.type !== "string", `Mini animate() doesn't support "type" as a string.`, "mini-spring");
+      const transition = applyGeneratorOptions(options);
+      this.animation = startWaapiAnimation(element, name, keyframes2, transition, pseudoElement);
+      if (transition.autoplay === false) {
+        this.animation.pause();
+      }
+      this.animation.onfinish = () => {
+        this.finishedTime = this.time;
+        if (!pseudoElement) {
+          const keyframe = getFinalKeyframe(keyframes2, this.options, finalKeyframe, this.speed);
+          if (this.updateMotionValue) {
+            this.updateMotionValue(keyframe);
+          }
+          setStyle(element, name, keyframe);
+          this.animation.cancel();
+        }
+        onComplete?.();
+        this.notifyFinished();
+      };
+    }
+    play() {
+      if (this.isStopped)
+        return;
+      this.manualStartTime = null;
+      this.animation.play();
+      if (this.state === "finished") {
+        this.updateFinished();
+      }
+    }
+    pause() {
+      this.animation.pause();
+    }
+    complete() {
+      this.animation.finish?.();
+    }
+    cancel() {
+      try {
+        this.animation.cancel();
+      } catch (e) {
+      }
+    }
+    stop() {
+      if (this.isStopped)
+        return;
+      this.isStopped = true;
+      const { state } = this;
+      if (state === "idle" || state === "finished") {
+        return;
+      }
+      if (this.updateMotionValue) {
+        this.updateMotionValue();
+      } else {
+        this.commitStyles();
+      }
+      if (!this.isPseudoElement)
+        this.cancel();
+    }
+    /**
+     * WAAPI doesn't natively have any interruption capabilities.
+     *
+     * In this method, we commit styles back to the DOM before cancelling
+     * the animation.
+     *
+     * This is designed to be overridden by NativeAnimationExtended, which
+     * will create a renderless JS animation and sample it twice to calculate
+     * its current value, "previous" value, and therefore allow
+     * Motion to also correctly calculate velocity for any subsequent animation
+     * while deferring the commit until the next animation frame.
+     */
+    commitStyles() {
+      const element = this.options?.element;
+      if (!this.isPseudoElement && element?.isConnected) {
+        this.animation.commitStyles?.();
+      }
+    }
+    get duration() {
+      const duration = this.animation.effect?.getComputedTiming?.().duration || 0;
+      return millisecondsToSeconds(Number(duration));
+    }
+    get iterationDuration() {
+      const { delay: delay2 = 0 } = this.options || {};
+      return this.duration + millisecondsToSeconds(delay2);
+    }
+    get time() {
+      return millisecondsToSeconds(Number(this.animation.currentTime) || 0);
+    }
+    set time(newTime) {
+      const wasFinished = this.finishedTime !== null;
+      this.manualStartTime = null;
+      this.finishedTime = null;
+      this.animation.currentTime = secondsToMilliseconds(newTime);
+      if (wasFinished) {
+        this.animation.pause();
+      }
+    }
+    /**
+     * The playback speed of the animation.
+     * 1 = normal speed, 2 = double speed, 0.5 = half speed.
+     */
+    get speed() {
+      return this.animation.playbackRate;
+    }
+    set speed(newSpeed) {
+      if (newSpeed < 0)
+        this.finishedTime = null;
+      this.animation.playbackRate = newSpeed;
+    }
+    get state() {
+      return this.finishedTime !== null ? "finished" : this.animation.playState;
+    }
+    get startTime() {
+      return this.manualStartTime ?? Number(this.animation.startTime);
+    }
+    set startTime(newStartTime) {
+      this.manualStartTime = this.animation.startTime = newStartTime;
+    }
+    /**
+     * Attaches a timeline to the animation, for instance the `ScrollTimeline`.
+     */
+    attachTimeline({ timeline, rangeStart, rangeEnd, observe }) {
+      if (this.allowFlatten) {
+        this.animation.effect?.updateTiming({ easing: "linear" });
+      }
+      this.animation.onfinish = null;
+      if (timeline && supportsScrollTimeline()) {
+        this.animation.timeline = timeline;
+        if (rangeStart)
+          this.animation.rangeStart = rangeStart;
+        if (rangeEnd)
+          this.animation.rangeEnd = rangeEnd;
+        return noop;
+      } else {
+        return observe(this);
+      }
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/animation/waapi/utils/unsupported-easing.mjs
+  var unsupportedEasingFunctions = {
+    anticipate,
+    backInOut,
+    circInOut
+  };
+  function isUnsupportedEase(key) {
+    return key in unsupportedEasingFunctions;
+  }
+  function replaceStringEasing(transition) {
+    if (typeof transition.ease === "string" && isUnsupportedEase(transition.ease)) {
+      transition.ease = unsupportedEasingFunctions[transition.ease];
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/animation/NativeAnimationExtended.mjs
+  var sampleDelta = 10;
+  var NativeAnimationExtended = class extends NativeAnimation {
+    constructor(options) {
+      replaceStringEasing(options);
+      replaceTransitionType(options);
+      super(options);
+      if (options.startTime !== void 0 && options.autoplay !== false) {
+        this.startTime = options.startTime;
+      }
+      this.options = options;
+    }
+    /**
+     * WAAPI doesn't natively have any interruption capabilities.
+     *
+     * Rather than read committed styles back out of the DOM, we can
+     * create a renderless JS animation and sample it twice to calculate
+     * its current value, "previous" value, and therefore allow
+     * Motion to calculate velocity for any subsequent animation.
+     */
+    updateMotionValue(value) {
+      const { motionValue: motionValue2, onUpdate, onComplete, element, ...options } = this.options;
+      if (!motionValue2)
+        return;
+      if (value !== void 0) {
+        motionValue2.set(value);
+        return;
+      }
+      const sampleAnimation = new JSAnimation({
+        ...options,
+        autoplay: false
+      });
+      const sampleTime = Math.max(sampleDelta, time.now() - this.startTime);
+      const delta = clamp(0, sampleDelta, sampleTime - sampleDelta);
+      const current = sampleAnimation.sample(sampleTime).value;
+      const { name } = this.options;
+      if (element && name)
+        setStyle(element, name, current);
+      motionValue2.setWithVelocity(sampleAnimation.sample(Math.max(0, sampleTime - delta)).value, current, delta);
+      sampleAnimation.stop();
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/animation/utils/is-animatable.mjs
+  var isAnimatable = (value, name) => {
+    if (name === "zIndex")
+      return false;
+    if (typeof value === "number" || Array.isArray(value))
+      return true;
+    if (typeof value === "string" && // It's animatable if we have a string
+    (complex.test(value) || value === "0") && // And it contains numbers and/or colors
+    !value.startsWith("url(")) {
+      return true;
+    }
+    return false;
+  };
+
+  // node_modules/motion-dom/dist/es/animation/utils/can-animate.mjs
+  function hasKeyframesChanged(keyframes2) {
+    const current = keyframes2[0];
+    if (keyframes2.length === 1)
+      return true;
+    for (let i = 0; i < keyframes2.length; i++) {
+      if (keyframes2[i] !== current)
+        return true;
+    }
+  }
+  function canAnimate(keyframes2, name, type, velocity) {
+    const originKeyframe = keyframes2[0];
+    if (originKeyframe === null) {
+      return false;
+    }
+    if (name === "display" || name === "visibility")
+      return true;
+    const targetKeyframe = keyframes2[keyframes2.length - 1];
+    const isOriginAnimatable = isAnimatable(originKeyframe, name);
+    const isTargetAnimatable = isAnimatable(targetKeyframe, name);
+    warning(isOriginAnimatable === isTargetAnimatable, `You are trying to animate ${name} from "${originKeyframe}" to "${targetKeyframe}". "${isOriginAnimatable ? targetKeyframe : originKeyframe}" is not an animatable value.`, "value-not-animatable");
+    if (!isOriginAnimatable || !isTargetAnimatable) {
+      return false;
+    }
+    return hasKeyframesChanged(keyframes2) || (type === "spring" || isGenerator(type)) && velocity;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/utils/make-animation-instant.mjs
+  function makeAnimationInstant(options) {
+    options.duration = 0;
+    options.type = "keyframes";
+  }
+
+  // node_modules/motion-dom/dist/es/animation/waapi/utils/accelerated-values.mjs
+  var acceleratedValues = /* @__PURE__ */ new Set([
+    "opacity",
+    "clipPath",
+    "filter",
+    "transform",
+    "backgroundColor"
+  ]);
+
+  // node_modules/motion-dom/dist/es/animation/waapi/utils/is-browser-color.mjs
+  var browserColorFunctions = /^(?:oklch|oklab|lab|lch|color|color-mix|light-dark)\(/;
+  function hasBrowserOnlyColors(keyframes2) {
+    for (let i = 0; i < keyframes2.length; i++) {
+      if (typeof keyframes2[i] === "string" && browserColorFunctions.test(keyframes2[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/waapi/supports/waapi.mjs
+  var colorProperties = /* @__PURE__ */ new Set([
+    "color",
+    "backgroundColor",
+    "outlineColor",
+    "fill",
+    "stroke",
+    "borderColor",
+    "borderTopColor",
+    "borderRightColor",
+    "borderBottomColor",
+    "borderLeftColor"
+  ]);
+  var supportsWaapi = /* @__PURE__ */ memo(() => Object.hasOwnProperty.call(Element.prototype, "animate"));
+  function supportsBrowserAnimation(options) {
+    const { motionValue: motionValue2, name, repeatDelay, repeatType, damping, type, keyframes: keyframes2 } = options;
+    const subject = motionValue2?.owner?.current;
+    if (!(subject instanceof HTMLElement) && !(subject instanceof SVGElement)) {
+      return false;
+    }
+    const { onUpdate, transformTemplate } = motionValue2.owner.getProps();
+    return supportsWaapi() && name && /**
+     * Force WAAPI for color properties with browser-only color formats
+     * (oklch, oklab, lab, lch, etc.) that the JS animation path can't parse.
+     */
+    (acceleratedValues.has(name) || colorProperties.has(name) && hasBrowserOnlyColors(keyframes2)) && (name !== "transform" || !transformTemplate) && /**
+     * If we're outputting values to onUpdate then we can't use WAAPI as there's
+     * no way to read the value from WAAPI every frame.
+     */
+    !onUpdate && !repeatDelay && repeatType !== "mirror" && damping !== 0 && type !== "inertia";
+  }
+
+  // node_modules/motion-dom/dist/es/animation/AsyncMotionValueAnimation.mjs
+  var MAX_RESOLVE_DELAY = 40;
+  var AsyncMotionValueAnimation = class extends WithPromise {
+    constructor({ autoplay = true, delay: delay2 = 0, type = "keyframes", repeat = 0, repeatDelay = 0, repeatType = "loop", keyframes: keyframes2, name, motionValue: motionValue2, element, ...options }) {
+      super();
+      this.stop = () => {
+        if (this._animation) {
+          this._animation.stop();
+          this.stopTimeline?.();
+        }
+        this.keyframeResolver?.cancel();
+      };
+      this.createdAt = time.now();
+      const optionsWithDefaults = {
+        autoplay,
+        delay: delay2,
+        type,
+        repeat,
+        repeatDelay,
+        repeatType,
+        name,
+        motionValue: motionValue2,
+        element,
+        ...options
+      };
+      const KeyframeResolver$1 = element?.KeyframeResolver || KeyframeResolver;
+      this.keyframeResolver = new KeyframeResolver$1(keyframes2, (resolvedKeyframes, finalKeyframe, forced) => this.onKeyframesResolved(resolvedKeyframes, finalKeyframe, optionsWithDefaults, !forced), name, motionValue2, element);
+      this.keyframeResolver?.scheduleResolve();
+    }
+    onKeyframesResolved(keyframes2, finalKeyframe, options, sync) {
+      this.keyframeResolver = void 0;
+      const { name, type, velocity, delay: delay2, isHandoff, onUpdate } = options;
+      this.resolvedAt = time.now();
+      let canAnimateValue = true;
+      if (!canAnimate(keyframes2, name, type, velocity)) {
+        canAnimateValue = false;
+        if (MotionGlobalConfig.instantAnimations || !delay2) {
+          onUpdate?.(getFinalKeyframe(keyframes2, options, finalKeyframe));
+        }
+        keyframes2[0] = keyframes2[keyframes2.length - 1];
+        makeAnimationInstant(options);
+        options.repeat = 0;
+      }
+      const startTime = sync ? !this.resolvedAt ? this.createdAt : this.resolvedAt - this.createdAt > MAX_RESOLVE_DELAY ? this.resolvedAt : this.createdAt : void 0;
+      const resolvedOptions = {
+        startTime,
+        finalKeyframe,
+        ...options,
+        keyframes: keyframes2
+      };
+      const useWaapi = canAnimateValue && !isHandoff && supportsBrowserAnimation(resolvedOptions);
+      const element = resolvedOptions.motionValue?.owner?.current;
+      let animation;
+      if (useWaapi) {
+        try {
+          animation = new NativeAnimationExtended({
+            ...resolvedOptions,
+            element
+          });
+        } catch {
+          animation = new JSAnimation(resolvedOptions);
+        }
+      } else {
+        animation = new JSAnimation(resolvedOptions);
+      }
+      animation.finished.then(() => {
+        this.notifyFinished();
+      }).catch(noop);
+      if (this.pendingTimeline) {
+        this.stopTimeline = animation.attachTimeline(this.pendingTimeline);
+        this.pendingTimeline = void 0;
+      }
+      this._animation = animation;
+    }
+    get finished() {
+      if (!this._animation) {
+        return this._finished;
+      } else {
+        return this.animation.finished;
+      }
+    }
+    then(onResolve, _onReject) {
+      return this.finished.finally(onResolve).then(() => {
+      });
+    }
+    get animation() {
+      if (!this._animation) {
+        this.keyframeResolver?.resume();
+        flushKeyframeResolvers();
+      }
+      return this._animation;
+    }
+    get duration() {
+      return this.animation.duration;
+    }
+    get iterationDuration() {
+      return this.animation.iterationDuration;
+    }
+    get time() {
+      return this.animation.time;
+    }
+    set time(newTime) {
+      this.animation.time = newTime;
+    }
+    get speed() {
+      return this.animation.speed;
+    }
+    get state() {
+      return this.animation.state;
+    }
+    set speed(newSpeed) {
+      this.animation.speed = newSpeed;
+    }
+    get startTime() {
+      return this.animation.startTime;
+    }
+    attachTimeline(timeline) {
+      if (this._animation) {
+        this.stopTimeline = this.animation.attachTimeline(timeline);
+      } else {
+        this.pendingTimeline = timeline;
+      }
+      return () => this.stop();
+    }
+    play() {
+      this.animation.play();
+    }
+    pause() {
+      this.animation.pause();
+    }
+    complete() {
+      this.animation.complete();
+    }
+    cancel() {
+      if (this._animation) {
+        this.animation.cancel();
+      }
+      this.keyframeResolver?.cancel();
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/animation/utils/calc-child-stagger.mjs
+  function calcChildStagger(children, child, delayChildren, staggerChildren = 0, staggerDirection = 1) {
+    const index = Array.from(children).sort((a, b) => a.sortNodePosition(b)).indexOf(child);
+    const numChildren = children.size;
+    const maxStaggerDuration = (numChildren - 1) * staggerChildren;
+    const delayIsFunction = typeof delayChildren === "function";
+    return delayIsFunction ? delayChildren(index, numChildren) : staggerDirection === 1 ? index * staggerChildren : maxStaggerDuration - index * staggerChildren;
+  }
+
+  // node_modules/motion-dom/dist/es/value/index.mjs
+  var MAX_VELOCITY_DELTA = 30;
+  var isFloat = (value) => {
+    return !isNaN(parseFloat(value));
+  };
+  var collectMotionValues = {
+    current: void 0
+  };
+  var MotionValue = class {
+    /**
+     * @param init - The initiating value
+     * @param config - Optional configuration options
+     *
+     * -  `transformer`: A function to transform incoming values with.
+     */
+    constructor(init, options = {}) {
+      this.canTrackVelocity = null;
+      this.events = {};
+      this.updateAndNotify = (v) => {
+        const currentTime = time.now();
+        if (this.updatedAt !== currentTime) {
+          this.setPrevFrameValue();
+        }
+        this.prev = this.current;
+        this.setCurrent(v);
+        if (this.current !== this.prev) {
+          this.events.change?.notify(this.current);
+          if (this.dependents) {
+            for (const dependent of this.dependents) {
+              dependent.dirty();
+            }
+          }
+        }
+      };
+      this.hasAnimated = false;
+      this.setCurrent(init);
+      this.owner = options.owner;
+    }
+    setCurrent(current) {
+      this.current = current;
+      this.updatedAt = time.now();
+      if (this.canTrackVelocity === null && current !== void 0) {
+        this.canTrackVelocity = isFloat(this.current);
+      }
+    }
+    setPrevFrameValue(prevFrameValue = this.current) {
+      this.prevFrameValue = prevFrameValue;
+      this.prevUpdatedAt = this.updatedAt;
+    }
+    /**
+     * Adds a function that will be notified when the `MotionValue` is updated.
+     *
+     * It returns a function that, when called, will cancel the subscription.
+     *
+     * When calling `onChange` inside a React component, it should be wrapped with the
+     * `useEffect` hook. As it returns an unsubscribe function, this should be returned
+     * from the `useEffect` function to ensure you don't add duplicate subscribers..
+     *
+     * ```jsx
+     * export const MyComponent = () => {
+     *   const x = useMotionValue(0)
+     *   const y = useMotionValue(0)
+     *   const opacity = useMotionValue(1)
+     *
+     *   useEffect(() => {
+     *     function updateOpacity() {
+     *       const maxXY = Math.max(x.get(), y.get())
+     *       const newOpacity = transform(maxXY, [0, 100], [1, 0])
+     *       opacity.set(newOpacity)
+     *     }
+     *
+     *     const unsubscribeX = x.on("change", updateOpacity)
+     *     const unsubscribeY = y.on("change", updateOpacity)
+     *
+     *     return () => {
+     *       unsubscribeX()
+     *       unsubscribeY()
+     *     }
+     *   }, [])
+     *
+     *   return <motion.div style={{ x }} />
+     * }
+     * ```
+     *
+     * @param subscriber - A function that receives the latest value.
+     * @returns A function that, when called, will cancel this subscription.
+     *
+     * @deprecated
+     */
+    onChange(subscription) {
+      if (true) {
+        warnOnce(false, `value.onChange(callback) is deprecated. Switch to value.on("change", callback).`);
+      }
+      return this.on("change", subscription);
+    }
+    on(eventName, callback) {
+      if (!this.events[eventName]) {
+        this.events[eventName] = new SubscriptionManager();
+      }
+      const unsubscribe = this.events[eventName].add(callback);
+      if (eventName === "change") {
+        return () => {
+          unsubscribe();
+          frame.read(() => {
+            if (!this.events.change.getSize()) {
+              this.stop();
+            }
+          });
+        };
+      }
+      return unsubscribe;
+    }
+    clearListeners() {
+      for (const eventManagers in this.events) {
+        this.events[eventManagers].clear();
+      }
+    }
+    /**
+     * Attaches a passive effect to the `MotionValue`.
+     */
+    attach(passiveEffect, stopPassiveEffect) {
+      this.passiveEffect = passiveEffect;
+      this.stopPassiveEffect = stopPassiveEffect;
+    }
+    /**
+     * Sets the state of the `MotionValue`.
+     *
+     * @remarks
+     *
+     * ```jsx
+     * const x = useMotionValue(0)
+     * x.set(10)
+     * ```
+     *
+     * @param latest - Latest value to set.
+     * @param render - Whether to notify render subscribers. Defaults to `true`
+     *
+     * @public
+     */
+    set(v) {
+      if (!this.passiveEffect) {
+        this.updateAndNotify(v);
+      } else {
+        this.passiveEffect(v, this.updateAndNotify);
+      }
+    }
+    setWithVelocity(prev, current, delta) {
+      this.set(current);
+      this.prev = void 0;
+      this.prevFrameValue = prev;
+      this.prevUpdatedAt = this.updatedAt - delta;
+    }
+    /**
+     * Set the state of the `MotionValue`, stopping any active animations,
+     * effects, and resets velocity to `0`.
+     */
+    jump(v, endAnimation = true) {
+      this.updateAndNotify(v);
+      this.prev = v;
+      this.prevUpdatedAt = this.prevFrameValue = void 0;
+      endAnimation && this.stop();
+      if (this.stopPassiveEffect)
+        this.stopPassiveEffect();
+    }
+    dirty() {
+      this.events.change?.notify(this.current);
+    }
+    addDependent(dependent) {
+      if (!this.dependents) {
+        this.dependents = /* @__PURE__ */ new Set();
+      }
+      this.dependents.add(dependent);
+    }
+    removeDependent(dependent) {
+      if (this.dependents) {
+        this.dependents.delete(dependent);
+      }
+    }
+    /**
+     * Returns the latest state of `MotionValue`
+     *
+     * @returns - The latest state of `MotionValue`
+     *
+     * @public
+     */
+    get() {
+      if (collectMotionValues.current) {
+        collectMotionValues.current.push(this);
+      }
+      return this.current;
+    }
+    /**
+     * @public
+     */
+    getPrevious() {
+      return this.prev;
+    }
+    /**
+     * Returns the latest velocity of `MotionValue`
+     *
+     * @returns - The latest velocity of `MotionValue`. Returns `0` if the state is non-numerical.
+     *
+     * @public
+     */
+    getVelocity() {
+      const currentTime = time.now();
+      if (!this.canTrackVelocity || this.prevFrameValue === void 0 || currentTime - this.updatedAt > MAX_VELOCITY_DELTA) {
+        return 0;
+      }
+      const delta = Math.min(this.updatedAt - this.prevUpdatedAt, MAX_VELOCITY_DELTA);
+      return velocityPerSecond(parseFloat(this.current) - parseFloat(this.prevFrameValue), delta);
+    }
+    /**
+     * Registers a new animation to control this `MotionValue`. Only one
+     * animation can drive a `MotionValue` at one time.
+     *
+     * ```jsx
+     * value.start()
+     * ```
+     *
+     * @param animation - A function that starts the provided animation
+     */
+    start(startAnimation) {
+      this.stop();
+      return new Promise((resolve) => {
+        this.hasAnimated = true;
+        this.animation = startAnimation(resolve);
+        if (this.events.animationStart) {
+          this.events.animationStart.notify();
+        }
+      }).then(() => {
+        if (this.events.animationComplete) {
+          this.events.animationComplete.notify();
+        }
+        this.clearAnimation();
+      });
+    }
+    /**
+     * Stop the currently active animation.
+     *
+     * @public
+     */
+    stop() {
+      if (this.animation) {
+        this.animation.stop();
+        if (this.events.animationCancel) {
+          this.events.animationCancel.notify();
+        }
+      }
+      this.clearAnimation();
+    }
+    /**
+     * Returns `true` if this value is currently animating.
+     *
+     * @public
+     */
+    isAnimating() {
+      return !!this.animation;
+    }
+    clearAnimation() {
+      delete this.animation;
+    }
+    /**
+     * Destroy and clean up subscribers to this `MotionValue`.
+     *
+     * The `MotionValue` hooks like `useMotionValue` and `useTransform` automatically
+     * handle the lifecycle of the returned `MotionValue`, so this method is only necessary if you've manually
+     * created a `MotionValue` via the `motionValue` function.
+     *
+     * @public
+     */
+    destroy() {
+      this.dependents?.clear();
+      this.events.destroy?.notify();
+      this.clearListeners();
+      this.stop();
+      if (this.stopPassiveEffect) {
+        this.stopPassiveEffect();
+      }
+    }
+  };
+  function motionValue(init, options) {
+    return new MotionValue(init, options);
+  }
+
+  // node_modules/motion-dom/dist/es/animation/utils/resolve-transition.mjs
+  function resolveTransition(transition, parentTransition) {
+    if (transition?.inherit && parentTransition) {
+      const { inherit: _, ...rest } = transition;
+      return { ...parentTransition, ...rest };
+    }
+    return transition;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/utils/get-value-transition.mjs
+  function getValueTransition(transition, key) {
+    const valueTransition = transition?.[key] ?? transition?.["default"] ?? transition;
+    if (valueTransition !== transition) {
+      return resolveTransition(valueTransition, transition);
+    }
+    return valueTransition;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/utils/default-transitions.mjs
+  var underDampedSpring = {
+    type: "spring",
+    stiffness: 500,
+    damping: 25,
+    restSpeed: 10
+  };
+  var criticallyDampedSpring = (target) => ({
+    type: "spring",
+    stiffness: 550,
+    damping: target === 0 ? 2 * Math.sqrt(550) : 30,
+    restSpeed: 10
+  });
+  var keyframesTransition = {
+    type: "keyframes",
+    duration: 0.8
+  };
+  var ease = {
+    type: "keyframes",
+    ease: [0.25, 0.1, 0.35, 1],
+    duration: 0.3
+  };
+  var getDefaultTransition = (valueKey, { keyframes: keyframes2 }) => {
+    if (keyframes2.length > 2) {
+      return keyframesTransition;
+    } else if (transformProps.has(valueKey)) {
+      return valueKey.startsWith("scale") ? criticallyDampedSpring(keyframes2[1]) : underDampedSpring;
+    }
+    return ease;
+  };
+
+  // node_modules/motion-dom/dist/es/animation/utils/is-transition-defined.mjs
+  var orchestrationKeys = /* @__PURE__ */ new Set([
+    "when",
+    "delay",
+    "delayChildren",
+    "staggerChildren",
+    "staggerDirection",
+    "repeat",
+    "repeatType",
+    "repeatDelay",
+    "from",
+    "elapsed"
+  ]);
+  function isTransitionDefined(transition) {
+    for (const key in transition) {
+      if (!orchestrationKeys.has(key))
+        return true;
+    }
+    return false;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/interfaces/motion-value.mjs
+  var animateMotionValue = (name, value, target, transition = {}, element, isHandoff) => (onComplete) => {
+    const valueTransition = getValueTransition(transition, name) || {};
+    const delay2 = valueTransition.delay || transition.delay || 0;
+    let { elapsed = 0 } = transition;
+    elapsed = elapsed - secondsToMilliseconds(delay2);
+    const options = {
+      keyframes: Array.isArray(target) ? target : [null, target],
+      ease: "easeOut",
+      velocity: value.getVelocity(),
+      ...valueTransition,
+      delay: -elapsed,
+      onUpdate: (v) => {
+        value.set(v);
+        valueTransition.onUpdate && valueTransition.onUpdate(v);
+      },
+      onComplete: () => {
+        onComplete();
+        valueTransition.onComplete && valueTransition.onComplete();
+      },
+      name,
+      motionValue: value,
+      element: isHandoff ? void 0 : element
+    };
+    if (!isTransitionDefined(valueTransition)) {
+      Object.assign(options, getDefaultTransition(name, options));
+    }
+    options.duration && (options.duration = secondsToMilliseconds(options.duration));
+    options.repeatDelay && (options.repeatDelay = secondsToMilliseconds(options.repeatDelay));
+    if (options.from !== void 0) {
+      options.keyframes[0] = options.from;
+    }
+    let shouldSkip = false;
+    if (options.type === false || options.duration === 0 && !options.repeatDelay) {
+      makeAnimationInstant(options);
+      if (options.delay === 0) {
+        shouldSkip = true;
+      }
+    }
+    if (MotionGlobalConfig.instantAnimations || MotionGlobalConfig.skipAnimations || element?.shouldSkipAnimations || valueTransition.skipAnimations) {
+      shouldSkip = true;
+      makeAnimationInstant(options);
+      options.delay = 0;
+    }
+    options.allowFlatten = !valueTransition.type && !valueTransition.ease;
+    if (shouldSkip && !isHandoff && value.get() !== void 0) {
+      const finalKeyframe = getFinalKeyframe(options.keyframes, valueTransition);
+      if (finalKeyframe !== void 0) {
+        frame.update(() => {
+          options.onUpdate(finalKeyframe);
+          options.onComplete();
+        });
+        return;
+      }
+    }
+    return valueTransition.isSync ? new JSAnimation(options) : new AsyncMotionValueAnimation(options);
+  };
+
+  // node_modules/motion-dom/dist/es/animation/utils/css-variables-conversion.mjs
+  var splitCSSVariableRegex = (
+    // eslint-disable-next-line redos-detector/no-unsafe-regex -- false positive, as it can match a lot of words
+    /^var\(--(?:([\w-]+)|([\w-]+), ?([a-zA-Z\d ()%#.,-]+))\)/u
+  );
+  function parseCSSVariable(current) {
+    const match = splitCSSVariableRegex.exec(current);
+    if (!match)
+      return [,];
+    const [, token1, token2, fallback] = match;
+    return [`--${token1 ?? token2}`, fallback];
+  }
+  var maxDepth = 4;
+  function getVariableValue(current, element, depth = 1) {
+    invariant(depth <= maxDepth, `Max CSS variable fallback depth detected in property "${current}". This may indicate a circular fallback dependency.`, "max-css-var-depth");
+    const [token, fallback] = parseCSSVariable(current);
+    if (!token)
+      return;
+    const resolved = window.getComputedStyle(element).getPropertyValue(token);
+    if (resolved) {
+      const trimmed = resolved.trim();
+      return isNumericalString(trimmed) ? parseFloat(trimmed) : trimmed;
+    }
+    return isCSSVariableToken(fallback) ? getVariableValue(fallback, element, depth + 1) : fallback;
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/resolve-variants.mjs
+  function getValueState(visualElement) {
+    const state = [{}, {}];
+    visualElement?.values.forEach((value, key) => {
+      state[0][key] = value.get();
+      state[1][key] = value.getVelocity();
+    });
+    return state;
+  }
+  function resolveVariantFromProps(props, definition, custom, visualElement) {
+    if (typeof definition === "function") {
+      const [current, velocity] = getValueState(visualElement);
+      definition = definition(custom !== void 0 ? custom : props.custom, current, velocity);
+    }
+    if (typeof definition === "string") {
+      definition = props.variants && props.variants[definition];
+    }
+    if (typeof definition === "function") {
+      const [current, velocity] = getValueState(visualElement);
+      definition = definition(custom !== void 0 ? custom : props.custom, current, velocity);
+    }
+    return definition;
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/resolve-dynamic-variants.mjs
+  function resolveVariant(visualElement, definition, custom) {
+    const props = visualElement.getProps();
+    return resolveVariantFromProps(props, definition, custom !== void 0 ? custom : props.custom, visualElement);
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/keys-position.mjs
+  var positionalKeys = /* @__PURE__ */ new Set([
+    "width",
+    "height",
+    "top",
+    "left",
+    "right",
+    "bottom",
+    ...transformPropOrder
+  ]);
+
+  // node_modules/motion-dom/dist/es/render/utils/is-keyframes-target.mjs
+  var isKeyframesTarget = (v) => {
+    return Array.isArray(v);
+  };
+
+  // node_modules/motion-dom/dist/es/render/utils/setters.mjs
+  function setMotionValue(visualElement, key, value) {
+    if (visualElement.hasValue(key)) {
+      visualElement.getValue(key).set(value);
+    } else {
+      visualElement.addValue(key, motionValue(value));
+    }
+  }
+  function resolveFinalValueInKeyframes(v) {
+    return isKeyframesTarget(v) ? v[v.length - 1] || 0 : v;
+  }
+  function setTarget(visualElement, definition) {
+    const resolved = resolveVariant(visualElement, definition);
+    let { transitionEnd = {}, transition = {}, ...target } = resolved || {};
+    target = { ...target, ...transitionEnd };
+    for (const key in target) {
+      const value = resolveFinalValueInKeyframes(target[key]);
+      setMotionValue(visualElement, key, value);
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/value/utils/is-motion-value.mjs
+  var isMotionValue = (value) => Boolean(value && value.getVelocity);
+
+  // node_modules/motion-dom/dist/es/value/will-change/is.mjs
+  function isWillChangeMotionValue(value) {
+    return Boolean(isMotionValue(value) && value.add);
+  }
+
+  // node_modules/motion-dom/dist/es/value/will-change/add-will-change.mjs
+  function addValueToWillChange(visualElement, key) {
+    const willChange = visualElement.getValue("willChange");
+    if (isWillChangeMotionValue(willChange)) {
+      return willChange.add(key);
+    } else if (!willChange && MotionGlobalConfig.WillChange) {
+      const newWillChange = new MotionGlobalConfig.WillChange("auto");
+      visualElement.addValue("willChange", newWillChange);
+      newWillChange.add(key);
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/render/dom/utils/camel-to-dash.mjs
+  function camelToDash(str) {
+    return str.replace(/([A-Z])/g, (match) => `-${match.toLowerCase()}`);
+  }
+
+  // node_modules/motion-dom/dist/es/animation/optimized-appear/data-id.mjs
+  var optimizedAppearDataId = "framerAppearId";
+  var optimizedAppearDataAttribute = "data-" + camelToDash(optimizedAppearDataId);
+
+  // node_modules/motion-dom/dist/es/animation/optimized-appear/get-appear-id.mjs
+  function getOptimisedAppearId(visualElement) {
+    return visualElement.props[optimizedAppearDataAttribute];
+  }
+
+  // node_modules/motion-dom/dist/es/animation/interfaces/visual-element-target.mjs
+  function shouldBlockAnimation({ protectedKeys, needsAnimating }, key) {
+    const shouldBlock = protectedKeys.hasOwnProperty(key) && needsAnimating[key] !== true;
+    needsAnimating[key] = false;
+    return shouldBlock;
+  }
+  function animateTarget(visualElement, targetAndTransition, { delay: delay2 = 0, transitionOverride, type } = {}) {
+    let { transition, transitionEnd, ...target } = targetAndTransition;
+    const defaultTransition = visualElement.getDefaultTransition();
+    transition = transition ? resolveTransition(transition, defaultTransition) : defaultTransition;
+    const reduceMotion = transition?.reduceMotion;
+    const skipAnimations = transition?.skipAnimations;
+    if (transitionOverride)
+      transition = transitionOverride;
+    const animations2 = [];
+    const animationTypeState = type && visualElement.animationState && visualElement.animationState.getState()[type];
+    const path = transition?.path;
+    if (path) {
+      path.animateVisualElement(visualElement, target, transition, delay2, animations2);
+    }
+    for (const key in target) {
+      const value = visualElement.getValue(key, visualElement.latestValues[key] ?? null);
+      const valueTarget = target[key];
+      if (valueTarget === void 0 || animationTypeState && shouldBlockAnimation(animationTypeState, key)) {
+        continue;
+      }
+      const valueTransition = {
+        delay: delay2,
+        ...getValueTransition(transition || {}, key)
+      };
+      if (skipAnimations)
+        valueTransition.skipAnimations = true;
+      const currentValue = value.get();
+      if (currentValue !== void 0 && !value.isAnimating() && !Array.isArray(valueTarget) && valueTarget === currentValue && !valueTransition.velocity) {
+        frame.update(() => value.set(valueTarget));
+        continue;
+      }
+      let isHandoff = false;
+      if (window.MotionHandoffAnimation) {
+        const appearId = getOptimisedAppearId(visualElement);
+        if (appearId) {
+          const startTime = window.MotionHandoffAnimation(appearId, key, frame);
+          if (startTime !== null) {
+            valueTransition.startTime = startTime;
+            isHandoff = true;
+          }
+        }
+      }
+      addValueToWillChange(visualElement, key);
+      const shouldReduceMotion = reduceMotion ?? visualElement.shouldReduceMotion;
+      value.start(animateMotionValue(key, value, valueTarget, shouldReduceMotion && positionalKeys.has(key) ? { type: false } : valueTransition, visualElement, isHandoff));
+      const animation = value.animation;
+      if (animation) {
+        animations2.push(animation);
+      }
+    }
+    if (transitionEnd) {
+      const applyTransitionEnd = () => frame.update(() => {
+        transitionEnd && setTarget(visualElement, transitionEnd);
+      });
+      if (animations2.length) {
+        Promise.all(animations2).then(applyTransitionEnd);
+      } else {
+        applyTransitionEnd();
+      }
+    }
+    return animations2;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/interfaces/visual-element-variant.mjs
+  function animateVariant(visualElement, variant, options = {}) {
+    const resolved = resolveVariant(visualElement, variant, options.type === "exit" ? visualElement.presenceContext?.custom : void 0);
+    let { transition = visualElement.getDefaultTransition() || {} } = resolved || {};
+    if (options.transitionOverride) {
+      transition = options.transitionOverride;
+    }
+    const getAnimation = resolved ? () => Promise.all(animateTarget(visualElement, resolved, options)) : () => Promise.resolve();
+    const getChildAnimations = visualElement.variantChildren && visualElement.variantChildren.size ? (forwardDelay = 0) => {
+      const { delayChildren = 0, staggerChildren, staggerDirection } = transition;
+      return animateChildren(visualElement, variant, forwardDelay, delayChildren, staggerChildren, staggerDirection, options);
+    } : () => Promise.resolve();
+    const { when } = transition;
+    if (when) {
+      const [first, last] = when === "beforeChildren" ? [getAnimation, getChildAnimations] : [getChildAnimations, getAnimation];
+      return first().then(() => last());
+    } else {
+      return Promise.all([getAnimation(), getChildAnimations(options.delay)]);
+    }
+  }
+  function animateChildren(visualElement, variant, delay2 = 0, delayChildren = 0, staggerChildren = 0, staggerDirection = 1, options) {
+    const animations2 = [];
+    for (const child of visualElement.variantChildren) {
+      child.notify("AnimationStart", variant);
+      animations2.push(animateVariant(child, variant, {
+        ...options,
+        delay: delay2 + (typeof delayChildren === "function" ? 0 : delayChildren) + calcChildStagger(visualElement.variantChildren, child, delayChildren, staggerChildren, staggerDirection)
+      }).then(() => child.notify("AnimationComplete", variant)));
+    }
+    return Promise.all(animations2);
+  }
+
+  // node_modules/motion-dom/dist/es/animation/interfaces/visual-element.mjs
+  function animateVisualElement(visualElement, definition, options = {}) {
+    visualElement.notify("AnimationStart", definition);
+    let animation;
+    if (Array.isArray(definition)) {
+      const animations2 = definition.map((variant) => animateVariant(visualElement, variant, options));
+      animation = Promise.all(animations2);
+    } else if (typeof definition === "string") {
+      animation = animateVariant(visualElement, definition, options);
+    } else {
+      const resolvedDefinition = typeof definition === "function" ? resolveVariant(visualElement, definition, options.custom) : definition;
+      animation = Promise.all(animateTarget(visualElement, resolvedDefinition, options));
+    }
+    return animation.then(() => {
+      visualElement.notify("AnimationComplete", definition);
+    });
+  }
+
+  // node_modules/motion-dom/dist/es/value/types/auto.mjs
+  var auto = {
+    test: (v) => v === "auto",
+    parse: (v) => v
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/test.mjs
+  var testValueType = (v) => (type) => type.test(v);
+
+  // node_modules/motion-dom/dist/es/value/types/dimensions.mjs
+  var dimensionValueTypes = [number, px, percent, degrees, vw, vh, auto];
+  var findDimensionValueType = (v) => dimensionValueTypes.find(testValueType(v));
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/utils/is-none.mjs
+  function isNone(value) {
+    if (typeof value === "number") {
+      return value === 0;
+    } else if (value !== null) {
+      return value === "none" || value === "0" || isZeroValueString(value);
+    } else {
+      return true;
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/value/types/complex/filter.mjs
+  var maxDefaults = /* @__PURE__ */ new Set(["brightness", "contrast", "saturate", "opacity"]);
+  function applyDefaultFilter(v) {
+    const [name, value] = v.slice(0, -1).split("(");
+    if (name === "drop-shadow")
+      return v;
+    const [number2] = value.match(floatRegex) || [];
+    if (!number2)
+      return v;
+    const unit = value.replace(number2, "");
+    let defaultValue = maxDefaults.has(name) ? 1 : 0;
+    if (number2 !== value)
+      defaultValue *= 100;
+    return name + "(" + defaultValue + unit + ")";
+  }
+  var functionRegex = /\b([a-z-]*)\(.*?\)/gu;
+  var filter = {
+    ...complex,
+    getAnimatableNone: (v) => {
+      const functions = v.match(functionRegex);
+      return functions ? functions.map(applyDefaultFilter).join(" ") : v;
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/complex/mask.mjs
+  var mask = {
+    ...complex,
+    getAnimatableNone: (v) => {
+      const parsed = complex.parse(v);
+      const transformer = complex.createTransformer(v);
+      return transformer(parsed.map((v2) => typeof v2 === "number" ? 0 : typeof v2 === "object" ? { ...v2, alpha: 1 } : v2));
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/int.mjs
+  var int = {
+    ...number,
+    transform: Math.round
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/maps/transform.mjs
+  var transformValueTypes = {
+    rotate: degrees,
+    /**
+     * Internal channel for `transition.path` orientToPath. Composed onto
+     * `rotate` at the transform-build sites so the user's `rotate` is
+     * never read or overwritten. Not part of `transformPropOrder`.
+     */
+    pathRotation: degrees,
+    rotateX: degrees,
+    rotateY: degrees,
+    rotateZ: degrees,
+    scale,
+    scaleX: scale,
+    scaleY: scale,
+    scaleZ: scale,
+    skew: degrees,
+    skewX: degrees,
+    skewY: degrees,
+    distance: px,
+    translateX: px,
+    translateY: px,
+    translateZ: px,
+    x: px,
+    y: px,
+    z: px,
+    perspective: px,
+    transformPerspective: px,
+    opacity: alpha,
+    originX: progressPercentage,
+    originY: progressPercentage,
+    originZ: px
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/maps/number.mjs
+  var numberValueTypes = {
+    // Border props
+    borderWidth: px,
+    borderTopWidth: px,
+    borderRightWidth: px,
+    borderBottomWidth: px,
+    borderLeftWidth: px,
+    borderRadius: px,
+    borderTopLeftRadius: px,
+    borderTopRightRadius: px,
+    borderBottomRightRadius: px,
+    borderBottomLeftRadius: px,
+    // Positioning props
+    width: px,
+    maxWidth: px,
+    height: px,
+    maxHeight: px,
+    top: px,
+    right: px,
+    bottom: px,
+    left: px,
+    inset: px,
+    insetBlock: px,
+    insetBlockStart: px,
+    insetBlockEnd: px,
+    insetInline: px,
+    insetInlineStart: px,
+    insetInlineEnd: px,
+    // Spacing props
+    padding: px,
+    paddingTop: px,
+    paddingRight: px,
+    paddingBottom: px,
+    paddingLeft: px,
+    paddingBlock: px,
+    paddingBlockStart: px,
+    paddingBlockEnd: px,
+    paddingInline: px,
+    paddingInlineStart: px,
+    paddingInlineEnd: px,
+    margin: px,
+    marginTop: px,
+    marginRight: px,
+    marginBottom: px,
+    marginLeft: px,
+    marginBlock: px,
+    marginBlockStart: px,
+    marginBlockEnd: px,
+    marginInline: px,
+    marginInlineStart: px,
+    marginInlineEnd: px,
+    // Typography
+    fontSize: px,
+    // Misc
+    backgroundPositionX: px,
+    backgroundPositionY: px,
+    ...transformValueTypes,
+    zIndex: int,
+    // SVG
+    fillOpacity: alpha,
+    strokeOpacity: alpha,
+    numOctaves: int
+  };
+
+  // node_modules/motion-dom/dist/es/value/types/maps/defaults.mjs
+  var defaultValueTypes = {
+    ...numberValueTypes,
+    // Color props
+    color,
+    backgroundColor: color,
+    outlineColor: color,
+    fill: color,
+    stroke: color,
+    // Border props
+    borderColor: color,
+    borderTopColor: color,
+    borderRightColor: color,
+    borderBottomColor: color,
+    borderLeftColor: color,
+    filter,
+    WebkitFilter: filter,
+    mask,
+    WebkitMask: mask
+  };
+  var getDefaultValueType = (key) => defaultValueTypes[key];
+
+  // node_modules/motion-dom/dist/es/value/types/utils/animatable-none.mjs
+  var customTypes = /* @__PURE__ */ new Set([filter, mask]);
+  function getAnimatableNone2(key, value) {
+    let defaultValueType = getDefaultValueType(key);
+    if (!customTypes.has(defaultValueType))
+      defaultValueType = complex;
+    return defaultValueType.getAnimatableNone ? defaultValueType.getAnimatableNone(value) : void 0;
+  }
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/utils/make-none-animatable.mjs
+  var invalidTemplates = /* @__PURE__ */ new Set(["auto", "none", "0"]);
+  function makeNoneKeyframesAnimatable(unresolvedKeyframes, noneKeyframeIndexes, name) {
+    let i = 0;
+    let animatableTemplate = void 0;
+    while (i < unresolvedKeyframes.length && !animatableTemplate) {
+      const keyframe = unresolvedKeyframes[i];
+      if (typeof keyframe === "string" && !invalidTemplates.has(keyframe) && analyseComplexValue(keyframe).values.length) {
+        animatableTemplate = unresolvedKeyframes[i];
+      }
+      i++;
+    }
+    if (animatableTemplate && name) {
+      for (const noneIndex of noneKeyframeIndexes) {
+        unresolvedKeyframes[noneIndex] = getAnimatableNone2(name, animatableTemplate);
+      }
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/animation/keyframes/DOMKeyframesResolver.mjs
+  var DOMKeyframesResolver = class extends KeyframeResolver {
+    constructor(unresolvedKeyframes, onComplete, name, motionValue2, element) {
+      super(unresolvedKeyframes, onComplete, name, motionValue2, element, true);
+    }
+    readKeyframes() {
+      const { unresolvedKeyframes, element, name } = this;
+      if (!element || !element.current)
+        return;
+      super.readKeyframes();
+      for (let i = 0; i < unresolvedKeyframes.length; i++) {
+        let keyframe = unresolvedKeyframes[i];
+        if (typeof keyframe === "string") {
+          keyframe = keyframe.trim();
+          if (isCSSVariableToken(keyframe)) {
+            const resolved = getVariableValue(keyframe, element.current);
+            if (resolved !== void 0) {
+              unresolvedKeyframes[i] = resolved;
+            }
+            if (i === unresolvedKeyframes.length - 1) {
+              this.finalKeyframe = keyframe;
+            }
+          }
+        }
+      }
+      this.resolveNoneKeyframes();
+      if (!positionalKeys.has(name) || unresolvedKeyframes.length !== 2) {
+        return;
+      }
+      const [origin, target] = unresolvedKeyframes;
+      const originType = findDimensionValueType(origin);
+      const targetType = findDimensionValueType(target);
+      const originHasVar = containsCSSVariable(origin);
+      const targetHasVar = containsCSSVariable(target);
+      if (originHasVar !== targetHasVar && positionalValues[name]) {
+        this.needsMeasurement = true;
+        return;
+      }
+      if (originType === targetType)
+        return;
+      if (isNumOrPxType(originType) && isNumOrPxType(targetType)) {
+        for (let i = 0; i < unresolvedKeyframes.length; i++) {
+          const value = unresolvedKeyframes[i];
+          if (typeof value === "string") {
+            unresolvedKeyframes[i] = parseFloat(value);
+          }
+        }
+      } else if (positionalValues[name]) {
+        this.needsMeasurement = true;
+      }
+    }
+    resolveNoneKeyframes() {
+      const { unresolvedKeyframes, name } = this;
+      const noneKeyframeIndexes = [];
+      for (let i = 0; i < unresolvedKeyframes.length; i++) {
+        if (unresolvedKeyframes[i] === null || isNone(unresolvedKeyframes[i])) {
+          noneKeyframeIndexes.push(i);
+        }
+      }
+      if (noneKeyframeIndexes.length) {
+        makeNoneKeyframesAnimatable(unresolvedKeyframes, noneKeyframeIndexes, name);
+      }
+    }
+    measureInitialState() {
+      const { element, unresolvedKeyframes, name } = this;
+      if (!element || !element.current)
+        return;
+      if (name === "height") {
+        this.suspendedScrollY = window.pageYOffset;
+      }
+      this.measuredOrigin = positionalValues[name](element.measureViewportBox(), window.getComputedStyle(element.current));
+      unresolvedKeyframes[0] = this.measuredOrigin;
+      const measureKeyframe = unresolvedKeyframes[unresolvedKeyframes.length - 1];
+      if (measureKeyframe !== void 0) {
+        element.getValue(name, measureKeyframe).jump(measureKeyframe, false);
+      }
+    }
+    measureEndState() {
+      const { element, name, unresolvedKeyframes } = this;
+      if (!element || !element.current)
+        return;
+      const value = element.getValue(name);
+      value && value.jump(this.measuredOrigin, false);
+      const finalKeyframeIndex = unresolvedKeyframes.length - 1;
+      const finalKeyframe = unresolvedKeyframes[finalKeyframeIndex];
+      unresolvedKeyframes[finalKeyframeIndex] = positionalValues[name](element.measureViewportBox(), window.getComputedStyle(element.current));
+      if (finalKeyframe !== null && this.finalKeyframe === void 0) {
+        this.finalKeyframe = finalKeyframe;
+      }
+      if (this.removedTransforms?.length) {
+        this.removedTransforms.forEach(([unsetTransformName, unsetTransformValue]) => {
+          element.getValue(unsetTransformName).set(unsetTransformValue);
+        });
+      }
+      this.resolveNoneKeyframes();
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/utils/border-radius.mjs
+  var cornerRadiusProps = [
+    "borderTopLeftRadius",
+    "borderTopRightRadius",
+    "borderBottomRightRadius",
+    "borderBottomLeftRadius"
+  ];
+
+  // node_modules/motion-dom/dist/es/utils/resolve-elements.mjs
+  function resolveElements(elementOrSelector, scope, selectorCache) {
+    if (elementOrSelector == null) {
+      return [];
+    }
+    if (elementOrSelector instanceof EventTarget) {
+      return [elementOrSelector];
+    } else if (typeof elementOrSelector === "string") {
+      let root = document;
+      if (scope) {
+        root = scope.current;
+      }
+      const elements = selectorCache?.[elementOrSelector] ?? root.querySelectorAll(elementOrSelector);
+      return elements ? Array.from(elements) : [];
+    }
+    return Array.from(elementOrSelector).filter((element) => element != null);
+  }
+
+  // node_modules/motion-dom/dist/es/value/types/utils/get-as-type.mjs
+  var getValueAsType = (value, type) => {
+    return type && typeof value === "number" ? type.transform(value) : value;
+  };
+
+  // node_modules/motion-dom/dist/es/utils/is-html-element.mjs
+  function isHTMLElement(element) {
+    return isObject(element) && "offsetHeight" in element && !("ownerSVGElement" in element);
+  }
+
+  // node_modules/motion-dom/dist/es/frameloop/microtask.mjs
+  var { schedule: microtask, cancel: cancelMicrotask } = /* @__PURE__ */ createRenderBatcher(queueMicrotask, false);
+
+  // node_modules/motion-dom/dist/es/gestures/drag/state/is-active.mjs
+  var isDragging = {
+    x: false,
+    y: false
+  };
+  function isDragActive() {
+    return isDragging.x || isDragging.y;
+  }
+
+  // node_modules/motion-dom/dist/es/gestures/drag/state/set-active.mjs
+  function setDragLock(axis) {
+    if (axis === "x" || axis === "y") {
+      if (isDragging[axis]) {
+        return null;
+      } else {
+        isDragging[axis] = true;
+        return () => {
+          isDragging[axis] = false;
+        };
+      }
+    } else {
+      if (isDragging.x || isDragging.y) {
+        return null;
+      } else {
+        isDragging.x = isDragging.y = true;
+        return () => {
+          isDragging.x = isDragging.y = false;
+        };
+      }
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/gestures/utils/setup.mjs
+  function setupGesture(elementOrSelector, options) {
+    const elements = resolveElements(elementOrSelector);
+    const gestureAbortController = new AbortController();
+    const eventOptions = {
+      passive: true,
+      ...options,
+      signal: gestureAbortController.signal
+    };
+    const cancel = () => gestureAbortController.abort();
+    return [elements, eventOptions, cancel];
+  }
+
+  // node_modules/motion-dom/dist/es/gestures/hover.mjs
+  function isValidHover(event) {
+    return !(event.pointerType === "touch" || isDragActive());
+  }
+  function hover(elementOrSelector, onHoverStart, options = {}) {
+    const [elements, eventOptions, cancel] = setupGesture(elementOrSelector, options);
+    elements.forEach((element) => {
+      let isPressed = false;
+      let deferredHoverEnd = false;
+      let hoverEndCallback;
+      const removePointerLeave = () => {
+        element.removeEventListener("pointerleave", onPointerLeave);
+      };
+      const endHover = (event) => {
+        if (hoverEndCallback) {
+          hoverEndCallback(event);
+          hoverEndCallback = void 0;
+        }
+        removePointerLeave();
+      };
+      const onPointerUp = (event) => {
+        isPressed = false;
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+        if (deferredHoverEnd) {
+          deferredHoverEnd = false;
+          endHover(event);
+        }
+      };
+      const onPointerDown = () => {
+        isPressed = true;
+        window.addEventListener("pointerup", onPointerUp, eventOptions);
+        window.addEventListener("pointercancel", onPointerUp, eventOptions);
+      };
+      const onPointerLeave = (leaveEvent) => {
+        if (leaveEvent.pointerType === "touch")
+          return;
+        if (isPressed) {
+          deferredHoverEnd = true;
+          return;
+        }
+        endHover(leaveEvent);
+      };
+      const onPointerEnter = (enterEvent) => {
+        if (!isValidHover(enterEvent))
+          return;
+        deferredHoverEnd = false;
+        const onHoverEnd = onHoverStart(element, enterEvent);
+        if (typeof onHoverEnd !== "function")
+          return;
+        hoverEndCallback = onHoverEnd;
+        element.addEventListener("pointerleave", onPointerLeave, eventOptions);
+      };
+      element.addEventListener("pointerenter", onPointerEnter, eventOptions);
+      element.addEventListener("pointerdown", onPointerDown, eventOptions);
+    });
+    return cancel;
+  }
+
+  // node_modules/motion-dom/dist/es/gestures/utils/is-node-or-child.mjs
+  var isNodeOrChild = (parent, child) => {
+    if (!child) {
+      return false;
+    } else if (parent === child) {
+      return true;
+    } else {
+      return isNodeOrChild(parent, child.parentElement);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/gestures/utils/is-primary-pointer.mjs
+  var isPrimaryPointer = (event) => {
+    if (event.pointerType === "mouse") {
+      return typeof event.button !== "number" || event.button <= 0;
+    } else {
+      return event.isPrimary !== false;
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/gestures/press/utils/is-keyboard-accessible.mjs
+  var keyboardAccessibleElements = /* @__PURE__ */ new Set([
+    "BUTTON",
+    "INPUT",
+    "SELECT",
+    "TEXTAREA",
+    "A"
+  ]);
+  function isElementKeyboardAccessible(element) {
+    return keyboardAccessibleElements.has(element.tagName) || element.isContentEditable === true;
+  }
+  var textInputElements = /* @__PURE__ */ new Set(["INPUT", "SELECT", "TEXTAREA"]);
+  function isElementTextInput(element) {
+    return textInputElements.has(element.tagName) || element.isContentEditable === true;
+  }
+
+  // node_modules/motion-dom/dist/es/gestures/press/utils/state.mjs
+  var isPressing = /* @__PURE__ */ new WeakSet();
+
+  // node_modules/motion-dom/dist/es/gestures/press/utils/keyboard.mjs
+  function filterEvents(callback) {
+    return (event) => {
+      if (event.key !== "Enter")
+        return;
+      callback(event);
+    };
+  }
+  function firePointerEvent(target, type) {
+    target.dispatchEvent(new PointerEvent("pointer" + type, { isPrimary: true, bubbles: true }));
+  }
+  var enableKeyboardPress = (focusEvent, eventOptions) => {
+    const element = focusEvent.currentTarget;
+    if (!element)
+      return;
+    const handleKeydown = filterEvents(() => {
+      if (isPressing.has(element))
+        return;
+      firePointerEvent(element, "down");
+      const handleKeyup = filterEvents(() => {
+        firePointerEvent(element, "up");
+      });
+      const handleBlur = () => firePointerEvent(element, "cancel");
+      element.addEventListener("keyup", handleKeyup, eventOptions);
+      element.addEventListener("blur", handleBlur, eventOptions);
+    });
+    element.addEventListener("keydown", handleKeydown, eventOptions);
+    element.addEventListener("blur", () => element.removeEventListener("keydown", handleKeydown), eventOptions);
+  };
+
+  // node_modules/motion-dom/dist/es/gestures/press/index.mjs
+  function isValidPressEvent(event) {
+    return isPrimaryPointer(event) && !isDragActive();
+  }
+  var claimedPointerDownEvents = /* @__PURE__ */ new WeakSet();
+  function press(targetOrSelector, onPressStart, options = {}) {
+    const [targets, eventOptions, cancelEvents] = setupGesture(targetOrSelector, options);
+    const startPress = (startEvent) => {
+      const target = startEvent.currentTarget;
+      if (!isValidPressEvent(startEvent))
+        return;
+      if (claimedPointerDownEvents.has(startEvent))
+        return;
+      isPressing.add(target);
+      if (options.stopPropagation) {
+        claimedPointerDownEvents.add(startEvent);
+      }
+      const onPressEnd = onPressStart(target, startEvent);
+      const endEventOptions = { ...eventOptions, capture: true };
+      const onPointerEnd = (endEvent, success) => {
+        window.removeEventListener("pointerup", onPointerUp, endEventOptions);
+        window.removeEventListener("pointercancel", onPointerCancel, endEventOptions);
+        if (isPressing.has(target)) {
+          isPressing.delete(target);
+        }
+        if (!isValidPressEvent(endEvent)) {
+          return;
+        }
+        if (typeof onPressEnd === "function") {
+          onPressEnd(endEvent, { success });
+        }
+      };
+      const onPointerUp = (upEvent) => {
+        onPointerEnd(upEvent, target === window || target === document || options.useGlobalTarget || isNodeOrChild(target, upEvent.target));
+      };
+      const onPointerCancel = (cancelEvent) => {
+        onPointerEnd(cancelEvent, false);
+      };
+      window.addEventListener("pointerup", onPointerUp, endEventOptions);
+      window.addEventListener("pointercancel", onPointerCancel, endEventOptions);
+    };
+    targets.forEach((target) => {
+      const pointerDownTarget = options.useGlobalTarget ? window : target;
+      pointerDownTarget.addEventListener("pointerdown", startPress, eventOptions);
+      if (isHTMLElement(target)) {
+        target.addEventListener("focus", (event) => enableKeyboardPress(event, eventOptions));
+        if (!isElementKeyboardAccessible(target) && !target.hasAttribute("tabindex")) {
+          target.tabIndex = 0;
+        }
+      }
+    });
+    return cancelEvents;
+  }
+
+  // node_modules/motion-dom/dist/es/utils/is-svg-element.mjs
+  function isSVGElement(element) {
+    return isObject(element) && "ownerSVGElement" in element;
+  }
+
+  // node_modules/motion-dom/dist/es/resize/handle-element.mjs
+  var resizeHandlers = /* @__PURE__ */ new WeakMap();
+  var observer;
+  var getSize = (borderBoxAxis, svgAxis, htmlAxis) => (target, borderBoxSize) => {
+    if (borderBoxSize && borderBoxSize[0]) {
+      return borderBoxSize[0][borderBoxAxis + "Size"];
+    } else if (isSVGElement(target) && "getBBox" in target) {
+      return target.getBBox()[svgAxis];
+    } else {
+      return target[htmlAxis];
+    }
+  };
+  var getWidth = /* @__PURE__ */ getSize("inline", "width", "offsetWidth");
+  var getHeight = /* @__PURE__ */ getSize("block", "height", "offsetHeight");
+  function notifyTarget({ target, borderBoxSize }) {
+    resizeHandlers.get(target)?.forEach((handler) => {
+      handler(target, {
+        get width() {
+          return getWidth(target, borderBoxSize);
+        },
+        get height() {
+          return getHeight(target, borderBoxSize);
+        }
+      });
+    });
+  }
+  function notifyAll(entries) {
+    entries.forEach(notifyTarget);
+  }
+  function createResizeObserver() {
+    if (typeof ResizeObserver === "undefined")
+      return;
+    observer = new ResizeObserver(notifyAll);
+  }
+  function resizeElement(target, handler) {
+    if (!observer)
+      createResizeObserver();
+    const elements = resolveElements(target);
+    elements.forEach((element) => {
+      let elementHandlers = resizeHandlers.get(element);
+      if (!elementHandlers) {
+        elementHandlers = /* @__PURE__ */ new Set();
+        resizeHandlers.set(element, elementHandlers);
+      }
+      elementHandlers.add(handler);
+      observer?.observe(element);
+    });
+    return () => {
+      elements.forEach((element) => {
+        const elementHandlers = resizeHandlers.get(element);
+        elementHandlers?.delete(handler);
+        if (!elementHandlers?.size) {
+          observer?.unobserve(element);
+        }
+      });
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/resize/handle-window.mjs
+  var windowCallbacks = /* @__PURE__ */ new Set();
+  var windowResizeHandler;
+  function createWindowResizeHandler() {
+    windowResizeHandler = () => {
+      const info = {
+        get width() {
+          return window.innerWidth;
+        },
+        get height() {
+          return window.innerHeight;
+        }
+      };
+      windowCallbacks.forEach((callback) => callback(info));
+    };
+    window.addEventListener("resize", windowResizeHandler);
+  }
+  function resizeWindow(callback) {
+    windowCallbacks.add(callback);
+    if (!windowResizeHandler)
+      createWindowResizeHandler();
+    return () => {
+      windowCallbacks.delete(callback);
+      if (!windowCallbacks.size && typeof windowResizeHandler === "function") {
+        window.removeEventListener("resize", windowResizeHandler);
+        windowResizeHandler = void 0;
+      }
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/resize/index.mjs
+  function resize(a, b) {
+    return typeof a === "function" ? resizeWindow(a) : resizeElement(a, b);
+  }
+
+  // node_modules/motion-dom/dist/es/stats/buffer.mjs
+  var statsBuffer = {
+    value: null,
+    addProjectionMetrics: null
+  };
+
+  // node_modules/motion-dom/dist/es/utils/is-svg-svg-element.mjs
+  function isSVGSVGElement(element) {
+    return isSVGElement(element) && element.tagName === "svg";
+  }
+
+  // node_modules/motion-dom/dist/es/value/types/utils/find.mjs
+  var valueTypes = [...dimensionValueTypes, color, complex];
+  var findValueType = (v) => valueTypes.find(testValueType(v));
+
+  // node_modules/motion-dom/dist/es/projection/geometry/models.mjs
+  var createAxisDelta = () => ({
+    translate: 0,
+    scale: 1,
+    origin: 0,
+    originPoint: 0
+  });
+  var createDelta = () => ({
+    x: createAxisDelta(),
+    y: createAxisDelta()
+  });
+  var createAxis = () => ({ min: 0, max: 0 });
+  var createBox = () => ({
+    x: createAxis(),
+    y: createAxis()
   });
 
-  // src/pages/app/App.tsx
-  var require_App = __commonJS({
-    "src/pages/app/App.tsx"() {
-      var import_react = __toESM(require_react());
-      var import_client = __toESM(require_client());
-      init_Iris();
-      var import_jsx_runtime = __toESM(require_jsx_runtime());
-      function MemoryBridgeApp() {
-        const [highContrast, setHighContrast] = (0, import_react.useState)(false);
-        const [largeFont, setLargeFont] = (0, import_react.useState)(false);
-        const [isSpeaking, setIsSpeaking] = (0, import_react.useState)(false);
-        const [accessibilityOpen, setAccessibilityOpen] = (0, import_react.useState)(false);
-        const [isInterviewOpen, setIsInterviewOpen] = (0, import_react.useState)(false);
-        const [isRecording, setIsRecording] = (0, import_react.useState)(false);
-        const [interviewStep, setInterviewStep] = (0, import_react.useState)(0);
-        const [interviewAnswers, setInterviewAnswers] = (0, import_react.useState)({ who: "", when: "", story: "" });
-        const [likes, setLikes] = (0, import_react.useState)(12);
-        const [hasLiked, setHasLiked] = (0, import_react.useState)(false);
-        const [showComments, setShowComments] = (0, import_react.useState)(false);
-        const [comments, setComments] = (0, import_react.useState)([
-          "Che bella foto di famiglia! Che anno era precisamente?",
-          "Zio Orazio aveva sempre lo stesso sorriso!",
-          "Grazie per aver condiviso questo ricordo \u2764\uFE0F"
-        ]);
-        const [newComment, setNewComment] = (0, import_react.useState)("");
-        const guidedQuestions = [
-          { id: "who", question: "Chi c\u2019\xE8 in questa fotografia o in questo ricordo?", placeholder: "Es. Nonno Orazio, Cugino Antonio..." },
-          { id: "when", question: "In che anno o occasione speciale \xE8 successo?", placeholder: "Es. Matrimonio del 1965, Estate a Salerno..." },
-          { id: "story", question: "Racconta cosa vi stavate dicendo o un aneddoto speciale:", placeholder: "Premi il microfono se preferisci parlare a voce!" }
-        ];
-        const toggleLike = () => {
-          setLikes((prev) => hasLiked ? prev - 1 : prev + 1);
-          setHasLiked(!hasLiked);
+  // node_modules/motion-dom/dist/es/render/store.mjs
+  var visualElementStore = /* @__PURE__ */ new WeakMap();
+
+  // node_modules/motion-dom/dist/es/render/utils/is-animation-controls.mjs
+  function isAnimationControls(v) {
+    return v !== null && typeof v === "object" && typeof v.start === "function";
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/is-variant-label.mjs
+  function isVariantLabel(v) {
+    return typeof v === "string" || Array.isArray(v);
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/variant-props.mjs
+  var variantPriorityOrder = [
+    "animate",
+    "whileInView",
+    "whileFocus",
+    "whileHover",
+    "whileTap",
+    "whileDrag",
+    "exit"
+  ];
+  var variantProps = ["initial", ...variantPriorityOrder];
+
+  // node_modules/motion-dom/dist/es/render/utils/is-controlling-variants.mjs
+  function isControllingVariants(props) {
+    return isAnimationControls(props.animate) || variantProps.some((name) => isVariantLabel(props[name]));
+  }
+  function isVariantNode(props) {
+    return Boolean(isControllingVariants(props) || props.variants);
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/motion-values.mjs
+  function updateMotionValuesFromProps(element, next, prev) {
+    for (const key in next) {
+      const nextValue = next[key];
+      const prevValue = prev[key];
+      if (isMotionValue(nextValue)) {
+        element.addValue(key, nextValue);
+      } else if (isMotionValue(prevValue)) {
+        element.addValue(key, motionValue(nextValue, { owner: element }));
+      } else if (prevValue !== nextValue) {
+        if (element.hasValue(key)) {
+          const existingValue = element.getValue(key);
+          if (existingValue.liveStyle === true) {
+            existingValue.jump(nextValue);
+          } else if (!existingValue.hasAnimated) {
+            existingValue.set(nextValue);
+          }
+        } else {
+          const latestValue = element.getStaticValue(key);
+          element.addValue(key, motionValue(latestValue !== void 0 ? latestValue : nextValue, { owner: element }));
+        }
+      }
+    }
+    for (const key in prev) {
+      if (next[key] === void 0)
+        element.removeValue(key);
+    }
+    return next;
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/reduced-motion/state.mjs
+  var prefersReducedMotion = { current: null };
+  var hasReducedMotionListener = { current: false };
+
+  // node_modules/motion-dom/dist/es/render/utils/reduced-motion/index.mjs
+  var isBrowser2 = typeof window !== "undefined";
+  function initPrefersReducedMotion() {
+    hasReducedMotionListener.current = true;
+    if (!isBrowser2)
+      return;
+    if (window.matchMedia) {
+      const motionMediaQuery = window.matchMedia("(prefers-reduced-motion)");
+      const setReducedMotionPreferences = () => prefersReducedMotion.current = motionMediaQuery.matches;
+      motionMediaQuery.addEventListener("change", setReducedMotionPreferences);
+      setReducedMotionPreferences();
+    } else {
+      prefersReducedMotion.current = false;
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/render/VisualElement.mjs
+  var propEventHandlers = [
+    "AnimationStart",
+    "AnimationComplete",
+    "Update",
+    "BeforeLayoutMeasure",
+    "LayoutMeasure",
+    "LayoutAnimationStart",
+    "LayoutAnimationComplete"
+  ];
+  var featureDefinitions = {};
+  function setFeatureDefinitions(definitions) {
+    featureDefinitions = definitions;
+  }
+  function getFeatureDefinitions() {
+    return featureDefinitions;
+  }
+  var VisualElement = class {
+    /**
+     * This method takes React props and returns found MotionValues. For example, HTML
+     * MotionValues will be found within the style prop, whereas for Three.js within attribute arrays.
+     *
+     * This isn't an abstract method as it needs calling in the constructor, but it is
+     * intended to be one.
+     */
+    scrapeMotionValuesFromProps(_props, _prevProps, _visualElement) {
+      return {};
+    }
+    constructor({ parent, props, presenceContext, reducedMotionConfig, skipAnimations, blockInitialAnimation, visualState }, options = {}) {
+      this.current = null;
+      this.children = /* @__PURE__ */ new Set();
+      this.isVariantNode = false;
+      this.isControllingVariants = false;
+      this.shouldReduceMotion = null;
+      this.shouldSkipAnimations = false;
+      this.values = /* @__PURE__ */ new Map();
+      this.KeyframeResolver = KeyframeResolver;
+      this.features = {};
+      this.valueSubscriptions = /* @__PURE__ */ new Map();
+      this.prevMotionValues = {};
+      this.hasBeenMounted = false;
+      this.events = {};
+      this.propEventSubscriptions = {};
+      this.notifyUpdate = () => this.notify("Update", this.latestValues);
+      this.render = () => {
+        if (!this.current)
+          return;
+        this.triggerBuild();
+        this.renderInstance(this.current, this.renderState, this.props.style, this.projection);
+      };
+      this.renderScheduledAt = 0;
+      this.scheduleRender = () => {
+        const now2 = time.now();
+        if (this.renderScheduledAt < now2) {
+          this.renderScheduledAt = now2;
+          frame.render(this.render, false, true);
+        }
+      };
+      const { latestValues, renderState } = visualState;
+      this.latestValues = latestValues;
+      this.baseTarget = { ...latestValues };
+      this.initialValues = props.initial ? { ...latestValues } : {};
+      this.renderState = renderState;
+      this.parent = parent;
+      this.props = props;
+      this.presenceContext = presenceContext;
+      this.depth = parent ? parent.depth + 1 : 0;
+      this.reducedMotionConfig = reducedMotionConfig;
+      this.skipAnimationsConfig = skipAnimations;
+      this.options = options;
+      this.blockInitialAnimation = Boolean(blockInitialAnimation);
+      this.isControllingVariants = isControllingVariants(props);
+      this.isVariantNode = isVariantNode(props);
+      if (this.isVariantNode) {
+        this.variantChildren = /* @__PURE__ */ new Set();
+      }
+      this.manuallyAnimateOnMount = Boolean(parent && parent.current);
+      const { willChange, ...initialMotionValues } = this.scrapeMotionValuesFromProps(props, {}, this);
+      for (const key in initialMotionValues) {
+        const value = initialMotionValues[key];
+        if (latestValues[key] !== void 0 && isMotionValue(value)) {
+          value.set(latestValues[key]);
+        }
+      }
+    }
+    mount(instance) {
+      if (this.hasBeenMounted) {
+        for (const key in this.initialValues) {
+          this.values.get(key)?.jump(this.initialValues[key]);
+          this.latestValues[key] = this.initialValues[key];
+        }
+      }
+      this.current = instance;
+      visualElementStore.set(instance, this);
+      if (this.projection && !this.projection.instance) {
+        this.projection.mount(instance);
+      }
+      if (this.parent && this.isVariantNode && !this.isControllingVariants) {
+        this.removeFromVariantTree = this.parent.addVariantChild(this);
+      }
+      this.values.forEach((value, key) => this.bindToMotionValue(key, value));
+      if (this.reducedMotionConfig === "never") {
+        this.shouldReduceMotion = false;
+      } else if (this.reducedMotionConfig === "always") {
+        this.shouldReduceMotion = true;
+      } else {
+        if (!hasReducedMotionListener.current) {
+          initPrefersReducedMotion();
+        }
+        this.shouldReduceMotion = prefersReducedMotion.current;
+      }
+      if (true) {
+        warnOnce(this.shouldReduceMotion !== true, "You have Reduced Motion enabled on your device. Animations may not appear as expected.", "reduced-motion-disabled");
+      }
+      this.shouldSkipAnimations = this.skipAnimationsConfig ?? false;
+      this.parent?.addChild(this);
+      this.update(this.props, this.presenceContext);
+      this.hasBeenMounted = true;
+    }
+    unmount() {
+      this.projection && this.projection.unmount();
+      cancelFrame(this.notifyUpdate);
+      cancelFrame(this.render);
+      this.valueSubscriptions.forEach((remove) => remove());
+      this.valueSubscriptions.clear();
+      this.removeFromVariantTree && this.removeFromVariantTree();
+      this.parent?.removeChild(this);
+      for (const key in this.events) {
+        this.events[key].clear();
+      }
+      for (const key in this.features) {
+        const feature = this.features[key];
+        if (feature) {
+          feature.unmount();
+          feature.isMounted = false;
+        }
+      }
+      this.current = null;
+    }
+    addChild(child) {
+      this.children.add(child);
+      this.enteringChildren ?? (this.enteringChildren = /* @__PURE__ */ new Set());
+      this.enteringChildren.add(child);
+    }
+    removeChild(child) {
+      this.children.delete(child);
+      this.enteringChildren && this.enteringChildren.delete(child);
+    }
+    bindToMotionValue(key, value) {
+      if (this.valueSubscriptions.has(key)) {
+        this.valueSubscriptions.get(key)();
+      }
+      if (value.accelerate && acceleratedValues.has(key) && this.current instanceof HTMLElement) {
+        const { factory, keyframes: keyframes2, times, ease: ease2, duration } = value.accelerate;
+        const animation = new NativeAnimation({
+          element: this.current,
+          name: key,
+          keyframes: keyframes2,
+          times,
+          ease: ease2,
+          duration: secondsToMilliseconds(duration)
+        });
+        const cleanup = factory(animation);
+        this.valueSubscriptions.set(key, () => {
+          cleanup();
+          animation.cancel();
+        });
+        return;
+      }
+      const valueIsTransform = transformProps.has(key);
+      if (valueIsTransform && this.onBindTransform) {
+        this.onBindTransform();
+      }
+      const removeOnChange = value.on("change", (latestValue) => {
+        this.latestValues[key] = latestValue;
+        this.props.onUpdate && frame.preRender(this.notifyUpdate);
+        if (valueIsTransform && this.projection) {
+          this.projection.isTransformDirty = true;
+        }
+        this.scheduleRender();
+      });
+      let removeSyncCheck;
+      if (typeof window !== "undefined" && window.MotionCheckAppearSync) {
+        removeSyncCheck = window.MotionCheckAppearSync(this, key, value);
+      }
+      this.valueSubscriptions.set(key, () => {
+        removeOnChange();
+        if (removeSyncCheck)
+          removeSyncCheck();
+      });
+    }
+    sortNodePosition(other) {
+      if (!this.current || !this.sortInstanceNodePosition || this.type !== other.type) {
+        return 0;
+      }
+      return this.sortInstanceNodePosition(this.current, other.current);
+    }
+    updateFeatures() {
+      let key = "animation";
+      for (key in featureDefinitions) {
+        const featureDefinition = featureDefinitions[key];
+        if (!featureDefinition)
+          continue;
+        const { isEnabled, Feature: FeatureConstructor } = featureDefinition;
+        if (!this.features[key] && FeatureConstructor && isEnabled(this.props)) {
+          this.features[key] = new FeatureConstructor(this);
+        }
+        if (this.features[key]) {
+          const feature = this.features[key];
+          if (feature.isMounted) {
+            feature.update();
+          } else {
+            feature.mount();
+            feature.isMounted = true;
+          }
+        }
+      }
+    }
+    triggerBuild() {
+      this.build(this.renderState, this.latestValues, this.props);
+    }
+    /**
+     * Measure the current viewport box with or without transforms.
+     * Only measures axis-aligned boxes, rotate and skew must be manually
+     * removed with a re-render to work.
+     */
+    measureViewportBox() {
+      return this.current ? this.measureInstanceViewportBox(this.current, this.props) : createBox();
+    }
+    getStaticValue(key) {
+      return this.latestValues[key];
+    }
+    setStaticValue(key, value) {
+      this.latestValues[key] = value;
+    }
+    /**
+     * Update the provided props. Ensure any newly-added motion values are
+     * added to our map, old ones removed, and listeners updated.
+     */
+    update(props, presenceContext) {
+      if (props.transformTemplate || this.props.transformTemplate) {
+        this.scheduleRender();
+      }
+      this.prevProps = this.props;
+      this.props = props;
+      this.prevPresenceContext = this.presenceContext;
+      this.presenceContext = presenceContext;
+      for (let i = 0; i < propEventHandlers.length; i++) {
+        const key = propEventHandlers[i];
+        if (this.propEventSubscriptions[key]) {
+          this.propEventSubscriptions[key]();
+          delete this.propEventSubscriptions[key];
+        }
+        const listenerName = "on" + key;
+        const listener = props[listenerName];
+        if (listener) {
+          this.propEventSubscriptions[key] = this.on(key, listener);
+        }
+      }
+      this.prevMotionValues = updateMotionValuesFromProps(this, this.scrapeMotionValuesFromProps(props, this.prevProps || {}, this), this.prevMotionValues);
+      if (this.handleChildMotionValue) {
+        this.handleChildMotionValue();
+      }
+    }
+    getProps() {
+      return this.props;
+    }
+    /**
+     * Returns the variant definition with a given name.
+     */
+    getVariant(name) {
+      return this.props.variants ? this.props.variants[name] : void 0;
+    }
+    /**
+     * Returns the defined default transition on this component.
+     */
+    getDefaultTransition() {
+      return this.props.transition;
+    }
+    getTransformPagePoint() {
+      return this.props.transformPagePoint;
+    }
+    getClosestVariantNode() {
+      return this.isVariantNode ? this : this.parent ? this.parent.getClosestVariantNode() : void 0;
+    }
+    /**
+     * Add a child visual element to our set of children.
+     */
+    addVariantChild(child) {
+      const closestVariantNode = this.getClosestVariantNode();
+      if (closestVariantNode) {
+        closestVariantNode.variantChildren && closestVariantNode.variantChildren.add(child);
+        return () => closestVariantNode.variantChildren.delete(child);
+      }
+    }
+    /**
+     * Add a motion value and bind it to this visual element.
+     */
+    addValue(key, value) {
+      const existingValue = this.values.get(key);
+      if (value !== existingValue) {
+        if (existingValue)
+          this.removeValue(key);
+        this.bindToMotionValue(key, value);
+        this.values.set(key, value);
+        this.latestValues[key] = value.get();
+      }
+    }
+    /**
+     * Remove a motion value and unbind any active subscriptions.
+     */
+    removeValue(key) {
+      this.values.delete(key);
+      const unsubscribe = this.valueSubscriptions.get(key);
+      if (unsubscribe) {
+        unsubscribe();
+        this.valueSubscriptions.delete(key);
+      }
+      delete this.latestValues[key];
+      this.removeValueFromRenderState(key, this.renderState);
+    }
+    /**
+     * Check whether we have a motion value for this key
+     */
+    hasValue(key) {
+      return this.values.has(key);
+    }
+    getValue(key, defaultValue) {
+      if (this.props.values && this.props.values[key]) {
+        return this.props.values[key];
+      }
+      let value = this.values.get(key);
+      if (value === void 0 && defaultValue !== void 0) {
+        value = motionValue(defaultValue === null ? void 0 : defaultValue, { owner: this });
+        this.addValue(key, value);
+      }
+      return value;
+    }
+    /**
+     * If we're trying to animate to a previously unencountered value,
+     * we need to check for it in our state and as a last resort read it
+     * directly from the instance (which might have performance implications).
+     */
+    readValue(key, target) {
+      let value = this.latestValues[key] !== void 0 || !this.current ? this.latestValues[key] : this.getBaseTargetFromProps(this.props, key) ?? this.readValueFromInstance(this.current, key, this.options);
+      if (value !== void 0 && value !== null) {
+        if (typeof value === "string" && (isNumericalString(value) || isZeroValueString(value))) {
+          value = parseFloat(value);
+        } else if (!findValueType(value) && complex.test(target)) {
+          value = getAnimatableNone2(key, target);
+        }
+        this.setBaseTarget(key, isMotionValue(value) ? value.get() : value);
+      }
+      return isMotionValue(value) ? value.get() : value;
+    }
+    /**
+     * Set the base target to later animate back to. This is currently
+     * only hydrated on creation and when we first read a value.
+     */
+    setBaseTarget(key, value) {
+      this.baseTarget[key] = value;
+    }
+    /**
+     * Find the base target for a value thats been removed from all animation
+     * props.
+     */
+    getBaseTarget(key) {
+      const { initial } = this.props;
+      let valueFromInitial;
+      if (typeof initial === "string" || typeof initial === "object") {
+        const variant = resolveVariantFromProps(this.props, initial, this.presenceContext?.custom);
+        if (variant) {
+          valueFromInitial = variant[key];
+        }
+      }
+      if (initial && valueFromInitial !== void 0) {
+        return valueFromInitial;
+      }
+      const target = this.getBaseTargetFromProps(this.props, key);
+      if (target !== void 0 && !isMotionValue(target))
+        return target;
+      return this.initialValues[key] !== void 0 && valueFromInitial === void 0 ? void 0 : this.baseTarget[key];
+    }
+    on(eventName, callback) {
+      if (!this.events[eventName]) {
+        this.events[eventName] = new SubscriptionManager();
+      }
+      return this.events[eventName].add(callback);
+    }
+    notify(eventName, ...args) {
+      if (this.events[eventName]) {
+        this.events[eventName].notify(...args);
+      }
+    }
+    scheduleRenderMicrotask() {
+      microtask.render(this.render);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/render/dom/DOMVisualElement.mjs
+  var DOMVisualElement = class extends VisualElement {
+    constructor() {
+      super(...arguments);
+      this.KeyframeResolver = DOMKeyframesResolver;
+    }
+    sortInstanceNodePosition(a, b) {
+      return a.compareDocumentPosition(b) & 2 ? 1 : -1;
+    }
+    getBaseTargetFromProps(props, key) {
+      const style = props.style;
+      return style ? style[key] : void 0;
+    }
+    removeValueFromRenderState(key, { vars, style }) {
+      delete vars[key];
+      delete style[key];
+    }
+    handleChildMotionValue() {
+      if (this.childSubscription) {
+        this.childSubscription();
+        delete this.childSubscription;
+      }
+      const { children } = this.props;
+      if (isMotionValue(children)) {
+        this.childSubscription = children.on("change", (latest) => {
+          if (this.current) {
+            this.current.textContent = `${latest}`;
+          }
+        });
+      }
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/render/Feature.mjs
+  var Feature = class {
+    constructor(node) {
+      this.isMounted = false;
+      this.node = node;
+    }
+    update() {
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/projection/geometry/conversion.mjs
+  function convertBoundingBoxToBox({ top, left, right, bottom }) {
+    return {
+      x: { min: left, max: right },
+      y: { min: top, max: bottom }
+    };
+  }
+  function convertBoxToBoundingBox({ x, y }) {
+    return { top: y.min, right: x.max, bottom: y.max, left: x.min };
+  }
+  function transformBoxPoints(point, transformPoint2) {
+    if (!transformPoint2)
+      return point;
+    const topLeft = transformPoint2({ x: point.left, y: point.top });
+    const bottomRight = transformPoint2({ x: point.right, y: point.bottom });
+    return {
+      top: topLeft.y,
+      left: topLeft.x,
+      bottom: bottomRight.y,
+      right: bottomRight.x
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/projection/utils/has-transform.mjs
+  function isIdentityScale(scale2) {
+    return scale2 === void 0 || scale2 === 1;
+  }
+  function hasScale({ scale: scale2, scaleX: scaleX2, scaleY: scaleY2 }) {
+    return !isIdentityScale(scale2) || !isIdentityScale(scaleX2) || !isIdentityScale(scaleY2);
+  }
+  function hasTransform(values) {
+    return hasScale(values) || has2DTranslate(values) || values.z || values.rotate || values.rotateX || values.rotateY || values.skewX || values.skewY;
+  }
+  function has2DTranslate(values) {
+    return is2DTranslate(values.x) || is2DTranslate(values.y);
+  }
+  function is2DTranslate(value) {
+    return value && value !== "0%";
+  }
+
+  // node_modules/motion-dom/dist/es/projection/geometry/delta-apply.mjs
+  function scalePoint(point, scale2, originPoint) {
+    const distanceFromOrigin = point - originPoint;
+    const scaled = scale2 * distanceFromOrigin;
+    return originPoint + scaled;
+  }
+  function applyPointDelta(point, translate, scale2, originPoint, boxScale) {
+    if (boxScale !== void 0) {
+      point = scalePoint(point, boxScale, originPoint);
+    }
+    return scalePoint(point, scale2, originPoint) + translate;
+  }
+  function applyAxisDelta(axis, translate = 0, scale2 = 1, originPoint, boxScale) {
+    axis.min = applyPointDelta(axis.min, translate, scale2, originPoint, boxScale);
+    axis.max = applyPointDelta(axis.max, translate, scale2, originPoint, boxScale);
+  }
+  function applyBoxDelta(box, { x, y }) {
+    applyAxisDelta(box.x, x.translate, x.scale, x.originPoint);
+    applyAxisDelta(box.y, y.translate, y.scale, y.originPoint);
+  }
+  var TREE_SCALE_SNAP_MIN = 0.999999999999;
+  var TREE_SCALE_SNAP_MAX = 1.0000000000001;
+  function applyTreeDeltas(box, treeScale, treePath, isSharedTransition = false) {
+    const treeLength = treePath.length;
+    if (!treeLength)
+      return;
+    treeScale.x = treeScale.y = 1;
+    let node;
+    let delta;
+    for (let i = 0; i < treeLength; i++) {
+      node = treePath[i];
+      delta = node.projectionDelta;
+      const { visualElement } = node.options;
+      if (visualElement && visualElement.props.style && visualElement.props.style.display === "contents") {
+        continue;
+      }
+      if (isSharedTransition && node.options.layoutScroll && node.scroll && node !== node.root) {
+        translateAxis(box.x, -node.scroll.offset.x);
+        translateAxis(box.y, -node.scroll.offset.y);
+      }
+      if (delta) {
+        treeScale.x *= delta.x.scale;
+        treeScale.y *= delta.y.scale;
+        applyBoxDelta(box, delta);
+      }
+      if (isSharedTransition && hasTransform(node.latestValues)) {
+        transformBox(box, node.latestValues, node.layout?.layoutBox);
+      }
+    }
+    if (treeScale.x < TREE_SCALE_SNAP_MAX && treeScale.x > TREE_SCALE_SNAP_MIN) {
+      treeScale.x = 1;
+    }
+    if (treeScale.y < TREE_SCALE_SNAP_MAX && treeScale.y > TREE_SCALE_SNAP_MIN) {
+      treeScale.y = 1;
+    }
+  }
+  function translateAxis(axis, distance2) {
+    axis.min += distance2;
+    axis.max += distance2;
+  }
+  function transformAxis(axis, axisTranslate, axisScale, boxScale, axisOrigin = 0.5) {
+    const originPoint = mixNumber(axis.min, axis.max, axisOrigin);
+    applyAxisDelta(axis, axisTranslate, axisScale, originPoint, boxScale);
+  }
+  function resolveAxisTranslate(value, axis) {
+    if (typeof value === "string") {
+      return parseFloat(value) / 100 * (axis.max - axis.min);
+    }
+    return value;
+  }
+  function transformBox(box, transform, sourceBox) {
+    const resolveBox = sourceBox ?? box;
+    transformAxis(box.x, resolveAxisTranslate(transform.x, resolveBox.x), transform.scaleX, transform.scale, transform.originX);
+    transformAxis(box.y, resolveAxisTranslate(transform.y, resolveBox.y), transform.scaleY, transform.scale, transform.originY);
+  }
+
+  // node_modules/motion-dom/dist/es/projection/utils/measure.mjs
+  function measureViewportBox(instance, transformPoint2) {
+    return convertBoundingBoxToBox(transformBoxPoints(instance.getBoundingClientRect(), transformPoint2));
+  }
+  function measurePageBox(element, rootProjectionNode2, transformPagePoint) {
+    const viewportBox = measureViewportBox(element, transformPagePoint);
+    const { scroll } = rootProjectionNode2;
+    if (scroll) {
+      translateAxis(viewportBox.x, scroll.offset.x);
+      translateAxis(viewportBox.y, scroll.offset.y);
+    }
+    return viewportBox;
+  }
+
+  // node_modules/motion-dom/dist/es/render/html/utils/build-transform.mjs
+  var translateAlias = {
+    x: "translateX",
+    y: "translateY",
+    z: "translateZ",
+    transformPerspective: "perspective"
+  };
+  var numTransforms = transformPropOrder.length;
+  function buildTransform(latestValues, transform, transformTemplate) {
+    let transformString = "";
+    let transformIsDefault = true;
+    for (let i = 0; i < numTransforms; i++) {
+      const key = transformPropOrder[i];
+      const value = latestValues[key];
+      if (value === void 0)
+        continue;
+      let valueIsDefault = true;
+      if (typeof value === "number") {
+        valueIsDefault = value === (key.startsWith("scale") ? 1 : 0);
+      } else {
+        const parsed = parseFloat(value);
+        valueIsDefault = key.startsWith("scale") ? parsed === 1 : parsed === 0;
+      }
+      if (!valueIsDefault || transformTemplate) {
+        const valueAsType = getValueAsType(value, numberValueTypes[key]);
+        if (!valueIsDefault) {
+          transformIsDefault = false;
+          const transformName = translateAlias[key] || key;
+          transformString += `${transformName}(${valueAsType}) `;
+        }
+        if (transformTemplate) {
+          transform[key] = valueAsType;
+        }
+      }
+    }
+    const pathRotation = latestValues.pathRotation;
+    if (pathRotation) {
+      transformIsDefault = false;
+      transformString += `rotate(${getValueAsType(pathRotation, numberValueTypes.pathRotation)}) `;
+    }
+    transformString = transformString.trim();
+    if (transformTemplate) {
+      transformString = transformTemplate(transform, transformIsDefault ? "" : transformString);
+    } else if (transformIsDefault) {
+      transformString = "none";
+    }
+    return transformString;
+  }
+
+  // node_modules/motion-dom/dist/es/render/html/utils/build-styles.mjs
+  function buildHTMLStyles(state, latestValues, transformTemplate) {
+    const { style, vars, transformOrigin } = state;
+    let hasTransform2 = false;
+    let hasTransformOrigin = false;
+    for (const key in latestValues) {
+      const value = latestValues[key];
+      if (transformProps.has(key)) {
+        hasTransform2 = true;
+        continue;
+      } else if (isCSSVariableName(key)) {
+        vars[key] = value;
+        continue;
+      } else {
+        const valueAsType = getValueAsType(value, numberValueTypes[key]);
+        if (key.startsWith("origin")) {
+          hasTransformOrigin = true;
+          transformOrigin[key] = valueAsType;
+        } else {
+          style[key] = valueAsType;
+        }
+      }
+    }
+    if (!latestValues.transform) {
+      if (hasTransform2 || transformTemplate) {
+        style.transform = buildTransform(latestValues, state.transform, transformTemplate);
+      } else if (style.transform) {
+        style.transform = "none";
+      }
+    }
+    if (hasTransformOrigin) {
+      const { originX = "50%", originY = "50%", originZ = 0 } = transformOrigin;
+      style.transformOrigin = `${originX} ${originY} ${originZ}`;
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/render/html/utils/render.mjs
+  function renderHTML(element, { style, vars }, styleProp, projection) {
+    const elementStyle = element.style;
+    let key;
+    for (key in style) {
+      elementStyle[key] = style[key];
+    }
+    projection?.applyProjectionStyles(elementStyle, styleProp);
+    for (key in vars) {
+      elementStyle.setProperty(key, vars[key]);
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/projection/styles/scale-border-radius.mjs
+  function pixelsToPercent(pixels, axis) {
+    if (axis.max === axis.min)
+      return 0;
+    return pixels / (axis.max - axis.min) * 100;
+  }
+  var correctBorderRadius = {
+    correct: (latest, node) => {
+      if (!node.target)
+        return latest;
+      if (typeof latest === "string") {
+        if (px.test(latest)) {
+          latest = parseFloat(latest);
+        } else {
+          return latest;
+        }
+      }
+      const x = pixelsToPercent(latest, node.target.x);
+      const y = pixelsToPercent(latest, node.target.y);
+      return `${x}% ${y}%`;
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/projection/styles/scale-box-shadow.mjs
+  var correctBoxShadow = {
+    correct: (latest, { treeScale, projectionDelta }) => {
+      const original = latest;
+      const shadow = complex.parse(latest);
+      if (shadow.length > 5)
+        return original;
+      const template = complex.createTransformer(latest);
+      const offset = typeof shadow[0] !== "number" ? 1 : 0;
+      const xScale = projectionDelta.x.scale * treeScale.x;
+      const yScale = projectionDelta.y.scale * treeScale.y;
+      shadow[0 + offset] /= xScale;
+      shadow[1 + offset] /= yScale;
+      const averageScale = mixNumber(xScale, yScale, 0.5);
+      if (typeof shadow[2 + offset] === "number")
+        shadow[2 + offset] /= averageScale;
+      if (typeof shadow[3 + offset] === "number")
+        shadow[3 + offset] /= averageScale;
+      return template(shadow);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/projection/styles/scale-correction.mjs
+  var scaleCorrectors = {
+    borderRadius: {
+      ...correctBorderRadius,
+      applyTo: [...cornerRadiusProps]
+    },
+    borderTopLeftRadius: correctBorderRadius,
+    borderTopRightRadius: correctBorderRadius,
+    borderBottomLeftRadius: correctBorderRadius,
+    borderBottomRightRadius: correctBorderRadius,
+    boxShadow: correctBoxShadow
+  };
+
+  // node_modules/motion-dom/dist/es/render/utils/is-forced-motion-value.mjs
+  function isForcedMotionValue(key, { layout: layout2, layoutId }) {
+    return transformProps.has(key) || key.startsWith("origin") || (layout2 || layoutId !== void 0) && (!!scaleCorrectors[key] || key === "opacity");
+  }
+
+  // node_modules/motion-dom/dist/es/render/html/utils/scrape-motion-values.mjs
+  function scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+    const style = props.style;
+    const prevStyle = prevProps?.style;
+    const newValues = {};
+    if (!style)
+      return newValues;
+    for (const key in style) {
+      if (isMotionValue(style[key]) || prevStyle && isMotionValue(prevStyle[key]) || isForcedMotionValue(key, props) || visualElement?.getValue(key)?.liveStyle !== void 0) {
+        newValues[key] = style[key];
+      }
+    }
+    return newValues;
+  }
+
+  // node_modules/motion-dom/dist/es/render/html/HTMLVisualElement.mjs
+  function getComputedStyle2(element) {
+    return window.getComputedStyle(element);
+  }
+  var HTMLVisualElement = class extends DOMVisualElement {
+    constructor() {
+      super(...arguments);
+      this.type = "html";
+      this.renderInstance = renderHTML;
+    }
+    mount(instance) {
+      invariant(Boolean(instance.style), "motion.create() components must forward their ref to a HTML or SVG element", "custom-component-ref");
+      super.mount(instance);
+    }
+    readValueFromInstance(instance, key) {
+      if (transformProps.has(key)) {
+        return this.projection?.isProjecting ? defaultTransformValue(key) : readTransformValue(instance, key);
+      } else {
+        const computedStyle = getComputedStyle2(instance);
+        const value = (isCSSVariableName(key) ? computedStyle.getPropertyValue(key) : computedStyle[key]) || 0;
+        return typeof value === "string" ? value.trim() : value;
+      }
+    }
+    measureInstanceViewportBox(instance, { transformPagePoint }) {
+      return measureViewportBox(instance, transformPagePoint);
+    }
+    build(renderState, latestValues, props) {
+      buildHTMLStyles(renderState, latestValues, props.transformTemplate);
+    }
+    scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+      return scrapeMotionValuesFromProps(props, prevProps, visualElement);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/render/svg/utils/path.mjs
+  var dashKeys = {
+    offset: "stroke-dashoffset",
+    array: "stroke-dasharray"
+  };
+  var camelKeys = {
+    offset: "strokeDashoffset",
+    array: "strokeDasharray"
+  };
+  function buildSVGPath(attrs, length, spacing = 1, offset = 0, useDashCase = true) {
+    attrs.pathLength = 1;
+    const keys = useDashCase ? dashKeys : camelKeys;
+    attrs[keys.offset] = `${-offset}`;
+    attrs[keys.array] = `${length} ${spacing}`;
+  }
+
+  // node_modules/motion-dom/dist/es/render/svg/utils/build-attrs.mjs
+  var cssMotionPathProperties = [
+    "offsetDistance",
+    "offsetPath",
+    "offsetRotate",
+    "offsetAnchor"
+  ];
+  function buildSVGAttrs(state, {
+    attrX,
+    attrY,
+    attrScale,
+    pathLength,
+    pathSpacing = 1,
+    pathOffset = 0,
+    // This is object creation, which we try to avoid per-frame.
+    ...latest
+  }, isSVGTag2, transformTemplate, styleProp) {
+    buildHTMLStyles(state, latest, transformTemplate);
+    if (isSVGTag2) {
+      if (state.style.viewBox) {
+        state.attrs.viewBox = state.style.viewBox;
+      }
+      return;
+    }
+    state.attrs = state.style;
+    state.style = {};
+    const { attrs, style } = state;
+    if (attrs.transform) {
+      style.transform = attrs.transform;
+      delete attrs.transform;
+    }
+    if (style.transform || attrs.transformOrigin) {
+      style.transformOrigin = attrs.transformOrigin ?? "50% 50%";
+      delete attrs.transformOrigin;
+    }
+    if (style.transform) {
+      style.transformBox = styleProp?.transformBox ?? "fill-box";
+      delete attrs.transformBox;
+    }
+    for (const key of cssMotionPathProperties) {
+      if (attrs[key] !== void 0) {
+        style[key] = attrs[key];
+        delete attrs[key];
+      }
+    }
+    if (attrX !== void 0)
+      attrs.x = attrX;
+    if (attrY !== void 0)
+      attrs.y = attrY;
+    if (attrScale !== void 0)
+      attrs.scale = attrScale;
+    if (pathLength !== void 0) {
+      buildSVGPath(attrs, pathLength, pathSpacing, pathOffset, false);
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/render/svg/utils/camel-case-attrs.mjs
+  var camelCaseAttributes = /* @__PURE__ */ new Set([
+    "baseFrequency",
+    "diffuseConstant",
+    "kernelMatrix",
+    "kernelUnitLength",
+    "keySplines",
+    "keyTimes",
+    "limitingConeAngle",
+    "markerHeight",
+    "markerWidth",
+    "numOctaves",
+    "targetX",
+    "targetY",
+    "surfaceScale",
+    "specularConstant",
+    "specularExponent",
+    "stdDeviation",
+    "tableValues",
+    "viewBox",
+    "gradientTransform",
+    "pathLength",
+    "startOffset",
+    "textLength",
+    "lengthAdjust"
+  ]);
+
+  // node_modules/motion-dom/dist/es/render/svg/utils/is-svg-tag.mjs
+  var isSVGTag = (tag) => typeof tag === "string" && tag.toLowerCase() === "svg";
+
+  // node_modules/motion-dom/dist/es/render/svg/utils/render.mjs
+  function renderSVG(element, renderState, _styleProp, projection) {
+    renderHTML(element, renderState, void 0, projection);
+    for (const key in renderState.attrs) {
+      element.setAttribute(!camelCaseAttributes.has(key) ? camelToDash(key) : key, renderState.attrs[key]);
+    }
+  }
+
+  // node_modules/motion-dom/dist/es/render/svg/utils/scrape-motion-values.mjs
+  function scrapeMotionValuesFromProps2(props, prevProps, visualElement) {
+    const newValues = scrapeMotionValuesFromProps(props, prevProps, visualElement);
+    for (const key in props) {
+      if (isMotionValue(props[key]) || isMotionValue(prevProps[key])) {
+        const targetKey = transformPropOrder.indexOf(key) !== -1 ? "attr" + key.charAt(0).toUpperCase() + key.substring(1) : key;
+        newValues[targetKey] = props[key];
+      }
+    }
+    return newValues;
+  }
+
+  // node_modules/motion-dom/dist/es/render/svg/SVGVisualElement.mjs
+  var SVGVisualElement = class extends DOMVisualElement {
+    constructor() {
+      super(...arguments);
+      this.type = "svg";
+      this.isSVGTag = false;
+      this.measureInstanceViewportBox = createBox;
+    }
+    getBaseTargetFromProps(props, key) {
+      return props[key];
+    }
+    readValueFromInstance(instance, key) {
+      if (transformProps.has(key)) {
+        const defaultType = getDefaultValueType(key);
+        return defaultType ? defaultType.default || 0 : 0;
+      }
+      key = !camelCaseAttributes.has(key) ? camelToDash(key) : key;
+      return instance.getAttribute(key);
+    }
+    scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+      return scrapeMotionValuesFromProps2(props, prevProps, visualElement);
+    }
+    build(renderState, latestValues, props) {
+      buildSVGAttrs(renderState, latestValues, this.isSVGTag, props.transformTemplate, props.style);
+    }
+    renderInstance(instance, renderState, styleProp, projection) {
+      renderSVG(instance, renderState, styleProp, projection);
+    }
+    mount(instance) {
+      this.isSVGTag = isSVGTag(instance.tagName);
+      super.mount(instance);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/render/utils/get-variant-context.mjs
+  var numVariantProps = variantProps.length;
+  function getVariantContext(visualElement) {
+    if (!visualElement)
+      return void 0;
+    if (!visualElement.isControllingVariants) {
+      const context2 = visualElement.parent ? getVariantContext(visualElement.parent) || {} : {};
+      if (visualElement.props.initial !== void 0) {
+        context2.initial = visualElement.props.initial;
+      }
+      return context2;
+    }
+    const context = {};
+    for (let i = 0; i < numVariantProps; i++) {
+      const name = variantProps[i];
+      const prop = visualElement.props[name];
+      if (isVariantLabel(prop) || prop === false) {
+        context[name] = prop;
+      }
+    }
+    return context;
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/shallow-compare.mjs
+  function shallowCompare(next, prev) {
+    if (!Array.isArray(prev))
+      return false;
+    const prevLength = prev.length;
+    if (prevLength !== next.length)
+      return false;
+    for (let i = 0; i < prevLength; i++) {
+      if (prev[i] !== next[i])
+        return false;
+    }
+    return true;
+  }
+
+  // node_modules/motion-dom/dist/es/render/utils/animation-state.mjs
+  var reversePriorityOrder = [...variantPriorityOrder].reverse();
+  var numAnimationTypes = variantPriorityOrder.length;
+  function createAnimateFunction(visualElement) {
+    return (animations2) => {
+      return Promise.all(animations2.map(({ animation, options }) => animateVisualElement(visualElement, animation, options)));
+    };
+  }
+  function createAnimationState(visualElement) {
+    let animate = createAnimateFunction(visualElement);
+    let state = createState();
+    let isInitialRender = true;
+    let wasReset = false;
+    const buildResolvedTypeValues = (type) => (acc, definition) => {
+      const resolved = resolveVariant(visualElement, definition, type === "exit" ? visualElement.presenceContext?.custom : void 0);
+      if (resolved) {
+        const { transition, transitionEnd, ...target } = resolved;
+        acc = { ...acc, ...target, ...transitionEnd };
+      }
+      return acc;
+    };
+    function setAnimateFunction(makeAnimator) {
+      animate = makeAnimator(visualElement);
+    }
+    function animateChanges(changedActiveType) {
+      const { props } = visualElement;
+      const context = getVariantContext(visualElement.parent) || {};
+      const animations2 = [];
+      const removedKeys = /* @__PURE__ */ new Set();
+      let encounteredKeys = {};
+      let removedVariantIndex = Infinity;
+      for (let i = 0; i < numAnimationTypes; i++) {
+        const type = reversePriorityOrder[i];
+        const typeState = state[type];
+        const prop = props[type] !== void 0 ? props[type] : context[type];
+        const propIsVariant = isVariantLabel(prop);
+        const activeDelta = type === changedActiveType ? typeState.isActive : null;
+        if (activeDelta === false)
+          removedVariantIndex = i;
+        let isInherited = prop === context[type] && prop !== props[type] && propIsVariant;
+        if (isInherited && (isInitialRender || wasReset) && visualElement.manuallyAnimateOnMount) {
+          isInherited = false;
+        }
+        typeState.protectedKeys = { ...encounteredKeys };
+        if (
+          // If it isn't active and hasn't *just* been set as inactive
+          !typeState.isActive && activeDelta === null || // If we didn't and don't have any defined prop for this animation type
+          !prop && !typeState.prevProp || // Or if the prop doesn't define an animation
+          isAnimationControls(prop) || typeof prop === "boolean"
+        ) {
+          continue;
+        }
+        if (type === "exit" && typeState.isActive && activeDelta !== true) {
+          if (typeState.prevResolvedValues) {
+            encounteredKeys = {
+              ...encounteredKeys,
+              ...typeState.prevResolvedValues
+            };
+          }
+          continue;
+        }
+        const variantDidChange = checkVariantsDidChange(typeState.prevProp, prop);
+        let shouldAnimateType = variantDidChange || // If we're making this variant active, we want to always make it active
+        type === changedActiveType && typeState.isActive && !isInherited && propIsVariant || // If we removed a higher-priority variant (i is in reverse order)
+        i > removedVariantIndex && propIsVariant;
+        let handledRemovedValues = false;
+        const definitionList = Array.isArray(prop) ? prop : [prop];
+        let resolvedValues = definitionList.reduce(buildResolvedTypeValues(type), {});
+        if (activeDelta === false)
+          resolvedValues = {};
+        const { prevResolvedValues = {} } = typeState;
+        const allKeys = {
+          ...prevResolvedValues,
+          ...resolvedValues
         };
-        const handleAddComment = (e) => {
-          e.preventDefault();
-          if (newComment.trim()) {
-            setComments([...comments, newComment.trim()]);
-            setNewComment("");
+        const markToAnimate = (key) => {
+          shouldAnimateType = true;
+          if (removedKeys.has(key)) {
+            handledRemovedValues = true;
+            removedKeys.delete(key);
+          }
+          typeState.needsAnimating[key] = true;
+          const motionValue2 = visualElement.getValue(key);
+          if (motionValue2)
+            motionValue2.liveStyle = false;
+        };
+        for (const key in allKeys) {
+          const next = resolvedValues[key];
+          const prev = prevResolvedValues[key];
+          if (encounteredKeys.hasOwnProperty(key))
+            continue;
+          let valueHasChanged = false;
+          if (isKeyframesTarget(next) && isKeyframesTarget(prev)) {
+            valueHasChanged = !shallowCompare(next, prev) || variantDidChange;
+          } else {
+            valueHasChanged = next !== prev;
+          }
+          if (valueHasChanged) {
+            if (next !== void 0 && next !== null) {
+              markToAnimate(key);
+            } else {
+              removedKeys.add(key);
+            }
+          } else if (next !== void 0 && removedKeys.has(key)) {
+            markToAnimate(key);
+          } else {
+            typeState.protectedKeys[key] = true;
+          }
+        }
+        typeState.prevProp = prop;
+        typeState.prevResolvedValues = resolvedValues;
+        if (typeState.isActive) {
+          encounteredKeys = { ...encounteredKeys, ...resolvedValues };
+        }
+        if ((isInitialRender || wasReset) && visualElement.blockInitialAnimation) {
+          shouldAnimateType = false;
+        }
+        const willAnimateViaParent = isInherited && variantDidChange;
+        const needsAnimating = !willAnimateViaParent || handledRemovedValues;
+        if (shouldAnimateType && needsAnimating) {
+          animations2.push(...definitionList.map((animation) => {
+            const options = { type };
+            if (typeof animation === "string" && (isInitialRender || wasReset) && !willAnimateViaParent && visualElement.manuallyAnimateOnMount && visualElement.parent) {
+              const { parent } = visualElement;
+              const parentVariant = resolveVariant(parent, animation);
+              if (parent.enteringChildren && parentVariant) {
+                const { delayChildren } = parentVariant.transition || {};
+                options.delay = calcChildStagger(parent.enteringChildren, visualElement, delayChildren);
+              }
+            }
+            return {
+              animation,
+              options
+            };
+          }));
+        }
+      }
+      if (removedKeys.size) {
+        const fallbackAnimation = {};
+        if (typeof props.initial !== "boolean") {
+          const initialTransition = resolveVariant(visualElement, Array.isArray(props.initial) ? props.initial[0] : props.initial);
+          if (initialTransition && initialTransition.transition) {
+            fallbackAnimation.transition = initialTransition.transition;
+          }
+        }
+        removedKeys.forEach((key) => {
+          const fallbackTarget = visualElement.getBaseTarget(key);
+          const motionValue2 = visualElement.getValue(key);
+          if (motionValue2)
+            motionValue2.liveStyle = true;
+          fallbackAnimation[key] = fallbackTarget ?? null;
+        });
+        animations2.push({ animation: fallbackAnimation });
+      }
+      let shouldAnimate = Boolean(animations2.length);
+      if (isInitialRender && (props.initial === false || props.initial === props.animate) && !visualElement.manuallyAnimateOnMount) {
+        shouldAnimate = false;
+      }
+      isInitialRender = false;
+      wasReset = false;
+      return shouldAnimate ? animate(animations2) : Promise.resolve();
+    }
+    function setActive(type, isActive) {
+      if (state[type].isActive === isActive)
+        return Promise.resolve();
+      visualElement.variantChildren?.forEach((child) => child.animationState?.setActive(type, isActive));
+      state[type].isActive = isActive;
+      const animations2 = animateChanges(type);
+      for (const key in state) {
+        state[key].protectedKeys = {};
+      }
+      return animations2;
+    }
+    return {
+      animateChanges,
+      setActive,
+      setAnimateFunction,
+      getState: () => state,
+      reset: () => {
+        state = createState();
+        wasReset = true;
+      }
+    };
+  }
+  function checkVariantsDidChange(prev, next) {
+    if (typeof next === "string") {
+      return next !== prev;
+    } else if (Array.isArray(next)) {
+      return !shallowCompare(next, prev);
+    }
+    return false;
+  }
+  function createTypeState(isActive = false) {
+    return {
+      isActive,
+      protectedKeys: {},
+      needsAnimating: {},
+      prevResolvedValues: {}
+    };
+  }
+  function createState() {
+    return {
+      animate: createTypeState(true),
+      whileInView: createTypeState(),
+      whileHover: createTypeState(),
+      whileTap: createTypeState(),
+      whileDrag: createTypeState(),
+      whileFocus: createTypeState(),
+      exit: createTypeState()
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/projection/geometry/copy.mjs
+  function copyAxisInto(axis, originAxis) {
+    axis.min = originAxis.min;
+    axis.max = originAxis.max;
+  }
+  function copyBoxInto(box, originBox) {
+    copyAxisInto(box.x, originBox.x);
+    copyAxisInto(box.y, originBox.y);
+  }
+  function copyAxisDeltaInto(delta, originDelta) {
+    delta.translate = originDelta.translate;
+    delta.scale = originDelta.scale;
+    delta.originPoint = originDelta.originPoint;
+    delta.origin = originDelta.origin;
+  }
+
+  // node_modules/motion-dom/dist/es/projection/geometry/delta-calc.mjs
+  var SCALE_PRECISION = 1e-4;
+  var SCALE_MIN = 1 - SCALE_PRECISION;
+  var SCALE_MAX = 1 + SCALE_PRECISION;
+  var TRANSLATE_PRECISION = 0.01;
+  var TRANSLATE_MIN = 0 - TRANSLATE_PRECISION;
+  var TRANSLATE_MAX = 0 + TRANSLATE_PRECISION;
+  function calcLength(axis) {
+    return axis.max - axis.min;
+  }
+  function isNear(value, target, maxDistance) {
+    return Math.abs(value - target) <= maxDistance;
+  }
+  function calcAxisDelta(delta, source, target, origin = 0.5) {
+    delta.origin = origin;
+    delta.originPoint = mixNumber(source.min, source.max, delta.origin);
+    delta.scale = calcLength(target) / calcLength(source);
+    delta.translate = mixNumber(target.min, target.max, delta.origin) - delta.originPoint;
+    if (delta.scale >= SCALE_MIN && delta.scale <= SCALE_MAX || isNaN(delta.scale)) {
+      delta.scale = 1;
+    }
+    if (delta.translate >= TRANSLATE_MIN && delta.translate <= TRANSLATE_MAX || isNaN(delta.translate)) {
+      delta.translate = 0;
+    }
+  }
+  function calcBoxDelta(delta, source, target, origin) {
+    calcAxisDelta(delta.x, source.x, target.x, origin ? origin.originX : void 0);
+    calcAxisDelta(delta.y, source.y, target.y, origin ? origin.originY : void 0);
+  }
+  function calcRelativeAxis(target, relative, parent, anchor = 0) {
+    const anchorPoint = anchor ? mixNumber(parent.min, parent.max, anchor) : parent.min;
+    target.min = anchorPoint + relative.min;
+    target.max = target.min + calcLength(relative);
+  }
+  function calcRelativeBox(target, relative, parent, anchor) {
+    calcRelativeAxis(target.x, relative.x, parent.x, anchor?.x);
+    calcRelativeAxis(target.y, relative.y, parent.y, anchor?.y);
+  }
+  function calcRelativeAxisPosition(target, layout2, parent, anchor = 0) {
+    const anchorPoint = anchor ? mixNumber(parent.min, parent.max, anchor) : parent.min;
+    target.min = layout2.min - anchorPoint;
+    target.max = target.min + calcLength(layout2);
+  }
+  function calcRelativePosition(target, layout2, parent, anchor) {
+    calcRelativeAxisPosition(target.x, layout2.x, parent.x, anchor?.x);
+    calcRelativeAxisPosition(target.y, layout2.y, parent.y, anchor?.y);
+  }
+
+  // node_modules/motion-dom/dist/es/projection/geometry/delta-remove.mjs
+  function removePointDelta(point, translate, scale2, originPoint, boxScale) {
+    point -= translate;
+    point = scalePoint(point, 1 / scale2, originPoint);
+    if (boxScale !== void 0) {
+      point = scalePoint(point, 1 / boxScale, originPoint);
+    }
+    return point;
+  }
+  function removeAxisDelta(axis, translate = 0, scale2 = 1, origin = 0.5, boxScale, originAxis = axis, sourceAxis = axis) {
+    if (percent.test(translate)) {
+      translate = parseFloat(translate);
+      const relativeProgress = mixNumber(sourceAxis.min, sourceAxis.max, translate / 100);
+      translate = relativeProgress - sourceAxis.min;
+    }
+    if (typeof translate !== "number")
+      return;
+    let originPoint = mixNumber(originAxis.min, originAxis.max, origin);
+    if (axis === originAxis)
+      originPoint -= translate;
+    axis.min = removePointDelta(axis.min, translate, scale2, originPoint, boxScale);
+    axis.max = removePointDelta(axis.max, translate, scale2, originPoint, boxScale);
+  }
+  function removeAxisTransforms(axis, transforms, [key, scaleKey, originKey], origin, sourceAxis) {
+    removeAxisDelta(axis, transforms[key], transforms[scaleKey], transforms[originKey], transforms.scale, origin, sourceAxis);
+  }
+  var xKeys = ["x", "scaleX", "originX"];
+  var yKeys = ["y", "scaleY", "originY"];
+  function removeBoxTransforms(box, transforms, originBox, sourceBox) {
+    removeAxisTransforms(box.x, transforms, xKeys, originBox ? originBox.x : void 0, sourceBox ? sourceBox.x : void 0);
+    removeAxisTransforms(box.y, transforms, yKeys, originBox ? originBox.y : void 0, sourceBox ? sourceBox.y : void 0);
+  }
+
+  // node_modules/motion-dom/dist/es/projection/geometry/utils.mjs
+  function isAxisDeltaZero(delta) {
+    return delta.translate === 0 && delta.scale === 1;
+  }
+  function isDeltaZero(delta) {
+    return isAxisDeltaZero(delta.x) && isAxisDeltaZero(delta.y);
+  }
+  function axisEquals(a, b) {
+    return a.min === b.min && a.max === b.max;
+  }
+  function boxEquals(a, b) {
+    return axisEquals(a.x, b.x) && axisEquals(a.y, b.y);
+  }
+  function axisEqualsRounded(a, b) {
+    return Math.round(a.min) === Math.round(b.min) && Math.round(a.max) === Math.round(b.max);
+  }
+  function boxEqualsRounded(a, b) {
+    return axisEqualsRounded(a.x, b.x) && axisEqualsRounded(a.y, b.y);
+  }
+  function aspectRatio(box) {
+    return calcLength(box.x) / calcLength(box.y);
+  }
+  function axisDeltaEquals(a, b) {
+    return a.translate === b.translate && a.scale === b.scale && a.originPoint === b.originPoint;
+  }
+
+  // node_modules/motion-dom/dist/es/projection/utils/each-axis.mjs
+  function eachAxis(callback) {
+    return [callback("x"), callback("y")];
+  }
+
+  // node_modules/motion-dom/dist/es/projection/styles/transform.mjs
+  function buildProjectionTransform(delta, treeScale, latestTransform) {
+    let transform = "";
+    const xTranslate = delta.x.translate / treeScale.x;
+    const yTranslate = delta.y.translate / treeScale.y;
+    const zTranslate = latestTransform?.z || 0;
+    if (xTranslate || yTranslate || zTranslate) {
+      transform = `translate3d(${xTranslate}px, ${yTranslate}px, ${zTranslate}px) `;
+    }
+    if (treeScale.x !== 1 || treeScale.y !== 1) {
+      transform += `scale(${1 / treeScale.x}, ${1 / treeScale.y}) `;
+    }
+    if (latestTransform) {
+      const { transformPerspective, rotate: rotate2, pathRotation, rotateX, rotateY, skewX, skewY } = latestTransform;
+      if (transformPerspective)
+        transform = `perspective(${transformPerspective}px) ${transform}`;
+      if (rotate2)
+        transform += `rotate(${rotate2}deg) `;
+      if (pathRotation)
+        transform += `rotate(${pathRotation}deg) `;
+      if (rotateX)
+        transform += `rotateX(${rotateX}deg) `;
+      if (rotateY)
+        transform += `rotateY(${rotateY}deg) `;
+      if (skewX)
+        transform += `skewX(${skewX}deg) `;
+      if (skewY)
+        transform += `skewY(${skewY}deg) `;
+    }
+    const elementScaleX = delta.x.scale * treeScale.x;
+    const elementScaleY = delta.y.scale * treeScale.y;
+    if (elementScaleX !== 1 || elementScaleY !== 1) {
+      transform += `scale(${elementScaleX}, ${elementScaleY})`;
+    }
+    return transform || "none";
+  }
+
+  // node_modules/motion-dom/dist/es/projection/animation/mix-values.mjs
+  var numBorders = cornerRadiusProps.length;
+  var asNumber = (value) => typeof value === "string" ? parseFloat(value) : value;
+  var isPx = (value) => typeof value === "number" || px.test(value);
+  function mixValues(target, follow, lead, progress2, shouldCrossfadeOpacity, isOnlyMember) {
+    if (shouldCrossfadeOpacity) {
+      target.opacity = mixNumber(0, lead.opacity ?? 1, easeCrossfadeIn(progress2));
+      target.opacityExit = mixNumber(follow.opacity ?? 1, 0, easeCrossfadeOut(progress2));
+    } else if (isOnlyMember) {
+      target.opacity = mixNumber(follow.opacity ?? 1, lead.opacity ?? 1, progress2);
+    }
+    for (let i = 0; i < numBorders; i++) {
+      const borderLabel = cornerRadiusProps[i];
+      let followRadius = getRadius(follow, borderLabel);
+      let leadRadius = getRadius(lead, borderLabel);
+      if (followRadius === void 0 && leadRadius === void 0)
+        continue;
+      followRadius || (followRadius = 0);
+      leadRadius || (leadRadius = 0);
+      const canMix = followRadius === 0 || leadRadius === 0 || isPx(followRadius) === isPx(leadRadius);
+      if (canMix) {
+        target[borderLabel] = Math.max(mixNumber(asNumber(followRadius), asNumber(leadRadius), progress2), 0);
+        if (percent.test(leadRadius) || percent.test(followRadius)) {
+          target[borderLabel] += "%";
+        }
+      } else {
+        target[borderLabel] = leadRadius;
+      }
+    }
+    if (follow.rotate || lead.rotate) {
+      target.rotate = mixNumber(follow.rotate || 0, lead.rotate || 0, progress2);
+    }
+  }
+  function getRadius(values, radiusName) {
+    return values[radiusName] !== void 0 ? values[radiusName] : values.borderRadius;
+  }
+  var easeCrossfadeIn = /* @__PURE__ */ compress(0, 0.5, circOut);
+  var easeCrossfadeOut = /* @__PURE__ */ compress(0.5, 0.95, noop);
+  function compress(min, max, easing) {
+    return (p) => {
+      if (p < min)
+        return 0;
+      if (p > max)
+        return 1;
+      return easing(progress(min, max, p));
+    };
+  }
+
+  // node_modules/motion-dom/dist/es/animation/animate/single-value.mjs
+  function animateSingleValue(value, keyframes2, options) {
+    const motionValue$1 = isMotionValue(value) ? value : motionValue(value);
+    motionValue$1.start(animateMotionValue("", motionValue$1, keyframes2, options));
+    return motionValue$1.animation;
+  }
+
+  // node_modules/motion-dom/dist/es/events/add-dom-event.mjs
+  function addDomEvent(target, eventName, handler, options = { passive: true }) {
+    target.addEventListener(eventName, handler, options);
+    return () => target.removeEventListener(eventName, handler, options);
+  }
+
+  // node_modules/motion-dom/dist/es/projection/utils/compare-by-depth.mjs
+  var compareByDepth = (a, b) => a.depth - b.depth;
+
+  // node_modules/motion-dom/dist/es/projection/utils/flat-tree.mjs
+  var FlatTree = class {
+    constructor() {
+      this.children = [];
+      this.isDirty = false;
+    }
+    add(child) {
+      addUniqueItem(this.children, child);
+      this.isDirty = true;
+    }
+    remove(child) {
+      removeItem(this.children, child);
+      this.isDirty = true;
+    }
+    forEach(callback) {
+      this.isDirty && this.children.sort(compareByDepth);
+      this.isDirty = false;
+      this.children.forEach(callback);
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/utils/delay.mjs
+  function delay(callback, timeout) {
+    const start = time.now();
+    const checkElapsed = ({ timestamp }) => {
+      const elapsed = timestamp - start;
+      if (elapsed >= timeout) {
+        cancelFrame(checkElapsed);
+        callback(elapsed - timeout);
+      }
+    };
+    frame.setup(checkElapsed, true);
+    return () => cancelFrame(checkElapsed);
+  }
+
+  // node_modules/motion-dom/dist/es/value/utils/resolve-motion-value.mjs
+  function resolveMotionValue(value) {
+    return isMotionValue(value) ? value.get() : value;
+  }
+
+  // node_modules/motion-dom/dist/es/projection/shared/stack.mjs
+  var NodeStack = class {
+    constructor() {
+      this.members = [];
+    }
+    add(node) {
+      addUniqueItem(this.members, node);
+      for (let i = this.members.length - 1; i >= 0; i--) {
+        const member = this.members[i];
+        if (member === node || member === this.lead || member === this.prevLead)
+          continue;
+        const inst = member.instance;
+        if ((!inst || inst.isConnected === false) && !member.snapshot) {
+          removeItem(this.members, member);
+          member.unmount();
+        }
+      }
+      node.scheduleRender();
+    }
+    remove(node) {
+      removeItem(this.members, node);
+      if (node === this.prevLead)
+        this.prevLead = void 0;
+      if (node === this.lead) {
+        const prevLead = this.members[this.members.length - 1];
+        if (prevLead)
+          this.promote(prevLead);
+      }
+    }
+    relegate(node) {
+      for (let i = this.members.indexOf(node) - 1; i >= 0; i--) {
+        const member = this.members[i];
+        if (member.isPresent !== false && member.instance?.isConnected !== false) {
+          this.promote(member);
+          return true;
+        }
+      }
+      return false;
+    }
+    promote(node, preserveFollowOpacity) {
+      const prevLead = this.lead;
+      if (node === prevLead)
+        return;
+      this.prevLead = prevLead;
+      this.lead = node;
+      node.show();
+      if (prevLead) {
+        prevLead.updateSnapshot();
+        node.scheduleRender();
+        const { layoutDependency: prevDep } = prevLead.options;
+        const { layoutDependency: nextDep } = node.options;
+        if (prevDep === void 0 || prevDep !== nextDep) {
+          node.resumeFrom = prevLead;
+          if (preserveFollowOpacity)
+            prevLead.preserveOpacity = true;
+          if (prevLead.snapshot) {
+            node.snapshot = prevLead.snapshot;
+            node.snapshot.latestValues = prevLead.animationValues || prevLead.latestValues;
+          }
+          if (node.root?.isUpdating)
+            node.isLayoutDirty = true;
+        }
+        if (node.options.crossfade === false)
+          prevLead.hide();
+      }
+    }
+    exitAnimationComplete() {
+      this.members.forEach((member) => {
+        member.options.onExitComplete?.();
+        member.resumingFrom?.options.onExitComplete?.();
+      });
+    }
+    scheduleRender() {
+      this.members.forEach((member) => member.instance && member.scheduleRender(false));
+    }
+    removeLeadSnapshot() {
+      if (this.lead?.snapshot)
+        this.lead.snapshot = void 0;
+    }
+  };
+
+  // node_modules/motion-dom/dist/es/projection/node/state.mjs
+  var globalProjectionState = {
+    /**
+     * Global flag as to whether the tree has animated since the last time
+     * we resized the window
+     */
+    hasAnimatedSinceResize: true,
+    /**
+     * We set this to true once, on the first update. Any nodes added to the tree beyond that
+     * update will be given a `data-projection-id` attribute.
+     */
+    hasEverUpdated: false
+  };
+
+  // node_modules/motion-dom/dist/es/projection/node/create-projection-node.mjs
+  var metrics = {
+    nodes: 0,
+    calculatedTargetDeltas: 0,
+    calculatedProjections: 0
+  };
+  var transformAxes = ["", "X", "Y", "Z"];
+  var animationTarget = 1e3;
+  var id = 0;
+  function resetDistortingTransform(key, visualElement, values, sharedAnimationValues) {
+    const { latestValues } = visualElement;
+    if (latestValues[key]) {
+      values[key] = latestValues[key];
+      visualElement.setStaticValue(key, 0);
+      if (sharedAnimationValues) {
+        sharedAnimationValues[key] = 0;
+      }
+    }
+  }
+  function cancelTreeOptimisedTransformAnimations(projectionNode) {
+    projectionNode.hasCheckedOptimisedAppear = true;
+    if (projectionNode.root === projectionNode)
+      return;
+    const { visualElement } = projectionNode.options;
+    if (!visualElement)
+      return;
+    const appearId = getOptimisedAppearId(visualElement);
+    if (window.MotionHasOptimisedAnimation(appearId, "transform")) {
+      const { layout: layout2, layoutId } = projectionNode.options;
+      window.MotionCancelOptimisedAnimation(appearId, "transform", frame, !(layout2 || layoutId));
+    }
+    const { parent } = projectionNode;
+    if (parent && !parent.hasCheckedOptimisedAppear) {
+      cancelTreeOptimisedTransformAnimations(parent);
+    }
+  }
+  function createProjectionNode({ attachResizeListener, defaultParent, measureScroll, checkIsScrollRoot, resetTransform }) {
+    return class ProjectionNode {
+      constructor(latestValues = {}, parent = defaultParent?.()) {
+        this.id = id++;
+        this.animationId = 0;
+        this.animationCommitId = 0;
+        this.children = /* @__PURE__ */ new Set();
+        this.options = {};
+        this.isTreeAnimating = false;
+        this.isAnimationBlocked = false;
+        this.isLayoutDirty = false;
+        this.isProjectionDirty = false;
+        this.isSharedProjectionDirty = false;
+        this.isTransformDirty = false;
+        this.updateManuallyBlocked = false;
+        this.updateBlockedByResize = false;
+        this.isUpdating = false;
+        this.isSVG = false;
+        this.needsReset = false;
+        this.shouldResetTransform = false;
+        this.hasCheckedOptimisedAppear = false;
+        this.treeScale = { x: 1, y: 1 };
+        this.eventHandlers = /* @__PURE__ */ new Map();
+        this.hasTreeAnimated = false;
+        this.layoutVersion = 0;
+        this.updateScheduled = false;
+        this.scheduleUpdate = () => this.update();
+        this.projectionUpdateScheduled = false;
+        this.checkUpdateFailed = () => {
+          if (this.isUpdating) {
+            this.isUpdating = false;
+            this.clearAllSnapshots();
           }
         };
-        const toggleSpeech = (text) => {
-          if ("speechSynthesis" in window) {
-            if (isSpeaking) {
-              window.speechSynthesis.cancel();
-              setIsSpeaking(false);
+        this.updateProjection = () => {
+          this.projectionUpdateScheduled = false;
+          if (statsBuffer.value) {
+            metrics.nodes = metrics.calculatedTargetDeltas = metrics.calculatedProjections = 0;
+          }
+          this.nodes.forEach(propagateDirtyNodes);
+          this.nodes.forEach(resolveTargetDelta);
+          this.nodes.forEach(calcProjection);
+          this.nodes.forEach(cleanDirtyNodes);
+          if (statsBuffer.addProjectionMetrics) {
+            statsBuffer.addProjectionMetrics(metrics);
+          }
+        };
+        this.resolvedRelativeTargetAt = 0;
+        this.linkedParentVersion = 0;
+        this.hasProjected = false;
+        this.isVisible = true;
+        this.animationProgress = 0;
+        this.sharedNodes = /* @__PURE__ */ new Map();
+        this.latestValues = latestValues;
+        this.root = parent ? parent.root || parent : this;
+        this.path = parent ? [...parent.path, parent] : [];
+        this.parent = parent;
+        this.depth = parent ? parent.depth + 1 : 0;
+        for (let i = 0; i < this.path.length; i++) {
+          this.path[i].shouldResetTransform = true;
+        }
+        if (this.root === this)
+          this.nodes = new FlatTree();
+      }
+      addEventListener(name, handler) {
+        if (!this.eventHandlers.has(name)) {
+          this.eventHandlers.set(name, new SubscriptionManager());
+        }
+        return this.eventHandlers.get(name).add(handler);
+      }
+      notifyListeners(name, ...args) {
+        const subscriptionManager = this.eventHandlers.get(name);
+        subscriptionManager && subscriptionManager.notify(...args);
+      }
+      hasListeners(name) {
+        return this.eventHandlers.has(name);
+      }
+      /**
+       * Lifecycles
+       */
+      mount(instance) {
+        if (this.instance)
+          return;
+        this.isSVG = isSVGElement(instance) && !isSVGSVGElement(instance);
+        this.instance = instance;
+        const { layoutId, layout: layout2, visualElement } = this.options;
+        if (visualElement && !visualElement.current) {
+          visualElement.mount(instance);
+        }
+        this.root.nodes.add(this);
+        this.parent && this.parent.children.add(this);
+        if (this.root.hasTreeAnimated && (layout2 || layoutId)) {
+          this.isLayoutDirty = true;
+        }
+        if (attachResizeListener) {
+          let cancelDelay;
+          let innerWidth = 0;
+          const resizeUnblockUpdate = () => this.root.updateBlockedByResize = false;
+          frame.read(() => {
+            innerWidth = window.innerWidth;
+          });
+          attachResizeListener(instance, () => {
+            const newInnerWidth = window.innerWidth;
+            if (newInnerWidth === innerWidth)
+              return;
+            innerWidth = newInnerWidth;
+            this.root.updateBlockedByResize = true;
+            cancelDelay && cancelDelay();
+            cancelDelay = delay(resizeUnblockUpdate, 250);
+            if (globalProjectionState.hasAnimatedSinceResize) {
+              globalProjectionState.hasAnimatedSinceResize = false;
+              this.nodes.forEach(finishAnimation);
+            }
+          });
+        }
+        if (layoutId) {
+          this.root.registerSharedNode(layoutId, this);
+        }
+        if (this.options.animate !== false && visualElement && (layoutId || layout2)) {
+          this.addEventListener("didUpdate", ({ delta, hasLayoutChanged, hasRelativeLayoutChanged, layout: newLayout }) => {
+            if (this.isTreeAnimationBlocked()) {
+              this.target = void 0;
+              this.relativeTarget = void 0;
+              return;
+            }
+            const layoutTransition = this.options.transition || visualElement.getDefaultTransition() || defaultLayoutTransition;
+            const { onLayoutAnimationStart, onLayoutAnimationComplete } = visualElement.getProps();
+            const hasTargetChanged = !this.targetLayout || !boxEqualsRounded(this.targetLayout, newLayout);
+            const hasOnlyRelativeTargetChanged = !hasLayoutChanged && hasRelativeLayoutChanged;
+            if (this.options.layoutRoot || this.resumeFrom || hasOnlyRelativeTargetChanged || hasLayoutChanged && (hasTargetChanged || !this.currentAnimation)) {
+              if (this.resumeFrom) {
+                this.resumingFrom = this.resumeFrom;
+                this.resumingFrom.resumingFrom = void 0;
+              }
+              const animationOptions = {
+                ...getValueTransition(layoutTransition, "layout"),
+                onPlay: onLayoutAnimationStart,
+                onComplete: onLayoutAnimationComplete
+              };
+              if (visualElement.shouldReduceMotion || this.options.layoutRoot) {
+                animationOptions.delay = 0;
+                animationOptions.type = false;
+              }
+              this.startAnimation(animationOptions);
+              this.setAnimationOrigin(delta, hasOnlyRelativeTargetChanged, animationOptions.path);
             } else {
-              const utterance = new SpeechSynthesisUtterance(text);
-              utterance.lang = "it-IT";
-              utterance.onend = () => setIsSpeaking(false);
-              window.speechSynthesis.speak(utterance);
-              setIsSpeaking(true);
+              if (!hasLayoutChanged) {
+                finishAnimation(this);
+              }
+              if (this.isLead() && this.options.onExitComplete) {
+                this.options.onExitComplete();
+              }
+            }
+            this.targetLayout = newLayout;
+          });
+        }
+      }
+      unmount() {
+        this.options.layoutId && this.willUpdate();
+        this.root.nodes.remove(this);
+        const stack = this.getStack();
+        stack && stack.remove(this);
+        this.parent && this.parent.children.delete(this);
+        this.instance = void 0;
+        this.eventHandlers.clear();
+        cancelFrame(this.updateProjection);
+      }
+      // only on the root
+      blockUpdate() {
+        this.updateManuallyBlocked = true;
+      }
+      unblockUpdate() {
+        this.updateManuallyBlocked = false;
+      }
+      isUpdateBlocked() {
+        return this.updateManuallyBlocked || this.updateBlockedByResize;
+      }
+      isTreeAnimationBlocked() {
+        return this.isAnimationBlocked || this.parent && this.parent.isTreeAnimationBlocked() || false;
+      }
+      // Note: currently only running on root node
+      startUpdate() {
+        if (this.isUpdateBlocked())
+          return;
+        this.isUpdating = true;
+        this.nodes && this.nodes.forEach(resetSkewAndRotation);
+        this.animationId++;
+      }
+      getTransformTemplate() {
+        const { visualElement } = this.options;
+        return visualElement && visualElement.getProps().transformTemplate;
+      }
+      willUpdate(shouldNotifyListeners = true) {
+        this.root.hasTreeAnimated = true;
+        if (this.root.isUpdateBlocked()) {
+          this.options.onExitComplete && this.options.onExitComplete();
+          return;
+        }
+        if (window.MotionCancelOptimisedAnimation && !this.hasCheckedOptimisedAppear) {
+          cancelTreeOptimisedTransformAnimations(this);
+        }
+        !this.root.isUpdating && this.root.startUpdate();
+        if (this.isLayoutDirty)
+          return;
+        this.isLayoutDirty = true;
+        for (let i = 0; i < this.path.length; i++) {
+          const node = this.path[i];
+          node.shouldResetTransform = true;
+          if (typeof node.latestValues.x === "string" || typeof node.latestValues.y === "string") {
+            node.isLayoutDirty = true;
+          }
+          node.updateScroll("snapshot");
+          if (node.options.layoutRoot) {
+            node.willUpdate(false);
+          }
+        }
+        const { layoutId, layout: layout2 } = this.options;
+        if (layoutId === void 0 && !layout2)
+          return;
+        const transformTemplate = this.getTransformTemplate();
+        this.prevTransformTemplateValue = transformTemplate ? transformTemplate(this.latestValues, "") : void 0;
+        this.updateSnapshot();
+        shouldNotifyListeners && this.notifyListeners("willUpdate");
+      }
+      update() {
+        this.updateScheduled = false;
+        const updateWasBlocked = this.isUpdateBlocked();
+        if (updateWasBlocked) {
+          const wasBlockedByResize = this.updateBlockedByResize;
+          this.unblockUpdate();
+          this.updateBlockedByResize = false;
+          this.clearAllSnapshots();
+          if (wasBlockedByResize) {
+            this.nodes.forEach(forceLayoutMeasure);
+          }
+          this.nodes.forEach(clearMeasurements);
+          return;
+        }
+        if (this.animationId <= this.animationCommitId) {
+          this.nodes.forEach(clearIsLayoutDirty);
+          return;
+        }
+        this.animationCommitId = this.animationId;
+        if (!this.isUpdating) {
+          this.nodes.forEach(clearIsLayoutDirty);
+        } else {
+          this.isUpdating = false;
+          this.nodes.forEach(ensureDraggedNodesSnapshotted);
+          this.nodes.forEach(resetTransformStyle);
+          this.nodes.forEach(updateLayout);
+          this.nodes.forEach(notifyLayoutUpdate);
+        }
+        this.clearAllSnapshots();
+        const now2 = time.now();
+        frameData.delta = clamp(0, 1e3 / 60, now2 - frameData.timestamp);
+        frameData.timestamp = now2;
+        frameData.isProcessing = true;
+        frameSteps.update.process(frameData);
+        frameSteps.preRender.process(frameData);
+        frameSteps.render.process(frameData);
+        frameData.isProcessing = false;
+      }
+      didUpdate() {
+        if (!this.updateScheduled) {
+          this.updateScheduled = true;
+          microtask.read(this.scheduleUpdate);
+        }
+      }
+      clearAllSnapshots() {
+        this.nodes.forEach(clearSnapshot);
+        this.sharedNodes.forEach(removeLeadSnapshots);
+      }
+      scheduleUpdateProjection() {
+        if (!this.projectionUpdateScheduled) {
+          this.projectionUpdateScheduled = true;
+          frame.preRender(this.updateProjection, false, true);
+        }
+      }
+      scheduleCheckAfterUnmount() {
+        frame.postRender(() => {
+          if (this.isLayoutDirty) {
+            this.root.didUpdate();
+          } else {
+            this.root.checkUpdateFailed();
+          }
+        });
+      }
+      /**
+       * Update measurements
+       */
+      updateSnapshot() {
+        if (this.snapshot || !this.instance)
+          return;
+        this.snapshot = this.measure();
+        if (this.snapshot && !calcLength(this.snapshot.measuredBox.x) && !calcLength(this.snapshot.measuredBox.y)) {
+          this.snapshot = void 0;
+        }
+      }
+      updateLayout() {
+        if (!this.instance)
+          return;
+        this.updateScroll();
+        if (!(this.options.alwaysMeasureLayout && this.isLead()) && !this.isLayoutDirty) {
+          return;
+        }
+        if (this.resumeFrom && !this.resumeFrom.instance) {
+          for (let i = 0; i < this.path.length; i++) {
+            const node = this.path[i];
+            node.updateScroll();
+          }
+        }
+        const prevLayout = this.layout;
+        this.layout = this.measure(false);
+        this.layoutVersion++;
+        if (!this.layoutCorrected)
+          this.layoutCorrected = createBox();
+        this.isLayoutDirty = false;
+        this.projectionDelta = void 0;
+        this.notifyListeners("measure", this.layout.layoutBox);
+        const { visualElement } = this.options;
+        visualElement && visualElement.notify("LayoutMeasure", this.layout.layoutBox, prevLayout ? prevLayout.layoutBox : void 0);
+      }
+      updateScroll(phase = "measure") {
+        let needsMeasurement = Boolean(this.options.layoutScroll && this.instance);
+        if (this.scroll && this.scroll.animationId === this.root.animationId && this.scroll.phase === phase) {
+          needsMeasurement = false;
+        }
+        if (needsMeasurement && this.instance) {
+          const isRoot = checkIsScrollRoot(this.instance);
+          this.scroll = {
+            animationId: this.root.animationId,
+            phase,
+            isRoot,
+            offset: measureScroll(this.instance),
+            wasRoot: this.scroll ? this.scroll.isRoot : isRoot
+          };
+        }
+      }
+      resetTransform() {
+        if (!resetTransform)
+          return;
+        const isResetRequested = this.isLayoutDirty || this.shouldResetTransform || this.options.alwaysMeasureLayout;
+        const hasProjection = this.projectionDelta && !isDeltaZero(this.projectionDelta);
+        const transformTemplate = this.getTransformTemplate();
+        const transformTemplateValue = transformTemplate ? transformTemplate(this.latestValues, "") : void 0;
+        const transformTemplateHasChanged = transformTemplateValue !== this.prevTransformTemplateValue;
+        if (isResetRequested && this.instance && (hasProjection || hasTransform(this.latestValues) || transformTemplateHasChanged)) {
+          resetTransform(this.instance, transformTemplateValue);
+          this.shouldResetTransform = false;
+          this.scheduleRender();
+        }
+      }
+      measure(removeTransform = true) {
+        const pageBox = this.measurePageBox();
+        let layoutBox = this.removeElementScroll(pageBox);
+        if (removeTransform) {
+          layoutBox = this.removeTransform(layoutBox);
+        }
+        roundBox(layoutBox);
+        return {
+          animationId: this.root.animationId,
+          measuredBox: pageBox,
+          layoutBox,
+          latestValues: {},
+          source: this.id
+        };
+      }
+      measurePageBox() {
+        const { visualElement } = this.options;
+        if (!visualElement)
+          return createBox();
+        const box = visualElement.measureViewportBox();
+        const wasInScrollRoot = this.scroll?.wasRoot || this.path.some(checkNodeWasScrollRoot);
+        if (!wasInScrollRoot) {
+          const { scroll } = this.root;
+          if (scroll) {
+            translateAxis(box.x, scroll.offset.x);
+            translateAxis(box.y, scroll.offset.y);
+          }
+        }
+        return box;
+      }
+      removeElementScroll(box) {
+        const boxWithoutScroll = createBox();
+        copyBoxInto(boxWithoutScroll, box);
+        if (this.scroll?.wasRoot) {
+          return boxWithoutScroll;
+        }
+        for (let i = 0; i < this.path.length; i++) {
+          const node = this.path[i];
+          const { scroll, options } = node;
+          if (node !== this.root && scroll && options.layoutScroll) {
+            if (scroll.wasRoot) {
+              copyBoxInto(boxWithoutScroll, box);
+            }
+            translateAxis(boxWithoutScroll.x, scroll.offset.x);
+            translateAxis(boxWithoutScroll.y, scroll.offset.y);
+          }
+        }
+        return boxWithoutScroll;
+      }
+      applyTransform(box, transformOnly = false, output) {
+        const withTransforms = output || createBox();
+        copyBoxInto(withTransforms, box);
+        for (let i = 0; i < this.path.length; i++) {
+          const node = this.path[i];
+          if (!transformOnly && node.options.layoutScroll && node.scroll && node !== node.root) {
+            translateAxis(withTransforms.x, -node.scroll.offset.x);
+            translateAxis(withTransforms.y, -node.scroll.offset.y);
+          }
+          if (!hasTransform(node.latestValues))
+            continue;
+          transformBox(withTransforms, node.latestValues, node.layout?.layoutBox);
+        }
+        if (hasTransform(this.latestValues)) {
+          transformBox(withTransforms, this.latestValues, this.layout?.layoutBox);
+        }
+        return withTransforms;
+      }
+      removeTransform(box) {
+        const boxWithoutTransform = createBox();
+        copyBoxInto(boxWithoutTransform, box);
+        for (let i = 0; i < this.path.length; i++) {
+          const node = this.path[i];
+          if (!hasTransform(node.latestValues))
+            continue;
+          let sourceBox;
+          if (node.instance) {
+            hasScale(node.latestValues) && node.updateSnapshot();
+            sourceBox = createBox();
+            copyBoxInto(sourceBox, node.measurePageBox());
+          }
+          removeBoxTransforms(boxWithoutTransform, node.latestValues, node.snapshot?.layoutBox, sourceBox);
+        }
+        if (hasTransform(this.latestValues)) {
+          removeBoxTransforms(boxWithoutTransform, this.latestValues);
+        }
+        return boxWithoutTransform;
+      }
+      setTargetDelta(delta) {
+        this.targetDelta = delta;
+        this.root.scheduleUpdateProjection();
+        this.isProjectionDirty = true;
+      }
+      setOptions(options) {
+        this.options = {
+          ...this.options,
+          ...options,
+          crossfade: options.crossfade !== void 0 ? options.crossfade : true
+        };
+      }
+      clearMeasurements() {
+        this.scroll = void 0;
+        this.layout = void 0;
+        this.snapshot = void 0;
+        this.prevTransformTemplateValue = void 0;
+        this.targetDelta = void 0;
+        this.target = void 0;
+        this.isLayoutDirty = false;
+      }
+      forceRelativeParentToResolveTarget() {
+        if (!this.relativeParent)
+          return;
+        if (this.relativeParent.resolvedRelativeTargetAt !== frameData.timestamp) {
+          this.relativeParent.resolveTargetDelta(true);
+        }
+      }
+      resolveTargetDelta(forceRecalculation = false) {
+        const lead = this.getLead();
+        this.isProjectionDirty || (this.isProjectionDirty = lead.isProjectionDirty);
+        this.isTransformDirty || (this.isTransformDirty = lead.isTransformDirty);
+        this.isSharedProjectionDirty || (this.isSharedProjectionDirty = lead.isSharedProjectionDirty);
+        const isShared = Boolean(this.resumingFrom) || this !== lead;
+        const canSkip = !(forceRecalculation || isShared && this.isSharedProjectionDirty || this.isProjectionDirty || this.parent?.isProjectionDirty || this.attemptToResolveRelativeTarget || this.root.updateBlockedByResize);
+        if (canSkip)
+          return;
+        const { layout: layout2, layoutId } = this.options;
+        if (!this.layout || !(layout2 || layoutId))
+          return;
+        this.resolvedRelativeTargetAt = frameData.timestamp;
+        const relativeParent = this.getClosestProjectingParent();
+        if (relativeParent && this.linkedParentVersion !== relativeParent.layoutVersion && !relativeParent.options.layoutRoot) {
+          this.removeRelativeTarget();
+        }
+        if (!this.targetDelta && !this.relativeTarget) {
+          if (this.options.layoutAnchor !== false && relativeParent && relativeParent.layout) {
+            this.createRelativeTarget(relativeParent, this.layout.layoutBox, relativeParent.layout.layoutBox);
+          } else {
+            this.removeRelativeTarget();
+          }
+        }
+        if (!this.relativeTarget && !this.targetDelta)
+          return;
+        if (!this.target) {
+          this.target = createBox();
+          this.targetWithTransforms = createBox();
+        }
+        if (this.relativeTarget && this.relativeTargetOrigin && this.relativeParent && this.relativeParent.target) {
+          this.forceRelativeParentToResolveTarget();
+          calcRelativeBox(this.target, this.relativeTarget, this.relativeParent.target, this.options.layoutAnchor || void 0);
+        } else if (this.targetDelta) {
+          if (Boolean(this.resumingFrom)) {
+            this.applyTransform(this.layout.layoutBox, false, this.target);
+          } else {
+            copyBoxInto(this.target, this.layout.layoutBox);
+          }
+          applyBoxDelta(this.target, this.targetDelta);
+        } else {
+          copyBoxInto(this.target, this.layout.layoutBox);
+        }
+        if (this.attemptToResolveRelativeTarget) {
+          this.attemptToResolveRelativeTarget = false;
+          if (this.options.layoutAnchor !== false && relativeParent && Boolean(relativeParent.resumingFrom) === Boolean(this.resumingFrom) && !relativeParent.options.layoutScroll && relativeParent.target && this.animationProgress !== 1) {
+            this.createRelativeTarget(relativeParent, this.target, relativeParent.target);
+          } else {
+            this.relativeParent = this.relativeTarget = void 0;
+          }
+        }
+        if (statsBuffer.value) {
+          metrics.calculatedTargetDeltas++;
+        }
+      }
+      getClosestProjectingParent() {
+        if (!this.parent || hasScale(this.parent.latestValues) || has2DTranslate(this.parent.latestValues)) {
+          return void 0;
+        }
+        if (this.parent.isProjecting()) {
+          return this.parent;
+        } else {
+          return this.parent.getClosestProjectingParent();
+        }
+      }
+      isProjecting() {
+        return Boolean((this.relativeTarget || this.targetDelta || this.options.layoutRoot) && this.layout);
+      }
+      createRelativeTarget(relativeParent, layout2, parentLayout) {
+        this.relativeParent = relativeParent;
+        this.linkedParentVersion = relativeParent.layoutVersion;
+        this.forceRelativeParentToResolveTarget();
+        this.relativeTarget = createBox();
+        this.relativeTargetOrigin = createBox();
+        calcRelativePosition(this.relativeTargetOrigin, layout2, parentLayout, this.options.layoutAnchor || void 0);
+        copyBoxInto(this.relativeTarget, this.relativeTargetOrigin);
+      }
+      removeRelativeTarget() {
+        this.relativeParent = this.relativeTarget = void 0;
+      }
+      calcProjection() {
+        const lead = this.getLead();
+        const isShared = Boolean(this.resumingFrom) || this !== lead;
+        let canSkip = true;
+        if (this.isProjectionDirty || this.parent?.isProjectionDirty) {
+          canSkip = false;
+        }
+        if (isShared && (this.isSharedProjectionDirty || this.isTransformDirty)) {
+          canSkip = false;
+        }
+        if (this.resolvedRelativeTargetAt === frameData.timestamp) {
+          canSkip = false;
+        }
+        if (canSkip)
+          return;
+        const { layout: layout2, layoutId } = this.options;
+        this.isTreeAnimating = Boolean(this.parent && this.parent.isTreeAnimating || this.currentAnimation || this.pendingAnimation);
+        if (!this.isTreeAnimating) {
+          this.targetDelta = this.relativeTarget = void 0;
+        }
+        if (!this.layout || !(layout2 || layoutId))
+          return;
+        copyBoxInto(this.layoutCorrected, this.layout.layoutBox);
+        const prevTreeScaleX = this.treeScale.x;
+        const prevTreeScaleY = this.treeScale.y;
+        applyTreeDeltas(this.layoutCorrected, this.treeScale, this.path, isShared);
+        if (lead.layout && !lead.target && (this.treeScale.x !== 1 || this.treeScale.y !== 1)) {
+          lead.target = lead.layout.layoutBox;
+          lead.targetWithTransforms = createBox();
+        }
+        const { target } = lead;
+        if (!target) {
+          if (this.prevProjectionDelta) {
+            this.createProjectionDeltas();
+            this.scheduleRender();
+          }
+          return;
+        }
+        if (!this.projectionDelta || !this.prevProjectionDelta) {
+          this.createProjectionDeltas();
+        } else {
+          copyAxisDeltaInto(this.prevProjectionDelta.x, this.projectionDelta.x);
+          copyAxisDeltaInto(this.prevProjectionDelta.y, this.projectionDelta.y);
+        }
+        calcBoxDelta(this.projectionDelta, this.layoutCorrected, target, this.latestValues);
+        if (this.treeScale.x !== prevTreeScaleX || this.treeScale.y !== prevTreeScaleY || !axisDeltaEquals(this.projectionDelta.x, this.prevProjectionDelta.x) || !axisDeltaEquals(this.projectionDelta.y, this.prevProjectionDelta.y)) {
+          this.hasProjected = true;
+          this.scheduleRender();
+          this.notifyListeners("projectionUpdate", target);
+        }
+        if (statsBuffer.value) {
+          metrics.calculatedProjections++;
+        }
+      }
+      hide() {
+        this.isVisible = false;
+      }
+      show() {
+        this.isVisible = true;
+      }
+      scheduleRender(notifyAll2 = true) {
+        this.options.visualElement?.scheduleRender();
+        if (notifyAll2) {
+          const stack = this.getStack();
+          stack && stack.scheduleRender();
+        }
+        if (this.resumingFrom && !this.resumingFrom.instance) {
+          this.resumingFrom = void 0;
+        }
+      }
+      createProjectionDeltas() {
+        this.prevProjectionDelta = createDelta();
+        this.projectionDelta = createDelta();
+        this.projectionDeltaWithTransform = createDelta();
+      }
+      setAnimationOrigin(delta, hasOnlyRelativeTargetChanged = false, pathFn) {
+        const snapshot = this.snapshot;
+        const snapshotLatestValues = snapshot ? snapshot.latestValues : {};
+        const mixedValues = { ...this.latestValues };
+        const targetDelta = createDelta();
+        if (!this.relativeParent || !this.relativeParent.options.layoutRoot) {
+          this.relativeTarget = this.relativeTargetOrigin = void 0;
+        }
+        this.attemptToResolveRelativeTarget = !hasOnlyRelativeTargetChanged;
+        const relativeLayout = createBox();
+        const snapshotSource = snapshot ? snapshot.source : void 0;
+        const layoutSource = this.layout ? this.layout.source : void 0;
+        const isSharedLayoutAnimation = snapshotSource !== layoutSource;
+        const stack = this.getStack();
+        const isOnlyMember = !stack || stack.members.length <= 1;
+        const shouldCrossfadeOpacity = Boolean(isSharedLayoutAnimation && !isOnlyMember && this.options.crossfade === true && !this.path.some(hasOpacityCrossfade));
+        this.animationProgress = 0;
+        let prevRelativeTarget;
+        const interpolate2 = pathFn?.interpolateProjection(delta);
+        this.mixTargetDelta = (latest) => {
+          const progress2 = latest / 1e3;
+          const point = interpolate2?.(progress2);
+          if (point) {
+            targetDelta.x.translate = point.x;
+            targetDelta.x.scale = mixNumber(delta.x.scale, 1, progress2);
+            targetDelta.x.origin = delta.x.origin;
+            targetDelta.x.originPoint = delta.x.originPoint;
+            targetDelta.y.translate = point.y;
+            targetDelta.y.scale = mixNumber(delta.y.scale, 1, progress2);
+            targetDelta.y.origin = delta.y.origin;
+            targetDelta.y.originPoint = delta.y.originPoint;
+          } else {
+            mixAxisDeltaLinear(targetDelta.x, delta.x, progress2);
+            mixAxisDeltaLinear(targetDelta.y, delta.y, progress2);
+          }
+          this.setTargetDelta(targetDelta);
+          if (this.relativeTarget && this.relativeTargetOrigin && this.layout && this.relativeParent && this.relativeParent.layout) {
+            calcRelativePosition(relativeLayout, this.layout.layoutBox, this.relativeParent.layout.layoutBox, this.options.layoutAnchor || void 0);
+            mixBox(this.relativeTarget, this.relativeTargetOrigin, relativeLayout, progress2);
+            if (prevRelativeTarget && boxEquals(this.relativeTarget, prevRelativeTarget)) {
+              this.isProjectionDirty = false;
+            }
+            if (!prevRelativeTarget)
+              prevRelativeTarget = createBox();
+            copyBoxInto(prevRelativeTarget, this.relativeTarget);
+          }
+          if (isSharedLayoutAnimation) {
+            this.animationValues = mixedValues;
+            mixValues(mixedValues, snapshotLatestValues, this.latestValues, progress2, shouldCrossfadeOpacity, isOnlyMember);
+          }
+          if (point && point.rotate !== void 0) {
+            if (!this.animationValues)
+              this.animationValues = mixedValues;
+            this.animationValues.pathRotation = point.rotate;
+          }
+          this.root.scheduleUpdateProjection();
+          this.scheduleRender();
+          this.animationProgress = progress2;
+        };
+        this.mixTargetDelta(this.options.layoutRoot ? 1e3 : 0);
+      }
+      startAnimation(options) {
+        this.notifyListeners("animationStart");
+        this.currentAnimation?.stop();
+        this.resumingFrom?.currentAnimation?.stop();
+        if (this.pendingAnimation) {
+          cancelFrame(this.pendingAnimation);
+          this.pendingAnimation = void 0;
+        }
+        this.pendingAnimation = frame.update(() => {
+          globalProjectionState.hasAnimatedSinceResize = true;
+          this.motionValue || (this.motionValue = motionValue(0));
+          this.motionValue.jump(0, false);
+          this.currentAnimation = animateSingleValue(this.motionValue, [0, 1e3], {
+            ...options,
+            velocity: 0,
+            isSync: true,
+            onUpdate: (latest) => {
+              this.mixTargetDelta(latest);
+              options.onUpdate && options.onUpdate(latest);
+            },
+            onComplete: () => {
+              options.onComplete && options.onComplete();
+              this.completeAnimation();
+            }
+          });
+          if (this.resumingFrom) {
+            this.resumingFrom.currentAnimation = this.currentAnimation;
+          }
+          this.pendingAnimation = void 0;
+        });
+      }
+      completeAnimation() {
+        if (this.resumingFrom) {
+          this.resumingFrom.currentAnimation = void 0;
+          this.resumingFrom.preserveOpacity = void 0;
+        }
+        const stack = this.getStack();
+        stack && stack.exitAnimationComplete();
+        this.resumingFrom = this.currentAnimation = this.animationValues = void 0;
+        this.notifyListeners("animationComplete");
+      }
+      finishAnimation() {
+        if (this.currentAnimation) {
+          this.mixTargetDelta && this.mixTargetDelta(animationTarget);
+          this.currentAnimation.stop();
+        }
+        this.completeAnimation();
+      }
+      applyTransformsToTarget() {
+        const lead = this.getLead();
+        let { targetWithTransforms, target, layout: layout2, latestValues } = lead;
+        if (!targetWithTransforms || !target || !layout2)
+          return;
+        if (this !== lead && this.layout && layout2 && shouldAnimatePositionOnly(this.options.animationType, this.layout.layoutBox, layout2.layoutBox)) {
+          target = this.target || createBox();
+          const xLength = calcLength(this.layout.layoutBox.x);
+          target.x.min = lead.target.x.min;
+          target.x.max = target.x.min + xLength;
+          const yLength = calcLength(this.layout.layoutBox.y);
+          target.y.min = lead.target.y.min;
+          target.y.max = target.y.min + yLength;
+        }
+        copyBoxInto(targetWithTransforms, target);
+        transformBox(targetWithTransforms, latestValues);
+        calcBoxDelta(this.projectionDeltaWithTransform, this.layoutCorrected, targetWithTransforms, latestValues);
+      }
+      registerSharedNode(layoutId, node) {
+        if (!this.sharedNodes.has(layoutId)) {
+          this.sharedNodes.set(layoutId, new NodeStack());
+        }
+        const stack = this.sharedNodes.get(layoutId);
+        stack.add(node);
+        const config = node.options.initialPromotionConfig;
+        node.promote({
+          transition: config ? config.transition : void 0,
+          preserveFollowOpacity: config && config.shouldPreserveFollowOpacity ? config.shouldPreserveFollowOpacity(node) : void 0
+        });
+      }
+      isLead() {
+        const stack = this.getStack();
+        return stack ? stack.lead === this : true;
+      }
+      getLead() {
+        const { layoutId } = this.options;
+        return layoutId ? this.getStack()?.lead || this : this;
+      }
+      getPrevLead() {
+        const { layoutId } = this.options;
+        return layoutId ? this.getStack()?.prevLead : void 0;
+      }
+      getStack() {
+        const { layoutId } = this.options;
+        if (layoutId)
+          return this.root.sharedNodes.get(layoutId);
+      }
+      promote({ needsReset, transition, preserveFollowOpacity } = {}) {
+        const stack = this.getStack();
+        if (stack)
+          stack.promote(this, preserveFollowOpacity);
+        if (needsReset) {
+          this.projectionDelta = void 0;
+          this.needsReset = true;
+        }
+        if (transition)
+          this.setOptions({ transition });
+      }
+      relegate() {
+        const stack = this.getStack();
+        if (stack) {
+          return stack.relegate(this);
+        } else {
+          return false;
+        }
+      }
+      resetSkewAndRotation() {
+        const { visualElement } = this.options;
+        if (!visualElement)
+          return;
+        let hasDistortingTransform = false;
+        const { latestValues } = visualElement;
+        if (latestValues.z || latestValues.rotate || latestValues.rotateX || latestValues.rotateY || latestValues.rotateZ || latestValues.skewX || latestValues.skewY) {
+          hasDistortingTransform = true;
+        }
+        if (!hasDistortingTransform)
+          return;
+        const resetValues = {};
+        if (latestValues.z) {
+          resetDistortingTransform("z", visualElement, resetValues, this.animationValues);
+        }
+        for (let i = 0; i < transformAxes.length; i++) {
+          resetDistortingTransform(`rotate${transformAxes[i]}`, visualElement, resetValues, this.animationValues);
+          resetDistortingTransform(`skew${transformAxes[i]}`, visualElement, resetValues, this.animationValues);
+        }
+        visualElement.render();
+        for (const key in resetValues) {
+          visualElement.setStaticValue(key, resetValues[key]);
+          if (this.animationValues) {
+            this.animationValues[key] = resetValues[key];
+          }
+        }
+        visualElement.scheduleRender();
+      }
+      applyProjectionStyles(targetStyle, styleProp) {
+        if (!this.instance || this.isSVG)
+          return;
+        if (!this.isVisible) {
+          targetStyle.visibility = "hidden";
+          return;
+        }
+        const transformTemplate = this.getTransformTemplate();
+        if (this.needsReset) {
+          this.needsReset = false;
+          targetStyle.visibility = "";
+          targetStyle.opacity = "";
+          targetStyle.pointerEvents = resolveMotionValue(styleProp?.pointerEvents) || "";
+          targetStyle.transform = transformTemplate ? transformTemplate(this.latestValues, "") : "none";
+          return;
+        }
+        const lead = this.getLead();
+        if (!this.projectionDelta || !this.layout || !lead.target) {
+          if (this.options.layoutId) {
+            targetStyle.opacity = this.latestValues.opacity !== void 0 ? this.latestValues.opacity : 1;
+            targetStyle.pointerEvents = resolveMotionValue(styleProp?.pointerEvents) || "";
+          }
+          if (this.hasProjected && !hasTransform(this.latestValues)) {
+            targetStyle.transform = transformTemplate ? transformTemplate({}, "") : "none";
+            this.hasProjected = false;
+          }
+          return;
+        }
+        targetStyle.visibility = "";
+        const valuesToRender = lead.animationValues || lead.latestValues;
+        this.applyTransformsToTarget();
+        let transform = buildProjectionTransform(this.projectionDeltaWithTransform, this.treeScale, valuesToRender);
+        if (transformTemplate) {
+          transform = transformTemplate(valuesToRender, transform);
+        }
+        targetStyle.transform = transform;
+        const { x, y } = this.projectionDelta;
+        targetStyle.transformOrigin = `${x.origin * 100}% ${y.origin * 100}% 0`;
+        if (lead.animationValues) {
+          targetStyle.opacity = lead === this ? valuesToRender.opacity ?? this.latestValues.opacity ?? 1 : this.preserveOpacity ? this.latestValues.opacity : valuesToRender.opacityExit;
+        } else {
+          targetStyle.opacity = lead === this ? valuesToRender.opacity !== void 0 ? valuesToRender.opacity : "" : valuesToRender.opacityExit !== void 0 ? valuesToRender.opacityExit : 0;
+        }
+        for (const key in scaleCorrectors) {
+          if (valuesToRender[key] === void 0)
+            continue;
+          const { correct, applyTo, isCSSVariable } = scaleCorrectors[key];
+          const corrected = transform === "none" ? valuesToRender[key] : correct(valuesToRender[key], lead);
+          if (applyTo) {
+            const num = applyTo.length;
+            for (let i = 0; i < num; i++) {
+              targetStyle[applyTo[i]] = corrected;
             }
           } else {
-            alert("La sintesi vocale non \xE8 supportata da questo browser.");
+            if (isCSSVariable) {
+              this.options.visualElement.renderState.vars[key] = corrected;
+            } else {
+              targetStyle[key] = corrected;
+            }
+          }
+        }
+        if (this.options.layoutId) {
+          targetStyle.pointerEvents = lead === this ? resolveMotionValue(styleProp?.pointerEvents) || "" : "none";
+        }
+      }
+      clearSnapshot() {
+        this.resumeFrom = this.snapshot = void 0;
+      }
+      // Only run on root
+      resetTree() {
+        this.root.nodes.forEach((node) => node.currentAnimation?.stop());
+        this.root.nodes.forEach(clearMeasurements);
+        this.root.sharedNodes.clear();
+      }
+    };
+  }
+  function updateLayout(node) {
+    node.updateLayout();
+  }
+  function notifyLayoutUpdate(node) {
+    const snapshot = node.resumeFrom?.snapshot || node.snapshot;
+    if (node.isLead() && node.layout && snapshot && node.hasListeners("didUpdate")) {
+      const { layoutBox: layout2, measuredBox: measuredLayout } = node.layout;
+      const { animationType } = node.options;
+      const isShared = snapshot.source !== node.layout.source;
+      if (animationType === "size") {
+        eachAxis((axis) => {
+          const axisSnapshot = isShared ? snapshot.measuredBox[axis] : snapshot.layoutBox[axis];
+          const length = calcLength(axisSnapshot);
+          axisSnapshot.min = layout2[axis].min;
+          axisSnapshot.max = axisSnapshot.min + length;
+        });
+      } else if (animationType === "x" || animationType === "y") {
+        const snapAxis = animationType === "x" ? "y" : "x";
+        copyAxisInto(isShared ? snapshot.measuredBox[snapAxis] : snapshot.layoutBox[snapAxis], layout2[snapAxis]);
+      } else if (shouldAnimatePositionOnly(animationType, snapshot.layoutBox, layout2)) {
+        eachAxis((axis) => {
+          const axisSnapshot = isShared ? snapshot.measuredBox[axis] : snapshot.layoutBox[axis];
+          const length = calcLength(layout2[axis]);
+          axisSnapshot.max = axisSnapshot.min + length;
+          if (node.relativeTarget && !node.currentAnimation) {
+            node.isProjectionDirty = true;
+            node.relativeTarget[axis].max = node.relativeTarget[axis].min + length;
+          }
+        });
+      }
+      const layoutDelta = createDelta();
+      calcBoxDelta(layoutDelta, layout2, snapshot.layoutBox);
+      const visualDelta = createDelta();
+      if (isShared) {
+        calcBoxDelta(visualDelta, node.applyTransform(measuredLayout, true), snapshot.measuredBox);
+      } else {
+        calcBoxDelta(visualDelta, layout2, snapshot.layoutBox);
+      }
+      const hasLayoutChanged = !isDeltaZero(layoutDelta);
+      let hasRelativeLayoutChanged = false;
+      if (!node.resumeFrom) {
+        const relativeParent = node.getClosestProjectingParent();
+        if (relativeParent && !relativeParent.resumeFrom) {
+          const { snapshot: parentSnapshot, layout: parentLayout } = relativeParent;
+          if (parentSnapshot && parentLayout) {
+            const anchor = node.options.layoutAnchor || void 0;
+            const relativeSnapshot = createBox();
+            calcRelativePosition(relativeSnapshot, snapshot.layoutBox, parentSnapshot.layoutBox, anchor);
+            const relativeLayout = createBox();
+            calcRelativePosition(relativeLayout, layout2, parentLayout.layoutBox, anchor);
+            if (!boxEqualsRounded(relativeSnapshot, relativeLayout)) {
+              hasRelativeLayoutChanged = true;
+            }
+            if (relativeParent.options.layoutRoot) {
+              node.relativeTarget = relativeLayout;
+              node.relativeTargetOrigin = relativeSnapshot;
+              node.relativeParent = relativeParent;
+            }
+          }
+        }
+      }
+      node.notifyListeners("didUpdate", {
+        layout: layout2,
+        snapshot,
+        delta: visualDelta,
+        layoutDelta,
+        hasLayoutChanged,
+        hasRelativeLayoutChanged
+      });
+    } else if (node.isLead()) {
+      const { onExitComplete } = node.options;
+      onExitComplete && onExitComplete();
+    }
+    node.options.transition = void 0;
+  }
+  function propagateDirtyNodes(node) {
+    if (statsBuffer.value) {
+      metrics.nodes++;
+    }
+    if (!node.parent)
+      return;
+    if (!node.isProjecting()) {
+      node.isProjectionDirty = node.parent.isProjectionDirty;
+    }
+    node.isSharedProjectionDirty || (node.isSharedProjectionDirty = Boolean(node.isProjectionDirty || node.parent.isProjectionDirty || node.parent.isSharedProjectionDirty));
+    node.isTransformDirty || (node.isTransformDirty = node.parent.isTransformDirty);
+  }
+  function cleanDirtyNodes(node) {
+    node.isProjectionDirty = node.isSharedProjectionDirty = node.isTransformDirty = false;
+  }
+  function clearSnapshot(node) {
+    node.clearSnapshot();
+  }
+  function clearMeasurements(node) {
+    node.clearMeasurements();
+  }
+  function forceLayoutMeasure(node) {
+    node.isLayoutDirty = true;
+    node.updateLayout();
+  }
+  function clearIsLayoutDirty(node) {
+    node.isLayoutDirty = false;
+  }
+  function ensureDraggedNodesSnapshotted(node) {
+    if (node.isAnimationBlocked && node.layout && !node.isLayoutDirty) {
+      node.snapshot = node.layout;
+      node.isLayoutDirty = true;
+    }
+  }
+  function resetTransformStyle(node) {
+    const { visualElement } = node.options;
+    if (visualElement && visualElement.getProps().onBeforeLayoutMeasure) {
+      visualElement.notify("BeforeLayoutMeasure");
+    }
+    node.resetTransform();
+  }
+  function finishAnimation(node) {
+    node.finishAnimation();
+    node.targetDelta = node.relativeTarget = node.target = void 0;
+    node.isProjectionDirty = true;
+  }
+  function resolveTargetDelta(node) {
+    node.resolveTargetDelta();
+  }
+  function calcProjection(node) {
+    node.calcProjection();
+  }
+  function resetSkewAndRotation(node) {
+    node.resetSkewAndRotation();
+  }
+  function removeLeadSnapshots(stack) {
+    stack.removeLeadSnapshot();
+  }
+  function mixAxisDeltaLinear(output, delta, p) {
+    output.translate = mixNumber(delta.translate, 0, p);
+    output.scale = mixNumber(delta.scale, 1, p);
+    output.origin = delta.origin;
+    output.originPoint = delta.originPoint;
+  }
+  function mixAxis(output, from, to, p) {
+    output.min = mixNumber(from.min, to.min, p);
+    output.max = mixNumber(from.max, to.max, p);
+  }
+  function mixBox(output, from, to, p) {
+    mixAxis(output.x, from.x, to.x, p);
+    mixAxis(output.y, from.y, to.y, p);
+  }
+  function hasOpacityCrossfade(node) {
+    return node.animationValues && node.animationValues.opacityExit !== void 0;
+  }
+  var defaultLayoutTransition = {
+    duration: 0.45,
+    ease: [0.4, 0, 0.1, 1]
+  };
+  var userAgentContains = (string) => typeof navigator !== "undefined" && navigator.userAgent && navigator.userAgent.toLowerCase().includes(string);
+  var roundPoint = userAgentContains("applewebkit/") && !userAgentContains("chrome/") ? Math.round : noop;
+  function roundAxis(axis) {
+    axis.min = roundPoint(axis.min);
+    axis.max = roundPoint(axis.max);
+  }
+  function roundBox(box) {
+    roundAxis(box.x);
+    roundAxis(box.y);
+  }
+  function shouldAnimatePositionOnly(animationType, snapshot, layout2) {
+    return animationType === "position" || animationType === "preserve-aspect" && !isNear(aspectRatio(snapshot), aspectRatio(layout2), 0.2);
+  }
+  function checkNodeWasScrollRoot(node) {
+    return node !== node.root && node.scroll?.wasRoot;
+  }
+
+  // node_modules/motion-dom/dist/es/projection/node/DocumentProjectionNode.mjs
+  var DocumentProjectionNode = createProjectionNode({
+    attachResizeListener: (ref, notify) => addDomEvent(ref, "resize", notify),
+    measureScroll: () => ({
+      x: document.documentElement.scrollLeft || document.body?.scrollLeft || 0,
+      y: document.documentElement.scrollTop || document.body?.scrollTop || 0
+    }),
+    checkIsScrollRoot: () => true
+  });
+
+  // node_modules/motion-dom/dist/es/projection/node/HTMLProjectionNode.mjs
+  var rootProjectionNode = {
+    current: void 0
+  };
+  var HTMLProjectionNode = createProjectionNode({
+    measureScroll: (instance) => ({
+      x: instance.scrollLeft,
+      y: instance.scrollTop
+    }),
+    defaultParent: () => {
+      if (!rootProjectionNode.current) {
+        const documentNode = new DocumentProjectionNode({});
+        documentNode.mount(window);
+        documentNode.setOptions({ layoutScroll: true });
+        rootProjectionNode.current = documentNode;
+      }
+      return rootProjectionNode.current;
+    },
+    resetTransform: (instance, value) => {
+      instance.style.transform = value !== void 0 ? value : "none";
+    },
+    checkIsScrollRoot: (instance) => Boolean(window.getComputedStyle(instance).position === "fixed")
+  });
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs
+  var React2 = __toESM(require_react(), 1);
+  var import_react6 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs
+  var import_react5 = __toESM(require_react(), 1);
+  var MotionConfigContext = (0, import_react5.createContext)({
+    transformPagePoint: (p) => p,
+    isStatic: false,
+    reducedMotion: "never"
+  });
+
+  // node_modules/framer-motion/dist/es/utils/use-composed-ref.mjs
+  var React = __toESM(require_react(), 1);
+  function setRef(ref, value) {
+    if (typeof ref === "function") {
+      return ref(value);
+    } else if (ref !== null && ref !== void 0) {
+      ref.current = value;
+    }
+  }
+  function composeRefs(...refs) {
+    return (node) => {
+      let hasCleanup = false;
+      const cleanups = refs.map((ref) => {
+        const cleanup = setRef(ref, node);
+        if (!hasCleanup && typeof cleanup === "function") {
+          hasCleanup = true;
+        }
+        return cleanup;
+      });
+      if (hasCleanup) {
+        return () => {
+          for (let i = 0; i < cleanups.length; i++) {
+            const cleanup = cleanups[i];
+            if (typeof cleanup === "function") {
+              cleanup();
+            } else {
+              setRef(refs[i], null);
+            }
           }
         };
-        const theme = {
-          bg: highContrast ? "#000000" : "#f8fafc",
-          cardBg: highContrast ? "#121212" : "#ffffff",
-          text: highContrast ? "#ffffff" : "#0f172a",
-          textMuted: highContrast ? "#cbd5e1" : "#64748b",
-          primary: highContrast ? "#ffff00" : "#2563eb",
-          primaryBg: highContrast ? "#ffff00" : "#eff6ff",
-          primaryText: highContrast ? "#000000" : "#ffffff",
-          accent: highContrast ? "#00ffff" : "#0284c7",
-          border: highContrast ? "#ffffff" : "#e2e8f0",
-          fontSizeMultiplier: largeFont ? 1.25 : 1
+      }
+    };
+  }
+  function useComposedRefs(...refs) {
+    return React.useCallback(composeRefs(...refs), refs);
+  }
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs
+  var PopChildMeasure = class extends React2.Component {
+    getSnapshotBeforeUpdate(prevProps) {
+      const element = this.props.childRef.current;
+      if (isHTMLElement(element) && prevProps.isPresent && !this.props.isPresent && this.props.pop !== false) {
+        const parent = element.offsetParent;
+        const parentWidth = isHTMLElement(parent) ? parent.offsetWidth || 0 : 0;
+        const parentHeight = isHTMLElement(parent) ? parent.offsetHeight || 0 : 0;
+        const computedStyle = getComputedStyle(element);
+        const size = this.props.sizeRef.current;
+        size.height = parseFloat(computedStyle.height);
+        size.width = parseFloat(computedStyle.width);
+        size.top = element.offsetTop;
+        size.left = element.offsetLeft;
+        size.right = parentWidth - size.width - size.left;
+        size.bottom = parentHeight - size.height - size.top;
+        size.direction = computedStyle.direction;
+      }
+      return null;
+    }
+    /**
+     * Required with getSnapshotBeforeUpdate to stop React complaining.
+     */
+    componentDidUpdate() {
+    }
+    render() {
+      return this.props.children;
+    }
+  };
+  function PopChild({ children, isPresent, anchorX, anchorY, root, pop }) {
+    const id3 = (0, import_react6.useId)();
+    const ref = (0, import_react6.useRef)(null);
+    const size = (0, import_react6.useRef)({
+      width: 0,
+      height: 0,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      direction: "ltr"
+    });
+    const { nonce } = (0, import_react6.useContext)(MotionConfigContext);
+    const childRef = pop !== false ? children.props?.ref ?? children?.ref : void 0;
+    const composedRef = useComposedRefs(ref, childRef);
+    (0, import_react6.useInsertionEffect)(() => {
+      const { width, height, top, left, right, bottom, direction } = size.current;
+      if (isPresent || pop === false || !ref.current || !width || !height)
+        return;
+      const isRTL = direction === "rtl";
+      const x = anchorX === "left" ? isRTL ? `right: ${right}` : `left: ${left}` : isRTL ? `left: ${left}` : `right: ${right}`;
+      const y = anchorY === "bottom" ? `bottom: ${bottom}` : `top: ${top}`;
+      ref.current.dataset.motionPopId = id3;
+      const style = document.createElement("style");
+      if (nonce)
+        style.nonce = nonce;
+      const parent = root ?? document.head;
+      parent.appendChild(style);
+      if (style.sheet) {
+        style.sheet.insertRule(`
+          [data-motion-pop-id="${id3}"] {
+            position: absolute !important;
+            width: ${width}px !important;
+            height: ${height}px !important;
+            ${x}px !important;
+            ${y}px !important;
+          }
+        `);
+      }
+      return () => {
+        ref.current?.removeAttribute("data-motion-pop-id");
+        if (parent.contains(style)) {
+          parent.removeChild(style);
+        }
+      };
+    }, [isPresent]);
+    return (0, import_jsx_runtime.jsx)(PopChildMeasure, { isPresent, childRef: ref, sizeRef: size, pop, children: pop === false ? children : React2.cloneElement(children, { ref: composedRef }) });
+  }
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs
+  var PresenceChild = ({ children, initial, isPresent, onExitComplete, custom, presenceAffectsLayout, mode, anchorX, anchorY, root }) => {
+    const presenceChildren = useConstant(newChildrenMap);
+    const id3 = (0, import_react7.useId)();
+    const isPresentRef = (0, import_react7.useRef)(isPresent);
+    const onExitCompleteRef = (0, import_react7.useRef)(onExitComplete);
+    useIsomorphicLayoutEffect(() => {
+      isPresentRef.current = isPresent;
+      onExitCompleteRef.current = onExitComplete;
+    });
+    let isReusedContext = true;
+    let context = (0, import_react7.useMemo)(() => {
+      isReusedContext = false;
+      return {
+        id: id3,
+        initial,
+        isPresent,
+        custom,
+        onExitComplete: (childId) => {
+          presenceChildren.set(childId, true);
+          for (const isComplete of presenceChildren.values()) {
+            if (!isComplete)
+              return;
+          }
+          onExitComplete && onExitComplete();
+        },
+        register: (childId) => {
+          presenceChildren.set(childId, false);
+          return () => {
+            presenceChildren.delete(childId);
+            !isPresentRef.current && !presenceChildren.size && onExitCompleteRef.current?.();
+          };
+        }
+      };
+    }, [isPresent, presenceChildren, onExitComplete]);
+    if (presenceAffectsLayout && isReusedContext) {
+      context = { ...context };
+    }
+    (0, import_react7.useMemo)(() => {
+      presenceChildren.forEach((_, key) => presenceChildren.set(key, false));
+    }, [isPresent]);
+    React3.useEffect(() => {
+      !isPresent && !presenceChildren.size && onExitComplete && onExitComplete();
+    }, [isPresent]);
+    children = (0, import_jsx_runtime2.jsx)(PopChild, { pop: mode === "popLayout", isPresent, anchorX, anchorY, root, children });
+    return (0, import_jsx_runtime2.jsx)(PresenceContext.Provider, { value: context, children });
+  };
+  function newChildrenMap() {
+    return /* @__PURE__ */ new Map();
+  }
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs
+  var import_react8 = __toESM(require_react(), 1);
+  function usePresence(subscribe = true) {
+    const context = (0, import_react8.useContext)(PresenceContext);
+    if (context === null)
+      return [true, null];
+    const { isPresent, onExitComplete, register } = context;
+    const id3 = (0, import_react8.useId)();
+    (0, import_react8.useEffect)(() => {
+      if (subscribe) {
+        return register(id3);
+      }
+    }, [subscribe]);
+    const safeToRemove = (0, import_react8.useCallback)(() => subscribe && onExitComplete && onExitComplete(id3), [id3, onExitComplete, subscribe]);
+    return !isPresent && onExitComplete ? [false, safeToRemove] : [true];
+  }
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/utils.mjs
+  var import_react9 = __toESM(require_react(), 1);
+  var getChildKey = (child) => child.key || "";
+  function onlyElements(children) {
+    const filtered = [];
+    import_react9.Children.forEach(children, (child) => {
+      if ((0, import_react9.isValidElement)(child))
+        filtered.push(child);
+    });
+    return filtered;
+  }
+
+  // node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs
+  var AnimatePresence = ({ children, custom, initial = true, onExitComplete, presenceAffectsLayout = true, mode = "sync", propagate = false, anchorX = "left", anchorY = "top", root }) => {
+    const [isParentPresent, safeToRemove] = usePresence(propagate);
+    const presentChildren = (0, import_react10.useMemo)(() => onlyElements(children), [children]);
+    const presentKeys = propagate && !isParentPresent ? [] : presentChildren.map(getChildKey);
+    const isInitialRender = (0, import_react10.useRef)(true);
+    const pendingPresentChildren = (0, import_react10.useRef)(presentChildren);
+    const exitComplete = useConstant(() => /* @__PURE__ */ new Map());
+    const exitingComponents = (0, import_react10.useRef)(/* @__PURE__ */ new Set());
+    const [diffedChildren, setDiffedChildren] = (0, import_react10.useState)(presentChildren);
+    const [renderedChildren, setRenderedChildren] = (0, import_react10.useState)(presentChildren);
+    useIsomorphicLayoutEffect(() => {
+      isInitialRender.current = false;
+      pendingPresentChildren.current = presentChildren;
+      for (let i = 0; i < renderedChildren.length; i++) {
+        const key = getChildKey(renderedChildren[i]);
+        if (!presentKeys.includes(key)) {
+          if (exitComplete.get(key) !== true) {
+            exitComplete.set(key, false);
+          }
+        } else {
+          exitComplete.delete(key);
+          exitingComponents.current.delete(key);
+        }
+      }
+    }, [renderedChildren, presentKeys.length, presentKeys.join("-")]);
+    const exitingChildren = [];
+    if (presentChildren !== diffedChildren) {
+      let nextChildren = [...presentChildren];
+      for (let i = 0; i < renderedChildren.length; i++) {
+        const child = renderedChildren[i];
+        const key = getChildKey(child);
+        if (!presentKeys.includes(key)) {
+          nextChildren.splice(i, 0, child);
+          exitingChildren.push(child);
+        }
+      }
+      if (mode === "wait" && exitingChildren.length) {
+        nextChildren = exitingChildren;
+      }
+      setRenderedChildren(onlyElements(nextChildren));
+      setDiffedChildren(presentChildren);
+      return null;
+    }
+    if (mode === "wait" && renderedChildren.length > 1) {
+      console.warn(`You're attempting to animate multiple children within AnimatePresence, but its mode is set to "wait". This will lead to odd visual behaviour.`);
+    }
+    const { forceRender } = (0, import_react10.useContext)(LayoutGroupContext);
+    return (0, import_jsx_runtime3.jsx)(import_jsx_runtime3.Fragment, { children: renderedChildren.map((child) => {
+      const key = getChildKey(child);
+      const isPresent = propagate && !isParentPresent ? false : presentChildren === renderedChildren || presentKeys.includes(key);
+      const onExit = () => {
+        if (exitingComponents.current.has(key)) {
+          return;
+        }
+        if (exitComplete.has(key)) {
+          exitingComponents.current.add(key);
+          exitComplete.set(key, true);
+        } else {
+          return;
+        }
+        let isEveryExitComplete = true;
+        exitComplete.forEach((isExitComplete) => {
+          if (!isExitComplete)
+            isEveryExitComplete = false;
+        });
+        if (isEveryExitComplete) {
+          forceRender?.();
+          setRenderedChildren(pendingPresentChildren.current);
+          propagate && safeToRemove?.();
+          onExitComplete && onExitComplete();
+        }
+      };
+      return (0, import_jsx_runtime3.jsx)(PresenceChild, { isPresent, initial: !isInitialRender.current || initial ? void 0 : false, custom, presenceAffectsLayout, mode, root, onExitComplete: isPresent ? void 0 : onExit, anchorX, anchorY, children: child }, key);
+    }) });
+  };
+
+  // node_modules/framer-motion/dist/es/context/LazyContext.mjs
+  var import_react11 = __toESM(require_react(), 1);
+  var LazyContext = (0, import_react11.createContext)({ strict: false });
+
+  // node_modules/framer-motion/dist/es/motion/features/definitions.mjs
+  var featureProps = {
+    animation: [
+      "animate",
+      "variants",
+      "whileHover",
+      "whileTap",
+      "exit",
+      "whileInView",
+      "whileFocus",
+      "whileDrag"
+    ],
+    exit: ["exit"],
+    drag: ["drag", "dragControls"],
+    focus: ["whileFocus"],
+    hover: ["whileHover", "onHoverStart", "onHoverEnd"],
+    tap: ["whileTap", "onTap", "onTapStart", "onTapCancel"],
+    pan: ["onPan", "onPanStart", "onPanSessionStart", "onPanEnd"],
+    inView: ["whileInView", "onViewportEnter", "onViewportLeave"],
+    layout: ["layout", "layoutId"]
+  };
+  var isInitialized = false;
+  function initFeatureDefinitions() {
+    if (isInitialized)
+      return;
+    const initialFeatureDefinitions = {};
+    for (const key in featureProps) {
+      initialFeatureDefinitions[key] = {
+        isEnabled: (props) => featureProps[key].some((name) => !!props[name])
+      };
+    }
+    setFeatureDefinitions(initialFeatureDefinitions);
+    isInitialized = true;
+  }
+  function getInitializedFeatureDefinitions() {
+    initFeatureDefinitions();
+    return getFeatureDefinitions();
+  }
+
+  // node_modules/framer-motion/dist/es/motion/features/load-features.mjs
+  function loadFeatures(features) {
+    const featureDefinitions2 = getInitializedFeatureDefinitions();
+    for (const key in features) {
+      featureDefinitions2[key] = {
+        ...featureDefinitions2[key],
+        ...features[key]
+      };
+    }
+    setFeatureDefinitions(featureDefinitions2);
+  }
+
+  // node_modules/framer-motion/dist/es/motion/utils/valid-prop.mjs
+  var validMotionProps = /* @__PURE__ */ new Set([
+    "animate",
+    "exit",
+    "variants",
+    "initial",
+    "style",
+    "values",
+    "variants",
+    "transition",
+    "transformTemplate",
+    "custom",
+    "inherit",
+    "onBeforeLayoutMeasure",
+    "onAnimationStart",
+    "onAnimationComplete",
+    "onUpdate",
+    "onDragStart",
+    "onDrag",
+    "onDragEnd",
+    "onMeasureDragConstraints",
+    "onDirectionLock",
+    "onDragTransitionEnd",
+    "_dragX",
+    "_dragY",
+    "onHoverStart",
+    "onHoverEnd",
+    "onViewportEnter",
+    "onViewportLeave",
+    "globalTapTarget",
+    "propagate",
+    "ignoreStrict",
+    "viewport"
+  ]);
+  function isValidMotionProp(key) {
+    return key.startsWith("while") || key.startsWith("drag") && key !== "draggable" || key.startsWith("layout") || key.startsWith("onTap") || key.startsWith("onPan") || key.startsWith("onLayout") || validMotionProps.has(key);
+  }
+
+  // node_modules/framer-motion/dist/es/render/dom/utils/filter-props.mjs
+  var shouldForward = (key) => !isValidMotionProp(key);
+  function loadExternalIsValidProp(isValidProp) {
+    if (typeof isValidProp !== "function")
+      return;
+    shouldForward = (key) => key.startsWith("on") ? !isValidMotionProp(key) : isValidProp(key);
+  }
+  try {
+    const emotionPkg = "@emotion/is-prop-valid";
+    loadExternalIsValidProp(__require(emotionPkg).default);
+  } catch {
+  }
+  function filterProps(props, isDom, forwardMotionProps) {
+    const filteredProps = {};
+    for (const key in props) {
+      if (key === "values" && typeof props.values === "object")
+        continue;
+      if (isMotionValue(props[key]))
+        continue;
+      if (shouldForward(key) || forwardMotionProps === true && isValidMotionProp(key) || !isDom && !isValidMotionProp(key) || // If trying to use native HTML drag events, forward drag listeners
+      props["draggable"] && key.startsWith("onDrag")) {
+        filteredProps[key] = props[key];
+      }
+    }
+    return filteredProps;
+  }
+
+  // node_modules/framer-motion/dist/es/motion/index.mjs
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_react21 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/context/MotionContext/index.mjs
+  var import_react12 = __toESM(require_react(), 1);
+  var MotionContext = /* @__PURE__ */ (0, import_react12.createContext)({});
+
+  // node_modules/framer-motion/dist/es/context/MotionContext/create.mjs
+  var import_react13 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/context/MotionContext/utils.mjs
+  function getCurrentTreeVariants(props, context) {
+    if (isControllingVariants(props)) {
+      const { initial, animate } = props;
+      return {
+        initial: initial === false || isVariantLabel(initial) ? initial : void 0,
+        animate: isVariantLabel(animate) ? animate : void 0
+      };
+    }
+    return props.inherit !== false ? context : {};
+  }
+
+  // node_modules/framer-motion/dist/es/context/MotionContext/create.mjs
+  function useCreateMotionContext(props) {
+    const { initial, animate } = getCurrentTreeVariants(props, (0, import_react13.useContext)(MotionContext));
+    return (0, import_react13.useMemo)(() => ({ initial, animate }), [variantLabelsAsDependency(initial), variantLabelsAsDependency(animate)]);
+  }
+  function variantLabelsAsDependency(prop) {
+    return Array.isArray(prop) ? prop.join(" ") : prop;
+  }
+
+  // node_modules/framer-motion/dist/es/render/dom/use-render.mjs
+  var import_react16 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/render/html/use-props.mjs
+  var import_react14 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/render/html/utils/create-render-state.mjs
+  var createHtmlRenderState = () => ({
+    style: {},
+    transform: {},
+    transformOrigin: {},
+    vars: {}
+  });
+
+  // node_modules/framer-motion/dist/es/render/html/use-props.mjs
+  function copyRawValuesOnly(target, source, props) {
+    for (const key in source) {
+      if (!isMotionValue(source[key]) && !isForcedMotionValue(key, props)) {
+        target[key] = source[key];
+      }
+    }
+  }
+  function useInitialMotionValues({ transformTemplate }, visualState) {
+    return (0, import_react14.useMemo)(() => {
+      const state = createHtmlRenderState();
+      buildHTMLStyles(state, visualState, transformTemplate);
+      return Object.assign({}, state.vars, state.style);
+    }, [visualState]);
+  }
+  function useStyle(props, visualState) {
+    const styleProp = props.style || {};
+    const style = {};
+    copyRawValuesOnly(style, styleProp, props);
+    Object.assign(style, useInitialMotionValues(props, visualState));
+    return style;
+  }
+  function useHTMLProps(props, visualState) {
+    const htmlProps = {};
+    const style = useStyle(props, visualState);
+    if (props.drag && props.dragListener !== false) {
+      htmlProps.draggable = false;
+      style.userSelect = style.WebkitUserSelect = style.WebkitTouchCallout = "none";
+      style.touchAction = props.drag === true ? "none" : `pan-${props.drag === "x" ? "y" : "x"}`;
+    }
+    if (props.tabIndex === void 0 && (props.onTap || props.onTapStart || props.whileTap)) {
+      htmlProps.tabIndex = 0;
+    }
+    htmlProps.style = style;
+    return htmlProps;
+  }
+
+  // node_modules/framer-motion/dist/es/render/svg/use-props.mjs
+  var import_react15 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/render/svg/utils/create-render-state.mjs
+  var createSvgRenderState = () => ({
+    ...createHtmlRenderState(),
+    attrs: {}
+  });
+
+  // node_modules/framer-motion/dist/es/render/svg/use-props.mjs
+  function useSVGProps(props, visualState, _isStatic, Component3) {
+    const visualProps = (0, import_react15.useMemo)(() => {
+      const state = createSvgRenderState();
+      buildSVGAttrs(state, visualState, isSVGTag(Component3), props.transformTemplate, props.style);
+      return {
+        ...state.attrs,
+        style: { ...state.style }
+      };
+    }, [visualState]);
+    if (props.style) {
+      const rawStyles = {};
+      copyRawValuesOnly(rawStyles, props.style, props);
+      visualProps.style = { ...rawStyles, ...visualProps.style };
+    }
+    return visualProps;
+  }
+
+  // node_modules/framer-motion/dist/es/render/svg/lowercase-elements.mjs
+  var lowercaseSVGElements = [
+    "animate",
+    "circle",
+    "defs",
+    "desc",
+    "ellipse",
+    "g",
+    "image",
+    "line",
+    "filter",
+    "marker",
+    "mask",
+    "metadata",
+    "path",
+    "pattern",
+    "polygon",
+    "polyline",
+    "rect",
+    "stop",
+    "switch",
+    "symbol",
+    "svg",
+    "text",
+    "tspan",
+    "use",
+    "view"
+  ];
+
+  // node_modules/framer-motion/dist/es/render/dom/utils/is-svg-component.mjs
+  function isSVGComponent(Component3) {
+    if (
+      /**
+       * If it's not a string, it's a custom React component. Currently we only support
+       * HTML custom React components.
+       */
+      typeof Component3 !== "string" || /**
+       * If it contains a dash, the element is a custom HTML webcomponent.
+       */
+      Component3.includes("-")
+    ) {
+      return false;
+    } else if (
+      /**
+       * If it's in our list of lowercase SVG tags, it's an SVG component
+       */
+      lowercaseSVGElements.indexOf(Component3) > -1 || /**
+       * If it contains a capital letter, it's an SVG component
+       */
+      /[A-Z]/u.test(Component3)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  // node_modules/framer-motion/dist/es/render/dom/use-render.mjs
+  function useRender(Component3, props, ref, { latestValues }, isStatic, forwardMotionProps = false, isSVG) {
+    const useVisualProps = isSVG ?? isSVGComponent(Component3) ? useSVGProps : useHTMLProps;
+    const visualProps = useVisualProps(props, latestValues, isStatic, Component3);
+    const filteredProps = filterProps(props, typeof Component3 === "string", forwardMotionProps);
+    const elementProps = Component3 !== import_react16.Fragment ? { ...filteredProps, ...visualProps, ref } : {};
+    const { children } = props;
+    const renderedChildren = (0, import_react16.useMemo)(() => isMotionValue(children) ? children.get() : children, [children]);
+    return (0, import_react16.createElement)(Component3, {
+      ...elementProps,
+      children: renderedChildren
+    });
+  }
+
+  // node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs
+  var import_react17 = __toESM(require_react(), 1);
+  function makeState({ scrapeMotionValuesFromProps: scrapeMotionValuesFromProps3, createRenderState }, props, context, presenceContext) {
+    const state = {
+      latestValues: makeLatestValues(props, context, presenceContext, scrapeMotionValuesFromProps3),
+      renderState: createRenderState()
+    };
+    return state;
+  }
+  function makeLatestValues(props, context, presenceContext, scrapeMotionValues) {
+    const values = {};
+    const motionValues = scrapeMotionValues(props, {});
+    for (const key in motionValues) {
+      values[key] = resolveMotionValue(motionValues[key]);
+    }
+    let { initial, animate } = props;
+    const isControllingVariants$1 = isControllingVariants(props);
+    const isVariantNode$1 = isVariantNode(props);
+    if (context && isVariantNode$1 && !isControllingVariants$1 && props.inherit !== false) {
+      if (initial === void 0)
+        initial = context.initial;
+      if (animate === void 0)
+        animate = context.animate;
+    }
+    let isInitialAnimationBlocked = presenceContext ? presenceContext.initial === false : false;
+    isInitialAnimationBlocked = isInitialAnimationBlocked || initial === false;
+    const variantToSet = isInitialAnimationBlocked ? animate : initial;
+    if (variantToSet && typeof variantToSet !== "boolean" && !isAnimationControls(variantToSet)) {
+      const list = Array.isArray(variantToSet) ? variantToSet : [variantToSet];
+      for (let i = 0; i < list.length; i++) {
+        const resolved = resolveVariantFromProps(props, list[i]);
+        if (resolved) {
+          const { transitionEnd, transition, ...target } = resolved;
+          for (const key in target) {
+            let valueTarget = target[key];
+            if (Array.isArray(valueTarget)) {
+              const index = isInitialAnimationBlocked ? valueTarget.length - 1 : 0;
+              valueTarget = valueTarget[index];
+            }
+            if (valueTarget !== null) {
+              values[key] = valueTarget;
+            }
+          }
+          for (const key in transitionEnd) {
+            values[key] = transitionEnd[key];
+          }
+        }
+      }
+    }
+    return values;
+  }
+  var makeUseVisualState = (config) => (props, isStatic) => {
+    const context = (0, import_react17.useContext)(MotionContext);
+    const presenceContext = (0, import_react17.useContext)(PresenceContext);
+    const make = () => makeState(config, props, context, presenceContext);
+    return isStatic ? make() : useConstant(make);
+  };
+
+  // node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs
+  var useHTMLVisualState = /* @__PURE__ */ makeUseVisualState({
+    scrapeMotionValuesFromProps,
+    createRenderState: createHtmlRenderState
+  });
+
+  // node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs
+  var useSVGVisualState = /* @__PURE__ */ makeUseVisualState({
+    scrapeMotionValuesFromProps: scrapeMotionValuesFromProps2,
+    createRenderState: createSvgRenderState
+  });
+
+  // node_modules/framer-motion/dist/es/motion/utils/symbol.mjs
+  var motionComponentSymbol = /* @__PURE__ */ Symbol.for("motionComponentSymbol");
+
+  // node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs
+  var import_react18 = __toESM(require_react(), 1);
+  function useMotionRef(visualState, visualElement, externalRef) {
+    const externalRefContainer = (0, import_react18.useRef)(externalRef);
+    (0, import_react18.useInsertionEffect)(() => {
+      externalRefContainer.current = externalRef;
+    });
+    const refCleanup = (0, import_react18.useRef)(null);
+    return (0, import_react18.useCallback)((instance) => {
+      if (instance) {
+        visualState.onMount?.(instance);
+      }
+      if (visualElement) {
+        instance ? visualElement.mount(instance) : visualElement.unmount();
+      }
+      const ref = externalRefContainer.current;
+      if (typeof ref === "function") {
+        if (instance) {
+          const cleanup = ref(instance);
+          if (typeof cleanup === "function") {
+            refCleanup.current = cleanup;
+          }
+        } else if (refCleanup.current) {
+          refCleanup.current();
+          refCleanup.current = null;
+        } else {
+          ref(instance);
+        }
+      } else if (ref) {
+        ref.current = instance;
+      }
+    }, [visualElement]);
+  }
+
+  // node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs
+  var import_react20 = __toESM(require_react(), 1);
+
+  // node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs
+  var import_react19 = __toESM(require_react(), 1);
+  var SwitchLayoutGroupContext = (0, import_react19.createContext)({});
+
+  // node_modules/framer-motion/dist/es/utils/is-ref-object.mjs
+  function isRefObject(ref) {
+    return ref && typeof ref === "object" && Object.prototype.hasOwnProperty.call(ref, "current");
+  }
+
+  // node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs
+  function useVisualElement(Component3, visualState, props, createVisualElement, ProjectionNodeConstructor, isSVG) {
+    const { visualElement: parent } = (0, import_react20.useContext)(MotionContext);
+    const lazyContext = (0, import_react20.useContext)(LazyContext);
+    const presenceContext = (0, import_react20.useContext)(PresenceContext);
+    const motionConfig = (0, import_react20.useContext)(MotionConfigContext);
+    const reducedMotionConfig = motionConfig.reducedMotion;
+    const skipAnimations = motionConfig.skipAnimations;
+    const visualElementRef = (0, import_react20.useRef)(null);
+    const hasMountedOnce = (0, import_react20.useRef)(false);
+    createVisualElement = createVisualElement || lazyContext.renderer;
+    if (!visualElementRef.current && createVisualElement) {
+      visualElementRef.current = createVisualElement(Component3, {
+        visualState,
+        parent,
+        props,
+        presenceContext,
+        blockInitialAnimation: presenceContext ? presenceContext.initial === false : false,
+        reducedMotionConfig,
+        skipAnimations,
+        isSVG
+      });
+      if (hasMountedOnce.current && visualElementRef.current) {
+        visualElementRef.current.manuallyAnimateOnMount = true;
+      }
+    }
+    const visualElement = visualElementRef.current;
+    const initialLayoutGroupConfig = (0, import_react20.useContext)(SwitchLayoutGroupContext);
+    if (visualElement && !visualElement.projection && ProjectionNodeConstructor && (visualElement.type === "html" || visualElement.type === "svg")) {
+      createProjectionNode2(visualElementRef.current, props, ProjectionNodeConstructor, initialLayoutGroupConfig);
+    }
+    const isMounted = (0, import_react20.useRef)(false);
+    (0, import_react20.useInsertionEffect)(() => {
+      if (visualElement && isMounted.current) {
+        visualElement.update(props, presenceContext);
+      }
+    });
+    const optimisedAppearId = props[optimizedAppearDataAttribute];
+    const wantsHandoff = (0, import_react20.useRef)(Boolean(optimisedAppearId) && typeof window !== "undefined" && !window.MotionHandoffIsComplete?.(optimisedAppearId) && window.MotionHasOptimisedAnimation?.(optimisedAppearId));
+    useIsomorphicLayoutEffect(() => {
+      hasMountedOnce.current = true;
+      if (!visualElement)
+        return;
+      isMounted.current = true;
+      window.MotionIsMounted = true;
+      visualElement.updateFeatures();
+      visualElement.scheduleRenderMicrotask();
+      if (wantsHandoff.current && visualElement.animationState) {
+        visualElement.animationState.animateChanges();
+      }
+    });
+    (0, import_react20.useEffect)(() => {
+      if (!visualElement)
+        return;
+      if (!wantsHandoff.current && visualElement.animationState) {
+        visualElement.animationState.animateChanges();
+      }
+      if (wantsHandoff.current) {
+        queueMicrotask(() => {
+          window.MotionHandoffMarkAsComplete?.(optimisedAppearId);
+        });
+        wantsHandoff.current = false;
+      }
+      visualElement.enteringChildren = void 0;
+    });
+    return visualElement;
+  }
+  function createProjectionNode2(visualElement, props, ProjectionNodeConstructor, initialPromotionConfig) {
+    const { layoutId, layout: layout2, drag: drag2, dragConstraints, layoutScroll, layoutRoot, layoutAnchor, layoutCrossfade } = props;
+    visualElement.projection = new ProjectionNodeConstructor(visualElement.latestValues, props["data-framer-portal-id"] ? void 0 : getClosestProjectingNode(visualElement.parent));
+    visualElement.projection.setOptions({
+      layoutId,
+      layout: layout2,
+      alwaysMeasureLayout: Boolean(drag2) || dragConstraints && isRefObject(dragConstraints),
+      visualElement,
+      /**
+       * TODO: Update options in an effect. This could be tricky as it'll be too late
+       * to update by the time layout animations run.
+       * We also need to fix this safeToRemove by linking it up to the one returned by usePresence,
+       * ensuring it gets called if there's no potential layout animations.
+       *
+       */
+      animationType: typeof layout2 === "string" ? layout2 : "both",
+      initialPromotionConfig,
+      crossfade: layoutCrossfade,
+      layoutScroll,
+      layoutRoot,
+      layoutAnchor
+    });
+  }
+  function getClosestProjectingNode(visualElement) {
+    if (!visualElement)
+      return void 0;
+    return visualElement.options.allowProjection !== false ? visualElement.projection : getClosestProjectingNode(visualElement.parent);
+  }
+
+  // node_modules/framer-motion/dist/es/motion/index.mjs
+  function createMotionComponent(Component3, { forwardMotionProps = false, type } = {}, preloadedFeatures, createVisualElement) {
+    preloadedFeatures && loadFeatures(preloadedFeatures);
+    const isSVG = type ? type === "svg" : isSVGComponent(Component3);
+    const useVisualState = isSVG ? useSVGVisualState : useHTMLVisualState;
+    function MotionDOMComponent(props, externalRef) {
+      let MeasureLayout2;
+      const configAndProps = {
+        ...(0, import_react21.useContext)(MotionConfigContext),
+        ...props,
+        layoutId: useLayoutId(props)
+      };
+      const { isStatic } = configAndProps;
+      const context = useCreateMotionContext(props);
+      const visualState = useVisualState(props, isStatic);
+      if (!isStatic && typeof window !== "undefined") {
+        useStrictMode(configAndProps, preloadedFeatures);
+        const layoutProjection = getProjectionFunctionality(configAndProps);
+        MeasureLayout2 = layoutProjection.MeasureLayout;
+        context.visualElement = useVisualElement(Component3, visualState, configAndProps, createVisualElement, layoutProjection.ProjectionNode, isSVG);
+      }
+      return (0, import_jsx_runtime4.jsxs)(MotionContext.Provider, { value: context, children: [MeasureLayout2 && context.visualElement ? (0, import_jsx_runtime4.jsx)(MeasureLayout2, { visualElement: context.visualElement, ...configAndProps }) : null, useRender(Component3, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, forwardMotionProps, isSVG)] });
+    }
+    MotionDOMComponent.displayName = `motion.${typeof Component3 === "string" ? Component3 : `create(${Component3.displayName ?? Component3.name ?? ""})`}`;
+    const ForwardRefMotionComponent = (0, import_react21.forwardRef)(MotionDOMComponent);
+    ForwardRefMotionComponent[motionComponentSymbol] = Component3;
+    return ForwardRefMotionComponent;
+  }
+  function useLayoutId({ layoutId }) {
+    const layoutGroupId = (0, import_react21.useContext)(LayoutGroupContext).id;
+    return layoutGroupId && layoutId !== void 0 ? layoutGroupId + "-" + layoutId : layoutId;
+  }
+  function useStrictMode(configAndProps, preloadedFeatures) {
+    const isStrict = (0, import_react21.useContext)(LazyContext).strict;
+    if (preloadedFeatures && isStrict) {
+      const strictMessage = "You have rendered a `motion` component within a `LazyMotion` component. This will break tree shaking. Import and render a `m` component instead.";
+      configAndProps.ignoreStrict ? warning(false, strictMessage, "lazy-strict-mode") : invariant(false, strictMessage, "lazy-strict-mode");
+    }
+  }
+  function getProjectionFunctionality(props) {
+    const featureDefinitions2 = getInitializedFeatureDefinitions();
+    const { drag: drag2, layout: layout2 } = featureDefinitions2;
+    if (!drag2 && !layout2)
+      return {};
+    const combined = { ...drag2, ...layout2 };
+    return {
+      MeasureLayout: drag2?.isEnabled(props) || layout2?.isEnabled(props) ? combined.MeasureLayout : void 0,
+      ProjectionNode: combined.ProjectionNode
+    };
+  }
+
+  // node_modules/framer-motion/dist/es/render/components/create-proxy.mjs
+  function createMotionProxy(preloadedFeatures, createVisualElement) {
+    if (typeof Proxy === "undefined") {
+      return createMotionComponent;
+    }
+    const componentCache = /* @__PURE__ */ new Map();
+    const factory = (Component3, options) => {
+      return createMotionComponent(Component3, options, preloadedFeatures, createVisualElement);
+    };
+    const deprecatedFactoryFunction = (Component3, options) => {
+      if (true) {
+        warnOnce(false, "motion() is deprecated. Use motion.create() instead.");
+      }
+      return factory(Component3, options);
+    };
+    return new Proxy(deprecatedFactoryFunction, {
+      /**
+       * Called when `motion` is referenced with a prop: `motion.div`, `motion.input` etc.
+       * The prop name is passed through as `key` and we can use that to generate a `motion`
+       * DOM component with that name.
+       */
+      get: (_target, key) => {
+        if (key === "create")
+          return factory;
+        if (!componentCache.has(key)) {
+          componentCache.set(key, createMotionComponent(key, void 0, preloadedFeatures, createVisualElement));
+        }
+        return componentCache.get(key);
+      }
+    });
+  }
+
+  // node_modules/framer-motion/dist/es/render/dom/create-visual-element.mjs
+  var import_react22 = __toESM(require_react(), 1);
+  var createDomVisualElement = (Component3, options) => {
+    const isSVG = options.isSVG ?? isSVGComponent(Component3);
+    return isSVG ? new SVGVisualElement(options) : new HTMLVisualElement(options, {
+      allowProjection: Component3 !== import_react22.Fragment
+    });
+  };
+
+  // node_modules/framer-motion/dist/es/motion/features/animation/index.mjs
+  var AnimationFeature = class extends Feature {
+    /**
+     * We dynamically generate the AnimationState manager as it contains a reference
+     * to the underlying animation library. We only want to load that if we load this,
+     * so people can optionally code split it out using the `m` component.
+     */
+    constructor(node) {
+      super(node);
+      node.animationState || (node.animationState = createAnimationState(node));
+    }
+    updateAnimationControlsSubscription() {
+      const { animate } = this.node.getProps();
+      if (isAnimationControls(animate)) {
+        this.unmountControls = animate.subscribe(this.node);
+      }
+    }
+    /**
+     * Subscribe any provided AnimationControls to the component's VisualElement
+     */
+    mount() {
+      this.updateAnimationControlsSubscription();
+    }
+    update() {
+      const { animate } = this.node.getProps();
+      const { animate: prevAnimate } = this.node.prevProps || {};
+      if (animate !== prevAnimate) {
+        this.updateAnimationControlsSubscription();
+      }
+    }
+    unmount() {
+      this.node.animationState.reset();
+      this.unmountControls?.();
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/motion/features/animation/exit.mjs
+  var id2 = 0;
+  var ExitAnimationFeature = class extends Feature {
+    constructor() {
+      super(...arguments);
+      this.id = id2++;
+      this.isExitComplete = false;
+    }
+    update() {
+      if (!this.node.presenceContext)
+        return;
+      const { isPresent, onExitComplete } = this.node.presenceContext;
+      const { isPresent: prevIsPresent } = this.node.prevPresenceContext || {};
+      if (!this.node.animationState || isPresent === prevIsPresent) {
+        return;
+      }
+      if (isPresent && prevIsPresent === false) {
+        if (this.isExitComplete) {
+          const { initial, custom } = this.node.getProps();
+          if (typeof initial === "string" || typeof initial === "object" && initial !== null && !Array.isArray(initial)) {
+            const resolved = resolveVariant(this.node, initial, custom);
+            if (resolved) {
+              const { transition, transitionEnd, ...target } = resolved;
+              for (const key in target) {
+                this.node.getValue(key)?.jump(target[key]);
+              }
+            }
+          }
+          this.node.animationState.reset();
+          this.node.animationState.animateChanges();
+        } else {
+          this.node.animationState.setActive("exit", false);
+        }
+        this.isExitComplete = false;
+        return;
+      }
+      const exitAnimation = this.node.animationState.setActive("exit", !isPresent);
+      if (onExitComplete && !isPresent) {
+        exitAnimation.then(() => {
+          this.isExitComplete = true;
+          onExitComplete(this.id);
+        });
+      }
+    }
+    mount() {
+      const { register, onExitComplete } = this.node.presenceContext || {};
+      if (onExitComplete) {
+        onExitComplete(this.id);
+      }
+      if (register) {
+        this.unmount = register(this.id);
+      }
+    }
+    unmount() {
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/motion/features/animations.mjs
+  var animations = {
+    animation: {
+      Feature: AnimationFeature
+    },
+    exit: {
+      Feature: ExitAnimationFeature
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/events/event-info.mjs
+  function extractEventInfo(event) {
+    return {
+      point: {
+        x: event.pageX,
+        y: event.pageY
+      }
+    };
+  }
+  var addPointerInfo = (handler) => (event) => isPrimaryPointer(event) && handler(event, extractEventInfo(event));
+
+  // node_modules/framer-motion/dist/es/events/add-pointer-event.mjs
+  function addPointerEvent(target, eventName, handler, options) {
+    return addDomEvent(target, eventName, addPointerInfo(handler), options);
+  }
+
+  // node_modules/framer-motion/dist/es/utils/get-context-window.mjs
+  var getContextWindow = ({ current }) => {
+    return current ? current.ownerDocument.defaultView : null;
+  };
+
+  // node_modules/framer-motion/dist/es/utils/distance.mjs
+  var distance = (a, b) => Math.abs(a - b);
+  function distance2D(a, b) {
+    const xDelta = distance(a.x, b.x);
+    const yDelta = distance(a.y, b.y);
+    return Math.sqrt(xDelta ** 2 + yDelta ** 2);
+  }
+
+  // node_modules/framer-motion/dist/es/gestures/pan/PanSession.mjs
+  var overflowStyles = /* @__PURE__ */ new Set(["auto", "scroll"]);
+  var PanSession = class {
+    constructor(event, handlers, { transformPagePoint, contextWindow = window, dragSnapToOrigin = false, distanceThreshold = 3, element } = {}) {
+      this.startEvent = null;
+      this.lastMoveEvent = null;
+      this.lastMoveEventInfo = null;
+      this.lastRawMoveEventInfo = null;
+      this.handlers = {};
+      this.contextWindow = window;
+      this.scrollPositions = /* @__PURE__ */ new Map();
+      this.removeScrollListeners = null;
+      this.onElementScroll = (event2) => {
+        this.handleScroll(event2.target);
+      };
+      this.onWindowScroll = () => {
+        this.handleScroll(window);
+      };
+      this.updatePoint = () => {
+        if (!(this.lastMoveEvent && this.lastMoveEventInfo))
+          return;
+        if (this.lastRawMoveEventInfo) {
+          this.lastMoveEventInfo = transformPoint(this.lastRawMoveEventInfo, this.transformPagePoint);
+        }
+        const info2 = getPanInfo(this.lastMoveEventInfo, this.history);
+        const isPanStarted = this.startEvent !== null;
+        const isDistancePastThreshold = distance2D(info2.offset, { x: 0, y: 0 }) >= this.distanceThreshold;
+        if (!isPanStarted && !isDistancePastThreshold)
+          return;
+        const { point: point2 } = info2;
+        const { timestamp: timestamp2 } = frameData;
+        this.history.push({ ...point2, timestamp: timestamp2 });
+        const { onStart, onMove } = this.handlers;
+        if (!isPanStarted) {
+          onStart && onStart(this.lastMoveEvent, info2);
+          this.startEvent = this.lastMoveEvent;
+        }
+        onMove && onMove(this.lastMoveEvent, info2);
+      };
+      this.handlePointerMove = (event2, info2) => {
+        this.lastMoveEvent = event2;
+        this.lastRawMoveEventInfo = info2;
+        this.lastMoveEventInfo = transformPoint(info2, this.transformPagePoint);
+        frame.update(this.updatePoint, true);
+      };
+      this.handlePointerUp = (event2, info2) => {
+        this.end();
+        const { onEnd, onSessionEnd, resumeAnimation } = this.handlers;
+        if (this.dragSnapToOrigin || !this.startEvent) {
+          resumeAnimation && resumeAnimation();
+        }
+        if (!(this.lastMoveEvent && this.lastMoveEventInfo))
+          return;
+        const panInfo = getPanInfo(event2.type === "pointercancel" ? this.lastMoveEventInfo : transformPoint(info2, this.transformPagePoint), this.history);
+        if (this.startEvent && onEnd) {
+          onEnd(event2, panInfo);
+        }
+        onSessionEnd && onSessionEnd(event2, panInfo);
+      };
+      if (!isPrimaryPointer(event))
+        return;
+      this.dragSnapToOrigin = dragSnapToOrigin;
+      this.handlers = handlers;
+      this.transformPagePoint = transformPagePoint;
+      this.distanceThreshold = distanceThreshold;
+      this.contextWindow = contextWindow || window;
+      const info = extractEventInfo(event);
+      const initialInfo = transformPoint(info, this.transformPagePoint);
+      const { point } = initialInfo;
+      const { timestamp } = frameData;
+      this.history = [{ ...point, timestamp }];
+      const { onSessionStart } = handlers;
+      onSessionStart && onSessionStart(event, getPanInfo(initialInfo, this.history));
+      const eventOptions = { passive: true, capture: true };
+      this.removeListeners = pipe(addPointerEvent(this.contextWindow, "pointermove", this.handlePointerMove, eventOptions), addPointerEvent(this.contextWindow, "pointerup", this.handlePointerUp, eventOptions), addPointerEvent(this.contextWindow, "pointercancel", this.handlePointerUp, eventOptions));
+      if (element) {
+        this.startScrollTracking(element);
+      }
+    }
+    /**
+     * Start tracking scroll on ancestors and window.
+     */
+    startScrollTracking(element) {
+      let current = element.parentElement;
+      while (current) {
+        const style = getComputedStyle(current);
+        if (overflowStyles.has(style.overflowX) || overflowStyles.has(style.overflowY)) {
+          this.scrollPositions.set(current, {
+            x: current.scrollLeft,
+            y: current.scrollTop
+          });
+        }
+        current = current.parentElement;
+      }
+      this.scrollPositions.set(window, {
+        x: window.scrollX,
+        y: window.scrollY
+      });
+      window.addEventListener("scroll", this.onElementScroll, {
+        capture: true
+      });
+      window.addEventListener("scroll", this.onWindowScroll);
+      this.removeScrollListeners = () => {
+        window.removeEventListener("scroll", this.onElementScroll, {
+          capture: true
+        });
+        window.removeEventListener("scroll", this.onWindowScroll);
+      };
+    }
+    /**
+     * Handle scroll compensation during drag.
+     *
+     * For element scroll: adjusts history origin since pageX/pageY doesn't change.
+     * For window scroll: adjusts lastMoveEventInfo since pageX/pageY would change.
+     */
+    handleScroll(target) {
+      const initial = this.scrollPositions.get(target);
+      if (!initial)
+        return;
+      const isWindow = target === window;
+      const current = isWindow ? { x: window.scrollX, y: window.scrollY } : {
+        x: target.scrollLeft,
+        y: target.scrollTop
+      };
+      const delta = { x: current.x - initial.x, y: current.y - initial.y };
+      if (delta.x === 0 && delta.y === 0)
+        return;
+      if (isWindow) {
+        if (this.lastMoveEventInfo) {
+          this.lastMoveEventInfo.point.x += delta.x;
+          this.lastMoveEventInfo.point.y += delta.y;
+        }
+      } else {
+        if (this.history.length > 0) {
+          this.history[0].x -= delta.x;
+          this.history[0].y -= delta.y;
+        }
+      }
+      this.scrollPositions.set(target, current);
+      frame.update(this.updatePoint, true);
+    }
+    updateHandlers(handlers) {
+      this.handlers = handlers;
+    }
+    end() {
+      this.removeListeners && this.removeListeners();
+      this.removeScrollListeners && this.removeScrollListeners();
+      this.scrollPositions.clear();
+      cancelFrame(this.updatePoint);
+    }
+  };
+  function transformPoint(info, transformPagePoint) {
+    return transformPagePoint ? { point: transformPagePoint(info.point) } : info;
+  }
+  function subtractPoint(a, b) {
+    return { x: a.x - b.x, y: a.y - b.y };
+  }
+  function getPanInfo({ point }, history) {
+    return {
+      point,
+      delta: subtractPoint(point, lastDevicePoint(history)),
+      offset: subtractPoint(point, startDevicePoint(history)),
+      velocity: getVelocity(history, 0.1)
+    };
+  }
+  function startDevicePoint(history) {
+    return history[0];
+  }
+  function lastDevicePoint(history) {
+    return history[history.length - 1];
+  }
+  function getVelocity(history, timeDelta) {
+    if (history.length < 2) {
+      return { x: 0, y: 0 };
+    }
+    let i = history.length - 1;
+    let timestampedPoint = null;
+    const lastPoint = lastDevicePoint(history);
+    while (i >= 0) {
+      timestampedPoint = history[i];
+      if (lastPoint.timestamp - timestampedPoint.timestamp > secondsToMilliseconds(timeDelta)) {
+        break;
+      }
+      i--;
+    }
+    if (!timestampedPoint) {
+      return { x: 0, y: 0 };
+    }
+    if (timestampedPoint === history[0] && history.length > 2 && lastPoint.timestamp - timestampedPoint.timestamp > secondsToMilliseconds(timeDelta) * 2) {
+      timestampedPoint = history[1];
+    }
+    const time2 = millisecondsToSeconds(lastPoint.timestamp - timestampedPoint.timestamp);
+    if (time2 === 0) {
+      return { x: 0, y: 0 };
+    }
+    const currentVelocity = {
+      x: (lastPoint.x - timestampedPoint.x) / time2,
+      y: (lastPoint.y - timestampedPoint.y) / time2
+    };
+    if (currentVelocity.x === Infinity) {
+      currentVelocity.x = 0;
+    }
+    if (currentVelocity.y === Infinity) {
+      currentVelocity.y = 0;
+    }
+    return currentVelocity;
+  }
+
+  // node_modules/framer-motion/dist/es/gestures/drag/utils/constraints.mjs
+  function applyConstraints(point, { min, max }, elastic) {
+    if (min !== void 0 && point < min) {
+      point = elastic ? mixNumber(min, point, elastic.min) : Math.max(point, min);
+    } else if (max !== void 0 && point > max) {
+      point = elastic ? mixNumber(max, point, elastic.max) : Math.min(point, max);
+    }
+    return point;
+  }
+  function calcRelativeAxisConstraints(axis, min, max) {
+    return {
+      min: min !== void 0 ? axis.min + min : void 0,
+      max: max !== void 0 ? axis.max + max - (axis.max - axis.min) : void 0
+    };
+  }
+  function calcRelativeConstraints(layoutBox, { top, left, bottom, right }) {
+    return {
+      x: calcRelativeAxisConstraints(layoutBox.x, left, right),
+      y: calcRelativeAxisConstraints(layoutBox.y, top, bottom)
+    };
+  }
+  function calcViewportAxisConstraints(layoutAxis, constraintsAxis) {
+    let min = constraintsAxis.min - layoutAxis.min;
+    let max = constraintsAxis.max - layoutAxis.max;
+    if (constraintsAxis.max - constraintsAxis.min < layoutAxis.max - layoutAxis.min) {
+      [min, max] = [max, min];
+    }
+    return { min, max };
+  }
+  function calcViewportConstraints(layoutBox, constraintsBox) {
+    return {
+      x: calcViewportAxisConstraints(layoutBox.x, constraintsBox.x),
+      y: calcViewportAxisConstraints(layoutBox.y, constraintsBox.y)
+    };
+  }
+  function calcOrigin(source, target) {
+    let origin = 0.5;
+    const sourceLength = calcLength(source);
+    const targetLength = calcLength(target);
+    if (targetLength > sourceLength) {
+      origin = progress(target.min, target.max - sourceLength, source.min);
+    } else if (sourceLength > targetLength) {
+      origin = progress(source.min, source.max - targetLength, target.min);
+    }
+    return clamp(0, 1, origin);
+  }
+  function rebaseAxisConstraints(layout2, constraints) {
+    const relativeConstraints = {};
+    if (constraints.min !== void 0) {
+      relativeConstraints.min = constraints.min - layout2.min;
+    }
+    if (constraints.max !== void 0) {
+      relativeConstraints.max = constraints.max - layout2.min;
+    }
+    return relativeConstraints;
+  }
+  var defaultElastic = 0.35;
+  function resolveDragElastic(dragElastic = defaultElastic) {
+    if (dragElastic === false) {
+      dragElastic = 0;
+    } else if (dragElastic === true) {
+      dragElastic = defaultElastic;
+    }
+    return {
+      x: resolveAxisElastic(dragElastic, "left", "right"),
+      y: resolveAxisElastic(dragElastic, "top", "bottom")
+    };
+  }
+  function resolveAxisElastic(dragElastic, minLabel, maxLabel) {
+    return {
+      min: resolvePointElastic(dragElastic, minLabel),
+      max: resolvePointElastic(dragElastic, maxLabel)
+    };
+  }
+  function resolvePointElastic(dragElastic, label) {
+    return typeof dragElastic === "number" ? dragElastic : dragElastic[label] || 0;
+  }
+
+  // node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+  var elementDragControls = /* @__PURE__ */ new WeakMap();
+  var VisualElementDragControls = class {
+    constructor(visualElement) {
+      this.openDragLock = null;
+      this.isDragging = false;
+      this.currentDirection = null;
+      this.originPoint = { x: 0, y: 0 };
+      this.constraints = false;
+      this.hasMutatedConstraints = false;
+      this.elastic = createBox();
+      this.latestPointerEvent = null;
+      this.latestPanInfo = null;
+      this.visualElement = visualElement;
+    }
+    start(originEvent, { snapToCursor = false, distanceThreshold } = {}) {
+      const { presenceContext } = this.visualElement;
+      if (presenceContext && presenceContext.isPresent === false)
+        return;
+      const onSessionStart = (event) => {
+        if (snapToCursor) {
+          this.snapToCursor(extractEventInfo(event).point);
+        }
+        this.stopAnimation();
+      };
+      const onStart = (event, info) => {
+        const { drag: drag2, dragPropagation, onDragStart } = this.getProps();
+        if (drag2 && !dragPropagation) {
+          if (this.openDragLock)
+            this.openDragLock();
+          this.openDragLock = setDragLock(drag2);
+          if (!this.openDragLock)
+            return;
+        }
+        this.latestPointerEvent = event;
+        this.latestPanInfo = info;
+        this.isDragging = true;
+        this.currentDirection = null;
+        this.resolveConstraints();
+        if (this.visualElement.projection) {
+          this.visualElement.projection.isAnimationBlocked = true;
+          this.visualElement.projection.target = void 0;
+        }
+        eachAxis((axis) => {
+          let current = this.getAxisMotionValue(axis).get() || 0;
+          if (percent.test(current)) {
+            const { projection } = this.visualElement;
+            if (projection && projection.layout) {
+              const measuredAxis = projection.layout.layoutBox[axis];
+              if (measuredAxis) {
+                const length = calcLength(measuredAxis);
+                current = length * (parseFloat(current) / 100);
+              }
+            }
+          }
+          this.originPoint[axis] = current;
+        });
+        if (onDragStart) {
+          frame.update(() => onDragStart(event, info), false, true);
+        }
+        addValueToWillChange(this.visualElement, "transform");
+        const { animationState } = this.visualElement;
+        animationState && animationState.setActive("whileDrag", true);
+      };
+      const onMove = (event, info) => {
+        this.latestPointerEvent = event;
+        this.latestPanInfo = info;
+        const { dragPropagation, dragDirectionLock, onDirectionLock, onDrag } = this.getProps();
+        if (!dragPropagation && !this.openDragLock)
+          return;
+        const { offset } = info;
+        if (dragDirectionLock && this.currentDirection === null) {
+          this.currentDirection = getCurrentDirection(offset);
+          if (this.currentDirection !== null) {
+            onDirectionLock && onDirectionLock(this.currentDirection);
+          }
+          return;
+        }
+        this.updateAxis("x", info.point, offset);
+        this.updateAxis("y", info.point, offset);
+        this.visualElement.render();
+        if (onDrag) {
+          frame.update(() => onDrag(event, info), false, true);
+        }
+      };
+      const onSessionEnd = (event, info) => {
+        this.latestPointerEvent = event;
+        this.latestPanInfo = info;
+        this.stop(event, info);
+        this.latestPointerEvent = null;
+        this.latestPanInfo = null;
+      };
+      const resumeAnimation = () => {
+        const { dragSnapToOrigin: snap } = this.getProps();
+        if (snap || this.constraints) {
+          this.startAnimation({ x: 0, y: 0 });
+        }
+      };
+      const { dragSnapToOrigin } = this.getProps();
+      this.panSession = new PanSession(originEvent, {
+        onSessionStart,
+        onStart,
+        onMove,
+        onSessionEnd,
+        resumeAnimation
+      }, {
+        transformPagePoint: this.visualElement.getTransformPagePoint(),
+        dragSnapToOrigin,
+        distanceThreshold,
+        contextWindow: getContextWindow(this.visualElement),
+        element: this.visualElement.current
+      });
+    }
+    /**
+     * @internal
+     */
+    stop(event, panInfo) {
+      const finalEvent = event || this.latestPointerEvent;
+      const finalPanInfo = panInfo || this.latestPanInfo;
+      const isDragging2 = this.isDragging;
+      this.cancel();
+      if (!isDragging2 || !finalPanInfo || !finalEvent)
+        return;
+      const { velocity } = finalPanInfo;
+      this.startAnimation(velocity);
+      const { onDragEnd } = this.getProps();
+      if (onDragEnd) {
+        frame.postRender(() => onDragEnd(finalEvent, finalPanInfo));
+      }
+    }
+    /**
+     * @internal
+     */
+    cancel() {
+      this.isDragging = false;
+      const { projection, animationState } = this.visualElement;
+      if (projection) {
+        projection.isAnimationBlocked = false;
+      }
+      this.endPanSession();
+      const { dragPropagation } = this.getProps();
+      if (!dragPropagation && this.openDragLock) {
+        this.openDragLock();
+        this.openDragLock = null;
+      }
+      animationState && animationState.setActive("whileDrag", false);
+    }
+    /**
+     * Clean up the pan session without modifying other drag state.
+     * This is used during unmount to ensure event listeners are removed
+     * without affecting projection animations or drag locks.
+     * @internal
+     */
+    endPanSession() {
+      this.panSession && this.panSession.end();
+      this.panSession = void 0;
+    }
+    updateAxis(axis, _point, offset) {
+      const { drag: drag2 } = this.getProps();
+      if (!offset || !shouldDrag(axis, drag2, this.currentDirection))
+        return;
+      const axisValue = this.getAxisMotionValue(axis);
+      let next = this.originPoint[axis] + offset[axis];
+      if (this.constraints && this.constraints[axis]) {
+        next = applyConstraints(next, this.constraints[axis], this.elastic[axis]);
+      }
+      axisValue.set(next);
+    }
+    resolveConstraints() {
+      const { dragConstraints, dragElastic } = this.getProps();
+      const layout2 = this.visualElement.projection && !this.visualElement.projection.layout ? this.visualElement.projection.measure(false) : this.visualElement.projection?.layout;
+      const prevConstraints = this.constraints;
+      if (dragConstraints && isRefObject(dragConstraints)) {
+        if (!this.constraints) {
+          this.constraints = this.resolveRefConstraints();
+        }
+      } else {
+        if (dragConstraints && layout2) {
+          this.constraints = calcRelativeConstraints(layout2.layoutBox, dragConstraints);
+        } else {
+          this.constraints = false;
+        }
+      }
+      this.elastic = resolveDragElastic(dragElastic);
+      if (prevConstraints !== this.constraints && !isRefObject(dragConstraints) && layout2 && this.constraints && !this.hasMutatedConstraints) {
+        eachAxis((axis) => {
+          if (this.constraints !== false && this.getAxisMotionValue(axis)) {
+            this.constraints[axis] = rebaseAxisConstraints(layout2.layoutBox[axis], this.constraints[axis]);
+          }
+        });
+      }
+    }
+    resolveRefConstraints() {
+      const { dragConstraints: constraints, onMeasureDragConstraints } = this.getProps();
+      if (!constraints || !isRefObject(constraints))
+        return false;
+      const constraintsElement = constraints.current;
+      invariant(constraintsElement !== null, "If `dragConstraints` is set as a React ref, that ref must be passed to another component's `ref` prop.", "drag-constraints-ref");
+      const { projection } = this.visualElement;
+      if (!projection || !projection.layout)
+        return false;
+      if (projection.root) {
+        projection.root.scroll = void 0;
+        projection.root.updateScroll();
+      }
+      const constraintsBox = measurePageBox(constraintsElement, projection.root, this.visualElement.getTransformPagePoint());
+      let measuredConstraints = calcViewportConstraints(projection.layout.layoutBox, constraintsBox);
+      if (onMeasureDragConstraints) {
+        const userConstraints = onMeasureDragConstraints(convertBoxToBoundingBox(measuredConstraints));
+        this.hasMutatedConstraints = !!userConstraints;
+        if (userConstraints) {
+          measuredConstraints = convertBoundingBoxToBox(userConstraints);
+        }
+      }
+      return measuredConstraints;
+    }
+    startAnimation(velocity) {
+      const { drag: drag2, dragMomentum, dragElastic, dragTransition, dragSnapToOrigin, onDragTransitionEnd } = this.getProps();
+      const constraints = this.constraints || {};
+      const momentumAnimations = eachAxis((axis) => {
+        if (!shouldDrag(axis, drag2, this.currentDirection)) {
+          return;
+        }
+        let transition = constraints && constraints[axis] || {};
+        if (dragSnapToOrigin === true || dragSnapToOrigin === axis)
+          transition = { min: 0, max: 0 };
+        const bounceStiffness = dragElastic ? 200 : 1e6;
+        const bounceDamping = dragElastic ? 40 : 1e7;
+        const inertia2 = {
+          type: "inertia",
+          velocity: dragMomentum ? velocity[axis] : 0,
+          bounceStiffness,
+          bounceDamping,
+          timeConstant: 750,
+          restDelta: 1,
+          restSpeed: 10,
+          ...dragTransition,
+          ...transition
         };
-        const sampleStoryText = "Il nonno Orazio al matrimonio del cugino Antonio. Trovato questo gioiello in un vecchio album fotografico. Si pu\xF2 vedere tutta la famiglia riunita, tutti eleganti e sorridenti.";
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-          backgroundColor: theme.bg,
-          color: theme.text,
-          minHeight: "100vh",
-          fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-          letterSpacing: "-0.02em",
-          // Rende la spaziatura compatta come nell'immagine
-          fontSize: `${16 * theme.fontSizeMultiplier}px`,
-          lineHeight: "1.6",
-          transition: "all 0.2s ease-in-out"
-        }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", { style: {
-            backgroundColor: theme.cardBg,
-            borderBottom: `2px solid ${theme.border}`,
-            position: "sticky",
-            top: 0,
-            zIndex: 40,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
-          }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-            maxWidth: "1200px",
-            /* Aumentato da 1000px per distanziare Logo e Menu */
-            margin: "0 auto",
-            padding: "12px 20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "16px"
-          }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "12px" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-                width: "46px",
-                height: "46px",
-                borderRadius: "12px",
-                backgroundColor: theme.primary,
-                color: theme.primaryText,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "24px",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.15)"
-              }, children: "\u{1F309}" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: 0, fontSize: `${22 * theme.fontSizeMultiplier}px`, fontWeight: "800", color: theme.primary, lineHeight: 1 }, children: "MemoryBridge" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: "12px", color: theme.textMuted, fontWeight: "500" }, children: "Ponte tra Memorie Familiari" })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("nav", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", { style: { display: "flex", listStyle: "none", margin: 0, padding: 0, gap: "28px" }, children: [
-              " ",
-              [
-                { label: "Ricordi", icon: "\u{1F3E0}", active: true },
-                { label: "Albero Genealogico", icon: "\u{1F333}", active: false },
-                { label: "Esplora Epoche", icon: "\u23F3", active: false },
-                { label: "Profilo", icon: "\u{1F464}", active: false }
-              ].map((item, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { href: "#", style: {
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "8px 14px",
-                minHeight: "44px",
-                borderRadius: "10px",
-                textDecoration: "none",
-                backgroundColor: item.active ? highContrast ? "#ffff00" : "#e0f2fe" : "transparent",
-                color: item.active ? highContrast ? "#000000" : "#0369a1" : theme.text,
-                fontWeight: item.active ? "bold" : "500",
-                fontSize: `${14 * theme.fontSizeMultiplier}px`
-              }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.icon }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.label })
-              ] }) }, idx))
-            ] }) })
-          ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { style: { maxWidth: "720px", margin: "24px auto", padding: "0 16px" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { style: {
-              background: highContrast ? "#1a1a1a" : "linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%)",
-              borderRadius: "16px",
-              padding: "16px 20px",
-              border: `2px solid ${highContrast ? "#ffff00" : "#c4b5fd"}`,
-              marginBottom: "20px",
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              flexWrap: "wrap"
-            }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "img",
-                {
-                  src: Iris_default,
-                  alt: "Iris IA",
-                  style: {
-                    width: "54px",
-                    height: "54px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    flexShrink: 0,
-                    border: `2px solid ${highContrast ? "#ffff00" : "#7c3aed"}`,
-                    boxShadow: "0 2px 6px rgba(124,58,237,0.35)"
-                  }
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, minWidth: "240px" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: "6px" }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: "14px", fontWeight: "bold", color: highContrast ? "#ffff00" : "#7c3aed" }, children: "Iris IA consiglia :" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    backgroundColor: highContrast ? "#ffff00" : "#ede9fe",
-                    color: highContrast ? "#000000" : "#6d28d9",
-                    padding: "1px 6px",
-                    borderRadius: "6px",
-                    letterSpacing: "0.5px"
-                  }, children: "AI" })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0 0", fontWeight: "bold", fontSize: `${16 * theme.fontSizeMultiplier}px` }, children: '"Nonna Maria, ti va di raccontarci qual \xE8 stato il tuo primo viaggio importante?"' })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  onClick: () => setIsInterviewOpen(true),
-                  style: {
-                    padding: "10px 18px",
-                    minHeight: "44px",
-                    backgroundColor: highContrast ? "#ffff00" : "#7c3aed",
-                    color: highContrast ? "#000000" : "#ffffff",
-                    border: "none",
-                    borderRadius: "10px",
-                    fontWeight: "bold",
-                    cursor: "pointer",
-                    whiteSpace: "nowrap"
-                  },
-                  children: "\u2728 Crea Ricordo"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { style: {
-              backgroundColor: theme.cardBg,
-              borderRadius: "16px",
-              padding: "20px",
-              border: `1px solid ${theme.border}`,
-              marginBottom: "24px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.03)"
-            }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "16px", alignItems: "center" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-                  width: "56px",
-                  height: "56px",
-                  borderRadius: "50%",
-                  backgroundColor: "#3b82f6",
-                  color: "#ffffff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "28px",
-                  flexShrink: 0
-                }, children: "\u{1F464}" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
-                  {
-                    onClick: () => setIsInterviewOpen(true),
-                    style: {
-                      flexGrow: 1,
-                      padding: "14px 18px",
-                      minHeight: "52px",
-                      textAlign: "left",
-                      backgroundColor: theme.bg,
-                      border: `2px dashed ${theme.primary}`,
-                      borderRadius: "12px",
-                      color: theme.text,
-                      fontSize: `${15 * theme.fontSizeMultiplier}px`,
-                      cursor: "pointer",
-                      fontWeight: "500"
-                    },
-                    children: "\u{1F4AD} Clicca qui per raccontare una foto o un ricordo..."
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "12px", marginTop: "16px", justifyContent: "space-between", flexWrap: "wrap" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
-                  {
-                    onClick: () => setIsInterviewOpen(true),
-                    style: {
-                      flex: "1 1 45%",
-                      minHeight: "48px",
-                      backgroundColor: theme.primary,
-                      color: theme.primaryText,
-                      border: "none",
-                      borderRadius: "10px",
-                      padding: "10px 16px",
-                      fontWeight: "bold",
-                      cursor: "pointer"
-                    },
-                    children: "\u{1F3A4} Registra con Guida Vocale"
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
-                  {
-                    onClick: () => setIsInterviewOpen(true),
-                    style: {
-                      flex: 1,
-                      minHeight: "48px",
-                      backgroundColor: theme.bg,
-                      color: theme.text,
-                      border: `1px solid ${theme.border}`,
-                      borderRadius: "10px",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "8px"
-                    },
-                    children: "\u{1F4F7} Carica Vecchia Foto"
-                  }
-                )
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { style: {
-              backgroundColor: theme.cardBg,
-              borderRadius: "20px",
-              border: `1px solid ${theme.border}`,
-              padding: "24px",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.04)"
-            }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { style: { display: "flex", alignItems: "center", gap: "14px", marginBottom: "16px" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-                  width: "54px",
-                  height: "54px",
-                  borderRadius: "50%",
-                  backgroundColor: "#e2e8f0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "28px",
-                  border: `2px solid ${theme.primary}`
-                }, children: "\u{1F475}" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flexGrow: 1 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px" }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: "bold" }, children: "Maria Han (Nonna)" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                      backgroundColor: highContrast ? "#ffff00" : "#dbeafe",
-                      color: highContrast ? "#000000" : "#1e40af",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                      padding: "2px 8px",
-                      borderRadius: "6px"
-                    }, children: "\u{1F475} Ramo Materno" })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { margin: "2px 0 0 0", fontSize: "17px", color: theme.textMuted }, children: [
-                    "con",
-                    " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: theme.primary, fontWeight: "700", cursor: "pointer" }, children: "Nonno Orazio" }),
-                    " ",
-                    "\xB7 Matrimonio Antonio"
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: "13px", color: theme.textMuted }, children: "\u{1F4CD} New York \u2022 15 Giugno 1965" })
-                ] })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: "16px" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: `${17 * theme.fontSizeMultiplier}px`, margin: "0 0 12px 0", lineHeight: "1.6" }, children: sampleStoryText }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
-                  {
-                    onClick: () => toggleSpeech(sampleStoryText),
-                    style: {
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      padding: "8px 14px",
-                      minHeight: "40px",
-                      backgroundColor: isSpeaking ? "#dc2626" : theme.primaryBg,
-                      color: isSpeaking ? "#ffffff" : highContrast ? "#000" : theme.primary,
-                      border: `1px solid ${theme.primary}`,
-                      borderRadius: "20px",
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      cursor: "pointer"
-                    },
-                    children: isSpeaking ? "\u{1F6D1} Ferma Lettura Vocale" : "\u{1F50A} Ascolta Racconto A Voce"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { position: "relative", borderRadius: "14px", overflow: "hidden", marginBottom: "16px", border: `1px solid ${theme.border}` }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "img",
-                  {
-                    src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&auto=format&fit=crop&q=80",
-                    alt: "Foto d'epoca della famiglia riunita",
-                    style: { width: "100%", height: "auto", display: "block", maxHeight: "480px", objectFit: "cover" }
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "10px",
-                  backgroundColor: "rgba(0,0,0,0.55)",
-                  color: "#ffffff",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  padding: "4px 10px",
-                  borderRadius: "20px",
-                  backdropFilter: "blur(2px)"
-                }, children: "\u{1F333} Collegato all'Albero Genealogico" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-                backgroundColor: theme.bg,
-                padding: "12px 16px",
-                borderRadius: "12px",
-                border: `1px solid ${theme.border}`,
-                marginBottom: "20px",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px"
-              }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: {
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  backgroundColor: theme.primary,
-                  color: theme.primaryText,
-                  border: "none",
-                  fontSize: "18px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }, children: "\u25B6\uFE0F" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "13px", fontWeight: "bold" }, children: "\u{1F399}\uFE0F Audio originale di Nonna Maria (1:24)" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "6px", backgroundColor: theme.border, borderRadius: "3px", marginTop: "4px", overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: "35%", height: "100%", backgroundColor: theme.primary } }) })
-                ] })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { style: { borderTop: `1px solid ${theme.border}`, paddingTop: "16px" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "12px", alignItems: "center" }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                    "button",
-                    {
-                      onClick: toggleLike,
-                      style: {
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        minHeight: "46px",
-                        padding: "8px 18px",
-                        border: `1px solid ${hasLiked ? theme.primary : theme.border}`,
-                        borderRadius: "24px",
-                        backgroundColor: hasLiked ? highContrast ? "#ffff00" : "#dbeafe" : "transparent",
-                        color: hasLiked ? highContrast ? "#000000" : theme.primary : theme.text,
-                        fontWeight: "bold",
-                        cursor: "pointer"
-                      },
-                      children: [
-                        "\u2764\uFE0F ",
-                        likes,
-                        " ",
-                        hasLiked ? "Ti Piace" : "Mi Piace"
-                      ]
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                    "button",
-                    {
-                      onClick: () => setShowComments(!showComments),
-                      style: {
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        minHeight: "46px",
-                        padding: "8px 18px",
-                        border: `1px solid ${theme.border}`,
-                        borderRadius: "24px",
-                        backgroundColor: "transparent",
-                        color: theme.text,
-                        fontWeight: "bold",
-                        cursor: "pointer"
-                      },
-                      children: [
-                        "\u{1F4AC} ",
-                        comments.length,
-                        " Risposte"
-                      ]
-                    }
-                  )
-                ] }),
-                showComments && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: "20px", paddingTop: "16px", borderTop: `1px dashed ${theme.border}` }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 12px 0", fontSize: "15px" }, children: "\u{1F4AC} Commenti dei Nipoti e della Famiglia" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", { style: { listStyle: "none", padding: 0, margin: "0 0 16px 0" }, children: comments.map((comment, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { style: { backgroundColor: theme.bg, padding: "12px", borderRadius: "10px", marginBottom: "8px", border: `1px solid ${theme.border}`, fontSize: "14px" }, children: comment }, i)) }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", { onSubmit: handleAddComment, style: { display: "flex", gap: "8px" }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        value: newComment,
-                        onChange: (e) => setNewComment(e.target.value),
-                        placeholder: "Lascia un messaggio o una domanda alla nonna...",
-                        style: {
-                          flexGrow: 1,
-                          minHeight: "46px",
-                          padding: "8px 14px",
-                          borderRadius: "10px",
-                          border: `1px solid ${theme.border}`,
-                          backgroundColor: theme.cardBg,
-                          color: theme.text,
-                          fontSize: "14px"
-                        }
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "button",
-                      {
-                        type: "submit",
-                        style: {
-                          minHeight: "46px",
-                          padding: "0 20px",
-                          backgroundColor: theme.primary,
-                          color: theme.primaryText,
-                          border: "none",
-                          borderRadius: "10px",
-                          fontWeight: "bold",
-                          cursor: "pointer"
-                        },
-                        children: "Invia"
-                      }
-                    )
-                  ] })
-                ] })
-              ] })
-            ] })
-          ] }),
-          isInterviewOpen && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+        return this.startAxisValueAnimation(axis, inertia2);
+      });
+      return Promise.all(momentumAnimations).then(onDragTransitionEnd);
+    }
+    startAxisValueAnimation(axis, transition) {
+      const axisValue = this.getAxisMotionValue(axis);
+      addValueToWillChange(this.visualElement, axis);
+      return axisValue.start(animateMotionValue(axis, axisValue, 0, transition, this.visualElement, false));
+    }
+    stopAnimation() {
+      eachAxis((axis) => this.getAxisMotionValue(axis).stop());
+    }
+    /**
+     * Drag works differently depending on which props are provided.
+     *
+     * - If _dragX and _dragY are provided, we output the gesture delta directly to those motion values.
+     * - Otherwise, we apply the delta to the x/y motion values.
+     */
+    getAxisMotionValue(axis) {
+      const dragKey = `_drag${axis.toUpperCase()}`;
+      const props = this.visualElement.getProps();
+      const externalMotionValue = props[dragKey];
+      return externalMotionValue ? externalMotionValue : this.visualElement.getValue(axis, this.visualElement.latestValues[axis] ?? 0);
+    }
+    snapToCursor(point) {
+      eachAxis((axis) => {
+        const { drag: drag2 } = this.getProps();
+        if (!shouldDrag(axis, drag2, this.currentDirection))
+          return;
+        const { projection } = this.visualElement;
+        const axisValue = this.getAxisMotionValue(axis);
+        if (projection && projection.layout) {
+          const { min, max } = projection.layout.layoutBox[axis];
+          const current = axisValue.get() || 0;
+          axisValue.set(point[axis] - mixNumber(min, max, 0.5) + current);
+        }
+      });
+    }
+    /**
+     * When the viewport resizes we want to check if the measured constraints
+     * have changed and, if so, reposition the element within those new constraints
+     * relative to where it was before the resize.
+     */
+    scalePositionWithinConstraints() {
+      if (!this.visualElement.current)
+        return;
+      const { drag: drag2, dragConstraints } = this.getProps();
+      const { projection } = this.visualElement;
+      if (!isRefObject(dragConstraints) || !projection || !this.constraints)
+        return;
+      this.stopAnimation();
+      const boxProgress = { x: 0, y: 0 };
+      eachAxis((axis) => {
+        const axisValue = this.getAxisMotionValue(axis);
+        if (axisValue && this.constraints !== false) {
+          const latest = axisValue.get();
+          boxProgress[axis] = calcOrigin({ min: latest, max: latest }, this.constraints[axis]);
+        }
+      });
+      const { transformTemplate } = this.visualElement.getProps();
+      this.visualElement.current.style.transform = transformTemplate ? transformTemplate({}, "") : "none";
+      projection.root && projection.root.updateScroll();
+      projection.updateLayout();
+      this.constraints = false;
+      this.resolveConstraints();
+      eachAxis((axis) => {
+        if (!shouldDrag(axis, drag2, null))
+          return;
+        const axisValue = this.getAxisMotionValue(axis);
+        const { min, max } = this.constraints[axis];
+        axisValue.set(mixNumber(min, max, boxProgress[axis]));
+      });
+      this.visualElement.render();
+    }
+    addListeners() {
+      if (!this.visualElement.current)
+        return;
+      elementDragControls.set(this.visualElement, this);
+      const element = this.visualElement.current;
+      const stopPointerListener = addPointerEvent(element, "pointerdown", (event) => {
+        const { drag: drag2, dragListener = true } = this.getProps();
+        const target = event.target;
+        const isClickingTextInputChild = target !== element && isElementTextInput(target);
+        if (drag2 && dragListener && !isClickingTextInputChild) {
+          this.start(event);
+        }
+      });
+      let stopResizeObservers;
+      const measureDragConstraints = () => {
+        const { dragConstraints } = this.getProps();
+        if (isRefObject(dragConstraints) && dragConstraints.current) {
+          this.constraints = this.resolveRefConstraints();
+          if (!stopResizeObservers) {
+            stopResizeObservers = startResizeObservers(element, dragConstraints.current, () => this.scalePositionWithinConstraints());
+          }
+        }
+      };
+      const { projection } = this.visualElement;
+      const stopMeasureLayoutListener = projection.addEventListener("measure", measureDragConstraints);
+      if (projection && !projection.layout) {
+        projection.root && projection.root.updateScroll();
+        projection.updateLayout();
+      }
+      frame.read(measureDragConstraints);
+      const stopResizeListener = addDomEvent(window, "resize", () => this.scalePositionWithinConstraints());
+      const stopLayoutUpdateListener = projection.addEventListener("didUpdate", (({ delta, hasLayoutChanged }) => {
+        if (this.isDragging && hasLayoutChanged) {
+          eachAxis((axis) => {
+            const motionValue2 = this.getAxisMotionValue(axis);
+            if (!motionValue2)
+              return;
+            this.originPoint[axis] += delta[axis].translate;
+            motionValue2.set(motionValue2.get() + delta[axis].translate);
+          });
+          this.visualElement.render();
+        }
+      }));
+      return () => {
+        stopResizeListener();
+        stopPointerListener();
+        stopMeasureLayoutListener();
+        stopLayoutUpdateListener && stopLayoutUpdateListener();
+        stopResizeObservers && stopResizeObservers();
+      };
+    }
+    getProps() {
+      const props = this.visualElement.getProps();
+      const { drag: drag2 = false, dragDirectionLock = false, dragPropagation = false, dragConstraints = false, dragElastic = defaultElastic, dragMomentum = true } = props;
+      return {
+        ...props,
+        drag: drag2,
+        dragDirectionLock,
+        dragPropagation,
+        dragConstraints,
+        dragElastic,
+        dragMomentum
+      };
+    }
+  };
+  function skipFirstCall(callback) {
+    let isFirst = true;
+    return () => {
+      if (isFirst) {
+        isFirst = false;
+        return;
+      }
+      callback();
+    };
+  }
+  function startResizeObservers(element, constraintsElement, onResize) {
+    const stopElement = resize(element, skipFirstCall(onResize));
+    const stopContainer = resize(constraintsElement, skipFirstCall(onResize));
+    return () => {
+      stopElement();
+      stopContainer();
+    };
+  }
+  function shouldDrag(direction, drag2, currentDirection) {
+    return (drag2 === true || drag2 === direction) && (currentDirection === null || currentDirection === direction);
+  }
+  function getCurrentDirection(offset, lockThreshold = 10) {
+    let direction = null;
+    if (Math.abs(offset.y) > lockThreshold) {
+      direction = "y";
+    } else if (Math.abs(offset.x) > lockThreshold) {
+      direction = "x";
+    }
+    return direction;
+  }
+
+  // node_modules/framer-motion/dist/es/gestures/drag/index.mjs
+  var DragGesture = class extends Feature {
+    constructor(node) {
+      super(node);
+      this.removeGroupControls = noop;
+      this.removeListeners = noop;
+      this.controls = new VisualElementDragControls(node);
+    }
+    mount() {
+      const { dragControls } = this.node.getProps();
+      if (dragControls) {
+        this.removeGroupControls = dragControls.subscribe(this.controls);
+      }
+      this.removeListeners = this.controls.addListeners() || noop;
+    }
+    update() {
+      const { dragControls } = this.node.getProps();
+      const { dragControls: prevDragControls } = this.node.prevProps || {};
+      if (dragControls !== prevDragControls) {
+        this.removeGroupControls();
+        if (dragControls) {
+          this.removeGroupControls = dragControls.subscribe(this.controls);
+        }
+      }
+    }
+    unmount() {
+      this.removeGroupControls();
+      this.removeListeners();
+      if (!this.controls.isDragging) {
+        this.controls.endPanSession();
+      }
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/gestures/pan/index.mjs
+  var asyncHandler = (handler) => (event, info) => {
+    if (handler) {
+      frame.update(() => handler(event, info), false, true);
+    }
+  };
+  var PanGesture = class extends Feature {
+    constructor() {
+      super(...arguments);
+      this.removePointerDownListener = noop;
+    }
+    onPointerDown(pointerDownEvent) {
+      this.session = new PanSession(pointerDownEvent, this.createPanHandlers(), {
+        transformPagePoint: this.node.getTransformPagePoint(),
+        contextWindow: getContextWindow(this.node)
+      });
+    }
+    createPanHandlers() {
+      const { onPanSessionStart, onPanStart, onPan, onPanEnd } = this.node.getProps();
+      return {
+        onSessionStart: asyncHandler(onPanSessionStart),
+        onStart: asyncHandler(onPanStart),
+        onMove: asyncHandler(onPan),
+        onEnd: (event, info) => {
+          delete this.session;
+          if (onPanEnd) {
+            frame.postRender(() => onPanEnd(event, info));
+          }
+        }
+      };
+    }
+    mount() {
+      this.removePointerDownListener = addPointerEvent(this.node.current, "pointerdown", (event) => this.onPointerDown(event));
+    }
+    update() {
+      this.session && this.session.updateHandlers(this.createPanHandlers());
+    }
+    unmount() {
+      this.removePointerDownListener();
+      this.session && this.session.end();
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var import_react23 = __toESM(require_react(), 1);
+  var hasTakenAnySnapshot = false;
+  var MeasureLayoutWithContext = class extends import_react23.Component {
+    /**
+     * This only mounts projection nodes for components that
+     * need measuring, we might want to do it for all components
+     * in order to incorporate transforms
+     */
+    componentDidMount() {
+      const { visualElement, layoutGroup, switchLayoutGroup, layoutId } = this.props;
+      const { projection } = visualElement;
+      if (projection) {
+        if (layoutGroup.group)
+          layoutGroup.group.add(projection);
+        if (switchLayoutGroup && switchLayoutGroup.register && layoutId) {
+          switchLayoutGroup.register(projection);
+        }
+        if (hasTakenAnySnapshot) {
+          projection.root.didUpdate();
+        }
+        projection.addEventListener("animationComplete", () => {
+          this.safeToRemove();
+        });
+        projection.setOptions({
+          ...projection.options,
+          layoutDependency: this.props.layoutDependency,
+          onExitComplete: () => this.safeToRemove()
+        });
+      }
+      globalProjectionState.hasEverUpdated = true;
+    }
+    getSnapshotBeforeUpdate(prevProps) {
+      const { layoutDependency, visualElement, drag: drag2, isPresent } = this.props;
+      const { projection } = visualElement;
+      if (!projection)
+        return null;
+      projection.isPresent = isPresent;
+      if (prevProps.layoutDependency !== layoutDependency) {
+        projection.setOptions({
+          ...projection.options,
+          layoutDependency
+        });
+      }
+      hasTakenAnySnapshot = true;
+      if (drag2 || prevProps.layoutDependency !== layoutDependency || layoutDependency === void 0 || prevProps.isPresent !== isPresent) {
+        projection.willUpdate();
+      } else {
+        this.safeToRemove();
+      }
+      if (prevProps.isPresent !== isPresent) {
+        if (isPresent) {
+          projection.promote();
+        } else if (!projection.relegate()) {
+          frame.postRender(() => {
+            const stack = projection.getStack();
+            if (!stack || !stack.members.length) {
+              this.safeToRemove();
+            }
+          });
+        }
+      }
+      return null;
+    }
+    componentDidUpdate() {
+      const { visualElement, layoutAnchor } = this.props;
+      const { projection } = visualElement;
+      if (projection) {
+        projection.options.layoutAnchor = layoutAnchor;
+        projection.root.didUpdate();
+        microtask.postRender(() => {
+          if (!projection.currentAnimation && projection.isLead()) {
+            this.safeToRemove();
+          }
+        });
+      }
+    }
+    componentWillUnmount() {
+      const { visualElement, layoutGroup, switchLayoutGroup: promoteContext } = this.props;
+      const { projection } = visualElement;
+      hasTakenAnySnapshot = true;
+      if (projection) {
+        projection.scheduleCheckAfterUnmount();
+        if (layoutGroup && layoutGroup.group)
+          layoutGroup.group.remove(projection);
+        if (promoteContext && promoteContext.deregister)
+          promoteContext.deregister(projection);
+      }
+    }
+    safeToRemove() {
+      const { safeToRemove } = this.props;
+      safeToRemove && safeToRemove();
+    }
+    render() {
+      return null;
+    }
+  };
+  function MeasureLayout(props) {
+    const [isPresent, safeToRemove] = usePresence();
+    const layoutGroup = (0, import_react23.useContext)(LayoutGroupContext);
+    return (0, import_jsx_runtime5.jsx)(MeasureLayoutWithContext, { ...props, layoutGroup, switchLayoutGroup: (0, import_react23.useContext)(SwitchLayoutGroupContext), isPresent, safeToRemove });
+  }
+
+  // node_modules/framer-motion/dist/es/motion/features/drag.mjs
+  var drag = {
+    pan: {
+      Feature: PanGesture
+    },
+    drag: {
+      Feature: DragGesture,
+      ProjectionNode: HTMLProjectionNode,
+      MeasureLayout
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/gestures/hover.mjs
+  function handleHoverEvent(node, event, lifecycle) {
+    const { props } = node;
+    if (node.animationState && props.whileHover) {
+      node.animationState.setActive("whileHover", lifecycle === "Start");
+    }
+    const eventName = "onHover" + lifecycle;
+    const callback = props[eventName];
+    if (callback) {
+      frame.postRender(() => callback(event, extractEventInfo(event)));
+    }
+  }
+  var HoverGesture = class extends Feature {
+    mount() {
+      const { current } = this.node;
+      if (!current)
+        return;
+      this.unmount = hover(current, (_element, startEvent) => {
+        handleHoverEvent(this.node, startEvent, "Start");
+        return (endEvent) => handleHoverEvent(this.node, endEvent, "End");
+      });
+    }
+    unmount() {
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/gestures/focus.mjs
+  var FocusGesture = class extends Feature {
+    constructor() {
+      super(...arguments);
+      this.isActive = false;
+    }
+    onFocus() {
+      let isFocusVisible = false;
+      try {
+        isFocusVisible = this.node.current.matches(":focus-visible");
+      } catch (e) {
+        isFocusVisible = true;
+      }
+      if (!isFocusVisible || !this.node.animationState)
+        return;
+      this.node.animationState.setActive("whileFocus", true);
+      this.isActive = true;
+    }
+    onBlur() {
+      if (!this.isActive || !this.node.animationState)
+        return;
+      this.node.animationState.setActive("whileFocus", false);
+      this.isActive = false;
+    }
+    mount() {
+      this.unmount = pipe(addDomEvent(this.node.current, "focus", () => this.onFocus()), addDomEvent(this.node.current, "blur", () => this.onBlur()));
+    }
+    unmount() {
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/gestures/press.mjs
+  function handlePressEvent(node, event, lifecycle) {
+    const { props } = node;
+    if (node.current instanceof HTMLButtonElement && node.current.disabled) {
+      return;
+    }
+    if (node.animationState && props.whileTap) {
+      node.animationState.setActive("whileTap", lifecycle === "Start");
+    }
+    const eventName = "onTap" + (lifecycle === "End" ? "" : lifecycle);
+    const callback = props[eventName];
+    if (callback) {
+      frame.postRender(() => callback(event, extractEventInfo(event)));
+    }
+  }
+  var PressGesture = class extends Feature {
+    mount() {
+      const { current } = this.node;
+      if (!current)
+        return;
+      const { globalTapTarget, propagate } = this.node.props;
+      this.unmount = press(current, (_element, startEvent) => {
+        handlePressEvent(this.node, startEvent, "Start");
+        return (endEvent, { success }) => handlePressEvent(this.node, endEvent, success ? "End" : "Cancel");
+      }, {
+        useGlobalTarget: globalTapTarget,
+        stopPropagation: propagate?.tap === false
+      });
+    }
+    unmount() {
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/motion/features/viewport/observers.mjs
+  var observerCallbacks = /* @__PURE__ */ new WeakMap();
+  var observers = /* @__PURE__ */ new WeakMap();
+  var fireObserverCallback = (entry) => {
+    const callback = observerCallbacks.get(entry.target);
+    callback && callback(entry);
+  };
+  var fireAllObserverCallbacks = (entries) => {
+    entries.forEach(fireObserverCallback);
+  };
+  function initIntersectionObserver({ root, ...options }) {
+    const lookupRoot = root || document;
+    if (!observers.has(lookupRoot)) {
+      observers.set(lookupRoot, {});
+    }
+    const rootObservers = observers.get(lookupRoot);
+    const key = JSON.stringify(options);
+    if (!rootObservers[key]) {
+      rootObservers[key] = new IntersectionObserver(fireAllObserverCallbacks, { root, ...options });
+    }
+    return rootObservers[key];
+  }
+  function observeIntersection(element, options, callback) {
+    const rootInteresectionObserver = initIntersectionObserver(options);
+    observerCallbacks.set(element, callback);
+    rootInteresectionObserver.observe(element);
+    return () => {
+      observerCallbacks.delete(element);
+      rootInteresectionObserver.unobserve(element);
+    };
+  }
+
+  // node_modules/framer-motion/dist/es/motion/features/viewport/index.mjs
+  var thresholdNames = {
+    some: 0,
+    all: 1
+  };
+  var InViewFeature = class extends Feature {
+    constructor() {
+      super(...arguments);
+      this.hasEnteredView = false;
+      this.isInView = false;
+    }
+    startObserver() {
+      this.stopObserver?.();
+      const { viewport = {} } = this.node.getProps();
+      const { root, margin: rootMargin, amount = "some", once } = viewport;
+      const options = {
+        root: root ? root.current : void 0,
+        rootMargin,
+        threshold: typeof amount === "number" ? amount : thresholdNames[amount]
+      };
+      const onIntersectionUpdate = (entry) => {
+        const { isIntersecting } = entry;
+        if (this.isInView === isIntersecting)
+          return;
+        this.isInView = isIntersecting;
+        if (once && !isIntersecting && this.hasEnteredView) {
+          return;
+        } else if (isIntersecting) {
+          this.hasEnteredView = true;
+        }
+        if (this.node.animationState) {
+          this.node.animationState.setActive("whileInView", isIntersecting);
+        }
+        const { onViewportEnter, onViewportLeave } = this.node.getProps();
+        const callback = isIntersecting ? onViewportEnter : onViewportLeave;
+        callback && callback(entry);
+      };
+      this.stopObserver = observeIntersection(this.node.current, options, onIntersectionUpdate);
+    }
+    mount() {
+      this.startObserver();
+    }
+    update() {
+      if (typeof IntersectionObserver === "undefined")
+        return;
+      const { props, prevProps } = this.node;
+      const hasOptionsChanged = ["amount", "margin", "root"].some(hasViewportOptionChanged(props, prevProps));
+      if (hasOptionsChanged) {
+        this.startObserver();
+      }
+    }
+    unmount() {
+      this.stopObserver?.();
+      this.hasEnteredView = false;
+      this.isInView = false;
+    }
+  };
+  function hasViewportOptionChanged({ viewport = {} }, { viewport: prevViewport = {} } = {}) {
+    return (name) => viewport[name] !== prevViewport[name];
+  }
+
+  // node_modules/framer-motion/dist/es/motion/features/gestures.mjs
+  var gestureAnimations = {
+    inView: {
+      Feature: InViewFeature
+    },
+    tap: {
+      Feature: PressGesture
+    },
+    focus: {
+      Feature: FocusGesture
+    },
+    hover: {
+      Feature: HoverGesture
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/motion/features/layout.mjs
+  var layout = {
+    layout: {
+      ProjectionNode: HTMLProjectionNode,
+      MeasureLayout
+    }
+  };
+
+  // node_modules/framer-motion/dist/es/render/components/motion/feature-bundle.mjs
+  var featureBundle = {
+    ...animations,
+    ...gestureAnimations,
+    ...drag,
+    ...layout
+  };
+
+  // node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs
+  var motion = /* @__PURE__ */ createMotionProxy(featureBundle, createDomVisualElement);
+
+  // src/images/0014314705.jpg
+  var __default = "data:image/jpeg;base64,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";
+
+  // src/pages/app/App.tsx
+  var import_client = __toESM(require_client());
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+  var PRIMARY_COLOR = "#4378EE";
+  var AVAILABLE_REACTIONS = ["\u2764\uFE0F", "\u{1F44F}", "\u{1F979}", "\u2728", "\u{1F525}"];
+  var TIMELINE_MEMORIES = [
+    {
+      id: "m1",
+      year: 1965,
+      catalogCode: "EXHIBIT 1965-01 / ARCHIVIO HAN",
+      dateStr: "Estate 1965",
+      authorName: "Elena Han",
+      authorAvatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
+      title: "La Grande Riunione di Famiglia",
+      story: "Tutti i rami della famiglia riuniti nel cortile di casa. Al centro il nonno con il suo gilet coordinato e gli zii in abito elegante. In primo piano i pi\xF9 piccoli, con i loro abiti della festa in maglia bianca. Un istante scolpito nel tempo che custodisce le nostre radici e il calore indimenticabile di quel pomeriggio d'estate.",
+      imageUrl: __default,
+      likesCount: 24,
+      comments: [
+        {
+          id: "c1",
+          author: "Zia Caterina",
+          avatar: "https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=120&q=80",
+          date: "2 ore fa",
+          text: "Che meraviglia rivedere questa foto! Ricordo ancora il profumo delle zeppole che la nonna aveva preparato per tutti."
+        },
+        {
+          id: "c2",
+          author: "Marco Han",
+          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80",
+          date: "1 ora fa",
+          text: "Il bambino a sinistra in prima fila ero io! Avevo un capriccio terribile perch\xE9 volevo andare a giocare col pallone."
+        }
+      ]
+    },
+    {
+      id: "m2",
+      year: 1978,
+      catalogCode: "EXHIBIT 1978-04 / ARCHIVIO ROSSI",
+      dateStr: "2 Settembre 1978",
+      authorName: "Roberto Rossi",
+      authorAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80",
+      title: "Viaggio verso il Mare in Fiat 127",
+      story: "Il primo viaggio lungo verso la Calabria con la macchina nuova blu. Valigie sul tettuccio, finestrini abbassati e la musica della radio a farci compagnia durante tutto il tragitto. Una tappa fondamentale nei ricordi della nostra giovinezza.",
+      imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80",
+      likesCount: 18,
+      comments: [
+        {
+          id: "c3",
+          author: "Luisa Rossi",
+          avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
+          date: "Ieri",
+          text: "Si \xE8 fuso il radiatore a met\xE0 strada, te lo ricordi? Ma \xE8 stato il viaggio pi\xF9 bello di sempre."
+        }
+      ]
+    },
+    {
+      id: "m3",
+      year: 1984,
+      catalogCode: "EXHIBIT 1984-09 / ARCHIVIO BIANCHI",
+      dateStr: "15 Agosto 1984",
+      authorName: "Anna Bianchi",
+      authorAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80",
+      title: "Pranzo di Ferragosto in Compagnia",
+      story: "Tavolate lunghissime all'ombra del pergolato. Risate, bicchieri di vino che si alzano in brindisi continui e piatti colmi di prelibatezze preparate fin dalle prime ore dell'alba.",
+      imageUrl: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=80",
+      likesCount: 31,
+      comments: []
+    },
+    {
+      id: "m4",
+      year: 1992,
+      catalogCode: "EXHIBIT 1992-12 / ARCHIVIO VERDI",
+      dateStr: "Natale 1992",
+      authorName: "Giorgio Verdi",
+      authorAvatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80",
+      title: "La Nevicata Memorabile",
+      story: "La citt\xE0 e la casa di campagna completamente sommerse da un metro di neve fresca. Usciti fuori con stivali e sciarpe per costruire un gigantesco pupazzo di neve.",
+      imageUrl: "https://images.unsplash.com/photo-1491002052546-bf38f186af56?auto=format&fit=crop&w=1600&q=80",
+      likesCount: 42,
+      comments: []
+    },
+    {
+      id: "m5",
+      year: 1995,
+      catalogCode: "EXHIBIT 1995-03 / ARCHIVIO NERI",
+      dateStr: "10 Luglio 1995",
+      authorName: "Martina Neri",
+      authorAvatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80",
+      title: "Gita in Montagna",
+      story: "Passeggiata sui sentieri alpini con zaino in spalla e bastoni da trekking. Aria frizzante e panorama mozzafiato dalla cima.",
+      imageUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+      likesCount: 15,
+      comments: []
+    },
+    {
+      id: "m6",
+      year: 2001,
+      catalogCode: "EXHIBIT 2001-08 / ARCHIVIO CONTI",
+      dateStr: "Capodanno 2001",
+      authorName: "Davide Conti",
+      authorAvatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=120&q=80",
+      title: "Festa di Inizio Millennio",
+      story: "Festeggiamenti in piazza con musica, canti e fuochi d'artificio per dare il benvenuto al nuovo millennio insieme agli amici di una vita.",
+      imageUrl: "https://images.unsplash.com/photo-1467810563316-b5476525c0f9?auto=format&fit=crop&w=1600&q=80",
+      likesCount: 50,
+      comments: []
+    }
+  ];
+  function MuseumSocialPostTimeline() {
+    const [selectedMemory, setSelectedMemory] = (0, import_react24.useState)(TIMELINE_MEMORIES[0]);
+    const [showComments, setShowComments] = (0, import_react24.useState)(false);
+    const [newCommentText, setNewCommentText] = (0, import_react24.useState)("");
+    const [userReaction, setUserReaction] = (0, import_react24.useState)(null);
+    const [showReactionPicker, setShowReactionPicker] = (0, import_react24.useState)(false);
+    const [floatingEmojis, setFloatingEmojis] = (0, import_react24.useState)([]);
+    const filmstripRef = (0, import_react24.useRef)(null);
+    const handleSelectMemory = (item) => {
+      setSelectedMemory(item);
+      setShowComments(false);
+      setUserReaction(null);
+      setShowReactionPicker(false);
+      setFloatingEmojis([]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    const handleToggleReaction = (emoji) => {
+      if (userReaction === emoji) {
+        setUserReaction(null);
+      } else {
+        setUserReaction(emoji);
+        const newFloating = {
+          id: Date.now(),
+          emoji,
+          leftOffset: Math.random() * 60 + 20
+        };
+        setFloatingEmojis((prev) => [...prev, newFloating]);
+        setTimeout(() => {
+          setFloatingEmojis((prev) => prev.filter((e) => e.id !== newFloating.id));
+        }, 1800);
+      }
+      setShowReactionPicker(false);
+    };
+    const handleAddComment = (e) => {
+      e.preventDefault();
+      if (!newCommentText.trim() || !selectedMemory) return;
+      const newComment = {
+        id: Date.now().toString(),
+        author: "Tu (Ospite)",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80",
+        date: "Proprio ora",
+        text: newCommentText
+      };
+      selectedMemory.comments.push(newComment);
+      setNewCommentText("");
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
+      position: "relative",
+      minHeight: "100vh",
+      backgroundColor: "#090d16",
+      color: "#0f172a",
+      fontFamily: "system-ui, -apple-system, sans-serif",
+      paddingBottom: "5rem",
+      overflowX: "hidden"
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { mode: "wait", children: selectedMemory && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        motion.div,
+        {
+          initial: { opacity: 0, scale: 1.08 },
+          animate: { opacity: 1, scale: 1 },
+          exit: { opacity: 0, scale: 1.03 },
+          transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] },
+          style: {
             position: "fixed",
             inset: 0,
-            backgroundColor: "rgba(0,0,0,0.8)",
+            zIndex: 0,
+            backgroundImage: `url(${selectedMemory.imageUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(14px) brightness(0.85)",
+            transform: "scale(1.05)"
+          }
+        },
+        selectedMemory.id
+      ) }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { style: {
+        position: "fixed",
+        inset: 0,
+        zIndex: 1,
+        background: "linear-gradient(180deg, rgba(248, 250, 252, 0.65) 0%, rgba(248, 250, 252, 0.82) 100%)",
+        pointerEvents: "none"
+      } }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("nav", { style: {
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        backgroundColor: "rgba(255, 255, 255, 0.88)",
+        backdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(226, 232, 240, 0.8)",
+        padding: "0.85rem 3rem",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        boxShadow: "0 4px 25px rgba(0, 0, 0, 0.05)"
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "0.75rem", cursor: "pointer" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { style: {
+            width: "36px",
+            height: "36px",
+            borderRadius: "10px",
+            backgroundColor: PRIMARY_COLOR,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: "16px",
-            zIndex: 100
-          }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-            backgroundColor: theme.cardBg,
-            border: `3px solid ${theme.primary}`,
-            borderRadius: "24px",
-            maxWidth: "620px",
-            width: "100%",
-            padding: "28px",
-            boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
+            color: "#ffffff",
+            fontWeight: "bold",
+            fontSize: "0.9rem",
+            boxShadow: "0 4px 12px rgba(67, 120, 238, 0.35)"
+          }, children: "MB" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { style: { fontSize: "1.25rem", fontWeight: 700, color: "#0f172a", letterSpacing: "-0.02em" }, children: [
+            "Memory",
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: { color: PRIMARY_COLOR, fontWeight: 500 }, children: "Bridge" })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", gap: "2.5rem", alignItems: "center" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", { href: "#timeline", style: { color: PRIMARY_COLOR, textDecoration: "none", fontSize: "0.9rem", fontWeight: 600 }, children: "Timeline" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", { href: "#galleria", style: { color: "#475569", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500 }, children: "Esplora Ricordi" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", { href: "#famiglia", style: { color: "#475569", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500 }, children: "Albero di Famiglia" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "1.25rem" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("button", { style: {
+            backgroundColor: PRIMARY_COLOR,
+            color: "#ffffff",
+            border: "none",
+            padding: "0.55rem 1.2rem",
+            borderRadius: "8px",
+            fontSize: "0.85rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            boxShadow: "0 4px 12px rgba(67, 120, 238, 0.3)"
           }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, color: theme.primary, fontSize: `${20 * theme.fontSizeMultiplier}px` }, children: "\u{1F475} Assistente Guidato Raccolta Ricordi" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  onClick: () => setIsInterviewOpen(false),
-                  style: { border: "none", background: "transparent", fontSize: "28px", cursor: "pointer", color: theme.text },
-                  children: "\u2716"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: "8px", marginBottom: "16px" }, children: guidedQuestions.map((_, index) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "div",
-              {
-                style: {
-                  flex: 1,
-                  height: "8px",
-                  borderRadius: "4px",
-                  backgroundColor: index <= interviewStep ? theme.primary : theme.border
-                }
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: { fontSize: "1.1rem", lineHeight: 1 }, children: "+" }),
+            " Aggiungi Ricordo"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+            "img",
+            {
+              src: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80",
+              alt: "Profilo Tuo",
+              style: {
+                width: "38px",
+                height: "38px",
+                borderRadius: "50%",
+                border: `2px solid ${PRIMARY_COLOR}`,
+                cursor: "pointer",
+                objectFit: "cover"
+              }
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { position: "relative", zIndex: 10, maxWidth: "1800px", margin: "0 auto", padding: "3rem 9rem 0 9rem" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { textAlign: "center", marginBottom: "2.5rem" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: {
+            fontSize: "0.75rem",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: PRIMARY_COLOR,
+            fontWeight: 800,
+            display: "block",
+            marginBottom: "0.4rem"
+          }, children: "ARCHIVIO DELLA MEMORIA FAMILIARE" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h1", { style: {
+            fontSize: "2.4rem",
+            fontWeight: 700,
+            color: "#0f172a",
+            margin: 0,
+            fontFamily: "system-ui, -apple-system, sans-serif"
+          }, children: "Racconto del Post" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { mode: "wait", children: selectedMemory && /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
+          display: "grid",
+          gridTemplateColumns: "2.6fr 1fr",
+          gap: 0,
+          alignItems: "stretch",
+          marginBottom: "3.5rem",
+          borderRadius: "28px",
+          boxShadow: "0 30px 70px rgba(0,0,0,0.12)",
+          overflow: "hidden"
+        }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+            motion.div,
+            {
+              initial: { opacity: 0, y: 40, scale: 0.96 },
+              animate: { opacity: 1, y: 0, scale: 1 },
+              exit: { opacity: 0, y: -20, scale: 0.97 },
+              transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+              style: {
+                position: "relative",
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                padding: "0.5rem",
+                backdropFilter: "blur(20px)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                paddingTop: "2rem",
+                height: "100%"
               },
-              index
-            )) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { fontWeight: "bold", color: theme.accent, marginTop: 0 }, children: [
-              "Passaggio ",
-              interviewStep + 1,
-              " di ",
-              guidedQuestions.length
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: theme.bg, padding: "20px", borderRadius: "16px", marginBottom: "20px", border: `1px solid ${theme.border}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: "bold", marginBottom: "12px" }, children: guidedQuestions[interviewStep].question }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "textarea",
-                {
-                  rows: 4,
-                  placeholder: guidedQuestions[interviewStep].placeholder,
-                  value: interviewStep === 0 ? interviewAnswers.who : interviewStep === 1 ? interviewAnswers.when : interviewAnswers.story,
-                  onChange: (e) => {
-                    const val = e.target.value;
-                    if (interviewStep === 0) setInterviewAnswers({ ...interviewAnswers, who: val });
-                    if (interviewStep === 1) setInterviewAnswers({ ...interviewAnswers, when: val });
-                    if (interviewStep === 2) setInterviewAnswers({ ...interviewAnswers, story: val });
-                  },
-                  style: {
-                    width: "100%",
-                    padding: "14px",
-                    borderRadius: "10px",
-                    border: `2px solid ${theme.border}`,
-                    backgroundColor: theme.cardBg,
-                    color: theme.text,
-                    fontSize: "16px"
-                  }
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: "16px", textAlign: "center" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
+              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
+                position: "relative",
+                borderRadius: "20px",
+                overflow: "hidden",
+                height: "750px",
+                backgroundColor: "#0b1329"
+              }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                  "img",
                   {
-                    type: "button",
-                    onClick: () => setIsRecording(!isRecording),
+                    src: selectedMemory.imageUrl,
+                    alt: selectedMemory.title,
                     style: {
-                      minHeight: "54px",
-                      padding: "12px 28px",
-                      backgroundColor: isRecording ? "#dc2626" : "#16a34a",
-                      color: "#ffffff",
-                      border: "none",
-                      borderRadius: "30px",
-                      fontWeight: "bold",
-                      fontSize: "16px",
-                      cursor: "pointer",
-                      boxShadow: isRecording ? "0 0 12px rgba(220, 38, 38, 0.5)" : "none"
-                    },
-                    children: isRecording ? "\u{1F534} Interrompi Registrazione" : "\u{1F399}\uFE0F Premi qui e parla a voce"
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      display: "block"
+                    }
                   }
                 ),
-                isRecording && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { color: "#dc2626", fontWeight: "bold", marginTop: "10px", animation: "pulse 1s infinite" }, children: "\u{1F399}\uFE0F Sto ascoltando la tua voce... parla pure liberamente!" })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { style: { display: "flex", justifyContent: "space-between", gap: "12px" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  disabled: interviewStep === 0,
-                  onClick: () => setInterviewStep((prev) => prev - 1),
-                  style: {
-                    minHeight: "48px",
-                    padding: "0 20px",
-                    borderRadius: "10px",
-                    border: `1px solid ${theme.border}`,
-                    backgroundColor: theme.bg,
-                    color: theme.text,
-                    cursor: interviewStep === 0 ? "not-allowed" : "pointer",
-                    opacity: interviewStep === 0 ? 0.5 : 1
-                  },
-                  children: "\u2190 Indietro"
-                }
-              ),
-              interviewStep < guidedQuestions.length - 1 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  onClick: () => setInterviewStep((prev) => prev + 1),
-                  style: {
-                    minHeight: "48px",
-                    padding: "0 24px",
-                    borderRadius: "10px",
-                    border: "none",
-                    backgroundColor: theme.primary,
-                    color: theme.primaryText,
-                    fontWeight: "bold",
-                    cursor: "pointer"
-                  },
-                  children: "Avanti \u2192"
-                }
-              ) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  onClick: () => {
-                    alert("Ricordo salvato e condiviso con tutta la famiglia!");
-                    setIsInterviewOpen(false);
-                    setInterviewStep(0);
-                  },
-                  style: {
-                    minHeight: "48px",
-                    padding: "0 24px",
-                    borderRadius: "10px",
-                    border: "none",
-                    backgroundColor: "#16a34a",
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
+                  position: "absolute",
+                  top: "1.5rem",
+                  left: "1.5rem",
+                  display: "flex",
+                  gap: "0.6rem",
+                  alignItems: "center"
+                }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: {
+                    backgroundColor: PRIMARY_COLOR,
                     color: "#ffffff",
-                    fontWeight: "bold",
-                    cursor: "pointer"
+                    fontWeight: 800,
+                    fontSize: "0.85rem",
+                    padding: "0.45rem 1rem",
+                    borderRadius: "30px",
+                    boxShadow: "0 4px 15px rgba(67, 120, 238, 0.4)"
+                  }, children: selectedMemory.year }),
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: {
+                    backgroundColor: "rgba(15, 23, 42, 0.65)",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    fontSize: "0.75rem",
+                    padding: "0.45rem 0.9rem",
+                    borderRadius: "30px",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(255,255,255,0.2)"
+                  }, children: selectedMemory.catalogCode })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { children: floatingEmojis.map((item) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                  motion.span,
+                  {
+                    initial: { opacity: 1, y: 520, scale: 0.8 },
+                    animate: { opacity: 0, y: -40, scale: 2.2 },
+                    transition: { duration: 1.8, ease: "easeOut" },
+                    style: {
+                      position: "absolute",
+                      left: `${item.leftOffset}%`,
+                      fontSize: "2.8rem",
+                      pointerEvents: "none",
+                      filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.4))"
+                    },
+                    children: item.emoji
                   },
-                  children: "\u{1F4BE} Salva per la Famiglia"
-                }
-              )
-            ] })
-          ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { position: "fixed", bottom: "24px", right: "24px", zIndex: 200 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  item.id
+                )) })
+              ] })
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+            motion.div,
+            {
+              initial: { opacity: 0, y: -40 },
+              animate: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: -30 },
+              transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+              style: {
+                backgroundColor: "rgba(255, 255, 255, 0.92)",
+                padding: "2.5rem",
+                backdropFilter: "blur(20px)",
+                borderLeft: "1px solid rgba(226,232,240,0.7)",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.75rem",
+                minHeight: "750px",
+                justifyContent: "space-between"
+              },
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "0.85rem" }, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                        "img",
+                        {
+                          src: selectedMemory.authorAvatar,
+                          alt: selectedMemory.authorName,
+                          style: {
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            border: "2px solid #ffffff",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+                          }
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h4", { style: { margin: 0, fontSize: "1.05rem", fontWeight: 700, color: "#0f172a" }, children: selectedMemory.authorName }),
+                        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { style: { fontSize: "0.78rem", color: "#64748b" }, children: [
+                          "Pubblicato \u2022 ",
+                          selectedMemory.dateStr
+                        ] })
+                      ] })
+                    ] }),
+                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                      "button",
+                      {
+                        onClick: () => setSelectedMemory(null),
+                        style: {
+                          background: "rgba(241, 245, 249, 0.9)",
+                          border: "none",
+                          color: "#64748b",
+                          width: "34px",
+                          height: "34px",
+                          borderRadius: "50%",
+                          cursor: "pointer",
+                          fontWeight: "bold",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "0.9rem"
+                        },
+                        children: "\u2715"
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("hr", { style: { border: "none", borderTop: "1px solid #e2e8f0", margin: "0 0 1.75rem 0" } }),
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: {
+                      fontSize: "0.75rem",
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      color: PRIMARY_COLOR,
+                      fontWeight: 800
+                    }, children: "Scheda Descrittiva" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { style: {
+                      fontSize: "2.1rem",
+                      fontWeight: 700,
+                      color: "#0f172a",
+                      margin: "0.4rem 0 1.25rem 0",
+                      lineHeight: 1.2,
+                      fontFamily: 'Georgia, "Times New Roman", serif'
+                    }, children: selectedMemory.title })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { style: {
+                    fontSize: "1.1rem",
+                    lineHeight: 1.85,
+                    color: "#334155",
+                    margin: 0,
+                    fontFamily: 'Georgia, "Times New Roman", serif'
+                  }, children: selectedMemory.story })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
+                    position: "relative",
+                    paddingTop: "1.25rem",
+                    borderTop: "1px solid #f1f5f9",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                  }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { children: showReactionPicker && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                      motion.div,
+                      {
+                        initial: { opacity: 0, y: 10, scale: 0.95 },
+                        animate: { opacity: 1, y: -52, scale: 1 },
+                        exit: { opacity: 0, y: 10, scale: 0.95 },
+                        transition: { duration: 0.2 },
+                        style: {
+                          position: "absolute",
+                          left: 0,
+                          backgroundColor: "#ffffff",
+                          border: "1px solid #e2e8f0",
+                          borderRadius: "30px",
+                          padding: "0.4rem 0.8rem",
+                          display: "flex",
+                          gap: "0.6rem",
+                          boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+                          zIndex: 20
+                        },
+                        children: AVAILABLE_REACTIONS.map((emoji) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                          motion.button,
+                          {
+                            whileHover: { scale: 1.35 },
+                            whileTap: { scale: 0.9 },
+                            onClick: () => handleToggleReaction(emoji),
+                            style: {
+                              background: "transparent",
+                              border: "none",
+                              fontSize: "1.4rem",
+                              cursor: "pointer",
+                              padding: "0.2rem",
+                              lineHeight: 1
+                            },
+                            children: emoji
+                          },
+                          emoji
+                        ))
+                      }
+                    ) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", gap: "0.8rem", alignItems: "center" }, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+                        "button",
+                        {
+                          onClick: () => setShowReactionPicker(!showReactionPicker),
+                          style: {
+                            background: userReaction ? "#eff6ff" : "#ffffff",
+                            border: userReaction ? `1px solid ${PRIMARY_COLOR}` : "1px solid #cbd5e1",
+                            color: userReaction ? PRIMARY_COLOR : "#475569",
+                            padding: "0.55rem 1.2rem",
+                            fontSize: "0.85rem",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.5rem",
+                            borderRadius: "8px",
+                            transition: "all 0.2s"
+                          },
+                          children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: userReaction ? userReaction : "\u{1F90D}" }),
+                            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: userReaction ? "Hai reagito" : "Reagisci" })
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { style: { fontSize: "0.85rem", color: "#64748b", fontWeight: 600 }, children: [
+                        selectedMemory.likesCount + (userReaction ? 1 : 0),
+                        " reazioni"
+                      ] })
+                    ] }),
+                    /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+                      "button",
+                      {
+                        onClick: () => setShowComments(!showComments),
+                        style: {
+                          background: showComments ? "#f1f5f9" : "#ffffff",
+                          border: "1px solid #cbd5e1",
+                          color: "#475569",
+                          padding: "0.55rem 1.2rem",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                          borderRadius: "8px"
+                        },
+                        children: [
+                          "\u{1F4AC} ",
+                          selectedMemory.comments.length,
+                          " Commenti"
+                        ]
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { children: showComments && /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+                    motion.div,
+                    {
+                      initial: { opacity: 0, height: 0 },
+                      animate: { opacity: 1, height: "auto" },
+                      exit: { opacity: 0, height: 0 },
+                      transition: { duration: 0.3 },
+                      style: {
+                        backgroundColor: "#f8fafc",
+                        borderRadius: "12px",
+                        padding: "1rem",
+                        marginTop: "1rem",
+                        border: "1px solid #e2e8f0"
+                      },
+                      children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: "0.8rem", marginBottom: "1rem", maxHeight: "140px", overflowY: "auto" }, children: selectedMemory.comments.map((comment) => /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", gap: "0.7rem" }, children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("img", { src: comment.avatar, alt: comment.author, style: { width: "28px", height: "28px", borderRadius: "50%", objectFit: "cover" } }),
+                          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { backgroundColor: "#ffffff", borderRadius: "8px", padding: "0.5rem 0.8rem", flex: 1, border: "1px solid #e2e8f0" }, children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", fontSize: "0.75rem", marginBottom: "0.1rem" }, children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: { fontWeight: 700, color: "#0f172a" }, children: comment.author }),
+                              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: { color: "#94a3b8" }, children: comment.date })
+                            ] }),
+                            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { style: { margin: 0, fontSize: "0.8rem", color: "#334155" }, children: comment.text })
+                          ] })
+                        ] }, comment.id)) }),
+                        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("form", { onSubmit: handleAddComment, style: { display: "flex", gap: "0.5rem" }, children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                            "input",
+                            {
+                              type: "text",
+                              placeholder: "Aggiungi un aneddoto...",
+                              value: newCommentText,
+                              onChange: (e) => setNewCommentText(e.target.value),
+                              style: {
+                                flex: 1,
+                                backgroundColor: "#ffffff",
+                                border: "1px solid #cbd5e1",
+                                borderRadius: "6px",
+                                padding: "0.5rem 0.8rem",
+                                color: "#0f172a",
+                                fontSize: "0.8rem",
+                                outline: "none"
+                              }
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                            "button",
+                            {
+                              type: "submit",
+                              style: {
+                                backgroundColor: PRIMARY_COLOR,
+                                color: "#ffffff",
+                                border: "none",
+                                borderRadius: "6px",
+                                padding: "0.5rem 1rem",
+                                fontWeight: 600,
+                                fontSize: "0.8rem",
+                                cursor: "pointer"
+                              },
+                              children: "Invia"
+                            }
+                          )
+                        ] })
+                      ]
+                    }
+                  ) })
+                ] })
+              ]
+            }
+          )
+        ] }, selectedMemory.id) }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { width: "100%", marginTop: "3rem" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h3", { style: {
+            fontSize: "0.85rem",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "#64748b",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            fontFamily: "inherit"
+          }, children: "Sfoglia Altri Post della Timeline" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { position: "relative", display: "flex", alignItems: "center", width: "100%" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
               "button",
               {
-                onClick: () => setLargeFont(!largeFont),
-                title: "Testo Ingrandito",
+                onClick: () => filmstripRef.current?.scrollBy({ left: -350, behavior: "smooth" }),
+                onMouseEnter: (e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.9)";
+                  e.currentTarget.style.color = "#4378EE";
+                },
+                onMouseLeave: (e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.2)";
+                  e.currentTarget.style.color = "white";
+                },
                 style: {
                   position: "absolute",
-                  bottom: accessibilityOpen ? "92px" : "0px",
-                  right: accessibilityOpen ? "8px" : "0px",
-                  width: "52px",
-                  height: "52px",
+                  left: "-20px",
+                  zIndex: 20,
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  border: "1px solid rgba(255,255,255,0.3)",
                   borderRadius: "50%",
-                  border: "none",
-                  backgroundColor: largeFont ? theme.primary : highContrast ? "#1f2937" : "#ffffff",
-                  color: largeFont ? theme.primaryText : theme.text,
-                  boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  opacity: accessibilityOpen ? 1 : 0,
-                  transform: accessibilityOpen ? "scale(1)" : "scale(0.3)",
-                  pointerEvents: accessibilityOpen ? "auto" : "none",
-                  transition: "all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)"
-                },
-                children: "\u{1F50D}"
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                onClick: () => setHighContrast(!highContrast),
-                title: "Alto Contrasto",
-                style: {
-                  position: "absolute",
-                  bottom: accessibilityOpen ? "68px" : "0px",
-                  right: accessibilityOpen ? "80px" : "0px",
-                  width: "52px",
-                  height: "52px",
-                  borderRadius: "50%",
-                  border: "none",
-                  backgroundColor: highContrast ? "#ffff00" : "#ffffff",
-                  color: highContrast ? "#000000" : theme.text,
-                  boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  opacity: accessibilityOpen ? 1 : 0,
-                  transform: accessibilityOpen ? "scale(1)" : "scale(0.3)",
-                  pointerEvents: accessibilityOpen ? "auto" : "none",
-                  transition: "all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)"
-                },
-                children: "\u{1F441}\uFE0F"
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                onClick: () => setAccessibilityOpen(!accessibilityOpen),
-                title: "Opzioni di Accessibilit\xE0",
-                style: {
-                  width: "60px",
-                  height: "60px",
-                  borderRadius: "50%",
-                  border: "none",
-                  backgroundColor: highContrast ? "#ffff00" : theme.primary,
-                  color: highContrast ? "#000000" : theme.primaryText,
-                  fontSize: accessibilityOpen ? "26px" : "20px",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  boxShadow: "0 6px 18px rgba(0,0,0,0.3)",
+                  width: "45px",
+                  height: "45px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  transform: accessibilityOpen ? "rotate(135deg)" : "rotate(0deg)"
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  fontSize: "1.2rem",
+                  color: "white",
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
                 },
-                children: accessibilityOpen ? "\u2716" : "\u2699\uFE0F"
+                children: "\u25C0"
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              "div",
+              {
+                ref: filmstripRef,
+                style: {
+                  display: "flex",
+                  gap: "1.5rem",
+                  overflowX: "auto",
+                  padding: "1rem 0.5rem",
+                  width: "100%",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none"
+                },
+                children: TIMELINE_MEMORIES.map((item) => {
+                  const isSelected = selectedMemory?.id === item.id;
+                  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+                    "div",
+                    {
+                      onClick: () => handleSelectMemory(item),
+                      style: {
+                        minWidth: "340px",
+                        maxWidth: "340px",
+                        flexShrink: 0,
+                        backgroundColor: "#ffffff",
+                        borderRadius: "20px",
+                        padding: "14px",
+                        cursor: "pointer",
+                        boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+                        border: isSelected ? "2px solid #4378EE" : "2px solid transparent",
+                        transition: "all 0.2s ease"
+                      },
+                      children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
+                          position: "relative",
+                          height: "240px",
+                          borderRadius: "12px",
+                          overflow: "hidden",
+                          backgroundColor: "#000000"
+                        }, children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                            "img",
+                            {
+                              src: item.imageUrl,
+                              alt: item.title,
+                              style: { width: "100%", height: "100%", objectFit: "cover" }
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: {
+                            position: "absolute",
+                            bottom: "10px",
+                            left: "10px",
+                            backgroundColor: "#4378EE",
+                            color: "#ffffff",
+                            fontWeight: 700,
+                            fontSize: "0.75rem",
+                            padding: "0.25rem 0.7rem",
+                            borderRadius: "6px",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.3)"
+                          }, children: item.year })
+                        ] }),
+                        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { style: { padding: "8px 2px 2px 2px" }, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h4", { style: {
+                          fontSize: "0.9rem",
+                          fontWeight: 700,
+                          color: "#0f172a",
+                          margin: 0,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis"
+                        }, children: item.title }) })
+                      ]
+                    },
+                    item.id
+                  );
+                })
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              "button",
+              {
+                onClick: () => filmstripRef.current?.scrollBy({ left: 350, behavior: "smooth" }),
+                onMouseEnter: (e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.9)";
+                  e.currentTarget.style.color = "#4378EE";
+                },
+                onMouseLeave: (e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.2)";
+                  e.currentTarget.style.color = "white";
+                },
+                style: {
+                  position: "absolute",
+                  right: "-20px",
+                  zIndex: 20,
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  borderRadius: "50%",
+                  width: "45px",
+                  height: "45px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  fontSize: "1.2rem",
+                  color: "white",
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
+                },
+                children: "\u25B6"
               }
             )
           ] })
-        ] });
-      }
-      var container = document.getElementById("root");
-      if (container) {
-        const root = (0, import_client.createRoot)(container);
-        root.render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(MemoryBridgeApp, {}));
-      }
-    }
-  });
-  require_App();
+        ] })
+      ] })
+    ] });
+  }
+  var container = document.getElementById("root");
+  if (container) {
+    const root = (0, import_client.createRoot)(container);
+    root.render(/* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MuseumSocialPostTimeline, {}));
+  }
 })();
 /*! Bundled license information:
 
@@ -22488,6 +31266,17 @@ react/cjs/react.development.js:
   (**
    * @license React
    * react.development.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
+react/cjs/react-jsx-runtime.development.js:
+  (**
+   * @license React
+   * react-jsx-runtime.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *
@@ -22521,17 +31310,6 @@ react-dom/cjs/react-dom-client.development.js:
   (**
    * @license React
    * react-dom-client.development.js
-   *
-   * Copyright (c) Meta Platforms, Inc. and affiliates.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *)
-
-react/cjs/react-jsx-runtime.development.js:
-  (**
-   * @license React
-   * react-jsx-runtime.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *

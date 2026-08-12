@@ -1,792 +1,906 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Inserisci qui il nome o percorso della tua immagine caricata
+import fotoFamiglia from "@/images/0014314705.jpg";
 import {createRoot} from "react-dom/client";
-import IrisAvatar from "@/images/Iris.png"
 
 // ============================================================================
-// MEMORYBRIDGE - INTERFACCIA ED ELEMENTI CARATTERISTICI (REACT MONOLITH)
+// INTERFACCE E TIPI
 // ============================================================================
+interface Comment {
+    id: string;
+    author: string;
+    avatar: string;
+    date: string;
+    text: string;
+}
 
-function MemoryBridgeApp() {
-    // --- STATO ACCESSIBILITÀ (ISO 9241 & WCAG) ---
-    const [highContrast, setHighContrast] = useState(false);
-    const [largeFont, setLargeFont] = useState(false);
+interface MemoryItem {
+    id: string;
+    year: number;
+    catalogCode: string;
+    dateStr: string;
+    authorName: string;
+    authorAvatar: string;
+    title: string;
+    story: string;
+    imageUrl: string;
+    likesCount: number;
+    comments: Comment[];
+}
 
-    // --- STATO INTERFACCIA ---
-    const [isSpeaking, setIsSpeaking] = useState(false);
-    const [accessibilityOpen, setAccessibilityOpen] = useState(false);
+interface FloatingEmoji {
+    id: number;
+    emoji: string;
+    leftOffset: number;
+}
 
-    // --- STATO GUIDA & REGISTRAZIONE VOCALE (Per Nonna Maria) ---
-    const [isInterviewOpen, setIsInterviewOpen] = useState(false);
-    const [isRecording, setIsRecording] = useState(false);
-    const [interviewStep, setInterviewStep] = useState(0);
-    const [interviewAnswers, setInterviewAnswers] = useState({ who: '', when: '', story: '' });
+const PRIMARY_COLOR = '#4378EE';
+const AVAILABLE_REACTIONS = ['❤️', '👏', '🥹', '✨', '🔥'];
 
-    // --- STATO FEED & INTERAZIONI (Per Sofia & Marco) ---
-    const [likes, setLikes] = useState(12);
-    const [hasLiked, setHasLiked] = useState(false);
-    const [showComments, setShowComments] = useState(false);
-    const [comments, setComments] = useState([
-        "Che bella foto di famiglia! Che anno era precisamente?",
-        "Zio Orazio aveva sempre lo stesso sorriso!",
-        "Grazie per aver condiviso questo ricordo ❤️"
-    ]);
-    const [newComment, setNewComment] = useState("");
+const TIMELINE_MEMORIES: MemoryItem[] = [
+    {
+        id: 'm1',
+        year: 1965,
+        catalogCode: 'EXHIBIT 1965-01 / ARCHIVIO HAN',
+        dateStr: 'Estate 1965',
+        authorName: 'Elena Han',
+        authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80',
+        title: 'La Grande Riunione di Famiglia',
+        story: "Tutti i rami della famiglia riuniti nel cortile di casa. Al centro il nonno con il suo gilet coordinato e gli zii in abito elegante. In primo piano i più piccoli, con i loro abiti della festa in maglia bianca. Un istante scolpito nel tempo che custodisce le nostre radici e il calore indimenticabile di quel pomeriggio d'estate.",
+        imageUrl: fotoFamiglia,
+        likesCount: 24,
+        comments: [
+            {
+                id: 'c1',
+                author: 'Zia Caterina',
+                avatar: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=120&q=80',
+                date: '2 ore fa',
+                text: 'Che meraviglia rivedere questa foto! Ricordo ancora il profumo delle zeppole che la nonna aveva preparato per tutti.',
+            },
+            {
+                id: 'c2',
+                author: 'Marco Han',
+                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80',
+                date: '1 ora fa',
+                text: 'Il bambino a sinistra in prima fila ero io! Avevo un capriccio terribile perché volevo andare a giocare col pallone.',
+            },
+        ],
+    },
+    {
+        id: 'm2',
+        year: 1978,
+        catalogCode: 'EXHIBIT 1978-04 / ARCHIVIO ROSSI',
+        dateStr: '2 Settembre 1978',
+        authorName: 'Roberto Rossi',
+        authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80',
+        title: 'Viaggio verso il Mare in Fiat 127',
+        story: "Il primo viaggio lungo verso la Calabria con la macchina nuova blu. Valigie sul tettuccio, finestrini abbassati e la musica della radio a farci compagnia durante tutto il tragitto. Una tappa fondamentale nei ricordi della nostra giovinezza.",
+        imageUrl: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80',
+        likesCount: 18,
+        comments: [
+            {
+                id: 'c3',
+                author: 'Luisa Rossi',
+                avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80',
+                date: 'Ieri',
+                text: 'Si è fuso il radiatore a metà strada, te lo ricordi? Ma è stato il viaggio più bello di sempre.',
+            },
+        ],
+    },
+    {
+        id: 'm3',
+        year: 1984,
+        catalogCode: 'EXHIBIT 1984-09 / ARCHIVIO BIANCHI',
+        dateStr: '15 Agosto 1984',
+        authorName: 'Anna Bianchi',
+        authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
+        title: 'Pranzo di Ferragosto in Compagnia',
+        story: "Tavolate lunghissime all'ombra del pergolato. Risate, bicchieri di vino che si alzano in brindisi continui e piatti colmi di prelibatezze preparate fin dalle prime ore dell'alba.",
+        imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=80',
+        likesCount: 31,
+        comments: [],
+    },
+    {
+        id: 'm4',
+        year: 1992,
+        catalogCode: 'EXHIBIT 1992-12 / ARCHIVIO VERDI',
+        dateStr: 'Natale 1992',
+        authorName: 'Giorgio Verdi',
+        authorAvatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80',
+        title: 'La Nevicata Memorabile',
+        story: "La città e la casa di campagna completamente sommerse da un metro di neve fresca. Usciti fuori con stivali e sciarpe per costruire un gigantesco pupazzo di neve.",
+        imageUrl: 'https://images.unsplash.com/photo-1491002052546-bf38f186af56?auto=format&fit=crop&w=1600&q=80',
+        likesCount: 42,
+        comments: [],
+    },
+    {
+        id: 'm5',
+        year: 1995,
+        catalogCode: 'EXHIBIT 1995-03 / ARCHIVIO NERI',
+        dateStr: '10 Luglio 1995',
+        authorName: 'Martina Neri',
+        authorAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80',
+        title: 'Gita in Montagna',
+        story: "Passeggiata sui sentieri alpini con zaino in spalla e bastoni da trekking. Aria frizzante e panorama mozzafiato dalla cima.",
+        imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80',
+        likesCount: 15,
+        comments: [],
+    },
+    {
+        id: 'm6',
+        year: 2001,
+        catalogCode: 'EXHIBIT 2001-08 / ARCHIVIO CONTI',
+        dateStr: 'Capodanno 2001',
+        authorName: 'Davide Conti',
+        authorAvatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=120&q=80',
+        title: 'Festa di Inizio Millennio',
+        story: "Festeggiamenti in piazza con musica, canti e fuochi d'artificio per dare il benvenuto al nuovo millennio insieme agli amici di una vita.",
+        imageUrl: 'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?auto=format&fit=crop&w=1600&q=80',
+        likesCount: 50,
+        comments: [],
+    }
+];
 
-    const guidedQuestions = [
-        { id: 'who', question: 'Chi c’è in questa fotografia o in questo ricordo?', placeholder: 'Es. Nonno Orazio, Cugino Antonio...' },
-        { id: 'when', question: 'In che anno o occasione speciale è successo?', placeholder: 'Es. Matrimonio del 1965, Estate a Salerno...' },
-        { id: 'story', question: 'Racconta cosa vi stavate dicendo o un aneddoto speciale:', placeholder: 'Premi il microfono se preferisci parlare a voce!' }
-    ];
+export default function MuseumSocialPostTimeline() {
+    const [selectedMemory, setSelectedMemory] = useState<MemoryItem | null>(TIMELINE_MEMORIES[0]);
+    const [showComments, setShowComments] = useState<boolean>(false);
+    const [newCommentText, setNewCommentText] = useState<string>('');
 
-    const toggleLike = () => {
-        setLikes(prev => hasLiked ? prev - 1 : prev + 1);
-        setHasLiked(!hasLiked);
+    // Reazioni
+    const [userReaction, setUserReaction] = useState<string | null>(null);
+    const [showReactionPicker, setShowReactionPicker] = useState<boolean>(false);
+    const [floatingEmojis, setFloatingEmojis] = useState<FloatingEmoji[]>([]);
+
+    // Riferimento per lo scorrimento del filmstrip
+    const filmstripRef = useRef<HTMLDivElement>(null);
+
+    const handleSelectMemory = (item: MemoryItem) => {
+        setSelectedMemory(item);
+        setShowComments(false);
+        setUserReaction(null);
+        setShowReactionPicker(false);
+        setFloatingEmojis([]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const handleAddComment = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (newComment.trim()) {
-            setComments([...comments, newComment.trim()]);
-            setNewComment("");
-        }
-    };
-    const toggleSpeech = (text: string) => {
-        if ('speechSynthesis' in window) {
-            if (isSpeaking) {
-                window.speechSynthesis.cancel();  //API per lettura vocale su web
-                setIsSpeaking(false);
-            } else {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'it-IT';
-                utterance.onend = () => setIsSpeaking(false);
-                window.speechSynthesis.speak(utterance);
-                setIsSpeaking(true);
-            }
+    const handleToggleReaction = (emoji: string) => {
+        if (userReaction === emoji) {
+            setUserReaction(null);
         } else {
-            alert("La sintesi vocale non è supportata da questo browser.");
+            setUserReaction(emoji);
+            const newFloating: FloatingEmoji = {
+                id: Date.now(),
+                emoji: emoji,
+                leftOffset: Math.random() * 60 + 20,
+            };
+            setFloatingEmojis((prev) => [...prev, newFloating]);
+
+            setTimeout(() => {
+                setFloatingEmojis((prev) => prev.filter((e) => e.id !== newFloating.id));
+            }, 1800);
         }
+        setShowReactionPicker(false);
     };
 
-    const theme = {
-        bg: highContrast ? '#000000' : '#f8fafc',
-        cardBg: highContrast ? '#121212' : '#ffffff',
-        text: highContrast ? '#ffffff' : '#0f172a',
-        textMuted: highContrast ? '#cbd5e1' : '#64748b',
-        primary: highContrast ? '#ffff00' : '#2563eb',
-        primaryBg: highContrast ? '#ffff00' : '#eff6ff',
-        primaryText: highContrast ? '#000000' : '#ffffff',
-        accent: highContrast ? '#00ffff' : '#0284c7',
-        border: highContrast ? '#ffffff' : '#e2e8f0',
-        fontSizeMultiplier: largeFont ? 1.25 : 1,
-    };
+    const handleAddComment = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newCommentText.trim() || !selectedMemory) return;
 
-    const sampleStoryText = "Il nonno Orazio al matrimonio del cugino Antonio. Trovato questo gioiello in un vecchio album fotografico. Si può vedere tutta la famiglia riunita, tutti eleganti e sorridenti.";
+        const newComment: Comment = {
+            id: Date.now().toString(),
+            author: 'Tu (Ospite)',
+            avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
+            date: 'Proprio ora',
+            text: newCommentText,
+        };
+
+        selectedMemory.comments.push(newComment);
+        setNewCommentText('');
+    };
 
     return (
         <div style={{
-            backgroundColor: theme.bg,
-            color: theme.text,
+            position: 'relative',
             minHeight: '100vh',
-            fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-            letterSpacing: '-0.02em', // Rende la spaziatura compatta come nell'immagine
-            fontSize: `${16 * theme.fontSizeMultiplier}px`,
-            lineHeight: '1.6',
-            transition: 'all 0.2s ease-in-out'
+            backgroundColor: '#090d16',
+            color: '#0f172a',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            paddingBottom: '5rem',
+            overflowX: 'hidden',
         }}>
 
-
-            {/* 2. HEADER / BRANDING MEMORYBRIDGE */}
-            <header style={{
-                backgroundColor: theme.cardBg,
-                borderBottom: `2px solid ${theme.border}`,
-                position: 'sticky',
-                top: 0,
-                zIndex: 40,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
-            }}>
-                <div style={{
-                    maxWidth: '1200px', /* Aumentato da 1000px per distanziare Logo e Menu */
-                    margin: '0 auto',
-                    padding: '12px 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: '16px'
-                }}>
-                    {/* LOGO */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{
-                            width: '46px',
-                            height: '46px',
-                            borderRadius: '12px',
-                            backgroundColor: theme.primary,
-                            color: theme.primaryText,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '24px',
-                            boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
-                        }}>🌉</div>
-                        <div>
-                            <h1 style={{ margin: 0, fontSize: `${22 * theme.fontSizeMultiplier}px`, fontWeight: '800', color: theme.primary, lineHeight: 1 }}>
-                                MemoryBridge
-                            </h1>
-                            <span style={{ fontSize: '12px', color: theme.textMuted, fontWeight: '500' }}>Ponte tra Memorie Familiari</span>
-                        </div>
-                    </div>
-
-                    {/* NAVIGAZIONE CARATTERISTICA */}
-                    <nav>
-                        <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, gap: '28px' }}> {/* Aumentato gap da 6px a 28px per distanziare le voci tra loro */}
-                            {[
-                                { label: 'Ricordi', icon: '🏠', active: true },
-                                { label: 'Albero Genealogico', icon: '🌳', active: false },
-                                { label: 'Esplora Epoche', icon: '⏳', active: false },
-                                { label: 'Profilo', icon: '👤', active: false }
-                            ].map((item, idx) => (
-                                <li key={idx}>
-                                    <a href="#" style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '6px',
-                                        padding: '8px 14px',
-                                        minHeight: '44px',
-                                        borderRadius: '10px',
-                                        textDecoration: 'none',
-                                        backgroundColor: item.active ? (highContrast ? '#ffff00' : '#e0f2fe') : 'transparent',
-                                        color: item.active ? (highContrast ? '#000000' : '#0369a1') : theme.text,
-                                        fontWeight: item.active ? 'bold' : '500',
-                                        fontSize: `${14 * theme.fontSizeMultiplier}px`
-                                    }}>
-                                        <span>{item.icon}</span>
-                                        <span>{item.label}</span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
-                </div>
-            </header>
-
-            {/* 3. CONTENUTO PRINCIPALE */}
-            <main style={{ maxWidth: '720px', margin: '24px auto', padding: '0 16px' }}>
-
-                {/* SPUNTO DEL GIORNO — a cura di IRIS IA */}
-                <section style={{
-                    background: highContrast ? '#1a1a1a' : 'linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%)',
-                    borderRadius: '16px',
-                    padding: '16px 20px',
-                    border: `2px solid ${highContrast ? '#ffff00' : '#c4b5fd'}`,
-                    marginBottom: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    flexWrap: 'wrap'
-                }}>
-                    <img
-                        src={IrisAvatar}
-                        alt="Iris IA"
+            {/* ====================================================================
+          1. SFONDO CINEMATOGRAFICO AMBIENTALE
+         ==================================================================== */}
+            <AnimatePresence mode="wait">
+                {selectedMemory && (
+                    <motion.div
+                        key={selectedMemory.id}
+                        initial={{ opacity: 0, scale: 1.08 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.03 }}
+                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                         style={{
-                            width: '54px',
-                            height: '54px',
-                            borderRadius: '50%',
-                            objectFit: 'cover',
-                            flexShrink: 0,
-                            border: `2px solid ${highContrast ? '#ffff00' : '#7c3aed'}`,
-                            boxShadow: '0 2px 6px rgba(124,58,237,0.35)'
+                            position: 'fixed',
+                            inset: 0,
+                            zIndex: 0,
+                            backgroundImage: `url(${selectedMemory.imageUrl})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            filter: 'blur(14px) brightness(0.85)',
+                            transform: 'scale(1.05)',
                         }}
                     />
+                )}
+            </AnimatePresence>
 
-                    <div style={{ flex: 1, minWidth: '240px' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span style={{ fontSize: '14px', fontWeight: 'bold', color: highContrast ? '#ffff00' : '#7c3aed' }}>
-                                Iris IA consiglia :
-                            </span>
-                            <span style={{
-                                fontSize: '10px',
-                                fontWeight: 'bold',
-                                backgroundColor: highContrast ? '#ffff00' : '#ede9fe',
-                                color: highContrast ? '#000000' : '#6d28d9',
-                                padding: '1px 6px',
-                                borderRadius: '6px',
-                                letterSpacing: '0.5px'
-                            }}>
-                                AI
-                            </span>
-                        </span>
-                        <p style={{ margin: '4px 0 0 0', fontWeight: 'bold', fontSize: `${16 * theme.fontSizeMultiplier}px` }}>
-                            "Nonna Maria, ti va di raccontarci qual è stato il tuo primo viaggio importante?"
-                        </p>
-                    </div>
-                    <button
-                        onClick={() => setIsInterviewOpen(true)}
-                        style={{
-                            padding: '10px 18px',
-                            minHeight: '44px',
-                            backgroundColor: highContrast ? '#ffff00' : '#7c3aed',
-                            color: highContrast ? '#000000' : '#ffffff',
-                            border: 'none',
-                            borderRadius: '10px',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            whiteSpace: 'nowrap'
-                        }}
-                    >
-                        ✨ Crea Ricordo
-                    </button>
-                </section>
+            {/* VELO DI LUMINOSITÀ ED ELEGANZA */}
+            <div style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 1,
+                background: 'linear-gradient(180deg, rgba(248, 250, 252, 0.65) 0%, rgba(248, 250, 252, 0.82) 100%)',
+                pointerEvents: 'none',
+            }} />
 
-                {/* BOX DI CREAZIONE / INTERVISTA */}
-                <section style={{
-                    backgroundColor: theme.cardBg,
-                    borderRadius: '16px',
-                    padding: '20px',
-                    border: `1px solid ${theme.border}`,
-                    marginBottom: '24px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
-                }}>
-                    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                        <div style={{
-                            width: '56px',
-                            height: '56px',
-                            borderRadius: '50%',
-                            backgroundColor: '#3b82f6',
-                            color: '#ffffff',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '28px',
-                            flexShrink: 0
-                        }}>👤</div>
-
-                        <button
-                            onClick={() => setIsInterviewOpen(true)}
-                            style={{
-                                flexGrow: 1,
-                                padding: '14px 18px',
-                                minHeight: '52px',
-                                textAlign: 'left',
-                                backgroundColor: theme.bg,
-                                border: `2px dashed ${theme.primary}`,
-                                borderRadius: '12px',
-                                color: theme.text,
-                                fontSize: `${15 * theme.fontSizeMultiplier}px`,
-                                cursor: 'pointer',
-                                fontWeight: '500'
-                            }}
-                        >
-                            💭 Clicca qui per raccontare una foto o un ricordo...
-                        </button>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '12px', marginTop: '16px', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                        <button
-                            onClick={() => setIsInterviewOpen(true)}
-                            style={{
-                                flex: '1 1 45%',
-                                minHeight: '48px',
-                                backgroundColor: theme.primary,
-                                color: theme.primaryText,
-                                border: 'none',
-                                borderRadius: '10px',
-                                padding: '10px 16px',
-                                fontWeight: 'bold',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            🎤 Registra con Guida Vocale
-                        </button>
-
-                        <button
-                            onClick={() => setIsInterviewOpen(true)}
-                            style={{
-                                flex: 1,
-                                minHeight: '48px',
-                                backgroundColor: theme.bg,
-                                color: theme.text,
-                                border: `1px solid ${theme.border}`,
-                                borderRadius: '10px',
-                                fontWeight: 'bold',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '8px'
-                            }}
-                        >
-                            📷 Carica Vecchia Foto
-                        </button>
-                    </div>
-                </section>
-
-                {/* FEED CARD RICORDO */}
-                <article style={{
-                    backgroundColor: theme.cardBg,
-                    borderRadius: '20px',
-                    border: `1px solid ${theme.border}`,
-                    padding: '24px',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.04)'
-                }}>
-                    {/* HEADER POST — STILE INSTAGRAM: nome + "con..." sotto, niente badge separati */}
-                    <header style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
-                        <div style={{
-                            width: '54px',
-                            height: '54px',
-                            borderRadius: '50%',
-                            backgroundColor: '#e2e8f0',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '28px',
-                            border: `2px solid ${theme.primary}`
-                        }}>👵</div>
-
-                        <div style={{ flexGrow: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <h3 style={{ margin: 0, fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: 'bold' }}>
-                                    Maria Han (Nonna)
-                                </h3>
-                                <span style={{
-                                    backgroundColor: highContrast ? '#ffff00' : '#dbeafe',
-                                    color: highContrast ? '#000000' : '#1e40af',
-                                    fontSize: '12px',
-                                    fontWeight: 'bold',
-                                    padding: '2px 8px',
-                                    borderRadius: '6px'
-                                }}>
-                  👵 Ramo Materno
-                                </span>
-                            </div>
-                            {/* Riga "con..." in stile Instagram, al posto dei tag a pillola */}
-                            <p style={{ margin: '2px 0 0 0', fontSize: '17px', color: theme.textMuted }}>
-                                con{' '}
-                                <span style={{ color: theme.primary, fontWeight: '700', cursor: 'pointer' }}>
-                                 Nonno Orazio
-                                </span>
-                                {' '}· Matrimonio Antonio
-                            </p>
-                            <p style={{ margin: 0, fontSize: '13px', color: theme.textMuted }}>
-                                📍 New York • 15 Giugno 1965
-                            </p>
-                        </div>
-                    </header>
-
-                    {/* TESTO DEL RICORDO + SINTESI VOCALE */}
-                    <div style={{ marginBottom: '16px' }}>
-                        <p style={{ fontSize: `${17 * theme.fontSizeMultiplier}px`, margin: '0 0 12px 0', lineHeight: '1.6' }}>
-                            {sampleStoryText}
-                        </p>
-
-                        <button
-                            onClick={() => toggleSpeech(sampleStoryText)}
-                            style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                padding: '8px 14px',
-                                minHeight: '40px',
-                                backgroundColor: isSpeaking ? '#dc2626' : theme.primaryBg,
-                                color: isSpeaking ? '#ffffff' : (highContrast ? '#000' : theme.primary),
-                                border: `1px solid ${theme.primary}`,
-                                borderRadius: '20px',
-                                fontWeight: 'bold',
-                                fontSize: '14px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            {isSpeaking ? '🛑 Ferma Lettura Vocale' : '🔊 Ascolta Racconto A Voce'}
-                        </button>
-                    </div>
-
-                    {/* FOTO STORICA (con tag persone in overlay, stile Instagram) */}
-                    <div style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
-                        <img
-                            src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&auto=format&fit=crop&q=80"
-                            alt="Foto d'epoca della famiglia riunita"
-                            style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '480px', objectFit: 'cover' }}
-                        />
-                        <span style={{
-                            position: 'absolute',
-                            bottom: '10px',
-                            left: '10px',
-                            backgroundColor: 'rgba(0,0,0,0.55)',
-                            color: '#ffffff',
-                            fontSize: '12px',
-                            fontWeight: 'bold',
-                            padding: '4px 10px',
-                            borderRadius: '20px',
-                            backdropFilter: 'blur(2px)'
-                        }}>
-                            🌳 Collegato all'Albero Genealogico
-                        </span>
-                    </div>
-
-                    {/* AUDIOPLAYER NOTA VOCALE ORIGINALE */}
+            {/* ====================================================================
+          2. NAVIGATION BAR MEMORYBRIDGE (#4378EE)
+         ==================================================================== */}
+            <nav style={{
+                position: 'sticky',
+                top: 0,
+                zIndex: 50,
+                backgroundColor: 'rgba(255, 255, 255, 0.88)',
+                backdropFilter: 'blur(20px)',
+                borderBottom: '1px solid rgba(226, 232, 240, 0.8)',
+                padding: '0.85rem 3rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                boxShadow: '0 4px 25px rgba(0, 0, 0, 0.05)',
+            }}>
+                {/* LOGO */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
                     <div style={{
-                        backgroundColor: theme.bg,
-                        padding: '12px 16px',
-                        borderRadius: '12px',
-                        border: `1px solid ${theme.border}`,
-                        marginBottom: '20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px'
-                    }}>
-                        <button style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            backgroundColor: theme.primary,
-                            color: theme.primaryText,
-                            border: 'none',
-                            fontSize: '18px',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            ▶️
-                        </button>
-                        <div style={{ flex: 1 }}>
-                            <div style={{ fontSize: '13px', fontWeight: 'bold' }}>🎙️ Audio originale di Nonna Maria (1:24)</div>
-                            <div style={{ height: '6px', backgroundColor: theme.border, borderRadius: '3px', marginTop: '4px', overflow: 'hidden' }}>
-                                <div style={{ width: '35%', height: '100%', backgroundColor: theme.primary }}></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* AZIONI POST */}
-                    <footer style={{ borderTop: `1px solid ${theme.border}`, paddingTop: '16px' }}>
-                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                            <button
-                                onClick={toggleLike}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    minHeight: '46px',
-                                    padding: '8px 18px',
-                                    border: `1px solid ${hasLiked ? theme.primary : theme.border}`,
-                                    borderRadius: '24px',
-                                    backgroundColor: hasLiked ? (highContrast ? '#ffff00' : '#dbeafe') : 'transparent',
-                                    color: hasLiked ? (highContrast ? '#000000' : theme.primary) : theme.text,
-                                    fontWeight: 'bold',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                ❤️ {likes} {hasLiked ? 'Ti Piace' : 'Mi Piace'}
-                            </button>
-
-                            <button
-                                onClick={() => setShowComments(!showComments)}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    minHeight: '46px',
-                                    padding: '8px 18px',
-                                    border: `1px solid ${theme.border}`,
-                                    borderRadius: '24px',
-                                    backgroundColor: 'transparent',
-                                    color: theme.text,
-                                    fontWeight: 'bold',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                💬 {comments.length} Risposte
-                            </button>
-                        </div>
-
-                        {/* SEZIONE COMMENTI */}
-                        {showComments && (
-                            <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: `1px dashed ${theme.border}` }}>
-                                <h4 style={{ margin: '0 0 12px 0', fontSize: '15px' }}>💬 Commenti dei Nipoti e della Famiglia</h4>
-                                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px 0' }}>
-                                    {comments.map((comment, i) => (
-                                        <li key={i} style={{ backgroundColor: theme.bg, padding: '12px', borderRadius: '10px', marginBottom: '8px', border: `1px solid ${theme.border}`, fontSize: '14px' }}>
-                                            {comment}
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                <form onSubmit={handleAddComment} style={{ display: 'flex', gap: '8px' }}>
-                                    <input
-                                        type="text"
-                                        value={newComment}
-                                        onChange={(e) => setNewComment(e.target.value)}
-                                        placeholder="Lascia un messaggio o una domanda alla nonna..."
-                                        style={{
-                                            flexGrow: 1,
-                                            minHeight: '46px',
-                                            padding: '8px 14px',
-                                            borderRadius: '10px',
-                                            border: `1px solid ${theme.border}`,
-                                            backgroundColor: theme.cardBg,
-                                            color: theme.text,
-                                            fontSize: '14px'
-                                        }}
-                                    />
-                                    <button
-                                        type="submit"
-                                        style={{
-                                            minHeight: '46px',
-                                            padding: '0 20px',
-                                            backgroundColor: theme.primary,
-                                            color: theme.primaryText,
-                                            border: 'none',
-                                            borderRadius: '10px',
-                                            fontWeight: 'bold',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        Invia
-                                    </button>
-                                </form>
-                            </div>
-                        )}
-                    </footer>
-                </article>
-
-            </main>
-
-            {/* 4. MODALE INTERVISTA GUIDATA PER GLI ANZIANI */}
-            {isInterviewOpen && (
-                <div style={{
-                    position: 'fixed',
-                    inset: 0,
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '16px',
-                    zIndex: 100
-                }}>
-                    <div style={{
-                        backgroundColor: theme.cardBg,
-                        border: `3px solid ${theme.primary}`,
-                        borderRadius: '24px',
-                        maxWidth: '620px',
-                        width: '100%',
-                        padding: '28px',
-                        boxShadow: '0 10px 25px rgba(0,0,0,0.3)'
-                    }}>
-                        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <h2 style={{ margin: 0, color: theme.primary, fontSize: `${20 * theme.fontSizeMultiplier}px` }}>
-                                👵 Assistente Guidato Raccolta Ricordi
-                            </h2>
-                            <button
-                                onClick={() => setIsInterviewOpen(false)}
-                                style={{ border: 'none', background: 'transparent', fontSize: '28px', cursor: 'pointer', color: theme.text }}
-                            >
-                                ✖
-                            </button>
-                        </header>
-
-                        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                            {guidedQuestions.map((_, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        flex: 1,
-                                        height: '8px',
-                                        borderRadius: '4px',
-                                        backgroundColor: index <= interviewStep ? theme.primary : theme.border
-                                    }}
-                                />
-                            ))}
-                        </div>
-
-                        <p style={{ fontWeight: 'bold', color: theme.accent, marginTop: 0 }}>
-                            Passaggio {interviewStep + 1} di {guidedQuestions.length}
-                        </p>
-
-                        <div style={{ backgroundColor: theme.bg, padding: '20px', borderRadius: '16px', marginBottom: '20px', border: `1px solid ${theme.border}` }}>
-                            <label style={{ display: 'block', fontSize: `${18 * theme.fontSizeMultiplier}px`, fontWeight: 'bold', marginBottom: '12px' }}>
-                                {guidedQuestions[interviewStep].question}
-                            </label>
-
-                            <textarea
-                                rows={4}
-                                placeholder={guidedQuestions[interviewStep].placeholder}
-                                value={interviewStep === 0 ? interviewAnswers.who : interviewStep === 1 ? interviewAnswers.when : interviewAnswers.story}
-                                onChange={(e) => {
-                                    const val = e.target.value;
-                                    if (interviewStep === 0) setInterviewAnswers({ ...interviewAnswers, who: val });
-                                    if (interviewStep === 1) setInterviewAnswers({ ...interviewAnswers, when: val });
-                                    if (interviewStep === 2) setInterviewAnswers({ ...interviewAnswers, story: val });
-                                }}
-                                style={{
-                                    width: '100%',
-                                    padding: '14px',
-                                    borderRadius: '10px',
-                                    border: `2px solid ${theme.border}`,
-                                    backgroundColor: theme.cardBg,
-                                    color: theme.text,
-                                    fontSize: '16px'
-                                }}
-                            />
-
-                            <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsRecording(!isRecording)}
-                                    style={{
-                                        minHeight: '54px',
-                                        padding: '12px 28px',
-                                        backgroundColor: isRecording ? '#dc2626' : '#16a34a',
-                                        color: '#ffffff',
-                                        border: 'none',
-                                        borderRadius: '30px',
-                                        fontWeight: 'bold',
-                                        fontSize: '16px',
-                                        cursor: 'pointer',
-                                        boxShadow: isRecording ? '0 0 12px rgba(220, 38, 38, 0.5)' : 'none'
-                                    }}
-                                >
-                                    {isRecording ? '🔴 Interrompi Registrazione' : '🎙️ Premi qui e parla a voce'}
-                                </button>
-                                {isRecording && (
-                                    <p style={{ color: '#dc2626', fontWeight: 'bold', marginTop: '10px', animation: 'pulse 1s infinite' }}>
-                                        🎙️ Sto ascoltando la tua voce... parla pure liberamente!
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-
-                        <footer style={{ display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
-                            <button
-                                disabled={interviewStep === 0}
-                                onClick={() => setInterviewStep(prev => prev - 1)}
-                                style={{
-                                    minHeight: '48px',
-                                    padding: '0 20px',
-                                    borderRadius: '10px',
-                                    border: `1px solid ${theme.border}`,
-                                    backgroundColor: theme.bg,
-                                    color: theme.text,
-                                    cursor: interviewStep === 0 ? 'not-allowed' : 'pointer',
-                                    opacity: interviewStep === 0 ? 0.5 : 1
-                                }}
-                            >
-                                ← Indietro
-                            </button>
-
-                            {interviewStep < guidedQuestions.length - 1 ? (
-                                <button
-                                    onClick={() => setInterviewStep(prev => prev + 1)}
-                                    style={{
-                                        minHeight: '48px',
-                                        padding: '0 24px',
-                                        borderRadius: '10px',
-                                        border: 'none',
-                                        backgroundColor: theme.primary,
-                                        color: theme.primaryText,
-                                        fontWeight: 'bold',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    Avanti →
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => {
-                                        alert("Ricordo salvato e condiviso con tutta la famiglia!");
-                                        setIsInterviewOpen(false);
-                                        setInterviewStep(0);
-                                    }}
-                                    style={{
-                                        minHeight: '48px',
-                                        padding: '0 24px',
-                                        borderRadius: '10px',
-                                        border: 'none',
-                                        backgroundColor: '#16a34a',
-                                        color: '#ffffff',
-                                        fontWeight: 'bold',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    💾 Salva per la Famiglia
-                                </button>
-                            )}
-                        </footer>
-                    </div>
-                </div>
-            )}
-            {/* WIDGET ACCESSIBILITÀ — Dial Radiale */}
-            <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 200 }}>
-                <button
-                    onClick={() => setLargeFont(!largeFont)}
-                    title="Testo Ingrandito"
-                    style={{
-                        position: 'absolute',
-                        bottom: accessibilityOpen ? '92px' : '0px',
-                        right: accessibilityOpen ? '8px' : '0px',
-                        width: '52px',
-                        height: '52px',
-                        borderRadius: '50%',
-                        border: 'none',
-                        backgroundColor: largeFont ? theme.primary : (highContrast ? '#1f2937' : '#ffffff'),
-                        color: largeFont ? theme.primaryText : theme.text,
-                        boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
-                        fontSize: '20px',
-                        cursor: 'pointer',
-                        opacity: accessibilityOpen ? 1 : 0,
-                        transform: accessibilityOpen ? 'scale(1)' : 'scale(0.3)',
-                        pointerEvents: accessibilityOpen ? 'auto' : 'none',
-                        transition: 'all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    }}
-                >
-                    🔍
-                </button>
-
-                <button
-                    onClick={() => setHighContrast(!highContrast)}
-                    title="Alto Contrasto"
-                    style={{
-                        position: 'absolute',
-                        bottom: accessibilityOpen ? '68px' : '0px',
-                        right: accessibilityOpen ? '80px' : '0px',
-                        width: '52px',
-                        height: '52px',
-                        borderRadius: '50%',
-                        border: 'none',
-                        backgroundColor: highContrast ? '#ffff00' : '#ffffff',
-                        color: highContrast ? '#000000' : theme.text,
-                        boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
-                        fontSize: '20px',
-                        cursor: 'pointer',
-                        opacity: accessibilityOpen ? 1 : 0,
-                        transform: accessibilityOpen ? 'scale(1)' : 'scale(0.3)',
-                        pointerEvents: accessibilityOpen ? 'auto' : 'none',
-                        transition: 'all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    }}
-                >
-                    👁️
-                </button>
-
-                <button
-                    onClick={() => setAccessibilityOpen(!accessibilityOpen)}
-                    title="Opzioni di Accessibilità"
-                    style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
-                        border: 'none',
-                        backgroundColor: highContrast ? '#ffff00' : theme.primary,
-                        color: highContrast ? '#000000' : theme.primaryText,
-                        fontSize: accessibilityOpen ? '26px' : '20px',
-                        fontWeight: 'bold',
-                        cursor: 'pointer',
-                        boxShadow: '0 6px 18px rgba(0,0,0,0.3)',
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '10px',
+                        backgroundColor: PRIMARY_COLOR,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        transform: accessibilityOpen ? 'rotate(135deg)' : 'rotate(0deg)',
-                    }}
-                >
-                    {accessibilityOpen ? '✖' : '⚙️'}
-                </button>
+                        color: '#ffffff',
+                        fontWeight: 'bold',
+                        fontSize: '0.9rem',
+                        boxShadow: '0 4px 12px rgba(67, 120, 238, 0.35)',
+                    }}>
+                        MB
+                    </div>
+                    <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a', letterSpacing: '-0.02em' }}>
+                        Memory<span style={{ color: PRIMARY_COLOR, fontWeight: 500 }}>Bridge</span>
+                    </span>
+                </div>
+
+                {/* NAVIGATION LINKS */}
+                <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+                    <a href="#timeline" style={{ color: PRIMARY_COLOR, textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>
+                        Timeline
+                    </a>
+                    <a href="#galleria" style={{ color: '#475569', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
+                        Esplora Ricordi
+                    </a>
+                    <a href="#famiglia" style={{ color: '#475569', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
+                        Albero di Famiglia
+                    </a>
+                </div>
+
+                {/* AZIONI UTENTE */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                    <button style={{
+                        backgroundColor: PRIMARY_COLOR,
+                        color: '#ffffff',
+                        border: 'none',
+                        padding: '0.55rem 1.2rem',
+                        borderRadius: '8px',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        boxShadow: '0 4px 12px rgba(67, 120, 238, 0.3)',
+                    }}>
+                        <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>+</span> Aggiungi Ricordo
+                    </button>
+
+                    <img
+                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80"
+                        alt="Profilo Tuo"
+                        style={{
+                            width: '38px',
+                            height: '38px',
+                            borderRadius: '50%',
+                            border: `2px solid ${PRIMARY_COLOR}`,
+                            cursor: 'pointer',
+                            objectFit: 'cover',
+                        }}
+                    />
+                </div>
+            </nav>
+
+            {/* ====================================================================
+          3. ESPOSIZIONE DI GALLERIA (TITOLO CENTRATO E LAYOUT A DUE COLONNE)
+         ==================================================================== */}
+            <div style={{ position: 'relative', zIndex: 10, maxWidth: '1800px', margin: '0 auto', padding: '3rem 9rem 0 9rem' }}>
+
+                {/* TITOLO PRINCIPALE CENTRATO */}
+                <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                    <span style={{
+                        fontSize: '0.75rem',
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        color: PRIMARY_COLOR,
+                        fontWeight: 800,
+                        display: 'block',
+                        marginBottom: '0.4rem'
+                    }}>
+                        ARCHIVIO DELLA MEMORIA FAMILIARE
+                    </span>
+                    <h1 style={{
+                        fontSize: '2.4rem',
+                        fontWeight: 700,
+                        color: '#0f172a',
+                        margin: 0,
+                        fontFamily: 'system-ui, -apple-system, sans-serif'
+                    }}>
+                        Racconto del Post
+                    </h1>
+                </div>
+
+                <AnimatePresence mode="wait">
+                    {selectedMemory && (
+                        <div key={selectedMemory.id} style={{
+                            display: 'grid',
+                            gridTemplateColumns: '2.6fr 1fr',
+                            gap: 0,
+                            alignItems: 'stretch',
+                            marginBottom: '3.5rem',
+                            borderRadius: '28px',
+                            boxShadow: '0 30px 70px rgba(0,0,0,0.12)',
+                            overflow: 'hidden',
+                        }}>
+
+                            {/* --------------------------------------------------------------
+                  COLONNA SINISTRA: FOTO MONUMENTALE (2/4 DEL LAYOUT = 50%)
+                 -------------------------------------------------------------- */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 40, scale: 0.96 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: -20, scale: 0.97 }}
+                                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                style={{
+                                    position: 'relative',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    padding: '0.5rem',
+                                    backdropFilter: 'blur(20px)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'flex-start',
+                                    paddingTop: '2rem',
+                                    height: '100%',
+                                }}
+                            >
+                                <div style={{
+                                    position: 'relative',
+                                    borderRadius: '20px',
+                                    overflow: 'hidden',
+                                    height: '750px',
+                                    backgroundColor: '#0b1329',
+                                }}>
+                                    <img
+                                        src={selectedMemory.imageUrl}
+                                        alt={selectedMemory.title}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            objectPosition: 'center',
+                                            display: 'block',
+                                        }}
+                                    />
+
+                                    {/* ETICHETTA ANNO E MUSEO */}
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '1.5rem',
+                                        left: '1.5rem',
+                                        display: 'flex',
+                                        gap: '0.6rem',
+                                        alignItems: 'center',
+                                    }}>
+                                        <span style={{
+                                            backgroundColor: PRIMARY_COLOR,
+                                            color: '#ffffff',
+                                            fontWeight: 800,
+                                            fontSize: '0.85rem',
+                                            padding: '0.45rem 1rem',
+                                            borderRadius: '30px',
+                                            boxShadow: '0 4px 15px rgba(67, 120, 238, 0.4)',
+                                        }}>
+                                            {selectedMemory.year}
+                                        </span>
+                                        <span style={{
+                                            backgroundColor: 'rgba(15, 23, 42, 0.65)',
+                                            color: '#ffffff',
+                                            fontWeight: 600,
+                                            fontSize: '0.75rem',
+                                            padding: '0.45rem 0.9rem',
+                                            borderRadius: '30px',
+                                            backdropFilter: 'blur(10px)',
+                                            border: '1px solid rgba(255,255,255,0.2)',
+                                        }}>
+                                            {selectedMemory.catalogCode}
+                                        </span>
+                                    </div>
+
+                                    {/* REAZIONI FLUTTUANTI */}
+                                    <AnimatePresence>
+                                        {floatingEmojis.map((item) => (
+                                            <motion.span
+                                                key={item.id}
+                                                initial={{ opacity: 1, y: 520, scale: 0.8 }}
+                                                animate={{ opacity: 0, y: -40, scale: 2.2 }}
+                                                transition={{ duration: 1.8, ease: 'easeOut' }}
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: `${item.leftOffset}%`,
+                                                    fontSize: '2.8rem',
+                                                    pointerEvents: 'none',
+                                                    filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))',
+                                                }}
+                                            >
+                                                {item.emoji}
+                                            </motion.span>
+                                        ))}
+                                    </AnimatePresence>
+                                </div>
+                            </motion.div>
+
+                            {/* --------------------------------------------------------------
+                  COLONNA DESTRA: DESCRIZIONE E COMMENTI (SEZIONE ORIGINALE INVARIATA)
+                 -------------------------------------------------------------- */}
+                            <motion.div
+                                initial={{ opacity: 0, y: -40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -30 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                                    padding: '2.5rem',
+                                    backdropFilter: 'blur(20px)',
+                                    borderLeft: '1px solid rgba(226,232,240,0.7)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '1.75rem',
+                                    minHeight: '750px',
+                                    justifyContent: 'space-between',
+                                }}
+                            >
+                                <div>
+                                    {/* METADATI E AUTORE */}
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                                            <img
+                                                src={selectedMemory.authorAvatar}
+                                                alt={selectedMemory.authorName}
+                                                style={{
+                                                    width: '48px',
+                                                    height: '48px',
+                                                    borderRadius: '50%',
+                                                    objectFit: 'cover',
+                                                    border: '2px solid #ffffff',
+                                                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                                }}
+                                            />
+                                            <div>
+                                                <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, color: '#0f172a' }}>
+                                                    {selectedMemory.authorName}
+                                                </h4>
+                                                <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                                                    Pubblicato • {selectedMemory.dateStr}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <button
+                                            onClick={() => setSelectedMemory(null)}
+                                            style={{
+                                                background: 'rgba(241, 245, 249, 0.9)',
+                                                border: 'none',
+                                                color: '#64748b',
+                                                width: '34px',
+                                                height: '34px',
+                                                borderRadius: '50%',
+                                                cursor: 'pointer',
+                                                fontWeight: 'bold',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontSize: '0.9rem',
+                                            }}
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+
+                                    <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '0 0 1.75rem 0' }} />
+
+                                    {/* TITOLO (SEZIONE DESCRIZIONE) */}
+                                    <div>
+                                        <span style={{
+                                            fontSize: '0.75rem',
+                                            letterSpacing: '0.15em',
+                                            textTransform: 'uppercase',
+                                            color: PRIMARY_COLOR,
+                                            fontWeight: 800,
+                                        }}>
+                                            Scheda Descrittiva
+                                        </span>
+                                        <h2 style={{
+                                            fontSize: '2.1rem',
+                                            fontWeight: 700,
+                                            color: '#0f172a',
+                                            margin: '0.4rem 0 1.25rem 0',
+                                            lineHeight: 1.2,
+                                            fontFamily: 'Georgia, "Times New Roman", serif',
+                                        }}>
+                                            {selectedMemory.title}
+                                        </h2>
+                                    </div>
+
+                                    {/* PARAGRAFO RACCONTO */}
+                                    <p style={{
+                                        fontSize: '1.1rem',
+                                        lineHeight: 1.85,
+                                        color: '#334155',
+                                        margin: 0,
+                                        fontFamily: 'Georgia, "Times New Roman", serif',
+                                    }}>
+                                        {selectedMemory.story}
+                                    </p>
+                                </div>
+
+                                {/* AREA INTERATTIVA: REAZIONI E COMMENTI */}
+                                <div>
+                                    <div style={{
+                                        position: 'relative',
+                                        paddingTop: '1.25rem',
+                                        borderTop: '1px solid #f1f5f9',
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    }}>
+                                        {/* POPUP SELETTORE EMOJI */}
+                                        <AnimatePresence>
+                                            {showReactionPicker && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: -52, scale: 1 }}
+                                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                        backgroundColor: '#ffffff',
+                                                        border: '1px solid #e2e8f0',
+                                                        borderRadius: '30px',
+                                                        padding: '0.4rem 0.8rem',
+                                                        display: 'flex',
+                                                        gap: '0.6rem',
+                                                        boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
+                                                        zIndex: 20,
+                                                    }}
+                                                >
+                                                    {AVAILABLE_REACTIONS.map((emoji) => (
+                                                        <motion.button
+                                                            key={emoji}
+                                                            whileHover={{ scale: 1.35 }}
+                                                            whileTap={{ scale: 0.9 }}
+                                                            onClick={() => handleToggleReaction(emoji)}
+                                                            style={{
+                                                                background: 'transparent',
+                                                                border: 'none',
+                                                                fontSize: '1.4rem',
+                                                                cursor: 'pointer',
+                                                                padding: '0.2rem',
+                                                                lineHeight: 1,
+                                                            }}
+                                                        >
+                                                            {emoji}
+                                                        </motion.button>
+                                                    ))}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+
+                                        <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+                                            <button
+                                                onClick={() => setShowReactionPicker(!showReactionPicker)}
+                                                style={{
+                                                    background: userReaction ? '#eff6ff' : '#ffffff',
+                                                    border: userReaction ? `1px solid ${PRIMARY_COLOR}` : '1px solid #cbd5e1',
+                                                    color: userReaction ? PRIMARY_COLOR : '#475569',
+                                                    padding: '0.55rem 1.2rem',
+                                                    fontSize: '0.85rem',
+                                                    fontWeight: 600,
+                                                    cursor: 'pointer',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '0.5rem',
+                                                    borderRadius: '8px',
+                                                    transition: 'all 0.2s',
+                                                }}
+                                            >
+                                                <span>{userReaction ? userReaction : '🤍'}</span>
+                                                <span>{userReaction ? 'Hai reagito' : 'Reagisci'}</span>
+                                            </button>
+
+                                            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>
+                                                {selectedMemory.likesCount + (userReaction ? 1 : 0)} reazioni
+                                            </span>
+                                        </div>
+
+                                        <button
+                                            onClick={() => setShowComments(!showComments)}
+                                            style={{
+                                                background: showComments ? '#f1f5f9' : '#ffffff',
+                                                border: '1px solid #cbd5e1',
+                                                color: '#475569',
+                                                padding: '0.55rem 1.2rem',
+                                                fontSize: '0.85rem',
+                                                fontWeight: 600,
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0.5rem',
+                                                borderRadius: '8px',
+                                            }}
+                                        >
+                                            💬 {selectedMemory.comments.length} Commenti
+                                        </button>
+                                    </div>
+
+                                    {/* SEZIONE COMMENTI ESPANDIBILE */}
+                                    <AnimatePresence>
+                                        {showComments && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: 'auto' }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                                style={{
+                                                    backgroundColor: '#f8fafc',
+                                                    borderRadius: '12px',
+                                                    padding: '1rem',
+                                                    marginTop: '1rem',
+                                                    border: '1px solid #e2e8f0',
+                                                }}
+                                            >
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginBottom: '1rem', maxHeight: '140px', overflowY: 'auto' }}>
+                                                    {selectedMemory.comments.map((comment) => (
+                                                        <div key={comment.id} style={{ display: 'flex', gap: '0.7rem' }}>
+                                                            <img src={comment.avatar} alt={comment.author} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}/>
+                                                            <div style={{ backgroundColor: '#ffffff', borderRadius: '8px', padding: '0.5rem 0.8rem', flex: 1, border: '1px solid #e2e8f0' }}>
+                                                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '0.1rem' }}>
+                                                                    <span style={{ fontWeight: 700, color: '#0f172a' }}>{comment.author}</span>
+                                                                    <span style={{ color: '#94a3b8' }}>{comment.date}</span>
+                                                                </div>
+                                                                <p style={{ margin: 0, fontSize: '0.8rem', color: '#334155' }}>{comment.text}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <form onSubmit={handleAddComment} style={{ display: 'flex', gap: '0.5rem' }}>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Aggiungi un aneddoto..."
+                                                        value={newCommentText}
+                                                        onChange={(e) => setNewCommentText(e.target.value)}
+                                                        style={{
+                                                            flex: 1,
+                                                            backgroundColor: '#ffffff',
+                                                            border: '1px solid #cbd5e1',
+                                                            borderRadius: '6px',
+                                                            padding: '0.5rem 0.8rem',
+                                                            color: '#0f172a',
+                                                            fontSize: '0.8rem',
+                                                            outline: 'none',
+                                                        }}
+                                                    />
+                                                    <button
+                                                        type="submit"
+                                                        style={{
+                                                            backgroundColor: PRIMARY_COLOR,
+                                                            color: '#ffffff',
+                                                            border: 'none',
+                                                            borderRadius: '6px',
+                                                            padding: '0.5rem 1rem',
+                                                            fontWeight: 600,
+                                                            fontSize: '0.8rem',
+                                                            cursor: 'pointer',
+                                                        }}
+                                                    >
+                                                        Invia
+                                                    </button>
+                                                </form>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+
+                {/* ====================================================================
+                  4. STRISCIA PELLICOLA ORIZZONTALE (STILE TIMELINE A RULLINO)
+                 ==================================================================== */}
+                <div style={{ width: '100%', marginTop: '3rem' }}>
+
+                    {/* INTESTAZIONE DELLA TIMELINE */}
+                    <h3 style={{
+                        fontSize: '0.85rem',
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: '#64748b',
+                        fontWeight: 700,
+                        marginBottom: '1rem',
+                        fontFamily: 'inherit',
+                    }}>
+                        Sfoglia Altri Post della Timeline
+                    </h3>
+
+                    {/* CONTENITORE CON FRECCE E STRISCIA */}
+                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+
+                        {/* FRECCIA SINISTRA (TRASPARENTE CON HOVER) */}
+                        <button
+                            onClick={() => filmstripRef.current?.scrollBy({ left: -350, behavior: 'smooth' })}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.9)'; e.currentTarget.style.color = '#4378EE'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'white'; }}
+                            style={{
+                                position: 'absolute',
+                                left: '-20px',
+                                zIndex: 20,
+                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                border: '1px solid rgba(255,255,255,0.3)',
+                                borderRadius: '50%',
+                                width: '45px',
+                                height: '45px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                fontSize: '1.2rem',
+                                color: 'white',
+                                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                            }}
+                        >
+                            ◀
+                        </button>
+
+                        {/* STRISCIA ORIZZONTALE CON LE VIGNETTE IN STILE CARD CHIARA */}
+                        <div
+                            ref={filmstripRef}
+                            style={{
+                                display: 'flex',
+                                gap: '1.5rem',
+                                overflowX: 'auto',
+                                padding: '1rem 0.5rem',
+                                width: '100%',
+                                scrollbarWidth: 'none',
+                                msOverflowStyle: 'none',
+                            }}
+                        >
+                            {TIMELINE_MEMORIES.map((item) => {
+                                const isSelected = selectedMemory?.id === item.id;
+                                return (
+                                    <div
+                                        key={item.id}
+                                        onClick={() => handleSelectMemory(item)}
+                                        style={{
+                                            minWidth: '340px',
+                                            maxWidth: '340px',
+                                            flexShrink: 0,
+                                            backgroundColor: '#ffffff',
+                                            borderRadius: '20px',
+                                            padding: '14px',
+                                            cursor: 'pointer',
+                                            boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                                            border: isSelected ? '2px solid #4378EE' : '2px solid transparent',
+                                            transition: 'all 0.2s ease',
+                                        }}
+                                    >
+                                        {/* FOTO CON BADGE DELL'ANNO IN BASSO A SINISTRA */}
+                                        <div style={{
+                                            position: 'relative',
+                                            height: '240px',
+                                            borderRadius: '12px',
+                                            overflow: 'hidden',
+                                            backgroundColor: '#000000',
+                                        }}>
+                                            <img
+                                                src={item.imageUrl}
+                                                alt={item.title}
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            />
+                                            <span style={{
+                                                position: 'absolute',
+                                                bottom: '10px',
+                                                left: '10px',
+                                                backgroundColor: '#4378EE',
+                                                color: '#ffffff',
+                                                fontWeight: 700,
+                                                fontSize: '0.75rem',
+                                                padding: '0.25rem 0.7rem',
+                                                borderRadius: '6px',
+                                                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                                            }}>
+                                        {item.year}
+                                    </span>
+                                        </div>
+
+                                        {/* TITOLO SOTTO LA FOTO (PIÙ COMPATTO) */}
+                                        <div style={{ padding: '8px 2px 2px 2px' }}>
+                                            <h4 style={{
+                                                fontSize: '0.9rem',
+                                                fontWeight: 700,
+                                                color: '#0f172a',
+                                                margin: 0,
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                            }}>
+                                                {item.title}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {/* FRECCIA DESTRA (TRASPARENTE CON HOVER) */}
+                        <button
+                            onClick={() => filmstripRef.current?.scrollBy({ left: 350, behavior: 'smooth' })}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.9)'; e.currentTarget.style.color = '#4378EE'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'white'; }}
+                            style={{
+                                position: 'absolute',
+                                right: '-20px',
+                                zIndex: 20,
+                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                border: '1px solid rgba(255,255,255,0.3)',
+                                borderRadius: '50%',
+                                width: '45px',
+                                height: '45px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                fontSize: '1.2rem',
+                                color: 'white',
+                                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                            }}
+                        >
+                            ▶
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
@@ -795,5 +909,5 @@ function MemoryBridgeApp() {
 const container = document.getElementById('root');
 if (container) {
     const root = createRoot(container);
-    root.render(<MemoryBridgeApp />);
+    root.render(<MuseumSocialPostTimeline/>);
 }
