@@ -30567,15 +30567,6 @@
     const [showReactionPicker, setShowReactionPicker] = (0, import_react24.useState)(false);
     const [floatingEmojis, setFloatingEmojis] = (0, import_react24.useState)([]);
     const filmstripRef = (0, import_react24.useRef)(null);
-    const scrollFilmstrip = (direction) => {
-      if (filmstripRef.current) {
-        const scrollAmount = 260;
-        filmstripRef.current.scrollBy({
-          left: direction === "left" ? -scrollAmount : scrollAmount,
-          behavior: "smooth"
-        });
-      }
-    };
     const handleSelectMemory = (item) => {
       setSelectedMemory(item);
       setShowComments(false);
@@ -30722,7 +30713,7 @@
           )
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { position: "relative", zIndex: 10, maxWidth: "1350px", margin: "0 auto", padding: "2.5rem 2rem 0 2rem" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { position: "relative", zIndex: 10, maxWidth: "1800px", margin: "0 auto", padding: "3rem 9rem 0 9rem" }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: { textAlign: "center", marginBottom: "2.5rem" }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { style: {
             fontSize: "0.75rem",
@@ -30743,10 +30734,13 @@
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { mode: "wait", children: selectedMemory && /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
           display: "grid",
-          gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 1fr)",
-          gap: "3rem",
-          alignItems: "start",
-          marginBottom: "3.5rem"
+          gridTemplateColumns: "2.6fr 1fr",
+          gap: 0,
+          alignItems: "stretch",
+          marginBottom: "3.5rem",
+          borderRadius: "28px",
+          boxShadow: "0 30px 70px rgba(0,0,0,0.12)",
+          overflow: "hidden"
         }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
             motion.div,
@@ -30758,17 +30752,19 @@
               style: {
                 position: "relative",
                 backgroundColor: "rgba(255, 255, 255, 0.95)",
-                borderRadius: "28px",
-                padding: "1rem",
-                boxShadow: "0 30px 70px rgba(0,0,0,0.12)",
+                padding: "0.5rem",
                 backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255, 255, 255, 0.9)"
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                paddingTop: "2rem",
+                height: "100%"
               },
               children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { style: {
                 position: "relative",
                 borderRadius: "20px",
                 overflow: "hidden",
-                height: "650px",
+                height: "750px",
                 backgroundColor: "#0b1329"
               }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
@@ -30842,15 +30838,13 @@
               transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
               style: {
                 backgroundColor: "rgba(255, 255, 255, 0.92)",
-                borderRadius: "28px",
                 padding: "2.5rem",
-                boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
                 backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255, 255, 255, 0.9)",
+                borderLeft: "1px solid rgba(226,232,240,0.7)",
                 display: "flex",
                 flexDirection: "column",
                 gap: "1.75rem",
-                minHeight: "650px",
+                minHeight: "750px",
                 justifyContent: "space-between"
               },
               children: [

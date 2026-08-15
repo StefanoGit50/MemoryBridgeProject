@@ -1,0 +1,21 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(14px) brightness(0.85);
+    transform: scale(1.05);
+}
+
+.veil {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+            180deg,
+            rgba(248, 250, 252, 0.65) 0%,
+            rgba(248, 250, 252, 0.82) 100%
+    );
+    pointer-events: none;
+}

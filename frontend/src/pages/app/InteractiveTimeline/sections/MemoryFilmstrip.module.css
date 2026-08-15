@@ -1,0 +1,66 @@
+.section {
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.heading {
+    font-size: 0.96rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4F77E6;
+    font-weight: 1000;
+    margin-bottom: 1rem;
+    font-family: inherit;
+}
+
+.rail {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 1rem 0.5rem;
+    width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.track::-webkit-scrollbar {
+    display: none;
+}
+
+.arrowButton {
+    position: absolute;
+    z-index: 20;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.arrowButton:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--color-primary);
+}
+
+.arrowButtonLeft {
+    left: -20px;
+}
+
+.arrowButtonRight {
+    right: -20px;
+}

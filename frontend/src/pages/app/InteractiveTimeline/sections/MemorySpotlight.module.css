@@ -1,0 +1,10 @@
+.grid {
+    display: grid;
+    grid-template-columns: 2.6fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    margin-bottom: 3.5rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}

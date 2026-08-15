@@ -1,0 +1,540 @@
+/* src/pages/app/InteractiveTimeline/components/AmbientBackground.module.css */
+.AmbientBackground_background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(14px) brightness(0.85);
+  transform: scale(1.05);
+}
+.AmbientBackground_overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(248, 250, 252, 0.65) 0%,
+      rgba(248, 250, 252, 0.82) 100%);
+  pointer-events: none;
+}
+
+/* src/pages/app/InteractiveTimeline/components/MemoryPhotoPanel.module.css */
+.MemoryPhotoPanel_panel {
+  background-color: var(--color-bg-surface-translucent);
+  padding: 2.5rem;
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(226, 232, 240, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-height: 750px;
+  justify-content: space-between;
+}
+.MemoryPhotoPanel_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.MemoryPhotoPanel_authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.MemoryPhotoPanel_authorAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-bg-surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.MemoryPhotoPanel_authorName {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
+}
+.MemoryPhotoPanel_publishedDate {
+  font-size: 0.78rem;
+  color: var(--color-text-subtle);
+}
+.MemoryPhotoPanel_closeButton {
+  background: rgba(241, 245, 249, 0.9);
+  border: none;
+  color: var(--color-text-subtle);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+.MemoryPhotoPanel_divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 0 0 1.75rem 0;
+}
+.MemoryPhotoPanel_eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  font-weight: 800;
+}
+.MemoryPhotoPanel_title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin: 0.4rem 0 1.25rem 0;
+  line-height: 1.2;
+  font-family: var(--font-family-serif);
+}
+.MemoryPhotoPanel_story {
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: var(--color-text-body);
+  margin: 0;
+  font-family: var(--font-family-serif);
+}
+
+/* src/pages/app/InteractiveTimeline/components/ReactionBar.module.css */
+.ReactionBar_wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.ReactionBar_picker {
+  position: absolute;
+  left: 0;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.8rem;
+  display: flex;
+  gap: 0.6rem;
+  box-shadow: var(--shadow-popover);
+  z-index: 20;
+}
+.ReactionBar_pickerEmoji {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  line-height: 1;
+}
+.ReactionBar_actions {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+.ReactionBar_reactButton {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+  padding: 0.55rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+}
+.ReactionBar_reactButtonActive {
+  background: var(--color-primary-tint);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.ReactionBar_count {
+  font-size: 0.85rem;
+  color: var(--color-text-subtle);
+  font-weight: 600;
+}
+
+/* src/pages/app/InteractiveTimeline/components/Comment.module.css */
+.Comment_toggleButton {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+  padding: 0.55rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+}
+.Comment_toggleButtonActive {
+  background: var(--color-border-soft);
+}
+.Comment_panel {
+  background-color: var(--color-bg-muted);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+  border: 1px solid var(--color-border);
+}
+.Comment_commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  max-height: 140px;
+  overflow-y: auto;
+}
+.Comment_commentRow {
+  display: flex;
+  gap: 0.7rem;
+}
+.Comment_commentAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.Comment_commentBubble {
+  background-color: var(--color-bg-surface);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  flex: 1;
+  border: 1px solid var(--color-border);
+}
+.Comment_commentMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-bottom: 0.1rem;
+}
+.Comment_commentAuthor {
+  font-weight: 700;
+  color: var(--color-text-heading);
+}
+.Comment_commentDate {
+  color: var(--color-text-faint);
+}
+.Comment_commentText {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-body);
+}
+.Comment_form {
+  display: flex;
+  gap: 0.5rem;
+}
+.Comment_input {
+  flex: 1;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  color: var(--color-text-heading);
+  font-size: 0.8rem;
+  outline: none;
+}
+.Comment_submitButton {
+  background-color: var(--color-primary);
+  color: var(--color-bg-surface);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* src/pages/app/InteractiveTimeline/components/MemoryDetailsPanel.module.css */
+.MemoryDetailsPanel_panel {
+  background-color: var(--color-bg-surface-translucent);
+  padding: 2.5rem;
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(226, 232, 240, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-height: 750px;
+  justify-content: space-between;
+}
+.MemoryDetailsPanel_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.MemoryDetailsPanel_authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.MemoryDetailsPanel_authorAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-bg-surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.MemoryDetailsPanel_authorName {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
+}
+.MemoryDetailsPanel_publishedDate {
+  font-size: 0.78rem;
+  color: var(--color-text-subtle);
+}
+.MemoryDetailsPanel_closeButton {
+  background: rgba(241, 245, 249, 0.9);
+  border: none;
+  color: var(--color-text-subtle);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+.MemoryDetailsPanel_divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 0 0 1.75rem 0;
+}
+.MemoryDetailsPanel_eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  font-weight: 800;
+}
+.MemoryDetailsPanel_title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin: 0.4rem 0 1.25rem 0;
+  line-height: 1.2;
+  font-family: var(--font-family-serif);
+}
+.MemoryDetailsPanel_story {
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: var(--color-text-body);
+  margin: 0;
+  font-family: var(--font-family-serif);
+}
+
+/* src/pages/app/InteractiveTimeline/sections/MemorySpotlight.module.css */
+.MemorySpotlight_grid {
+  display: grid;
+  grid-template-columns: 2.6fr 1fr;
+  gap: 0;
+  align-items: stretch;
+  margin-bottom: 3.5rem;
+  border-radius: 28px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+/* src/pages/app/InteractiveTimeline/components/FilmstripCard.module.css */
+.FilmstripCard_card {
+  min-width: 340px;
+  max-width: 340px;
+  flex-shrink: 0;
+  background-color: var(--color-bg-surface);
+  border-radius: 20px;
+  padding: 14px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.FilmstripCard_cardSelected {
+  border-color: var(--color-primary);
+}
+.FilmstripCard_imageWrapper {
+  position: relative;
+  height: 240px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--color-bg-filmstrip-image-fallback);
+}
+.FilmstripCard_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.FilmstripCard_yearBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: var(--color-primary);
+  color: var(--color-bg-surface);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.FilmstripCard_titleWrapper {
+  padding: 8px 2px 2px 2px;
+}
+.FilmstripCard_title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* src/pages/app/InteractiveTimeline/sections/MemoryFilmstrip.module.css */
+.MemoryFilmstrip_wrapper {
+  width: 100%;
+  margin-top: 3rem;
+}
+.MemoryFilmstrip_title {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-family: inherit;
+}
+.MemoryFilmstrip_trackWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.MemoryFilmstrip_track {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem 0.5rem;
+  width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.MemoryFilmstrip_track::-webkit-scrollbar {
+  display: none;
+}
+.MemoryFilmstrip_arrowButton {
+  position: absolute;
+  z-index: 20;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.MemoryFilmstrip_arrowButton:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--color-primary);
+}
+.MemoryFilmstrip_arrowButtonLeft {
+  left: -20px;
+}
+.MemoryFilmstrip_arrowButtonRight {
+  right: -20px;
+}
+
+/* src/pages/app/InteractiveTimeline/Memoriespage.module.css */
+.Memoriespage_page {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-heading);
+  font-family: var(--font-family-base);
+  padding-bottom: 5rem;
+  overflow-x: hidden;
+}
+.Memoriespage_content {
+  position: relative;
+  z-index: 10;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 3rem 9rem 0 9rem;
+}
+.Memoriespage_hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.Memoriespage_heroEyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  font-weight: 800;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.Memoriespage_heroTitle {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin: 0;
+  font-family: var(--font-family-base);
+}
+
+/* src/styles/token2.css */
+:root {
+  --color-primary: #4378EE;
+  --color-primary-shadow: rgba(67, 120, 238, 0.35);
+  --color-primary-shadow-soft: rgba(67, 120, 238, 0.3);
+  --color-primary-tint: #eff6ff;
+  --color-bg-page: #090d16;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-translucent: rgba(255, 255, 255, 0.92);
+  --color-bg-surface-translucent-strong: rgba(255, 255, 255, 0.95);
+  --color-bg-muted: #f8fafc;
+  --color-bg-image-fallback: #0b1329;
+  --color-bg-filmstrip-image-fallback: #000000;
+  --color-text-heading: #0f172a;
+  --color-text-body: #334155;
+  --color-text-muted: #475569;
+  --color-text-subtle: #64748b;
+  --color-text-faint: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-border-soft: #f1f5f9;
+  --color-border-strong: #cbd5e1;
+  --font-family-base:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  --font-family-serif:
+    Georgia,
+    "Times New Roman",
+    serif;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.12);
+  --shadow-popover: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --shadow-button-primary: 0 4px 12px var(--color-primary-shadow-soft);
+}

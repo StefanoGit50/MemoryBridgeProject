@@ -1,0 +1,117 @@
+import { motion } from 'framer-motion';
+import type { Comment, MemoryItem } from '../types';
+import { MEMORIES_PAGE_CONTENT } from '../content';
+import { ReactionBar } from './ReactionBar';
+import { CommentSection } from './Comment';
+import styles from './MemoryDetailsPanel.module.css';
+
+const { closeButtonAriaLabel, detailsEyebrow, publishedLabel } = MEMORIES_PAGE_CONTENT.spotlight;
+const { toggleAriaLabel } = MEMORIES_PAGE_CONTENT.comments;
+
+
+interface ReactionBarState {
+    userReaction: string | null;
+    showReactionPicker: boolean;
+    onTogglePicker: () => void;
+    onToggleReaction: (emoji: string) => void;
+}
+
+interface CommentsState {
+    showComments: boolean;
+    onToggleComments: () => void;
+    newCommentText: string;
+    onChangeText: (text: string) => void;
+    onSubmit: (e: React.FormEvent) => void;
+}
+
+interface MemoryDetailsPanelProps {
+    memory: MemoryItem;
+    onClose: () => void;
+    reactionBar: ReactionBarState;
+    comments: CommentsState;
+}
+
+export function MemoryDetailsPanel({
+                                       memory,
+                                       onClose,
+                                       reactionBar,
+                                       comments,
+                                   }: MemoryDetailsPanelProps) {
+    const totalLikes = memory.likesCount + (reactionBar.userReaction ? 1 : 0);
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className={styles.wrapper}
+        >
+            <div>
+                <div className={styles.authorRow}>
+                    <div className={styles.authorInfo}>
+                        <img
+                            src={memory.authorAvatar}
+                            alt={memory.authorName}
+                            className={styles.authorAvatar}
+                        />
+                        <div>
+                            <h4 className={styles.authorName}>{memory.authorName}</h4>
+                            <span className={styles.publishedDate}>
+                                {publishedLabel} • {memory.dateStr}
+                            </span>
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className={styles.closeButton}
+                        aria-label={closeButtonAriaLabel}
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <hr className={styles.divider} />
+
+                <div>
+                    <span className={styles.eyebrow}>{detailsEyebrow}</span>
+                    <h2 className={styles.title}>{memory.title}</h2>
+                </div>
+
+                <p className={styles.story}>{memory.story}</p>
+            </div>
+
+            <div>
+                <div className={styles.interactionRow}>
+                    <ReactionBar
+                        userReaction={reactionBar.userReaction}
+                        showReactionPicker={reactionBar.showReactionPicker}
+                        likesCount={totalLikes}
+                        onTogglePicker={reactionBar.onTogglePicker}
+                        onToggleReaction={reactionBar.onToggleReaction}
+                    />
+
+                    <button
+                        type="button"
+                        onClick={comments.onToggleComments}
+                        className={`${styles.commentsToggle} ${
+                            comments.showComments ? styles.commentsToggleActive : ''
+                        }`}
+                    >
+                        💬 {memory.comments.length} {toggleAriaLabel}
+                    </button>
+                </div>
+
+                <CommentSection
+                    isOpen={comments.showComments}
+                    comments={memory.comments}
+                    newCommentText={comments.newCommentText}
+                    onChangeText={comments.onChangeText}
+                    onSubmit={comments.onSubmit}
+                />
+            </div>
+        </motion.div>
+    );
+}

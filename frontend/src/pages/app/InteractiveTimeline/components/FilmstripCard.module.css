@@ -1,0 +1,57 @@
+.card {
+    min-width: 340px;
+    max-width: 340px;
+    flex-shrink: 0;
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-xl);
+    padding: 14px;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.cardSelected {
+    border-color: var(--color-primary);
+}
+
+.photoWrapper {
+    position: relative;
+    height: 240px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-bg-filmstrip-image-fallback);
+}
+
+.photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.yearBadge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: var(--color-primary);
+    color: var(--color-bg-surface);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.caption {
+    padding: 8px 2px 2px 2px;
+}
+
+.title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
