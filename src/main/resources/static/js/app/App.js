@@ -32741,6 +32741,7 @@
               CommentSection,
               {
                 isOpen: comments.showComments,
+                onClose: comments.onToggleComments,
                 comments: memory.comments,
                 newCommentText: comments.newCommentText,
                 onChangeText: comments.onChangeText,
