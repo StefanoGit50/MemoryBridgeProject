@@ -32314,7 +32314,8 @@
     "src/pages/app/InteractiveTimeline/components/AmbientBackground.module.css"() {
       AmbientBackground_default = {
         backdrop: "AmbientBackground_backdrop",
-        veil: "AmbientBackground_veil"
+        veil: "AmbientBackground_veil",
+        fallback: "AmbientBackground_fallback"
       };
     }
   });
@@ -32322,7 +32323,8 @@
   // src/pages/app/InteractiveTimeline/components/AmbientBackground.tsx
   function AmbientBackground({ imageKey, imageUrl }) {
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: AmbientBackground_default.fallback }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { mode: "wait", children: imageUrl && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
         motion.div,
         {
           initial: { opacity: 0, scale: 1.08 },
@@ -33213,19 +33215,132 @@
     }
   });
 
+  // src/shared/Navbar/NavConfig.ts
+  var NAV_ITEMS, NAV_BRAND;
+  var init_NavConfig = __esm({
+    "src/shared/Navbar/NavConfig.ts"() {
+      "use strict";
+      NAV_ITEMS = [
+        { icon: "\u{1F3E0}", label: "Home", href: "/" },
+        { icon: "\u{1F333}", label: "Albero Genealogico", href: "/albero" }
+      ];
+      NAV_BRAND = {
+        initials: "MB",
+        namePrefix: "Memory",
+        nameAccent: "Bridge"
+      };
+    }
+  });
+
+  // src/shared/Navbar/Navbar.module.css
+  var Navbar_default;
+  var init_Navbar = __esm({
+    "src/shared/Navbar/Navbar.module.css"() {
+      Navbar_default = {
+        nav: "Navbar_nav",
+        brandMark: "Navbar_brandMark",
+        brandName: "Navbar_brandName",
+        brandPrefix: "Navbar_brandPrefix",
+        brandAccent: "Navbar_brandAccent",
+        links: "Navbar_links",
+        link: "Navbar_link",
+        linkActive: "Navbar_linkActive",
+        linkIcon: "Navbar_linkIcon",
+        actions: "Navbar_actions",
+        cta: "Navbar_cta",
+        ctaPlus: "Navbar_ctaPlus",
+        avatar: "Navbar_avatar"
+      };
+    }
+  });
+
+  // src/shared/Navbar/Navbar.tsx
+  function Navbar(props) {
+    const { activeHref, ctaLabel, onCtaClick, avatarUrl, avatarAlt } = props;
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("nav", { className: Navbar_default.nav, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: Navbar_default.brand, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("svg", { className: Navbar_default.brandMark, viewBox: "0 0 44 44", "aria-hidden": "true", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("defs", { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("linearGradient", { id: "bridgeIconGradient", x1: "0%", y1: "0%", x2: "100%", y2: "0%", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("stop", { offset: "0%", stopColor: "#94a3b8" }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("stop", { offset: "100%", stopColor: "#4378EE" })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+            "path",
+            {
+              d: "M6,30 Q22,10 38,30",
+              stroke: "url(#bridgeIconGradient)",
+              strokeWidth: "3",
+              fill: "none",
+              strokeLinecap: "round"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("line", { x1: "6", y1: "30", x2: "6", y2: "37", stroke: "url(#bridgeIconGradient)", strokeWidth: "3", strokeLinecap: "round" }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("line", { x1: "38", y1: "30", x2: "38", y2: "37", stroke: "url(#bridgeIconGradient)", strokeWidth: "3", strokeLinecap: "round" }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("line", { x1: "4", y1: "30", x2: "40", y2: "30", stroke: "url(#bridgeIconGradient)", strokeWidth: "2.4", strokeLinecap: "round" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { className: Navbar_default.brandName, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.brandPrefix, children: NAV_BRAND.namePrefix }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.brandAccent, children: NAV_BRAND.nameAccent })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: Navbar_default.links, children: NAV_ITEMS.map((item) => {
+        const isActive = item.href === activeHref;
+        return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("a", { href: item.href, className: isActive ? Navbar_default.linkActive : Navbar_default.link, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.linkIcon, children: item.icon }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { children: item.label })
+        ] }, item.href);
+      }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: Navbar_default.actions, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("button", { type: "button", onClick: onCtaClick, className: Navbar_default.cta, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.ctaPlus, children: "+" }),
+          " ",
+          ctaLabel
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("img", { src: avatarUrl, alt: avatarAlt, className: Navbar_default.avatar })
+      ] })
+    ] });
+  }
+  var import_jsx_runtime14;
+  var init_Navbar2 = __esm({
+    "src/shared/Navbar/Navbar.tsx"() {
+      "use strict";
+      init_NavConfig();
+      init_Navbar();
+      import_jsx_runtime14 = __toESM(require_jsx_runtime());
+    }
+  });
+
   // src/pages/app/InteractiveTimeline/MemoriesPage.tsx
   function MemoriesPage() {
     const { memories, selectedMemory, selectedId, selectMemory, addComment } = useMemories();
     const { userReaction, showReactionPicker, floatingEmojis, toggleReaction, toggleReactionPicker } = useReactions(selectedId);
     const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment } = useComments(selectedId, addComment);
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: Memoriespage_default.page, children: [
-      selectedMemory && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(AmbientBackground, { imageKey: selectedMemory.id, imageUrl: selectedMemory.imageUrl }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: Memoriespage_default.content, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: Memoriespage_default.hero, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Memoriespage_default.heroEyebrow, children: MEMORIES_PAGE_CONTENT.hero.eyebrow }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { className: Memoriespage_default.heroTitle, children: MEMORIES_PAGE_CONTENT.hero.title })
+    const userAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80";
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Memoriespage_default.page, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+        AmbientBackground,
+        {
+          imageKey: selectedMemory?.id ?? "none",
+          imageUrl: selectedMemory?.imageUrl
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+        Navbar,
+        {
+          activeHref: "/",
+          ctaLabel: "Aggiungi Ricordo",
+          onCtaClick: () => {
+          },
+          avatarUrl: userAvatarUrl,
+          avatarAlt: "Il tuo profilo"
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Memoriespage_default.content, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Memoriespage_default.hero, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Memoriespage_default.heroEyebrow, children: MEMORIES_PAGE_CONTENT.hero.eyebrow }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h1", { className: Memoriespage_default.heroTitle, children: MEMORIES_PAGE_CONTENT.hero.title })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
           MemorySpotlight,
           {
             memory: selectedMemory,
@@ -33242,7 +33357,7 @@
             onSubmitComment: submitComment
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
           MemoryFilmstrip,
           {
             memories,
@@ -33253,7 +33368,7 @@
       ] })
     ] });
   }
-  var import_jsx_runtime14;
+  var import_jsx_runtime15;
   var init_MemoriesPage = __esm({
     "src/pages/app/InteractiveTimeline/MemoriesPage.tsx"() {
       "use strict";
@@ -33265,7 +33380,8 @@
       init_useComments();
       init_content();
       init_Memoriespage();
-      import_jsx_runtime14 = __toESM(require_jsx_runtime());
+      init_Navbar2();
+      import_jsx_runtime15 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -33281,10 +33397,10 @@
       var import_client = __toESM(require_client());
       init_MemoriesPage();
       init_token2();
-      var import_jsx_runtime15 = __toESM(require_jsx_runtime());
+      var import_jsx_runtime16 = __toESM(require_jsx_runtime());
       var container = document.getElementById("root");
       if (container) {
-        (0, import_client.createRoot)(container).render(/* @__PURE__ */ (0, import_jsx_runtime15.jsx)(MemoriesPage, {}));
+        (0, import_client.createRoot)(container).render(/* @__PURE__ */ (0, import_jsx_runtime16.jsx)(MemoriesPage, {}));
       }
     }
   });

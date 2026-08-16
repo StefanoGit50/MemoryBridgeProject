@@ -19,6 +19,12 @@
       rgba(248, 250, 252, 0.82) 100%);
   pointer-events: none;
 }
+.AmbientBackground_fallback {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-bg-muted);
+}
 
 /* src/pages/app/InteractiveTimeline/components/MemoryPhotoPanel.module.css */
 .MemoryPhotoPanel_wrapper {
@@ -514,6 +520,93 @@
   color: var(--color-text-heading);
   margin: 0;
   font-family: var(--font-family-base);
+}
+
+/* src/shared/Navbar/Navbar.module.css */
+.Navbar_nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-bg-surface-translucent-strong);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.85rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+.Navbar_brandMark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+.Navbar_brandName {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.Navbar_brandPrefix {
+  color: #78716c;
+}
+.Navbar_brandAccent {
+  color: var(--color-primary);
+}
+.Navbar_links {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+.Navbar_link,
+.Navbar_linkActive {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.Navbar_link {
+  color: var(--color-text-body);
+  font-weight: 500;
+}
+.Navbar_linkActive {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.Navbar_linkIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+.Navbar_actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.Navbar_cta {
+  background-color: var(--color-primary);
+  color: var(--color-bg-surface);
+  border: none;
+  padding: 0.55rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 12px var(--color-primary-shadow-soft);
+}
+.Navbar_ctaPlus {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.Navbar_avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  cursor: pointer;
+  object-fit: cover;
 }
 
 /* src/styles/token2.css */

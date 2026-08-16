@@ -1,0 +1,98 @@
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--color-bg-surface-translucent-strong);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.85rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.brandMark {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.brandName {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.brandPrefix {
+    color: #78716c; /* tono caldo desaturato, "seppiato", richiama la foto d'epoca */
+}
+
+.brandAccent {
+    color: var(--color-primary); /* blu pieno, netto, il presente */
+}
+
+.links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.link,
+.linkActive {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.link {
+    color: var(--color-text-body);
+    font-weight: 500;
+}
+
+.linkActive {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.linkIcon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.cta {
+    background-color: var(--color-primary);
+    color: var(--color-bg-surface);
+    border: none;
+    padding: 0.55rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 12px var(--color-primary-shadow-soft);
+}
+
+.ctaPlus {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    cursor: pointer;
+    object-fit: cover;
+}

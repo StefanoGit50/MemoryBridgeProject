@@ -6,6 +6,7 @@ import { useReactions } from './hooks/useReactions';
 import { useComments } from './hooks/useComments';
 import { MEMORIES_PAGE_CONTENT } from './content';
 import styles from './Memoriespage.module.css';
+import { Navbar } from '@/shared/Navbar/Navbar';
 
 export default function MemoriesPage() {
     const { memories, selectedMemory, selectedId, selectMemory, addComment } = useMemories();
@@ -16,14 +17,24 @@ export default function MemoriesPage() {
     const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment } =
         useComments(selectedId, addComment);
 
+
+    // TODO: sostituire con l'avatar reale dell'utente loggato, quando il sistema auth sarà collegato
+    const userAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
+
     return (
         <div className={styles.page}>
-            {selectedMemory && (
-                <AmbientBackground imageKey={selectedMemory.id} imageUrl={selectedMemory.imageUrl} />
-            )}
+            <AmbientBackground
+                imageKey={selectedMemory?.id ?? 'none'}
+                imageUrl={selectedMemory?.imageUrl}
+            />
 
-            {/* La Navbar condivisa (src/shared/components/Navbar) verrà agganciata qui
-                in un secondo momento, come da accordo. */}
+            <Navbar
+                activeHref="/"
+                ctaLabel="Aggiungi Ricordo"
+                onCtaClick={() => {/* apri modale creazione */}}
+                avatarUrl={userAvatarUrl}
+                avatarAlt="Il tuo profilo"
+            />
 
             <div className={styles.content}>
                 <div className={styles.hero}>
@@ -45,7 +56,6 @@ export default function MemoriesPage() {
                     onChangeCommentText={setNewCommentText}
                     onSubmitComment={submitComment}
                 />
-
 
                 <MemoryFilmstrip
                     memories={memories}
