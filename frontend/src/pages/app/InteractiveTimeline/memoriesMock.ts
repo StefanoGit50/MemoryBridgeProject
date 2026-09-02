@@ -1,4 +1,4 @@
-import type { MemoryItem } from './types';
+import type { MemoryItem } from '@/shared/Post/types';
 
 // Inserisci qui il nome o percorso della tua immagine caricata
 import fotoFamiglia from '@/images/0014314705.jpg';
@@ -25,6 +25,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
                     'https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=120&q=80',
                 date: '2 ore fa',
                 text: 'Che meraviglia rivedere questa foto! Ricordo ancora il profumo delle zeppole che la nonna aveva preparato per tutti.',
+                likesCount: 0
             },
             {
                 id: 'c2',
@@ -33,6 +34,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
                     'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80',
                 date: '1 ora fa',
                 text: 'Il bambino a sinistra in prima fila ero io! Avevo un capriccio terribile perché volevo andare a giocare col pallone.',
+                likesCount: 0
             },
         ],
     },
@@ -58,6 +60,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
                     'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80',
                 date: 'Ieri',
                 text: 'Si è fuso il radiatore a metà strada, te lo ricordi? Ma è stato il viaggio più bello di sempre.',
+                likesCount:0
             },
         ],
     },

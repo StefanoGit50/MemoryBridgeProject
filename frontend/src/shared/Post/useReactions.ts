@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { FloatingEmoji } from '../types';
+import type { FloatingEmoji } from './types';
 
 export function useReactions(selectedId: string | null) {
     const [userReaction, setUserReaction] = useState<string | null>(null);

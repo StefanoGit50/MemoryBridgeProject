@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Comment } from '../types';
+import type { Comment } from '@/shared/Post/types';
 import { MEMORIES_PAGE_CONTENT } from '../content';
 import styles from './Comment.module.css';
 

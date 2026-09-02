@@ -8,13 +8,7 @@ export const MEMORIES_PAGE_CONTENT = {
         detailsEyebrow: 'Scheda Descrittiva',
         publishedLabel: 'Pubblicato',
     },
-    reactions: {
-        reactedLabel: 'Hai reagito',
-        reactLabel: 'Reagisci',
-        defaultEmoji: '🤍',
-        pickerButtonAriaLabel: 'Scegli una reazione',
-        countSuffix: 'reazioni',
-    },
+
     comments: {
         toggleAriaLabel: 'Commenti',
         commentsSuffix: 'Commenti',

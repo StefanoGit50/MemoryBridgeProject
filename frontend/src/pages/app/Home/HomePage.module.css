@@ -1,0 +1,12 @@
+.page {
+    min-height: 100vh;
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-heading);
+    font-family: var(--font-family-base);
+}
+
+.main {
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 0 16px;
+}

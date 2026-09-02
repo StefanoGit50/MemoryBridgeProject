@@ -1,4 +1,4 @@
-import type { MemoryItem } from '../types';
+import type { MemoryItem } from '@/shared/Post/types';
 import styles from './FilmstripCard.module.css';
 
 interface FilmstripCardProps {

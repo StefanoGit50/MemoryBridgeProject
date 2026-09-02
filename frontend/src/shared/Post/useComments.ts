@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { MEMORIES_PAGE_CONTENT } from '../content';
-import type { Comment } from '../types';
+import { MEMORIES_PAGE_CONTENT } from '@/pages/app/InteractiveTimeline/content';
+import type { Comment } from './types';
 
 export function useComments(
     selectedId: string | null,
@@ -29,6 +29,7 @@ export function useComments(
             avatar: MEMORIES_PAGE_CONTENT.comments.guestAuthorAvatar,
             date: MEMORIES_PAGE_CONTENT.comments.justNowLabel,
             text: newCommentText,
+            likesCount: 0
         };
 
         onAddComment(selectedId, newComment);

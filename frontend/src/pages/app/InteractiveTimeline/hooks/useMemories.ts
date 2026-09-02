@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { TIMELINE_MEMORIES } from "@/pages/app/InteractiveTimeline/memoriesMock";
-import type { Comment, MemoryItem } from '../types';
+import type { Comment, MemoryItem } from '@/shared/Post/types';
 
 export function useMemories() {
     const [memories, setMemories] = useState<MemoryItem[]>(TIMELINE_MEMORIES);

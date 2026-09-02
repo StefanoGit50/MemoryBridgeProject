@@ -1,5 +1,5 @@
 /* src/pages/app/InteractiveTimeline/components/AmbientBackground.module.css */
-.AmbientBackground_background {
+.AmbientBackground_backdrop {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -8,7 +8,7 @@
   filter: blur(14px) brightness(0.85);
   transform: scale(1.05);
 }
-.AmbientBackground_overlay {
+.AmbientBackground_veil {
   position: fixed;
   inset: 0;
   z-index: 1;
@@ -19,88 +19,72 @@
       rgba(248, 250, 252, 0.82) 100%);
   pointer-events: none;
 }
+.AmbientBackground_fallback {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-bg-muted);
+}
 
 /* src/pages/app/InteractiveTimeline/components/MemoryPhotoPanel.module.css */
-.MemoryPhotoPanel_panel {
-  background-color: var(--color-bg-surface-translucent);
-  padding: 2.5rem;
+.MemoryPhotoPanel_wrapper {
+  position: relative;
+  background-color: var(--color-bg-surface-translucent-strong);
+  padding: 0.5rem;
   backdrop-filter: blur(20px);
-  border-left: 1px solid rgba(226, 232, 240, 0.7);
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
-  min-height: 750px;
-  justify-content: space-between;
+  justify-content: flex-start;
+  padding-top: 2rem;
+  height: 100%;
 }
-.MemoryPhotoPanel_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+.MemoryPhotoPanel_photoFrame {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  height: 750px;
+  background-color: var(--color-bg-image-fallback);
 }
-.MemoryPhotoPanel_authorInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-}
-.MemoryPhotoPanel_authorAvatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+.MemoryPhotoPanel_photo {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 2px solid var(--color-bg-surface);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  object-position: center;
+  display: block;
 }
-.MemoryPhotoPanel_authorName {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--color-text-heading);
-}
-.MemoryPhotoPanel_publishedDate {
-  font-size: 0.78rem;
-  color: var(--color-text-subtle);
-}
-.MemoryPhotoPanel_closeButton {
-  background: rgba(241, 245, 249, 0.9);
-  border: none;
-  color: var(--color-text-subtle);
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: bold;
+.MemoryPhotoPanel_badgeRow {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
   display: flex;
+  gap: 0.6rem;
   align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
 }
-.MemoryPhotoPanel_divider {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: 0 0 1.75rem 0;
-}
-.MemoryPhotoPanel_eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-primary);
+.MemoryPhotoPanel_yearBadge {
+  background-color: var(--color-primary);
+  color: var(--color-bg-surface);
   font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 15px var(--color-primary-shadow-soft);
 }
-.MemoryPhotoPanel_title {
-  font-size: 2.1rem;
-  font-weight: 700;
-  color: var(--color-text-heading);
-  margin: 0.4rem 0 1.25rem 0;
-  line-height: 1.2;
-  font-family: var(--font-family-serif);
+.MemoryPhotoPanel_catalogBadge {
+  background-color: rgba(15, 23, 42, 0.65);
+  color: var(--color-bg-surface);
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
-.MemoryPhotoPanel_story {
-  font-size: 1.1rem;
-  line-height: 1.85;
-  color: var(--color-text-body);
-  margin: 0;
-  font-family: var(--font-family-serif);
+.MemoryPhotoPanel_floatingEmoji {
+  position: absolute;
+  top: 0;
+  font-size: 2.8rem;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 /* src/pages/app/InteractiveTimeline/components/ReactionBar.module.css */
@@ -160,110 +144,127 @@
 }
 
 /* src/pages/app/InteractiveTimeline/components/Comment.module.css */
-.Comment_toggleButton {
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border-strong);
-  color: var(--color-text-muted);
-  padding: 0.55rem 1.2rem;
-  font-size: 0.85rem;
-  font-weight: 600;
+.Comment_overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background-color: var(--color-bg-surface);
+  display: flex;
+  flex-direction: column;
+}
+.Comment_header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+.Comment_backButton {
+  background: var(--color-bg-muted);
+  border: none;
+  color: var(--color-text-heading);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border-radius: 8px;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
 }
-.Comment_toggleButtonActive {
-  background: var(--color-border-soft);
+.Comment_headerTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
 }
-.Comment_panel {
-  background-color: var(--color-bg-muted);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-top: 1rem;
-  border: 1px solid var(--color-border);
-}
-.Comment_commentList {
+.Comment_list {
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  margin-bottom: 1rem;
-  max-height: 140px;
-  overflow-y: auto;
+  gap: 1rem;
+  padding: 1.25rem;
 }
 .Comment_commentRow {
   display: flex;
   gap: 0.7rem;
 }
-.Comment_commentAvatar {
-  width: 28px;
-  height: 28px;
+.Comment_avatar {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
-.Comment_commentBubble {
-  background-color: var(--color-bg-surface);
-  border-radius: 8px;
-  padding: 0.5rem 0.8rem;
+.Comment_bubble {
+  background-color: var(--color-bg-muted);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
   flex: 1;
   border: 1px solid var(--color-border);
 }
-.Comment_commentMeta {
+.Comment_bubbleHeader {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
-  margin-bottom: 0.1rem;
+  font-size: 0.78rem;
+  margin-bottom: 0.15rem;
 }
-.Comment_commentAuthor {
+.Comment_author {
   font-weight: 700;
   color: var(--color-text-heading);
 }
-.Comment_commentDate {
+.Comment_date {
   color: var(--color-text-faint);
 }
-.Comment_commentText {
+.Comment_text {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--color-text-body);
+  line-height: 1.5;
 }
 .Comment_form {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+  padding: 1rem 1.25rem;
 }
 .Comment_input {
   flex: 1;
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-strong);
-  border-radius: 6px;
-  padding: 0.5rem 0.8rem;
+  background-color: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-text-heading);
-  font-size: 0.8rem;
   outline: none;
 }
 .Comment_submitButton {
-  background-color: var(--color-primary);
-  color: var(--color-bg-surface);
+  background: transparent;
   border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  font-size: 0.8rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
   cursor: pointer;
+  padding: 0.5rem 0.4rem;
 }
 
 /* src/pages/app/InteractiveTimeline/components/MemoryDetailsPanel.module.css */
-.MemoryDetailsPanel_panel {
+.MemoryDetailsPanel_wrapper {
   background-color: var(--color-bg-surface-translucent);
   padding: 2.5rem;
   backdrop-filter: blur(20px);
-  border-left: 1px solid rgba(226, 232, 240, 0.7);
+  border-left: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
   min-height: 750px;
   justify-content: space-between;
 }
-.MemoryDetailsPanel_header {
+.MemoryDetailsPanel_authorRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -280,7 +281,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--color-bg-surface);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 .MemoryDetailsPanel_authorName {
   margin: 0;
@@ -333,6 +334,30 @@
   margin: 0;
   font-family: var(--font-family-serif);
 }
+.MemoryDetailsPanel_interactionRow {
+  position: relative;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.MemoryDetailsPanel_commentsToggle {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+  padding: 0.55rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-md);
+}
+.MemoryDetailsPanel_commentsToggleActive {
+  background: var(--color-border-soft);
+}
 
 /* src/pages/app/InteractiveTimeline/sections/MemorySpotlight.module.css */
 .MemorySpotlight_grid {
@@ -341,8 +366,8 @@
   gap: 0;
   align-items: stretch;
   margin-bottom: 3.5rem;
-  border-radius: 28px;
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
@@ -352,24 +377,24 @@
   max-width: 340px;
   flex-shrink: 0;
   background-color: var(--color-bg-surface);
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   padding: 14px;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   border: 2px solid transparent;
   transition: all 0.2s ease;
 }
 .FilmstripCard_cardSelected {
   border-color: var(--color-primary);
 }
-.FilmstripCard_imageWrapper {
+.FilmstripCard_photoWrapper {
   position: relative;
   height: 240px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background-color: var(--color-bg-filmstrip-image-fallback);
 }
-.FilmstripCard_image {
+.FilmstripCard_photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -383,10 +408,10 @@
   font-weight: 700;
   font-size: 0.75rem;
   padding: 0.25rem 0.7rem;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
-.FilmstripCard_titleWrapper {
+.FilmstripCard_caption {
   padding: 8px 2px 2px 2px;
 }
 .FilmstripCard_title {
@@ -400,20 +425,20 @@
 }
 
 /* src/pages/app/InteractiveTimeline/sections/MemoryFilmstrip.module.css */
-.MemoryFilmstrip_wrapper {
+.MemoryFilmstrip_section {
   width: 100%;
   margin-top: 3rem;
 }
-.MemoryFilmstrip_title {
-  font-size: 0.85rem;
+.MemoryFilmstrip_heading {
+  font-size: 0.96rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-text-subtle);
-  font-weight: 700;
+  color: #4F77E6;
+  font-weight: 1000;
   margin-bottom: 1rem;
   font-family: inherit;
 }
-.MemoryFilmstrip_trackWrapper {
+.MemoryFilmstrip_rail {
   position: relative;
   display: flex;
   align-items: center;
@@ -445,7 +470,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1.2rem;
-  color: white;
+  color: #ffffff;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 .MemoryFilmstrip_arrowButton:hover {
@@ -495,6 +520,93 @@
   color: var(--color-text-heading);
   margin: 0;
   font-family: var(--font-family-base);
+}
+
+/* src/shared/Navbar/Navbar.module.css */
+.Navbar_nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-bg-surface-translucent-strong);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.85rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+.Navbar_brandMark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+.Navbar_brandName {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.Navbar_brandPrefix {
+  color: #78716c;
+}
+.Navbar_brandAccent {
+  color: var(--color-primary);
+}
+.Navbar_links {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+.Navbar_link,
+.Navbar_linkActive {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.Navbar_link {
+  color: var(--color-text-body);
+  font-weight: 500;
+}
+.Navbar_linkActive {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.Navbar_linkIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+.Navbar_actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.Navbar_cta {
+  background-color: var(--color-primary);
+  color: var(--color-bg-surface);
+  border: none;
+  padding: 0.55rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 12px var(--color-primary-shadow-soft);
+}
+.Navbar_ctaPlus {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.Navbar_avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  cursor: pointer;
+  object-fit: cover;
 }
 
 /* src/styles/token2.css */

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import type { Comment, MemoryItem } from '../types';
+import type { Comment, MemoryItem } from '@/shared/Post/types';
 import { MEMORIES_PAGE_CONTENT } from '../content';
-import { ReactionBar } from './ReactionBar';
+import { ReactionBar } from '@/shared/Post/component/ReactionBar';
 import { CommentSection } from './Comment';
 import styles from './MemoryDetailsPanel.module.css';
 

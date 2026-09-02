@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import type { MemoryItem } from '../types';
+import type { MemoryItem } from '@/shared/Post/types';
 import { MEMORIES_PAGE_CONTENT } from '../content';
 import { FilmstripCard } from '../components/FilmstripCard';
 import styles from './MemoryFilmstrip.module.css';

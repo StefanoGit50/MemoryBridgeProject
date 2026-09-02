@@ -1,0 +1,167 @@
+.wrapper {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.28s ease;
+}
+
+.wrapper.dismissed {
+    opacity: 0.2;
+}
+
+.welcomeBubble {
+    position: absolute;
+    bottom: 76px;
+    right: 0px;
+    background-color: #ffffff;
+    color: #0f172a;
+    padding: 8px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e2e8f0;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 20;
+}
+
+.dismissButton {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    z-index: 10;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #ef4444;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Wrapper posizionati dei sotto-pulsanti --- */
+
+.iconWrapper {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.3);
+}
+
+.iconWrapper.open {
+    pointer-events: auto;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.contrastWrapper {
+    transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.contrastWrapper.open {
+    bottom: 92px;
+    right: 8px;
+}
+
+.fontWrapper {
+    transition: all 0.30s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.fontWrapper.open {
+    bottom: 68px;
+    right: 68px;
+}
+
+.chatWrapper {
+    transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.chatWrapper.open {
+    bottom: 8px;
+    right: 92px;
+}
+
+/* --- Pulsanti circolari --- */
+
+.circleButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-color: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circleButton.contrastActive {
+    background-color: #ffff00;
+    color: #000000;
+}
+
+.circleButton.fontActive {
+    background-color: #f97316;
+    color: #ffffff;
+}
+
+/* --- Pulsante principale (gufo) --- */
+
+.mainButton {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    background-color: #ffffff;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border 0.2s ease, transform 0.2s ease;
+    transform: scale(1);
+}
+
+.mainButton.open {
+    border-color: #f97316;
+    transform: scale(1.05);
+}
+
+.mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

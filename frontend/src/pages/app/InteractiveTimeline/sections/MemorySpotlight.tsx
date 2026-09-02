@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
-import type { Comment, FloatingEmoji, MemoryItem } from '../types';
+import type { Comment, FloatingEmoji, MemoryItem } from '@/shared/Post/types';
 import { MemoryPhotoPanel } from '../components/MemoryPhotoPanel';
 import { MemoryDetailsPanel } from '../components/MemoryDetailsPanel';
 import styles from './MemorySpotlight.module.css';

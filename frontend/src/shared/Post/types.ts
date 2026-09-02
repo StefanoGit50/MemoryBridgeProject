@@ -1,11 +1,10 @@
-// src/pages/app/memories/types.ts
-
 export interface Comment {
     id: string;
     author: string;
     avatar: string;
     date: string;
     text: string;
+    likesCount: number;
 }
 
 export interface MemoryItem {
