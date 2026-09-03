@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { PresentazionePage } from "@/pages/presentation/Presentazione";
-import "@/styles/tokens.css";
+import "@/styles/global.css";
 
 const container = document.getElementById("root");
 if (container) {

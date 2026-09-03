@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
-import type { Comment, FloatingEmoji, MemoryItem } from '@/shared/Post/types';
+import type { FloatingEmoji, MemoryItem } from '@/shared/Post/types';
 import { MemoryPhotoPanel } from '../components/MemoryPhotoPanel';
 import { MemoryDetailsPanel } from '../components/MemoryDetailsPanel';
 import styles from './MemorySpotlight.module.css';
@@ -19,6 +19,17 @@ interface MemorySpotlightProps {
     onSubmitComment: (e: React.FormEvent) => void;
 }
 
+/**
+ * Componente layout "Spotlight" per la visualizzazione dettagliata di un ricordo selezionato.
+ *
+ * Si occupa di:
+ * - Gestire le animazioni fluide di entrata/uscita tramite `framer-motion` (`AnimatePresence`).
+ * - Suddividere la vista in una griglia a due colonne (`MemoryPhotoPanel` a sinistra, `MemoryDetailsPanel` a destra).
+ * - Raggruppare e distribuire lo stato globale e le callback ai sotto-componenti responsabili delle foto, delle reazioni e dei commenti.
+ *
+ * @param props - Oggetto {@link MemorySpotlightProps} contenente i dati del ricordo e i gestori degli eventi.
+ * @returns Elemento JSX contenente la griglia animata del ricordo o `null` se nessun ricordo è selezionato.
+ */
 export function MemorySpotlight({
                                     memory,
                                     onClose,

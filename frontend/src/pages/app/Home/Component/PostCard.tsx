@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { MemoryItem, Comment } from '@/shared/Post/types';
 import { useReactions } from '@/shared/Post/useReactions';
 import { ReactionBar } from '@/shared/Post/component/ReactionBar';
-import { useSpeechSynthesis } from '@/shared/Accessibility/UseSpeechAccessibility';
+import { SpeechButton } from "@/shared/Accessibility/SpeechButton";
 import { CommentAccordion } from './CommentAccordion';
 import { HOME_PAGE_CONTENT } from '../content';
 import styles from './PostCard.module.css';
@@ -15,7 +15,6 @@ interface PostCardProps {
 export function PostCard({ post, onAddComment }: PostCardProps) {
     const { userReaction, showReactionPicker, toggleReaction, toggleReactionPicker } =
         useReactions(post.id);
-    const { isSpeaking, toggleSpeech } = useSpeechSynthesis();
     const [showComments, setShowComments] = useState(false);
     const [newCommentText, setNewCommentText] = useState('');
 
@@ -50,13 +49,9 @@ export function PostCard({ post, onAddComment }: PostCardProps) {
 
             <div className={styles.body}>
                 <p className={styles.story}>{post.story}</p>
-                <button
-                    type="button"
-                    onClick={() => toggleSpeech(post.story)}
-                    className={`${styles.speechButton} ${isSpeaking ? styles.speechButtonActive : ''}`}
-                >
-                    {isSpeaking ? HOME_PAGE_CONTENT.voiceNote.stopSpeak : HOME_PAGE_CONTENT.voiceNote.speak}
-                </button>
+
+                {/* Nuovo componente integrato con lo SpeechContext */}
+                <SpeechButton id={post.id} text={post.story} />
             </div>
 
             <div className={styles.photoFrame}>

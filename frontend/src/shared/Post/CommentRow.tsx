@@ -8,6 +8,19 @@ interface CommentRowProps {
     comment: Comment;
 }
 
+/**
+ * Componente atomico per il rendering e la gestione di una singola riga di commento.
+ *
+ * Si occupa di:
+ * - Mostrare le informazioni dell'autore, l'avatar, la data di pubblicazione e il testo.
+ * - Gestire in modo del tutto autonomo le reazioni (like/emoji) sul singolo commento
+ *   tramite l'hook `useReactions(comment.id)`, disaccoppiandolo dallo stato del post padre.
+ * - Calcolare in modo efficiente (`useMemo`) l'incremento visivo dei like quando l'utente reagisce.
+ * - Renderizzare una `ReactionBar` in modalità compatta (`size="compact"`).
+ *
+ * @param props - Oggetto {@link CommentRowProps} contenente i dati del commento.
+ * @returns Elemento JSX rappresentante la riga del commento con interazioni integrate.
+ */
 export function CommentRow({ comment }: CommentRowProps) {
     const { userReaction, showReactionPicker, toggleReaction, toggleReactionPicker } =
         useReactions(comment.id);

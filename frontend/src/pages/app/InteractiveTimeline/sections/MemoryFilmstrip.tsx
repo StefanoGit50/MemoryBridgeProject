@@ -14,6 +14,17 @@ interface MemoryFilmstripProps {
     onSelect: (id: string) => void;
 }
 
+/**
+ * Componente per il rullino/galleria orizzontale dei ricordi.
+ *
+ * Si occupa di:
+ * - Mostrare un'elenco di anteprime (`FilmstripCard`) disposte in linea orizzontale.
+ * - Gestire lo scorrimento programmatico della barra tramite `useRef` e l'API nativa `scrollBy`.
+ * - Evidenziare la scheda attiva confrontando `selectedId` con l'ID della singola scheda.
+ *
+ * @param props - Oggetto {@link MemoryFilmstripProps} contenente i ricordi e i gestori di selezione.
+ * @returns Elemento JSX contenente la sezione con frecce di navigazione e traccia scrollabile.
+ */
 export function MemoryFilmstrip({ memories, selectedId, onSelect }: MemoryFilmstripProps) {
     const trackRef = useRef<HTMLDivElement>(null);
 
