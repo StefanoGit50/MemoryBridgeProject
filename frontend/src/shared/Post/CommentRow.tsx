@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+// @/shared/Post/CommentRow.tsx
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Comment } from './types';
 import { useReactions } from './useReactions';
 import { ReactionBar } from './component/ReactionBar';
@@ -6,53 +8,120 @@ import styles from './CommentRow.module.css';
 
 interface CommentRowProps {
     comment: Comment;
+    onAddReply: (parentId: string, text: string) => void;
 }
 
-/**
- * Componente atomico per il rendering e la gestione di una singola riga di commento.
- *
- * Si occupa di:
- * - Mostrare le informazioni dell'autore, l'avatar, la data di pubblicazione e il testo.
- * - Gestire in modo del tutto autonomo le reazioni (like/emoji) sul singolo commento
- *   tramite l'hook `useReactions(comment.id)`, disaccoppiandolo dallo stato del post padre.
- * - Calcolare in modo efficiente (`useMemo`) l'incremento visivo dei like quando l'utente reagisce.
- * - Renderizzare una `ReactionBar` in modalità compatta (`size="compact"`).
- *
- * @param props - Oggetto {@link CommentRowProps} contenente i dati del commento.
- * @returns Elemento JSX rappresentante la riga del commento con interazioni integrate.
- */
-export function CommentRow({ comment }: CommentRowProps) {
+export function CommentRow({ comment, onAddReply }: CommentRowProps) {
     const { userReaction, showReactionPicker, toggleReaction, toggleReactionPicker } =
         useReactions(comment.id);
 
-    const totalLikes = useMemo(
-        () => comment.likesCount + (userReaction ? 1 : 0),
-        [comment.likesCount, userReaction],
-    );
+    const [isReplying, setIsReplying] = useState(false);
+    const [replyText, setReplyText] = useState('');
+    const [showReplies, setShowReplies] = useState(true);
+
+    const handleReplySubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!replyText.trim()) return;
+        onAddReply(comment.id, replyText);
+        setReplyText('');
+        setIsReplying(false);
+        setShowReplies(true);
+    };
+
+    const hasReplies = comment.replies && comment.replies.length > 0;
 
     return (
-        <div className={styles.row}>
-        <img src={comment.avatar} alt={comment.author} className={styles.avatar} />
-    <div className={styles.body}>
-    <div className={styles.bubble}>
-    <div className={styles.header}>
-    <span className={styles.author}>{comment.author}</span>
-        <span className={styles.date}>{comment.date}</span>
-        </div>
-        <p className={styles.text}>{comment.text}</p>
-        </div>
+        <div className={styles.container}>
+            <div className={styles.row}>
+                <img src={comment.avatar} alt={comment.author} className={styles.avatar} />
 
-        <div className={styles.actions}>
-    <ReactionBar
-        size="compact"
-    userReaction={userReaction}
-    showReactionPicker={showReactionPicker}
-    likesCount={totalLikes}
-    onTogglePicker={toggleReactionPicker}
-    onToggleReaction={toggleReaction}
-    />
-    </div>
-    </div>
-    </div>
-);
+                <div className={styles.body}>
+                    <div className={styles.bubble}>
+                        <div className={styles.header}>
+                            <span className={styles.author}>{comment.author}</span>
+                            <span className={styles.date}>{comment.date}</span>
+                        </div>
+                        <p className={styles.text}>{comment.text}</p>
+                    </div>
+
+                    {/* Bar azioni: Reazione + Tasto Rispondi */}
+                    <div className={styles.actionsBar}>
+                        <ReactionBar
+                            size="compact"
+                            userReaction={userReaction}
+                            showReactionPicker={showReactionPicker}
+                            likesCount={comment.likesCount + (userReaction ? 1 : 0)}
+                            onTogglePicker={toggleReactionPicker}
+                            onToggleReaction={toggleReaction}
+                        />
+                        <button
+                            type="button"
+                            className={styles.replyButton}
+                            onClick={() => setIsReplying(!isReplying)}
+                        >
+                            {isReplying ? 'Annulla' : 'Rispondi'}
+                        </button>
+                    </div>
+
+                    {/* Form Inline Animato per inviare la risposta */}
+                    <AnimatePresence>
+                        {isReplying && (
+                            <motion.form
+                                initial={{ opacity: 0, y: -8, height: 0 }}
+                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                exit={{ opacity: 0, y: -8, height: 0 }}
+                                className={styles.replyForm}
+                                onSubmit={handleReplySubmit}
+                            >
+                                <input
+                                    type="text"
+                                    autoFocus
+                                    placeholder={`Rispondi a @${comment.author}...`}
+                                    value={replyText}
+                                    onChange={(e) => setReplyText(e.target.value)}
+                                    className={styles.replyInput}
+                                />
+                                <button type="submit" className={styles.replySubmit}>
+                                    Invia
+                                </button>
+                            </motion.form>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </div>
+
+            {/* Gestione Risposte Nested con Linea Connettore Visiva */}
+            {hasReplies && (
+                <div className={styles.repliesWrapper}>
+                    <button
+                        type="button"
+                        onClick={() => setShowReplies(!showReplies)}
+                        className={styles.toggleRepliesBtn}
+                    >
+                        <span className={styles.lineConnector} />
+                        {showReplies ? 'Nascondi risposte' : `Mostra ${comment.replies!.length} risposte`}
+                    </button>
+
+                    <AnimatePresence>
+                        {showReplies && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className={styles.repliesThread}
+                            >
+                                {comment.replies!.map((reply) => (
+                                    <CommentRow
+                                        key={reply.id}
+                                        comment={reply}
+                                        onAddReply={onAddReply}
+                                    />
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            )}
+        </div>
+    );
 }

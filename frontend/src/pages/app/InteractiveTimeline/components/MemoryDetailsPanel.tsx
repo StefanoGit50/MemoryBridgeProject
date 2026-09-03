@@ -8,7 +8,6 @@ import styles from './MemoryDetailsPanel.module.css';
 const { closeButtonAriaLabel, detailsEyebrow, publishedLabel } = MEMORIES_PAGE_CONTENT.spotlight;
 const { toggleAriaLabel } = MEMORIES_PAGE_CONTENT.comments;
 
-
 interface ReactionBarState {
     userReaction: string | null;
     showReactionPicker: boolean;
@@ -22,6 +21,7 @@ interface CommentsState {
     newCommentText: string;
     onChangeText: (text: string) => void;
     onSubmit: (e: React.FormEvent) => void;
+    onAddReply?: (parentId: string, text: string) => void; // 👈 1. Aggiunta la prop facoltativa
 }
 
 interface MemoryDetailsPanelProps {
@@ -111,6 +111,7 @@ export function MemoryDetailsPanel({
                     newCommentText={comments.newCommentText}
                     onChangeText={comments.onChangeText}
                     onSubmit={comments.onSubmit}
+                    onAddReply={comments.onAddReply ?? (() => {})} // 👈 2. Passata a CommentSection
                 />
             </div>
         </motion.div>

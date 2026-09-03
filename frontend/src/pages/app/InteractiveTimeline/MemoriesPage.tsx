@@ -9,13 +9,13 @@ import styles from './Memoriespage.module.css';
 import { Navbar } from '@/shared/Navbar/Navbar';
 
 export default function MemoriesPage() {
-    const { memories, selectedMemory, selectedId, selectMemory, addComment } = useMemories();
+    const { memories, selectedMemory, selectedId, selectMemory, addComment, addReply} = useMemories();
 
     const { userReaction, showReactionPicker, floatingEmojis, toggleReaction, toggleReactionPicker } =
         useReactions(selectedId);
 
-    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment } =
-        useComments(selectedId, addComment);
+    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment,submitReply } =
+        useComments(selectedId, addComment, addReply);
 
 
     // TODO: sostituire con l'avatar reale dell'utente loggato, quando il sistema auth sarà collegato
@@ -55,6 +55,7 @@ export default function MemoriesPage() {
                     newCommentText={newCommentText}
                     onChangeCommentText={setNewCommentText}
                     onSubmitComment={submitComment}
+                    onAddReply={submitReply}
                 />
 
                 <MemoryFilmstrip

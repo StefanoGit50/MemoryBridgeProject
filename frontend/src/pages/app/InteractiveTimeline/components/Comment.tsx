@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Comment } from '@/shared/Post/types';
 import { MEMORIES_PAGE_CONTENT } from '../content';
+import { CommentRow } from '@/shared/Post/CommentRow';
 import styles from './Comment.module.css';
 
 const { inputPlaceholder, submitLabel } = MEMORIES_PAGE_CONTENT.comments;
@@ -13,6 +14,7 @@ interface CommentSectionProps {
     newCommentText: string;
     onChangeText: (text: string) => void;
     onSubmit: (e: React.FormEvent) => void;
+    onAddReply: (parentId: string, text: string) => void; // 👈 1. Dichiarata la callback per le risposte
 }
 
 export function CommentSection({
@@ -22,6 +24,7 @@ export function CommentSection({
                                    newCommentText,
                                    onChangeText,
                                    onSubmit,
+                                   onAddReply, // 👈 2. Ricevuta nelle props
                                }: CommentSectionProps) {
     const listRef = useRef<HTMLDivElement>(null);
 
@@ -49,16 +52,11 @@ export function CommentSection({
 
                     <div ref={listRef} className={styles.list}>
                         {comments.map((comment) => (
-                            <div key={comment.id} className={styles.commentRow}>
-                                <img src={comment.avatar} alt={comment.author} className={styles.avatar} />
-                                <div className={styles.bubble}>
-                                    <div className={styles.bubbleHeader}>
-                                        <span className={styles.author}>{comment.author}</span>
-                                        <span className={styles.date}>{comment.date}</span>
-                                    </div>
-                                    <p className={styles.text}>{comment.text}</p>
-                                </div>
-                            </div>
+                            <CommentRow
+                                key={comment.id}
+                                comment={comment}
+                                onAddReply={onAddReply} // 👈 3. Inoltrata al singolo CommentRow
+                            />
                         ))}
                     </div>
 

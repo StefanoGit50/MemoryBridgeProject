@@ -32550,6 +32550,209 @@
     }
   });
 
+  // src/shared/Post/useReactions.ts
+  function useReactions(selectedId) {
+    const [userReaction, setUserReaction] = (0, import_react24.useState)(null);
+    const [showReactionPicker, setShowReactionPicker] = (0, import_react24.useState)(false);
+    const [floatingEmojis, setFloatingEmojis] = (0, import_react24.useState)([]);
+    const timeoutsRef = (0, import_react24.useRef)(/* @__PURE__ */ new Set());
+    (0, import_react24.useEffect)(() => {
+      setUserReaction(null);
+      setShowReactionPicker(false);
+      setFloatingEmojis([]);
+    }, [selectedId]);
+    (0, import_react24.useEffect)(() => {
+      const timeouts = timeoutsRef.current;
+      return () => {
+        timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+        timeouts.clear();
+      };
+    }, []);
+    function toggleReaction(emoji) {
+      if (userReaction === emoji) {
+        setUserReaction(null);
+      } else {
+        setUserReaction(emoji);
+        const newFloating = {
+          id: Date.now(),
+          emoji,
+          leftOffset: Math.random() * 60 + 20
+        };
+        setFloatingEmojis((prev) => [...prev, newFloating]);
+        const timeoutId = setTimeout(() => {
+          setFloatingEmojis((prev) => prev.filter((item) => item.id !== newFloating.id));
+          timeoutsRef.current.delete(timeoutId);
+        }, 1800);
+        timeoutsRef.current.add(timeoutId);
+      }
+      setShowReactionPicker(false);
+    }
+    function toggleReactionPicker() {
+      setShowReactionPicker((prev) => !prev);
+    }
+    return {
+      userReaction,
+      showReactionPicker,
+      floatingEmojis,
+      toggleReaction,
+      toggleReactionPicker
+    };
+  }
+  var import_react24;
+  var init_useReactions = __esm({
+    "src/shared/Post/useReactions.ts"() {
+      "use strict";
+      import_react24 = __toESM(require_react());
+    }
+  });
+
+  // src/shared/Post/CommentRow.module.css
+  var CommentRow_default;
+  var init_CommentRow = __esm({
+    "src/shared/Post/CommentRow.module.css"() {
+      CommentRow_default = {
+        container: "CommentRow_container",
+        row: "CommentRow_row",
+        avatar: "CommentRow_avatar",
+        body: "CommentRow_body",
+        bubble: "CommentRow_bubble",
+        header: "CommentRow_header",
+        author: "CommentRow_author",
+        date: "CommentRow_date",
+        text: "CommentRow_text",
+        actionsBar: "CommentRow_actionsBar",
+        replyButton: "CommentRow_replyButton",
+        replyForm: "CommentRow_replyForm",
+        replyInput: "CommentRow_replyInput",
+        replySubmit: "CommentRow_replySubmit",
+        repliesWrapper: "CommentRow_repliesWrapper",
+        repliesThread: "CommentRow_repliesThread",
+        toggleRepliesBtn: "CommentRow_toggleRepliesBtn",
+        lineConnector: "CommentRow_lineConnector"
+      };
+    }
+  });
+
+  // src/shared/Post/CommentRow.tsx
+  function CommentRow({ comment, onAddReply }) {
+    const { userReaction, showReactionPicker, toggleReaction, toggleReactionPicker } = useReactions(comment.id);
+    const [isReplying, setIsReplying] = (0, import_react25.useState)(false);
+    const [replyText, setReplyText] = (0, import_react25.useState)("");
+    const [showReplies, setShowReplies] = (0, import_react25.useState)(true);
+    const handleReplySubmit = (e) => {
+      e.preventDefault();
+      if (!replyText.trim()) return;
+      onAddReply(comment.id, replyText);
+      setReplyText("");
+      setIsReplying(false);
+      setShowReplies(true);
+    };
+    const hasReplies = comment.replies && comment.replies.length > 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.container, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.row, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: comment.avatar, alt: comment.author, className: CommentRow_default.avatar }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.body, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.bubble, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.header, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: CommentRow_default.author, children: comment.author }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: CommentRow_default.date, children: comment.date })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: CommentRow_default.text, children: comment.text })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.actionsBar, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+              ReactionBar,
+              {
+                size: "compact",
+                userReaction,
+                showReactionPicker,
+                likesCount: comment.likesCount + (userReaction ? 1 : 0),
+                onTogglePicker: toggleReactionPicker,
+                onToggleReaction: toggleReaction
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+              "button",
+              {
+                type: "button",
+                className: CommentRow_default.replyButton,
+                onClick: () => setIsReplying(!isReplying),
+                children: isReplying ? "Annulla" : "Rispondi"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AnimatePresence, { children: isReplying && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+            motion.form,
+            {
+              initial: { opacity: 0, y: -8, height: 0 },
+              animate: { opacity: 1, y: 0, height: "auto" },
+              exit: { opacity: 0, y: -8, height: 0 },
+              className: CommentRow_default.replyForm,
+              onSubmit: handleReplySubmit,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    autoFocus: true,
+                    placeholder: `Rispondi a @${comment.author}...`,
+                    value: replyText,
+                    onChange: (e) => setReplyText(e.target.value),
+                    className: CommentRow_default.replyInput
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "submit", className: CommentRow_default.replySubmit, children: "Invia" })
+              ]
+            }
+          ) })
+        ] })
+      ] }),
+      hasReplies && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.repliesWrapper, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+          "button",
+          {
+            type: "button",
+            onClick: () => setShowReplies(!showReplies),
+            className: CommentRow_default.toggleRepliesBtn,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: CommentRow_default.lineConnector }),
+              showReplies ? "Nascondi risposte" : `Mostra ${comment.replies.length} risposte`
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AnimatePresence, { children: showReplies && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+          motion.div,
+          {
+            initial: { opacity: 0 },
+            animate: { opacity: 1 },
+            exit: { opacity: 0 },
+            className: CommentRow_default.repliesThread,
+            children: comment.replies.map((reply) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+              CommentRow,
+              {
+                comment: reply,
+                onAddReply
+              },
+              reply.id
+            ))
+          }
+        ) })
+      ] })
+    ] });
+  }
+  var import_react25, import_jsx_runtime9;
+  var init_CommentRow2 = __esm({
+    "src/shared/Post/CommentRow.tsx"() {
+      "use strict";
+      import_react25 = __toESM(require_react());
+      init_es3();
+      init_useReactions();
+      init_ReactionBar2();
+      init_CommentRow();
+      import_jsx_runtime9 = __toESM(require_jsx_runtime());
+    }
+  });
+
   // src/pages/app/InteractiveTimeline/components/Comment.module.css
   var Comment_default;
   var init_Comment = __esm({
@@ -32581,14 +32784,16 @@
     comments,
     newCommentText,
     onChangeText,
-    onSubmit
+    onSubmit,
+    onAddReply
+    // 👈 2. Ricevuta nelle props
   }) {
-    const listRef = (0, import_react24.useRef)(null);
-    (0, import_react24.useEffect)(() => {
+    const listRef = (0, import_react26.useRef)(null);
+    (0, import_react26.useEffect)(() => {
       if (!isOpen || !listRef.current) return;
       listRef.current.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
     }, [isOpen, comments.length]);
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AnimatePresence, { children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AnimatePresence, { children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
       motion.div,
       {
         initial: { y: "100%" },
@@ -32597,25 +32802,23 @@
         transition: { type: "tween", duration: 0.32, ease: [0.16, 1, 0.3, 1] },
         className: Comment_default.overlay,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: Comment_default.header, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", onClick: onClose, className: Comment_default.backButton, "aria-label": "Torna al post", children: "\u2190" }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("h4", { className: Comment_default.headerTitle, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: Comment_default.header, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "button", onClick: onClose, className: Comment_default.backButton, "aria-label": "Torna al post", children: "\u2190" }),
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("h4", { className: Comment_default.headerTitle, children: [
               comments.length,
               " Commenti"
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { ref: listRef, className: Comment_default.list, children: comments.map((comment) => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: Comment_default.commentRow, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: comment.avatar, alt: comment.author, className: Comment_default.avatar }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: Comment_default.bubble, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: Comment_default.bubbleHeader, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: Comment_default.author, children: comment.author }),
-                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: Comment_default.date, children: comment.date })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: Comment_default.text, children: comment.text })
-            ] })
-          ] }, comment.id)) }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("form", { onSubmit, className: Comment_default.form, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { ref: listRef, className: Comment_default.list, children: comments.map((comment) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+            CommentRow,
+            {
+              comment,
+              onAddReply
+            },
+            comment.id
+          )) }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("form", { onSubmit, className: Comment_default.form, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
               "input",
               {
                 type: "text",
@@ -32625,21 +32828,22 @@
                 className: Comment_default.input
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "submit", className: Comment_default.submitButton, children: submitLabel })
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "submit", className: Comment_default.submitButton, children: submitLabel })
           ] })
         ]
       }
     ) });
   }
-  var import_react24, import_jsx_runtime9, inputPlaceholder, submitLabel;
+  var import_react26, import_jsx_runtime10, inputPlaceholder, submitLabel;
   var init_Comment2 = __esm({
     "src/pages/app/InteractiveTimeline/components/Comment.tsx"() {
       "use strict";
-      import_react24 = __toESM(require_react());
+      import_react26 = __toESM(require_react());
       init_es3();
       init_content();
+      init_CommentRow2();
       init_Comment();
-      import_jsx_runtime9 = __toESM(require_jsx_runtime());
+      import_jsx_runtime10 = __toESM(require_jsx_runtime());
       ({ inputPlaceholder, submitLabel } = MEMORIES_PAGE_CONTENT.comments);
     }
   });
@@ -32675,7 +32879,7 @@
     comments
   }) {
     const totalLikes = memory.likesCount + (reactionBar.userReaction ? 1 : 0);
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
       motion.div,
       {
         initial: { opacity: 0, y: -40 },
@@ -32684,10 +32888,10 @@
         transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
         className: MemoryDetailsPanel_default.wrapper,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: MemoryDetailsPanel_default.authorRow, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: MemoryDetailsPanel_default.authorInfo, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: MemoryDetailsPanel_default.authorRow, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: MemoryDetailsPanel_default.authorInfo, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
                   "img",
                   {
                     src: memory.authorAvatar,
@@ -32695,16 +32899,16 @@
                     className: MemoryDetailsPanel_default.authorAvatar
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("h4", { className: MemoryDetailsPanel_default.authorName, children: memory.authorName }),
-                  /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("span", { className: MemoryDetailsPanel_default.publishedDate, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h4", { className: MemoryDetailsPanel_default.authorName, children: memory.authorName }),
+                  /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("span", { className: MemoryDetailsPanel_default.publishedDate, children: [
                     publishedLabel,
                     " \u2022 ",
                     memory.dateStr
                   ] })
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
                 "button",
                 {
                   type: "button",
@@ -32715,16 +32919,16 @@
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("hr", { className: MemoryDetailsPanel_default.divider }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: MemoryDetailsPanel_default.eyebrow, children: detailsEyebrow }),
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("h2", { className: MemoryDetailsPanel_default.title, children: memory.title })
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("hr", { className: MemoryDetailsPanel_default.divider }),
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: MemoryDetailsPanel_default.eyebrow, children: detailsEyebrow }),
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h2", { className: MemoryDetailsPanel_default.title, children: memory.title })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { className: MemoryDetailsPanel_default.story, children: memory.story })
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { className: MemoryDetailsPanel_default.story, children: memory.story })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: MemoryDetailsPanel_default.interactionRow, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: MemoryDetailsPanel_default.interactionRow, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
                 ReactionBar,
                 {
                   userReaction: reactionBar.userReaction,
@@ -32734,7 +32938,7 @@
                   onToggleReaction: reactionBar.onToggleReaction
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
                 "button",
                 {
                   type: "button",
@@ -32749,7 +32953,7 @@
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
               CommentSection,
               {
                 isOpen: comments.showComments,
@@ -32757,7 +32961,9 @@
                 comments: memory.comments,
                 newCommentText: comments.newCommentText,
                 onChangeText: comments.onChangeText,
-                onSubmit: comments.onSubmit
+                onSubmit: comments.onSubmit,
+                onAddReply: comments.onAddReply ?? (() => {
+                })
               }
             )
           ] })
@@ -32765,7 +32971,7 @@
       }
     );
   }
-  var import_jsx_runtime10, closeButtonAriaLabel, detailsEyebrow, publishedLabel, toggleAriaLabel;
+  var import_jsx_runtime11, closeButtonAriaLabel, detailsEyebrow, publishedLabel, toggleAriaLabel;
   var init_MemoryDetailsPanel2 = __esm({
     "src/pages/app/InteractiveTimeline/components/MemoryDetailsPanel.tsx"() {
       "use strict";
@@ -32774,7 +32980,7 @@
       init_ReactionBar2();
       init_Comment2();
       init_MemoryDetailsPanel();
-      import_jsx_runtime10 = __toESM(require_jsx_runtime());
+      import_jsx_runtime11 = __toESM(require_jsx_runtime());
       ({ closeButtonAriaLabel, detailsEyebrow, publishedLabel } = MEMORIES_PAGE_CONTENT.spotlight);
       ({ toggleAriaLabel } = MEMORIES_PAGE_CONTENT.comments);
     }
@@ -32803,11 +33009,12 @@
     onToggleComments,
     newCommentText,
     onChangeCommentText,
-    onSubmitComment
+    onSubmitComment,
+    onAddReply
   }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(AnimatePresence, { mode: "wait", children: memory && /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: MemorySpotlight_default.grid, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(MemoryPhotoPanel, { memory, floatingEmojis }),
-      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(AnimatePresence, { mode: "wait", children: memory && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: MemorySpotlight_default.grid, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MemoryPhotoPanel, { memory, floatingEmojis }),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
         MemoryDetailsPanel,
         {
           memory,
@@ -32823,13 +33030,14 @@
             onToggleComments,
             newCommentText,
             onChangeText: onChangeCommentText,
-            onSubmit: onSubmitComment
+            onSubmit: onSubmitComment,
+            onAddReply
           }
         }
       )
     ] }, memory.id) }) });
   }
-  var import_jsx_runtime11;
+  var import_jsx_runtime12;
   var init_MemorySpotlight2 = __esm({
     "src/pages/app/InteractiveTimeline/sections/MemorySpotlight.tsx"() {
       "use strict";
@@ -32837,7 +33045,7 @@
       init_MemoryPhotoPanel2();
       init_MemoryDetailsPanel2();
       init_MemorySpotlight();
-      import_jsx_runtime11 = __toESM(require_jsx_runtime());
+      import_jsx_runtime12 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -32859,7 +33067,7 @@
 
   // src/pages/app/InteractiveTimeline/components/FilmstripCard.tsx
   function FilmstripCard({ item, isSelected, onSelect }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
       "div",
       {
         className: `${FilmstripCard_default.card} ${isSelected ? FilmstripCard_default.cardSelected : ""}`,
@@ -32870,21 +33078,21 @@
           if (e.key === "Enter" || e.key === " ") onSelect(item.id);
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: FilmstripCard_default.photoWrapper, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: item.imageUrl, alt: item.title, className: FilmstripCard_default.photo }),
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: FilmstripCard_default.yearBadge, children: item.year })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: FilmstripCard_default.photoWrapper, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: item.imageUrl, alt: item.title, className: FilmstripCard_default.photo }),
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: FilmstripCard_default.yearBadge, children: item.year })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: FilmstripCard_default.caption, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("h4", { className: FilmstripCard_default.title, children: item.title }) })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: FilmstripCard_default.caption, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h4", { className: FilmstripCard_default.title, children: item.title }) })
         ]
       }
     );
   }
-  var import_jsx_runtime12;
+  var import_jsx_runtime13;
   var init_FilmstripCard2 = __esm({
     "src/pages/app/InteractiveTimeline/components/FilmstripCard.tsx"() {
       "use strict";
       init_FilmstripCard();
-      import_jsx_runtime12 = __toESM(require_jsx_runtime());
+      import_jsx_runtime13 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -32906,14 +33114,14 @@
 
   // src/pages/app/InteractiveTimeline/sections/MemoryFilmstrip.tsx
   function MemoryFilmstrip({ memories, selectedId, onSelect }) {
-    const trackRef = (0, import_react25.useRef)(null);
+    const trackRef = (0, import_react27.useRef)(null);
     function scrollByAmount(direction) {
       trackRef.current?.scrollBy({ left: direction * SCROLL_AMOUNT_PX, behavior: "smooth" });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: MemoryFilmstrip_default.section, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h3", { className: MemoryFilmstrip_default.heading, children: title }),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: MemoryFilmstrip_default.rail, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: MemoryFilmstrip_default.section, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { className: MemoryFilmstrip_default.heading, children: title }),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: MemoryFilmstrip_default.rail, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
           "button",
           {
             type: "button",
@@ -32923,7 +33131,7 @@
             children: "\u25C0"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { ref: trackRef, className: MemoryFilmstrip_default.track, children: memories.map((item) => /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { ref: trackRef, className: MemoryFilmstrip_default.track, children: memories.map((item) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
           FilmstripCard,
           {
             item,
@@ -32932,7 +33140,7 @@
           },
           item.id
         )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
           "button",
           {
             type: "button",
@@ -32945,15 +33153,15 @@
       ] })
     ] });
   }
-  var import_react25, import_jsx_runtime13, title, previousAriaLabel, nextAriaLabel, SCROLL_AMOUNT_PX;
+  var import_react27, import_jsx_runtime14, title, previousAriaLabel, nextAriaLabel, SCROLL_AMOUNT_PX;
   var init_MemoryFilmstrip2 = __esm({
     "src/pages/app/InteractiveTimeline/sections/MemoryFilmstrip.tsx"() {
       "use strict";
-      import_react25 = __toESM(require_react());
+      import_react27 = __toESM(require_react());
       init_content();
       init_FilmstripCard2();
       init_MemoryFilmstrip();
-      import_jsx_runtime13 = __toESM(require_jsx_runtime());
+      import_jsx_runtime14 = __toESM(require_jsx_runtime());
       ({ title, previousAriaLabel, nextAriaLabel } = MEMORIES_PAGE_CONTENT.filmstrip);
       SCROLL_AMOUNT_PX = 350;
     }
@@ -33084,9 +33292,9 @@
 
   // src/pages/app/InteractiveTimeline/hooks/useMemories.ts
   function useMemories() {
-    const [memories, setMemories] = (0, import_react26.useState)(TIMELINE_MEMORIES);
-    const [selectedId, setSelectedId] = (0, import_react26.useState)(memories[0]?.id ?? null);
-    const selectedMemory = (0, import_react26.useMemo)(
+    const [memories, setMemories] = (0, import_react28.useState)(TIMELINE_MEMORIES);
+    const [selectedId, setSelectedId] = (0, import_react28.useState)(memories[0]?.id ?? null);
+    const selectedMemory = (0, import_react28.useMemo)(
       () => memories.find((memory) => memory.id === selectedId) ?? null,
       [memories, selectedId]
     );
@@ -33100,84 +33308,58 @@
         )
       );
     }
+    function addReplyToComment(comments, parentId, newReply) {
+      return comments.map((comment) => {
+        if (comment.id === parentId) {
+          return {
+            ...comment,
+            replies: [...comment.replies || [], newReply]
+          };
+        }
+        if (comment.replies && comment.replies.length > 0) {
+          return {
+            ...comment,
+            replies: addReplyToComment(comment.replies, parentId, newReply)
+          };
+        }
+        return comment;
+      });
+    }
+    function addReply(memoryId, parentId, newReply) {
+      setMemories(
+        (prev) => prev.map((memory) => {
+          if (memory.id !== memoryId) return memory;
+          return {
+            ...memory,
+            comments: addReplyToComment(memory.comments, parentId, newReply)
+          };
+        })
+      );
+    }
     return {
       memories,
       selectedMemory,
       selectedId,
       selectMemory,
-      addComment
+      addComment,
+      addReply
+      // 👈 Esportiamo la funzione qui!
     };
   }
-  var import_react26;
+  var import_react28;
   var init_useMemories = __esm({
     "src/pages/app/InteractiveTimeline/hooks/useMemories.ts"() {
       "use strict";
-      import_react26 = __toESM(require_react());
+      import_react28 = __toESM(require_react());
       init_memoriesMock();
     }
   });
 
-  // src/shared/Post/useReactions.ts
-  function useReactions(selectedId) {
-    const [userReaction, setUserReaction] = (0, import_react27.useState)(null);
-    const [showReactionPicker, setShowReactionPicker] = (0, import_react27.useState)(false);
-    const [floatingEmojis, setFloatingEmojis] = (0, import_react27.useState)([]);
-    const timeoutsRef = (0, import_react27.useRef)(/* @__PURE__ */ new Set());
-    (0, import_react27.useEffect)(() => {
-      setUserReaction(null);
-      setShowReactionPicker(false);
-      setFloatingEmojis([]);
-    }, [selectedId]);
-    (0, import_react27.useEffect)(() => {
-      const timeouts = timeoutsRef.current;
-      return () => {
-        timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-        timeouts.clear();
-      };
-    }, []);
-    function toggleReaction(emoji) {
-      if (userReaction === emoji) {
-        setUserReaction(null);
-      } else {
-        setUserReaction(emoji);
-        const newFloating = {
-          id: Date.now(),
-          emoji,
-          leftOffset: Math.random() * 60 + 20
-        };
-        setFloatingEmojis((prev) => [...prev, newFloating]);
-        const timeoutId = setTimeout(() => {
-          setFloatingEmojis((prev) => prev.filter((item) => item.id !== newFloating.id));
-          timeoutsRef.current.delete(timeoutId);
-        }, 1800);
-        timeoutsRef.current.add(timeoutId);
-      }
-      setShowReactionPicker(false);
-    }
-    function toggleReactionPicker() {
-      setShowReactionPicker((prev) => !prev);
-    }
-    return {
-      userReaction,
-      showReactionPicker,
-      floatingEmojis,
-      toggleReaction,
-      toggleReactionPicker
-    };
-  }
-  var import_react27;
-  var init_useReactions = __esm({
-    "src/shared/Post/useReactions.ts"() {
-      "use strict";
-      import_react27 = __toESM(require_react());
-    }
-  });
-
   // src/shared/Post/useComments.ts
-  function useComments(selectedId, onAddComment) {
-    const [showComments, setShowComments] = (0, import_react28.useState)(false);
-    const [newCommentText, setNewCommentText] = (0, import_react28.useState)("");
-    (0, import_react28.useEffect)(() => {
+  function useComments(selectedId, onAddComment, onAddReplyToMemory) {
+    const [showComments, setShowComments] = (0, import_react29.useState)(false);
+    const [newCommentText, setNewCommentText] = (0, import_react29.useState)("");
+    (0, import_react29.useEffect)(() => {
       setShowComments(false);
       setNewCommentText("");
     }, [selectedId]);
@@ -33193,24 +33375,43 @@
         avatar: MEMORIES_PAGE_CONTENT.comments.guestAuthorAvatar,
         date: MEMORIES_PAGE_CONTENT.comments.justNowLabel,
         text: newCommentText,
-        likesCount: 0
+        likesCount: 0,
+        replies: []
       };
       onAddComment(selectedId, newComment);
       setNewCommentText("");
+    }
+    function submitReply(parentId, replyText) {
+      if (!replyText.trim() || !selectedId) return;
+      const newReply = {
+        id: Date.now().toString(),
+        author: MEMORIES_PAGE_CONTENT.comments.guestAuthorName,
+        avatar: MEMORIES_PAGE_CONTENT.comments.guestAuthorAvatar,
+        date: MEMORIES_PAGE_CONTENT.comments.justNowLabel,
+        text: replyText,
+        likesCount: 0,
+        parentId,
+        replies: []
+      };
+      if (onAddReplyToMemory) {
+        onAddReplyToMemory(selectedId, parentId, newReply);
+      }
     }
     return {
       showComments,
       toggleComments,
       newCommentText,
       setNewCommentText,
-      submitComment
+      submitComment,
+      submitReply
+      // 👈 Esportiamo questa funzione!
     };
   }
-  var import_react28;
+  var import_react29;
   var init_useComments = __esm({
     "src/shared/Post/useComments.ts"() {
       "use strict";
-      import_react28 = __toESM(require_react());
+      import_react29 = __toESM(require_react());
       init_content();
     }
   });
@@ -33280,9 +33481,9 @@
   // src/shared/Navbar/Navbar.tsx
   function Navbar(props) {
     const { activeHref, ctaLabel, onCtaClick, avatarUrl, avatarAlt } = props;
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("nav", { className: Navbar_default.nav, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: Navbar_default.brand, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("nav", { className: Navbar_default.nav, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Navbar_default.brand, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
           "img",
           {
             src: Logo_default,
@@ -33290,54 +33491,54 @@
             className: Navbar_default.brandMark
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { className: Navbar_default.brandName, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.brandPrefix, children: NAV_BRAND.namePrefix }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.brandAccent, children: NAV_BRAND.nameAccent })
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("span", { className: Navbar_default.brandName, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.brandPrefix, children: NAV_BRAND.namePrefix }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.brandAccent, children: NAV_BRAND.nameAccent })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: Navbar_default.links, children: NAV_ITEMS.map((item) => {
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: Navbar_default.links, children: NAV_ITEMS.map((item) => {
         const isActive = item.href === activeHref;
-        return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("a", { href: item.href, className: isActive ? Navbar_default.linkActive : Navbar_default.link, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.linkIcon, children: item.icon }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { children: item.label })
+        return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("a", { href: item.href, className: isActive ? Navbar_default.linkActive : Navbar_default.link, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.linkIcon, children: item.icon }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { children: item.label })
         ] }, item.href);
       }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: Navbar_default.actions, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("button", { type: "button", onClick: onCtaClick, className: Navbar_default.cta, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: Navbar_default.ctaPlus, children: "+" }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Navbar_default.actions, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("button", { type: "button", onClick: onCtaClick, className: Navbar_default.cta, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.ctaPlus, children: "+" }),
           " ",
           ctaLabel
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("img", { src: avatarUrl, alt: avatarAlt, className: Navbar_default.avatar })
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("img", { src: avatarUrl, alt: avatarAlt, className: Navbar_default.avatar })
       ] })
     ] });
   }
-  var import_jsx_runtime14;
+  var import_jsx_runtime15;
   var init_Navbar2 = __esm({
     "src/shared/Navbar/Navbar.tsx"() {
       "use strict";
       init_NavConfig();
       init_Navbar();
       init_Logo();
-      import_jsx_runtime14 = __toESM(require_jsx_runtime());
+      import_jsx_runtime15 = __toESM(require_jsx_runtime());
     }
   });
 
   // src/pages/app/InteractiveTimeline/MemoriesPage.tsx
   function MemoriesPage() {
-    const { memories, selectedMemory, selectedId, selectMemory, addComment } = useMemories();
+    const { memories, selectedMemory, selectedId, selectMemory, addComment, addReply } = useMemories();
     const { userReaction, showReactionPicker, floatingEmojis, toggleReaction, toggleReactionPicker } = useReactions(selectedId);
-    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment } = useComments(selectedId, addComment);
+    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment, submitReply } = useComments(selectedId, addComment, addReply);
     const userAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80";
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Memoriespage_default.page, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: Memoriespage_default.page, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         AmbientBackground,
         {
           imageKey: selectedMemory?.id ?? "none",
           imageUrl: selectedMemory?.imageUrl
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         Navbar,
         {
           activeHref: "/",
@@ -33348,12 +33549,12 @@
           avatarAlt: "Il tuo profilo"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Memoriespage_default.content, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Memoriespage_default.hero, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Memoriespage_default.heroEyebrow, children: MEMORIES_PAGE_CONTENT.hero.eyebrow }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h1", { className: Memoriespage_default.heroTitle, children: MEMORIES_PAGE_CONTENT.hero.title })
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: Memoriespage_default.content, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: Memoriespage_default.hero, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: Memoriespage_default.heroEyebrow, children: MEMORIES_PAGE_CONTENT.hero.eyebrow }),
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h1", { className: Memoriespage_default.heroTitle, children: MEMORIES_PAGE_CONTENT.hero.title })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
           MemorySpotlight,
           {
             memory: selectedMemory,
@@ -33367,10 +33568,11 @@
             onToggleComments: toggleComments,
             newCommentText,
             onChangeCommentText: setNewCommentText,
-            onSubmitComment: submitComment
+            onSubmitComment: submitComment,
+            onAddReply: submitReply
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
           MemoryFilmstrip,
           {
             memories,
@@ -33381,7 +33583,7 @@
       ] })
     ] });
   }
-  var import_jsx_runtime15;
+  var import_jsx_runtime16;
   var init_MemoriesPage = __esm({
     "src/pages/app/InteractiveTimeline/MemoriesPage.tsx"() {
       "use strict";
@@ -33394,7 +33596,7 @@
       init_content();
       init_Memoriespage();
       init_Navbar2();
-      import_jsx_runtime15 = __toESM(require_jsx_runtime());
+      import_jsx_runtime16 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -33410,11 +33612,11 @@
       var import_client = __toESM(require_client());
       init_MemoriesPage();
       init_global();
-      var import_jsx_runtime16 = __toESM(require_jsx_runtime());
+      var import_jsx_runtime17 = __toESM(require_jsx_runtime());
       var container = document.getElementById("root");
       if (container) {
         const root = (0, import_client.createRoot)(container);
-        root.render(/* @__PURE__ */ (0, import_jsx_runtime16.jsx)(MemoriesPage, {}));
+        root.render(/* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MemoriesPage, {}));
       }
     }
   });

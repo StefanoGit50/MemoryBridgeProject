@@ -17,6 +17,7 @@ interface MemorySpotlightProps {
     newCommentText: string;
     onChangeCommentText: (text: string) => void;
     onSubmitComment: (e: React.FormEvent) => void;
+    onAddReply: (parentId: string, text: string) => void;
 }
 
 /**
@@ -43,6 +44,7 @@ export function MemorySpotlight({
                                     newCommentText,
                                     onChangeCommentText,
                                     onSubmitComment,
+                                    onAddReply,
                                 }: MemorySpotlightProps) {
     return (
         <div>
@@ -65,6 +67,7 @@ export function MemorySpotlight({
                                 newCommentText,
                                 onChangeText: onChangeCommentText,
                                 onSubmit: onSubmitComment,
+                                onAddReply: onAddReply,
                             }}
                         />
                     </div>

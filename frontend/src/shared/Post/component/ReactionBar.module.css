@@ -58,3 +58,11 @@
     color: var(--color-text-subtle);
     font-weight: 600;
 }
+.wrapper button,
+.actions button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+}

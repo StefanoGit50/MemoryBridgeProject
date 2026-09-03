@@ -1,12 +1,18 @@
-/* CommentRow.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .row {
     display: flex;
     gap: 0.7rem;
+    align-items: flex-start;
 }
 
 .avatar {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
@@ -16,39 +22,140 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.25rem;
 }
 
+/* Fumetto del commento */
 .bubble {
-    background-color: var(--color-bg-muted);
-    border-radius: 10px;
-    padding: 0.5rem 0.8rem;
-    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-muted, #f8f9fa);
+    border-radius: 12px;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-border, #e2e8f0);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
-    margin-bottom: 0.1rem;
+    align-items: center;
+    margin-bottom: 0.2rem;
 }
 
 .author {
     font-weight: 700;
+    font-size: 0.85rem;
     color: var(--color-text-heading);
 }
 
 .date {
-    color: var(--color-text-faint);
+    font-size: 0.75rem;
+    color: var(--color-text-faint, #a0aec0);
 }
 
 .text {
     margin: 0;
     font-size: 0.85rem;
     color: var(--color-text-body);
-    line-height: 1.45;
+    line-height: 1.4;
 }
 
-.actions {
-    margin-left: 0.2rem;
+/* Barra con like e tasto rispondi */
+.actionsBar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 0.2rem;
+    margin-top: 0.1rem;
+}
+
+.replyButton {
+    background: transparent;
+    border: none;
+    color: var(--color-text-subtle, #4a5568);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+.replyButton:hover {
+    color: var(--color-primary);
+}
+
+/* Form per scrivere la risposta inline */
+.replyForm {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+    overflow: hidden;
+}
+
+.replyInput {
+    flex: 1;
+    background: var(--color-bg-surface, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 18px;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8rem;
+    outline: none;
+    color: var(--color-text-body);
+}
+
+.replyInput:focus {
+    border-color: var(--color-primary);
+}
+
+.replySubmit {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Contenitore e rientro grafico per i sotto-commenti (risposte) */
+.repliesWrapper {
+    margin-left: 1.5rem;
+    padding-left: 0.8rem;
+    border-left: 2px solid #e2e8f0;
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.repliesThread {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.toggleRepliesBtn {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--color-text-subtle, #4a5568);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.toggleRepliesBtn:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+/* Piccola lineetta opzionale accanto al testo del pulsante (se desiderata) */
+.lineConnector {
+    display: inline-block;
+    width: 12px;
+    height: 1px;
+    background-color: var(--color-border, #cbd5e0);
 }

@@ -5,6 +5,8 @@ export interface Comment {
     date: string;
     text: string;
     likesCount: number;
+    parentId?: string | null;
+    replies?: Comment[];
 }
 
 export interface MemoryItem {

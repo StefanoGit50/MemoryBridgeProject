@@ -11,6 +11,7 @@ import type { Comment, MemoryItem } from '@/shared/Post/types';
  * - `selectedId`: L'ID del ricordo selezionato, oppure `null`.
  * - `selectMemory`: Funzione per cambiare il ricordo selezionato.
  * - `addComment`: Funzione per aggiungere un nuovo commento a uno specifico ricordo.
+ * - `addReply`: Funzione per aggiungere una risposta a un commento ricorsivo.
  */
 export function useMemories() {
     const [memories, setMemories] = useState<MemoryItem[]>(TIMELINE_MEMORIES);
@@ -46,11 +47,45 @@ export function useMemories() {
         );
     }
 
+    function addReplyToComment(comments: Comment[], parentId: string, newReply: Comment): Comment[] {
+        return comments.map((comment) => {
+            if (comment.id === parentId) {
+                return {
+                    ...comment,
+                    replies: [...(comment.replies || []), newReply],
+                };
+            }
+            if (comment.replies && comment.replies.length > 0) {
+                return {
+                    ...comment,
+                    replies: addReplyToComment(comment.replies, parentId, newReply),
+                };
+            }
+            return comment;
+        });
+    }
+
+    /**
+     * Aggiunge una risposta a un commento (anche nidificato) sfruttando la funzione ricorsiva.
+     */
+    function addReply(memoryId: string, parentId: string, newReply: Comment) {
+        setMemories((prev) =>
+            prev.map((memory) => {
+                if (memory.id !== memoryId) return memory;
+                return {
+                    ...memory,
+                    comments: addReplyToComment(memory.comments, parentId, newReply),
+                };
+            }),
+        );
+    }
+
     return {
         memories,
         selectedMemory,
         selectedId,
         selectMemory,
         addComment,
+        addReply, // 👈 Esportiamo la funzione qui!
     };
 }
