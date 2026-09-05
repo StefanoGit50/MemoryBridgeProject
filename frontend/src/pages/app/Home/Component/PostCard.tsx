@@ -35,16 +35,42 @@ export function PostCard({ post, onAddComment }: PostCardProps) {
         setNewCommentText('');
     }
 
+    // TODO: sostituire con la navigazione reale quando esisterà la pagina profilo
+    function handleOpenPersonProfile(personId?: string) {
+        console.log('Apri profilo persona:', personId);
+    }
+
     return (
         <article className={styles.card}>
             <header className={styles.header}>
-                <div className={styles.authorAvatar}>👵</div>
-                <div className={styles.authorInfo}>
-                    <div className={styles.nameRow}>
+                <div className={styles.headerMain}>
+                    <div className={styles.authorAvatar}>👵</div>
+                    <div className={styles.authorInfo}>
                         <h3 className={styles.authorName}>{post.authorName}</h3>
+
+                        {post.spouseName && (
+                            <p className={styles.withLine}>
+                                con{' '}
+                                <span
+                                    className={styles.spouseName}
+                                    onClick={() => handleOpenPersonProfile(post.spousePersonId)}
+                                >
+                                    {post.spouseName}
+                                </span>
+                                {post.eventLabel && <> · {post.eventLabel}</>}
+                            </p>
+                        )}
+
+                        <p className={styles.meta}>
+                            {post.location && <>📍 {post.location} • </>}
+                            {post.dateStr}
+                        </p>
                     </div>
-                    <p className={styles.meta}>{post.dateStr}</p>
                 </div>
+
+                {post.relationLabel && (
+                    <span className={styles.relationBadge}>👵 {post.relationLabel}</span>
+                )}
             </header>
 
             <div className={styles.body}>

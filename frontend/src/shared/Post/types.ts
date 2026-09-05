@@ -21,6 +21,11 @@ export interface MemoryItem {
     imageUrl: string;
     likesCount: number;
     comments: Comment[];
+    relationLabel?: string;
+    spouseName?: string;
+    spousePersonId?: string;
+    eventLabel?: string;
+    location?: string;
 }
 
 export interface FloatingEmoji {

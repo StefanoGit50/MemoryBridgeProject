@@ -1,0 +1,26 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    min-height: 40px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #2563eb;
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.button.highContrast {
+    border-color: #ffff00;
+    background-color: #ffff00;
+    color: #000000;
+}
+
+/* La lettura attiva vince sempre su sfondo/testo, il bordo resta legato al tema */
+.button.speaking {
+    background-color: #dc2626;
+    color: #ffffff;
+}

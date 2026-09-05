@@ -10,6 +10,9 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         catalogCode: 'EXHIBIT 1965-01 / ARCHIVIO HAN',
         dateStr: 'Estate 1965',
         authorName: 'Elena Han',
+        relationLabel: 'Ramo Han',
+        eventLabel: 'Riunione di Famiglia',
+        spouseName: 'Nonno Orazio',
         authorAvatar:
             'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80',
         title: 'La Grande Riunione di Famiglia',
@@ -44,6 +47,10 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         catalogCode: 'EXHIBIT 1978-04 / ARCHIVIO ROSSI',
         dateStr: '2 Settembre 1978',
         authorName: 'Roberto Rossi',
+        relationLabel: 'Ramo Rossi',
+        eventLabel: 'Viaggio in Calabria',
+        spouseName: 'Mario Calabrese',
+        location: 'Calabria',
         authorAvatar:
             'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80',
         title: 'Viaggio verso il Mare in Fiat 127',
@@ -70,6 +77,8 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         catalogCode: 'EXHIBIT 1984-09 / ARCHIVIO BIANCHI',
         dateStr: '15 Agosto 1984',
         authorName: 'Anna Bianchi',
+        relationLabel: 'Ramo Bianchi',
+        eventLabel: 'Pranzo di Ferragosto',
         authorAvatar:
             'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
         title: 'Pranzo di Ferragosto in Compagnia',
@@ -86,6 +95,8 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         catalogCode: 'EXHIBIT 1992-12 / ARCHIVIO VERDI',
         dateStr: 'Natale 1992',
         authorName: 'Giorgio Verdi',
+        relationLabel: 'Ramo Verdi',
+        eventLabel: 'Natale in Campagna',
         authorAvatar:
             'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80',
         title: 'La Nevicata Memorabile',
@@ -102,6 +113,8 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         catalogCode: 'EXHIBIT 1995-03 / ARCHIVIO NERI',
         dateStr: '10 Luglio 1995',
         authorName: 'Martina Neri',
+        relationLabel: 'Ramo Neri',
+        eventLabel: 'Gita in Montagna',
         authorAvatar:
             'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80',
         title: 'Gita in Montagna',
@@ -118,6 +131,8 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         catalogCode: 'EXHIBIT 2001-08 / ARCHIVIO CONTI',
         dateStr: 'Capodanno 2001',
         authorName: 'Davide Conti',
+        relationLabel: 'Ramo Conti',
+        eventLabel: 'Capodanno del Millennio',
         authorAvatar:
             'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=120&q=80',
         title: 'Festa di Inizio Millennio',

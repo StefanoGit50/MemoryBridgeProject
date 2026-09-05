@@ -3,7 +3,7 @@ import { useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Comment } from '@/shared/Post/types';
 import { MEMORIES_PAGE_CONTENT } from '../content';
-import { CommentRow } from '@/shared/Post/component/CommentRow';
+import {CommentRow} from "@/shared/Post/component/CommentRow";
 import styles from './Comment.module.css';
 
 const { inputPlaceholder, submitLabel } = MEMORIES_PAGE_CONTENT.comments;
