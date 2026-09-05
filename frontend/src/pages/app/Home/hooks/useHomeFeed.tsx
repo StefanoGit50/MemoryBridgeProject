@@ -15,5 +15,37 @@ export function useHomeFeed() {
         );
     }
 
-    return { posts, addComment };
+    function addReply(parentId: string, text: string) {
+        const newReply: Comment = {
+            id: Date.now().toString(),
+            author: 'Tu',
+            avatar: '/avatar.jpg', // Sostituisci con il percorso del tuo avatar
+            date: 'Ora',
+            text,
+            likesCount: 0,
+            parentId: parentId,
+            replies: [],
+        };
+
+        const updateTree = (list: Comment[]): Comment[] =>
+            list.map((item) => {
+                if (item.id === parentId) {
+                    return { ...item, replies: [...(item.replies || []), newReply] };
+                }
+                if (item.replies?.length) {
+                    return { ...item, replies: updateTree(item.replies) };
+                }
+                return item;
+            });
+
+        setPosts((prev) =>
+            prev.map((post) => ({
+                ...post,
+                comments: updateTree(post.comments || []),
+            })),
+        );
+    }
+
+    return { posts, addComment, addReply };
+
 }

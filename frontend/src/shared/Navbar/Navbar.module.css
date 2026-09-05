@@ -6,7 +6,7 @@
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     padding: 0.6rem 2.5rem;
-    height: 64px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -67,13 +67,13 @@
     align-items: center;
     gap: 0.4rem;
     text-decoration: none;
-    font-size: 0.95rem;
-    font-family: inherit; /* Eredita il font da .nav */
+    font-size: 1.3rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     margin-top: 6px;
 }
 .link {
     color: var(--color-text-body);
-    font-weight: 500;
+    font-weight: 100;
 }
 
 .linkActive {
@@ -112,10 +112,37 @@
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: 2px solid #3b82f6;
     cursor: pointer;
     object-fit: cover;
+}
+
+:global(html.high-contrast) .nav {
+    background-color: #000000 !important;
+    border-bottom: 2px solid #ffffff !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+:global(html.high-contrast) .brandPrefix,
+:global(html.high-contrast) .link {
+    color: #ffffff !important;
+}
+
+:global(html.high-contrast) .brandAccent,
+:global(html.high-contrast) .linkActive {
+    color: #ffff00 !important;
+}
+
+:global(html.high-contrast) .cta {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #ffff00 !important;
+}
+
+:global(html.high-contrast) .avatar {
+    border-color: #ffff00 !important;
 }

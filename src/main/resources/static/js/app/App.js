@@ -44,277 +44,6 @@
     mod
   ));
 
-  // node_modules/scheduler/cjs/scheduler.development.js
-  var require_scheduler_development = __commonJS({
-    "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
-      "use strict";
-      (function() {
-        function performWorkUntilDeadline() {
-          needsPaint = false;
-          if (isMessageLoopRunning) {
-            var currentTime = exports.unstable_now();
-            startTime = currentTime;
-            var hasMoreWork = true;
-            try {
-              a: {
-                isHostCallbackScheduled = false;
-                isHostTimeoutScheduled && (isHostTimeoutScheduled = false, localClearTimeout(taskTimeoutID), taskTimeoutID = -1);
-                isPerformingWork = true;
-                var previousPriorityLevel = currentPriorityLevel;
-                try {
-                  b: {
-                    advanceTimers(currentTime);
-                    for (currentTask = peek(taskQueue); null !== currentTask && !(currentTask.expirationTime > currentTime && shouldYieldToHost()); ) {
-                      var callback = currentTask.callback;
-                      if ("function" === typeof callback) {
-                        currentTask.callback = null;
-                        currentPriorityLevel = currentTask.priorityLevel;
-                        var continuationCallback = callback(
-                          currentTask.expirationTime <= currentTime
-                        );
-                        currentTime = exports.unstable_now();
-                        if ("function" === typeof continuationCallback) {
-                          currentTask.callback = continuationCallback;
-                          advanceTimers(currentTime);
-                          hasMoreWork = true;
-                          break b;
-                        }
-                        currentTask === peek(taskQueue) && pop(taskQueue);
-                        advanceTimers(currentTime);
-                      } else pop(taskQueue);
-                      currentTask = peek(taskQueue);
-                    }
-                    if (null !== currentTask) hasMoreWork = true;
-                    else {
-                      var firstTimer = peek(timerQueue);
-                      null !== firstTimer && requestHostTimeout(
-                        handleTimeout,
-                        firstTimer.startTime - currentTime
-                      );
-                      hasMoreWork = false;
-                    }
-                  }
-                  break a;
-                } finally {
-                  currentTask = null, currentPriorityLevel = previousPriorityLevel, isPerformingWork = false;
-                }
-                hasMoreWork = void 0;
-              }
-            } finally {
-              hasMoreWork ? schedulePerformWorkUntilDeadline() : isMessageLoopRunning = false;
-            }
-          }
-        }
-        function push(heap, node) {
-          var index = heap.length;
-          heap.push(node);
-          a: for (; 0 < index; ) {
-            var parentIndex = index - 1 >>> 1, parent = heap[parentIndex];
-            if (0 < compare(parent, node))
-              heap[parentIndex] = node, heap[index] = parent, index = parentIndex;
-            else break a;
-          }
-        }
-        function peek(heap) {
-          return 0 === heap.length ? null : heap[0];
-        }
-        function pop(heap) {
-          if (0 === heap.length) return null;
-          var first = heap[0], last = heap.pop();
-          if (last !== first) {
-            heap[0] = last;
-            a: for (var index = 0, length = heap.length, halfLength = length >>> 1; index < halfLength; ) {
-              var leftIndex = 2 * (index + 1) - 1, left = heap[leftIndex], rightIndex = leftIndex + 1, right = heap[rightIndex];
-              if (0 > compare(left, last))
-                rightIndex < length && 0 > compare(right, left) ? (heap[index] = right, heap[rightIndex] = last, index = rightIndex) : (heap[index] = left, heap[leftIndex] = last, index = leftIndex);
-              else if (rightIndex < length && 0 > compare(right, last))
-                heap[index] = right, heap[rightIndex] = last, index = rightIndex;
-              else break a;
-            }
-          }
-          return first;
-        }
-        function compare(a, b) {
-          var diff = a.sortIndex - b.sortIndex;
-          return 0 !== diff ? diff : a.id - b.id;
-        }
-        function advanceTimers(currentTime) {
-          for (var timer = peek(timerQueue); null !== timer; ) {
-            if (null === timer.callback) pop(timerQueue);
-            else if (timer.startTime <= currentTime)
-              pop(timerQueue), timer.sortIndex = timer.expirationTime, push(taskQueue, timer);
-            else break;
-            timer = peek(timerQueue);
-          }
-        }
-        function handleTimeout(currentTime) {
-          isHostTimeoutScheduled = false;
-          advanceTimers(currentTime);
-          if (!isHostCallbackScheduled)
-            if (null !== peek(taskQueue))
-              isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline());
-            else {
-              var firstTimer = peek(timerQueue);
-              null !== firstTimer && requestHostTimeout(
-                handleTimeout,
-                firstTimer.startTime - currentTime
-              );
-            }
-        }
-        function shouldYieldToHost() {
-          return needsPaint ? true : exports.unstable_now() - startTime < frameInterval ? false : true;
-        }
-        function requestHostTimeout(callback, ms) {
-          taskTimeoutID = localSetTimeout(function() {
-            callback(exports.unstable_now());
-          }, ms);
-        }
-        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        exports.unstable_now = void 0;
-        if ("object" === typeof performance && "function" === typeof performance.now) {
-          var localPerformance = performance;
-          exports.unstable_now = function() {
-            return localPerformance.now();
-          };
-        } else {
-          var localDate = Date, initialTime = localDate.now();
-          exports.unstable_now = function() {
-            return localDate.now() - initialTime;
-          };
-        }
-        var taskQueue = [], timerQueue = [], taskIdCounter = 1, currentTask = null, currentPriorityLevel = 3, isPerformingWork = false, isHostCallbackScheduled = false, isHostTimeoutScheduled = false, needsPaint = false, localSetTimeout = "function" === typeof setTimeout ? setTimeout : null, localClearTimeout = "function" === typeof clearTimeout ? clearTimeout : null, localSetImmediate = "undefined" !== typeof setImmediate ? setImmediate : null, isMessageLoopRunning = false, taskTimeoutID = -1, frameInterval = 5, startTime = -1;
-        if ("function" === typeof localSetImmediate)
-          var schedulePerformWorkUntilDeadline = function() {
-            localSetImmediate(performWorkUntilDeadline);
-          };
-        else if ("undefined" !== typeof MessageChannel) {
-          var channel = new MessageChannel(), port = channel.port2;
-          channel.port1.onmessage = performWorkUntilDeadline;
-          schedulePerformWorkUntilDeadline = function() {
-            port.postMessage(null);
-          };
-        } else
-          schedulePerformWorkUntilDeadline = function() {
-            localSetTimeout(performWorkUntilDeadline, 0);
-          };
-        exports.unstable_IdlePriority = 5;
-        exports.unstable_ImmediatePriority = 1;
-        exports.unstable_LowPriority = 4;
-        exports.unstable_NormalPriority = 3;
-        exports.unstable_Profiling = null;
-        exports.unstable_UserBlockingPriority = 2;
-        exports.unstable_cancelCallback = function(task) {
-          task.callback = null;
-        };
-        exports.unstable_forceFrameRate = function(fps) {
-          0 > fps || 125 < fps ? console.error(
-            "forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"
-          ) : frameInterval = 0 < fps ? Math.floor(1e3 / fps) : 5;
-        };
-        exports.unstable_getCurrentPriorityLevel = function() {
-          return currentPriorityLevel;
-        };
-        exports.unstable_next = function(eventHandler) {
-          switch (currentPriorityLevel) {
-            case 1:
-            case 2:
-            case 3:
-              var priorityLevel = 3;
-              break;
-            default:
-              priorityLevel = currentPriorityLevel;
-          }
-          var previousPriorityLevel = currentPriorityLevel;
-          currentPriorityLevel = priorityLevel;
-          try {
-            return eventHandler();
-          } finally {
-            currentPriorityLevel = previousPriorityLevel;
-          }
-        };
-        exports.unstable_requestPaint = function() {
-          needsPaint = true;
-        };
-        exports.unstable_runWithPriority = function(priorityLevel, eventHandler) {
-          switch (priorityLevel) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-              break;
-            default:
-              priorityLevel = 3;
-          }
-          var previousPriorityLevel = currentPriorityLevel;
-          currentPriorityLevel = priorityLevel;
-          try {
-            return eventHandler();
-          } finally {
-            currentPriorityLevel = previousPriorityLevel;
-          }
-        };
-        exports.unstable_scheduleCallback = function(priorityLevel, callback, options) {
-          var currentTime = exports.unstable_now();
-          "object" === typeof options && null !== options ? (options = options.delay, options = "number" === typeof options && 0 < options ? currentTime + options : currentTime) : options = currentTime;
-          switch (priorityLevel) {
-            case 1:
-              var timeout = -1;
-              break;
-            case 2:
-              timeout = 250;
-              break;
-            case 5:
-              timeout = 1073741823;
-              break;
-            case 4:
-              timeout = 1e4;
-              break;
-            default:
-              timeout = 5e3;
-          }
-          timeout = options + timeout;
-          priorityLevel = {
-            id: taskIdCounter++,
-            callback,
-            priorityLevel,
-            startTime: options,
-            expirationTime: timeout,
-            sortIndex: -1
-          };
-          options > currentTime ? (priorityLevel.sortIndex = options, push(timerQueue, priorityLevel), null === peek(taskQueue) && priorityLevel === peek(timerQueue) && (isHostTimeoutScheduled ? (localClearTimeout(taskTimeoutID), taskTimeoutID = -1) : isHostTimeoutScheduled = true, requestHostTimeout(handleTimeout, options - currentTime))) : (priorityLevel.sortIndex = timeout, push(taskQueue, priorityLevel), isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline())));
-          return priorityLevel;
-        };
-        exports.unstable_shouldYield = shouldYieldToHost;
-        exports.unstable_wrapCallback = function(callback) {
-          var parentPriorityLevel = currentPriorityLevel;
-          return function() {
-            var previousPriorityLevel = currentPriorityLevel;
-            currentPriorityLevel = parentPriorityLevel;
-            try {
-              return callback.apply(this, arguments);
-            } finally {
-              currentPriorityLevel = previousPriorityLevel;
-            }
-          };
-        };
-        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
-      })();
-    }
-  });
-
-  // node_modules/scheduler/index.js
-  var require_scheduler = __commonJS({
-    "node_modules/scheduler/index.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
-      } else {
-        module.exports = require_scheduler_development();
-      }
-    }
-  });
-
   // node_modules/react/cjs/react.development.js
   var require_react_development = __commonJS({
     "node_modules/react/cjs/react.development.js"(exports, module) {
@@ -1299,6 +1028,642 @@
     }
   });
 
+  // src/shared/Accessibility/AccessibilityDial.module.css
+  var init_AccessibilityDial = __esm({
+    "src/shared/Accessibility/AccessibilityDial.module.css"() {
+    }
+  });
+
+  // node_modules/react/cjs/react-jsx-runtime.development.js
+  var require_react_jsx_runtime_development = __commonJS({
+    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+      "use strict";
+      (function() {
+        function getComponentNameFromType(type) {
+          if (null == type) return null;
+          if ("function" === typeof type)
+            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
+          if ("string" === typeof type) return type;
+          switch (type) {
+            case REACT_FRAGMENT_TYPE:
+              return "Fragment";
+            case REACT_PROFILER_TYPE:
+              return "Profiler";
+            case REACT_STRICT_MODE_TYPE:
+              return "StrictMode";
+            case REACT_SUSPENSE_TYPE:
+              return "Suspense";
+            case REACT_SUSPENSE_LIST_TYPE:
+              return "SuspenseList";
+            case REACT_ACTIVITY_TYPE:
+              return "Activity";
+          }
+          if ("object" === typeof type)
+            switch ("number" === typeof type.tag && console.error(
+              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
+            ), type.$$typeof) {
+              case REACT_PORTAL_TYPE:
+                return "Portal";
+              case REACT_CONTEXT_TYPE:
+                return type.displayName || "Context";
+              case REACT_CONSUMER_TYPE:
+                return (type._context.displayName || "Context") + ".Consumer";
+              case REACT_FORWARD_REF_TYPE:
+                var innerType = type.render;
+                type = type.displayName;
+                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
+                return type;
+              case REACT_MEMO_TYPE:
+                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
+              case REACT_LAZY_TYPE:
+                innerType = type._payload;
+                type = type._init;
+                try {
+                  return getComponentNameFromType(type(innerType));
+                } catch (x) {
+                }
+            }
+          return null;
+        }
+        function testStringCoercion(value) {
+          return "" + value;
+        }
+        function checkKeyStringCoercion(value) {
+          try {
+            testStringCoercion(value);
+            var JSCompiler_inline_result = false;
+          } catch (e) {
+            JSCompiler_inline_result = true;
+          }
+          if (JSCompiler_inline_result) {
+            JSCompiler_inline_result = console;
+            var JSCompiler_temp_const = JSCompiler_inline_result.error;
+            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+            JSCompiler_temp_const.call(
+              JSCompiler_inline_result,
+              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
+              JSCompiler_inline_result$jscomp$0
+            );
+            return testStringCoercion(value);
+          }
+        }
+        function getTaskName(type) {
+          if (type === REACT_FRAGMENT_TYPE) return "<>";
+          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
+            return "<...>";
+          try {
+            var name = getComponentNameFromType(type);
+            return name ? "<" + name + ">" : "<...>";
+          } catch (x) {
+            return "<...>";
+          }
+        }
+        function getOwner() {
+          var dispatcher = ReactSharedInternals.A;
+          return null === dispatcher ? null : dispatcher.getOwner();
+        }
+        function UnknownOwner() {
+          return Error("react-stack-top-frame");
+        }
+        function hasValidKey(config) {
+          if (hasOwnProperty.call(config, "key")) {
+            var getter = Object.getOwnPropertyDescriptor(config, "key").get;
+            if (getter && getter.isReactWarning) return false;
+          }
+          return void 0 !== config.key;
+        }
+        function defineKeyPropWarningGetter(props, displayName) {
+          function warnAboutAccessingKey() {
+            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
+              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
+              displayName
+            ));
+          }
+          warnAboutAccessingKey.isReactWarning = true;
+          Object.defineProperty(props, "key", {
+            get: warnAboutAccessingKey,
+            configurable: true
+          });
+        }
+        function elementRefGetterWithDeprecationWarning() {
+          var componentName = getComponentNameFromType(this.type);
+          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
+            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
+          ));
+          componentName = this.props.ref;
+          return void 0 !== componentName ? componentName : null;
+        }
+        function ReactElement(type, key, props, owner, debugStack, debugTask) {
+          var refProp = props.ref;
+          type = {
+            $$typeof: REACT_ELEMENT_TYPE,
+            type,
+            key,
+            props,
+            _owner: owner
+          };
+          null !== (void 0 !== refProp ? refProp : null) ? Object.defineProperty(type, "ref", {
+            enumerable: false,
+            get: elementRefGetterWithDeprecationWarning
+          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
+          type._store = {};
+          Object.defineProperty(type._store, "validated", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: 0
+          });
+          Object.defineProperty(type, "_debugInfo", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: null
+          });
+          Object.defineProperty(type, "_debugStack", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugStack
+          });
+          Object.defineProperty(type, "_debugTask", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugTask
+          });
+          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
+          return type;
+        }
+        function jsxDEVImpl(type, config, maybeKey, isStaticChildren, debugStack, debugTask) {
+          var children = config.children;
+          if (void 0 !== children)
+            if (isStaticChildren)
+              if (isArrayImpl(children)) {
+                for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++)
+                  validateChildKeys(children[isStaticChildren]);
+                Object.freeze && Object.freeze(children);
+              } else
+                console.error(
+                  "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
+                );
+            else validateChildKeys(children);
+          if (hasOwnProperty.call(config, "key")) {
+            children = getComponentNameFromType(type);
+            var keys = Object.keys(config).filter(function(k) {
+              return "key" !== k;
+            });
+            isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
+            didWarnAboutKeySpread[children + isStaticChildren] || (keys = 0 < keys.length ? "{" + keys.join(": ..., ") + ": ...}" : "{}", console.error(
+              'A props object containing a "key" prop is being spread into JSX:\n  let props = %s;\n  <%s {...props} />\nReact keys must be passed directly to JSX without using spread:\n  let props = %s;\n  <%s key={someKey} {...props} />',
+              isStaticChildren,
+              children,
+              keys,
+              children
+            ), didWarnAboutKeySpread[children + isStaticChildren] = true);
+          }
+          children = null;
+          void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
+          hasValidKey(config) && (checkKeyStringCoercion(config.key), children = "" + config.key);
+          if ("key" in config) {
+            maybeKey = {};
+            for (var propName in config)
+              "key" !== propName && (maybeKey[propName] = config[propName]);
+          } else maybeKey = config;
+          children && defineKeyPropWarningGetter(
+            maybeKey,
+            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
+          );
+          return ReactElement(
+            type,
+            children,
+            maybeKey,
+            getOwner(),
+            debugStack,
+            debugTask
+          );
+        }
+        function validateChildKeys(node) {
+          isValidElement2(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node._payload.status ? isValidElement2(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
+        }
+        function isValidElement2(object) {
+          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+        }
+        var React6 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React6.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+          return null;
+        };
+        React6 = {
+          react_stack_bottom_frame: function(callStackForError) {
+            return callStackForError();
+          }
+        };
+        var specialPropKeyWarningShown;
+        var didWarnAboutElementRef = {};
+        var unknownOwnerDebugStack = React6.react_stack_bottom_frame.bind(
+          React6,
+          UnknownOwner
+        )();
+        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
+        var didWarnAboutKeySpread = {};
+        exports.Fragment = REACT_FRAGMENT_TYPE;
+        exports.jsx = function(type, config, maybeKey) {
+          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return jsxDEVImpl(
+            type,
+            config,
+            maybeKey,
+            false,
+            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+        exports.jsxs = function(type, config, maybeKey) {
+          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return jsxDEVImpl(
+            type,
+            config,
+            maybeKey,
+            true,
+            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+      })();
+    }
+  });
+
+  // node_modules/react/jsx-runtime.js
+  var require_jsx_runtime = __commonJS({
+    "node_modules/react/jsx-runtime.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_jsx_runtime_development();
+      }
+    }
+  });
+
+  // src/shared/Accessibility/AccessibilityDial.tsx
+  function AccessibilityProvider({ children }) {
+    const [highContrast, setHighContrast] = (0, import_react.useState)(
+      () => document.documentElement.classList.contains("high-contrast")
+    );
+    const [largeFont, setLargeFont] = (0, import_react.useState)(
+      () => document.documentElement.classList.contains("large-font")
+    );
+    const toggleHighContrast = () => {
+      setHighContrast((prev) => {
+        const next = !prev;
+        document.documentElement.classList.toggle("high-contrast", next);
+        return next;
+      });
+    };
+    const toggleLargeFont = () => {
+      setLargeFont((prev) => {
+        const next = !prev;
+        document.documentElement.classList.toggle("large-font", next);
+        return next;
+      });
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AccessibilityContext.Provider, { value: { highContrast, largeFont, toggleHighContrast, toggleLargeFont }, children });
+  }
+  var import_react, import_jsx_runtime, AccessibilityContext;
+  var init_AccessibilityDial2 = __esm({
+    "src/shared/Accessibility/AccessibilityDial.tsx"() {
+      "use strict";
+      import_react = __toESM(require_react());
+      init_AccessibilityDial();
+      import_jsx_runtime = __toESM(require_jsx_runtime());
+      AccessibilityContext = (0, import_react.createContext)(null);
+    }
+  });
+
+  // src/shared/Accessibility/SpeechContext.tsx
+  function SpeechProvider({ children }) {
+    const [speakingId, setSpeakingId] = (0, import_react2.useState)(null);
+    const utteranceRef = (0, import_react2.useRef)(null);
+    const stopCurrentSpeech = (0, import_react2.useCallback)(() => {
+      if ("speechSynthesis" in window) {
+        if (utteranceRef.current) {
+          utteranceRef.current.onend = null;
+          utteranceRef.current.onerror = null;
+        }
+        window.speechSynthesis.cancel();
+      }
+      utteranceRef.current = null;
+    }, []);
+    (0, import_react2.useEffect)(() => {
+      return () => {
+        stopCurrentSpeech();
+      };
+    }, [stopCurrentSpeech]);
+    const toggleSpeech = (0, import_react2.useCallback)((id3, text, lang = "it-IT") => {
+      if (!("speechSynthesis" in window)) {
+        alert("La sintesi vocale non \xE8 supportata da questo browser.");
+        return;
+      }
+      if (speakingId === id3) {
+        stopCurrentSpeech();
+        setSpeakingId(null);
+        return;
+      }
+      stopCurrentSpeech();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      const handleFinish = () => {
+        setSpeakingId((currentId) => currentId === id3 ? null : currentId);
+        utteranceRef.current = null;
+      };
+      utterance.onend = handleFinish;
+      utterance.onerror = handleFinish;
+      utteranceRef.current = utterance;
+      setSpeakingId(id3);
+      window.speechSynthesis.speak(utterance);
+    }, [speakingId, stopCurrentSpeech]);
+    const isSpeaking = (0, import_react2.useCallback)((id3) => speakingId === id3, [speakingId]);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(SpeechContext.Provider, { value: { speakingId, toggleSpeech, isSpeaking }, children });
+  }
+  var import_react2, import_jsx_runtime2, SpeechContext;
+  var init_SpeechContext = __esm({
+    "src/shared/Accessibility/SpeechContext.tsx"() {
+      "use strict";
+      import_react2 = __toESM(require_react());
+      import_jsx_runtime2 = __toESM(require_jsx_runtime());
+      SpeechContext = (0, import_react2.createContext)(null);
+    }
+  });
+
+  // node_modules/scheduler/cjs/scheduler.development.js
+  var require_scheduler_development = __commonJS({
+    "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
+      "use strict";
+      (function() {
+        function performWorkUntilDeadline() {
+          needsPaint = false;
+          if (isMessageLoopRunning) {
+            var currentTime = exports.unstable_now();
+            startTime = currentTime;
+            var hasMoreWork = true;
+            try {
+              a: {
+                isHostCallbackScheduled = false;
+                isHostTimeoutScheduled && (isHostTimeoutScheduled = false, localClearTimeout(taskTimeoutID), taskTimeoutID = -1);
+                isPerformingWork = true;
+                var previousPriorityLevel = currentPriorityLevel;
+                try {
+                  b: {
+                    advanceTimers(currentTime);
+                    for (currentTask = peek(taskQueue); null !== currentTask && !(currentTask.expirationTime > currentTime && shouldYieldToHost()); ) {
+                      var callback = currentTask.callback;
+                      if ("function" === typeof callback) {
+                        currentTask.callback = null;
+                        currentPriorityLevel = currentTask.priorityLevel;
+                        var continuationCallback = callback(
+                          currentTask.expirationTime <= currentTime
+                        );
+                        currentTime = exports.unstable_now();
+                        if ("function" === typeof continuationCallback) {
+                          currentTask.callback = continuationCallback;
+                          advanceTimers(currentTime);
+                          hasMoreWork = true;
+                          break b;
+                        }
+                        currentTask === peek(taskQueue) && pop(taskQueue);
+                        advanceTimers(currentTime);
+                      } else pop(taskQueue);
+                      currentTask = peek(taskQueue);
+                    }
+                    if (null !== currentTask) hasMoreWork = true;
+                    else {
+                      var firstTimer = peek(timerQueue);
+                      null !== firstTimer && requestHostTimeout(
+                        handleTimeout,
+                        firstTimer.startTime - currentTime
+                      );
+                      hasMoreWork = false;
+                    }
+                  }
+                  break a;
+                } finally {
+                  currentTask = null, currentPriorityLevel = previousPriorityLevel, isPerformingWork = false;
+                }
+                hasMoreWork = void 0;
+              }
+            } finally {
+              hasMoreWork ? schedulePerformWorkUntilDeadline() : isMessageLoopRunning = false;
+            }
+          }
+        }
+        function push(heap, node) {
+          var index = heap.length;
+          heap.push(node);
+          a: for (; 0 < index; ) {
+            var parentIndex = index - 1 >>> 1, parent = heap[parentIndex];
+            if (0 < compare(parent, node))
+              heap[parentIndex] = node, heap[index] = parent, index = parentIndex;
+            else break a;
+          }
+        }
+        function peek(heap) {
+          return 0 === heap.length ? null : heap[0];
+        }
+        function pop(heap) {
+          if (0 === heap.length) return null;
+          var first = heap[0], last = heap.pop();
+          if (last !== first) {
+            heap[0] = last;
+            a: for (var index = 0, length = heap.length, halfLength = length >>> 1; index < halfLength; ) {
+              var leftIndex = 2 * (index + 1) - 1, left = heap[leftIndex], rightIndex = leftIndex + 1, right = heap[rightIndex];
+              if (0 > compare(left, last))
+                rightIndex < length && 0 > compare(right, left) ? (heap[index] = right, heap[rightIndex] = last, index = rightIndex) : (heap[index] = left, heap[leftIndex] = last, index = leftIndex);
+              else if (rightIndex < length && 0 > compare(right, last))
+                heap[index] = right, heap[rightIndex] = last, index = rightIndex;
+              else break a;
+            }
+          }
+          return first;
+        }
+        function compare(a, b) {
+          var diff = a.sortIndex - b.sortIndex;
+          return 0 !== diff ? diff : a.id - b.id;
+        }
+        function advanceTimers(currentTime) {
+          for (var timer = peek(timerQueue); null !== timer; ) {
+            if (null === timer.callback) pop(timerQueue);
+            else if (timer.startTime <= currentTime)
+              pop(timerQueue), timer.sortIndex = timer.expirationTime, push(taskQueue, timer);
+            else break;
+            timer = peek(timerQueue);
+          }
+        }
+        function handleTimeout(currentTime) {
+          isHostTimeoutScheduled = false;
+          advanceTimers(currentTime);
+          if (!isHostCallbackScheduled)
+            if (null !== peek(taskQueue))
+              isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline());
+            else {
+              var firstTimer = peek(timerQueue);
+              null !== firstTimer && requestHostTimeout(
+                handleTimeout,
+                firstTimer.startTime - currentTime
+              );
+            }
+        }
+        function shouldYieldToHost() {
+          return needsPaint ? true : exports.unstable_now() - startTime < frameInterval ? false : true;
+        }
+        function requestHostTimeout(callback, ms) {
+          taskTimeoutID = localSetTimeout(function() {
+            callback(exports.unstable_now());
+          }, ms);
+        }
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
+        exports.unstable_now = void 0;
+        if ("object" === typeof performance && "function" === typeof performance.now) {
+          var localPerformance = performance;
+          exports.unstable_now = function() {
+            return localPerformance.now();
+          };
+        } else {
+          var localDate = Date, initialTime = localDate.now();
+          exports.unstable_now = function() {
+            return localDate.now() - initialTime;
+          };
+        }
+        var taskQueue = [], timerQueue = [], taskIdCounter = 1, currentTask = null, currentPriorityLevel = 3, isPerformingWork = false, isHostCallbackScheduled = false, isHostTimeoutScheduled = false, needsPaint = false, localSetTimeout = "function" === typeof setTimeout ? setTimeout : null, localClearTimeout = "function" === typeof clearTimeout ? clearTimeout : null, localSetImmediate = "undefined" !== typeof setImmediate ? setImmediate : null, isMessageLoopRunning = false, taskTimeoutID = -1, frameInterval = 5, startTime = -1;
+        if ("function" === typeof localSetImmediate)
+          var schedulePerformWorkUntilDeadline = function() {
+            localSetImmediate(performWorkUntilDeadline);
+          };
+        else if ("undefined" !== typeof MessageChannel) {
+          var channel = new MessageChannel(), port = channel.port2;
+          channel.port1.onmessage = performWorkUntilDeadline;
+          schedulePerformWorkUntilDeadline = function() {
+            port.postMessage(null);
+          };
+        } else
+          schedulePerformWorkUntilDeadline = function() {
+            localSetTimeout(performWorkUntilDeadline, 0);
+          };
+        exports.unstable_IdlePriority = 5;
+        exports.unstable_ImmediatePriority = 1;
+        exports.unstable_LowPriority = 4;
+        exports.unstable_NormalPriority = 3;
+        exports.unstable_Profiling = null;
+        exports.unstable_UserBlockingPriority = 2;
+        exports.unstable_cancelCallback = function(task) {
+          task.callback = null;
+        };
+        exports.unstable_forceFrameRate = function(fps) {
+          0 > fps || 125 < fps ? console.error(
+            "forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"
+          ) : frameInterval = 0 < fps ? Math.floor(1e3 / fps) : 5;
+        };
+        exports.unstable_getCurrentPriorityLevel = function() {
+          return currentPriorityLevel;
+        };
+        exports.unstable_next = function(eventHandler) {
+          switch (currentPriorityLevel) {
+            case 1:
+            case 2:
+            case 3:
+              var priorityLevel = 3;
+              break;
+            default:
+              priorityLevel = currentPriorityLevel;
+          }
+          var previousPriorityLevel = currentPriorityLevel;
+          currentPriorityLevel = priorityLevel;
+          try {
+            return eventHandler();
+          } finally {
+            currentPriorityLevel = previousPriorityLevel;
+          }
+        };
+        exports.unstable_requestPaint = function() {
+          needsPaint = true;
+        };
+        exports.unstable_runWithPriority = function(priorityLevel, eventHandler) {
+          switch (priorityLevel) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+              break;
+            default:
+              priorityLevel = 3;
+          }
+          var previousPriorityLevel = currentPriorityLevel;
+          currentPriorityLevel = priorityLevel;
+          try {
+            return eventHandler();
+          } finally {
+            currentPriorityLevel = previousPriorityLevel;
+          }
+        };
+        exports.unstable_scheduleCallback = function(priorityLevel, callback, options) {
+          var currentTime = exports.unstable_now();
+          "object" === typeof options && null !== options ? (options = options.delay, options = "number" === typeof options && 0 < options ? currentTime + options : currentTime) : options = currentTime;
+          switch (priorityLevel) {
+            case 1:
+              var timeout = -1;
+              break;
+            case 2:
+              timeout = 250;
+              break;
+            case 5:
+              timeout = 1073741823;
+              break;
+            case 4:
+              timeout = 1e4;
+              break;
+            default:
+              timeout = 5e3;
+          }
+          timeout = options + timeout;
+          priorityLevel = {
+            id: taskIdCounter++,
+            callback,
+            priorityLevel,
+            startTime: options,
+            expirationTime: timeout,
+            sortIndex: -1
+          };
+          options > currentTime ? (priorityLevel.sortIndex = options, push(timerQueue, priorityLevel), null === peek(taskQueue) && priorityLevel === peek(timerQueue) && (isHostTimeoutScheduled ? (localClearTimeout(taskTimeoutID), taskTimeoutID = -1) : isHostTimeoutScheduled = true, requestHostTimeout(handleTimeout, options - currentTime))) : (priorityLevel.sortIndex = timeout, push(taskQueue, priorityLevel), isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = true, isMessageLoopRunning || (isMessageLoopRunning = true, schedulePerformWorkUntilDeadline())));
+          return priorityLevel;
+        };
+        exports.unstable_shouldYield = shouldYieldToHost;
+        exports.unstable_wrapCallback = function(callback) {
+          var parentPriorityLevel = currentPriorityLevel;
+          return function() {
+            var previousPriorityLevel = currentPriorityLevel;
+            currentPriorityLevel = parentPriorityLevel;
+            try {
+              return callback.apply(this, arguments);
+            } finally {
+              currentPriorityLevel = previousPriorityLevel;
+            }
+          };
+        };
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
+      })();
+    }
+  });
+
+  // node_modules/scheduler/index.js
+  var require_scheduler = __commonJS({
+    "node_modules/scheduler/index.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_scheduler_development();
+      }
+    }
+  });
+
   // node_modules/react-dom/cjs/react-dom.development.js
   var require_react_dom_development = __commonJS({
     "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
@@ -1348,7 +1713,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React4 = require_react(), Internals = {
+        var React6 = require_react(), Internals = {
           d: {
             f: noop2,
             r: function() {
@@ -1366,7 +1731,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React4.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React6.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2901,7 +3266,7 @@
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React4.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React6.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -18533,14 +18898,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React4 = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React6 = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React4.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React6.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21328,7 +21693,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React4.version;
+          var isomorphicReactPackageVersion = React6.version;
           if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21468,298 +21833,35 @@
     }
   });
 
-  // node_modules/react/cjs/react-jsx-runtime.development.js
-  var require_react_jsx_runtime_development = __commonJS({
-    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
-      "use strict";
-      (function() {
-        function getComponentNameFromType(type) {
-          if (null == type) return null;
-          if ("function" === typeof type)
-            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
-          if ("string" === typeof type) return type;
-          switch (type) {
-            case REACT_FRAGMENT_TYPE:
-              return "Fragment";
-            case REACT_PROFILER_TYPE:
-              return "Profiler";
-            case REACT_STRICT_MODE_TYPE:
-              return "StrictMode";
-            case REACT_SUSPENSE_TYPE:
-              return "Suspense";
-            case REACT_SUSPENSE_LIST_TYPE:
-              return "SuspenseList";
-            case REACT_ACTIVITY_TYPE:
-              return "Activity";
-          }
-          if ("object" === typeof type)
-            switch ("number" === typeof type.tag && console.error(
-              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-            ), type.$$typeof) {
-              case REACT_PORTAL_TYPE:
-                return "Portal";
-              case REACT_CONTEXT_TYPE:
-                return type.displayName || "Context";
-              case REACT_CONSUMER_TYPE:
-                return (type._context.displayName || "Context") + ".Consumer";
-              case REACT_FORWARD_REF_TYPE:
-                var innerType = type.render;
-                type = type.displayName;
-                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
-                return type;
-              case REACT_MEMO_TYPE:
-                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
-              case REACT_LAZY_TYPE:
-                innerType = type._payload;
-                type = type._init;
-                try {
-                  return getComponentNameFromType(type(innerType));
-                } catch (x) {
-                }
-            }
-          return null;
-        }
-        function testStringCoercion(value) {
-          return "" + value;
-        }
-        function checkKeyStringCoercion(value) {
-          try {
-            testStringCoercion(value);
-            var JSCompiler_inline_result = false;
-          } catch (e) {
-            JSCompiler_inline_result = true;
-          }
-          if (JSCompiler_inline_result) {
-            JSCompiler_inline_result = console;
-            var JSCompiler_temp_const = JSCompiler_inline_result.error;
-            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
-            JSCompiler_temp_const.call(
-              JSCompiler_inline_result,
-              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-              JSCompiler_inline_result$jscomp$0
-            );
-            return testStringCoercion(value);
-          }
-        }
-        function getTaskName(type) {
-          if (type === REACT_FRAGMENT_TYPE) return "<>";
-          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
-            return "<...>";
-          try {
-            var name = getComponentNameFromType(type);
-            return name ? "<" + name + ">" : "<...>";
-          } catch (x) {
-            return "<...>";
-          }
-        }
-        function getOwner() {
-          var dispatcher = ReactSharedInternals.A;
-          return null === dispatcher ? null : dispatcher.getOwner();
-        }
-        function UnknownOwner() {
-          return Error("react-stack-top-frame");
-        }
-        function hasValidKey(config) {
-          if (hasOwnProperty.call(config, "key")) {
-            var getter = Object.getOwnPropertyDescriptor(config, "key").get;
-            if (getter && getter.isReactWarning) return false;
-          }
-          return void 0 !== config.key;
-        }
-        function defineKeyPropWarningGetter(props, displayName) {
-          function warnAboutAccessingKey() {
-            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
-              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-              displayName
-            ));
-          }
-          warnAboutAccessingKey.isReactWarning = true;
-          Object.defineProperty(props, "key", {
-            get: warnAboutAccessingKey,
-            configurable: true
-          });
-        }
-        function elementRefGetterWithDeprecationWarning() {
-          var componentName = getComponentNameFromType(this.type);
-          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
-            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-          ));
-          componentName = this.props.ref;
-          return void 0 !== componentName ? componentName : null;
-        }
-        function ReactElement(type, key, props, owner, debugStack, debugTask) {
-          var refProp = props.ref;
-          type = {
-            $$typeof: REACT_ELEMENT_TYPE,
-            type,
-            key,
-            props,
-            _owner: owner
-          };
-          null !== (void 0 !== refProp ? refProp : null) ? Object.defineProperty(type, "ref", {
-            enumerable: false,
-            get: elementRefGetterWithDeprecationWarning
-          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
-          type._store = {};
-          Object.defineProperty(type._store, "validated", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: 0
-          });
-          Object.defineProperty(type, "_debugInfo", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: null
-          });
-          Object.defineProperty(type, "_debugStack", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugStack
-          });
-          Object.defineProperty(type, "_debugTask", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugTask
-          });
-          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
-          return type;
-        }
-        function jsxDEVImpl(type, config, maybeKey, isStaticChildren, debugStack, debugTask) {
-          var children = config.children;
-          if (void 0 !== children)
-            if (isStaticChildren)
-              if (isArrayImpl(children)) {
-                for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++)
-                  validateChildKeys(children[isStaticChildren]);
-                Object.freeze && Object.freeze(children);
-              } else
-                console.error(
-                  "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
-                );
-            else validateChildKeys(children);
-          if (hasOwnProperty.call(config, "key")) {
-            children = getComponentNameFromType(type);
-            var keys = Object.keys(config).filter(function(k) {
-              return "key" !== k;
-            });
-            isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
-            didWarnAboutKeySpread[children + isStaticChildren] || (keys = 0 < keys.length ? "{" + keys.join(": ..., ") + ": ...}" : "{}", console.error(
-              'A props object containing a "key" prop is being spread into JSX:\n  let props = %s;\n  <%s {...props} />\nReact keys must be passed directly to JSX without using spread:\n  let props = %s;\n  <%s key={someKey} {...props} />',
-              isStaticChildren,
-              children,
-              keys,
-              children
-            ), didWarnAboutKeySpread[children + isStaticChildren] = true);
-          }
-          children = null;
-          void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
-          hasValidKey(config) && (checkKeyStringCoercion(config.key), children = "" + config.key);
-          if ("key" in config) {
-            maybeKey = {};
-            for (var propName in config)
-              "key" !== propName && (maybeKey[propName] = config[propName]);
-          } else maybeKey = config;
-          children && defineKeyPropWarningGetter(
-            maybeKey,
-            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
-          );
-          return ReactElement(
-            type,
-            children,
-            maybeKey,
-            getOwner(),
-            debugStack,
-            debugTask
-          );
-        }
-        function validateChildKeys(node) {
-          isValidElement2(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node._payload.status ? isValidElement2(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
-        }
-        function isValidElement2(object) {
-          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-        }
-        var React4 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React4.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
-          return null;
-        };
-        React4 = {
-          react_stack_bottom_frame: function(callStackForError) {
-            return callStackForError();
-          }
-        };
-        var specialPropKeyWarningShown;
-        var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React4.react_stack_bottom_frame.bind(
-          React4,
-          UnknownOwner
-        )();
-        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
-        var didWarnAboutKeySpread = {};
-        exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.jsx = function(type, config, maybeKey) {
-          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return jsxDEVImpl(
-            type,
-            config,
-            maybeKey,
-            false,
-            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
-            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
-          );
-        };
-        exports.jsxs = function(type, config, maybeKey) {
-          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return jsxDEVImpl(
-            type,
-            config,
-            maybeKey,
-            true,
-            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
-            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
-          );
-        };
-      })();
-    }
-  });
-
-  // node_modules/react/jsx-runtime.js
-  var require_jsx_runtime = __commonJS({
-    "node_modules/react/jsx-runtime.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
-      } else {
-        module.exports = require_react_jsx_runtime_development();
-      }
+  // src/styles/global.css
+  var init_global = __esm({
+    "src/styles/global.css"() {
     }
   });
 
   // node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs
-  var import_react, LayoutGroupContext;
+  var import_react3, LayoutGroupContext;
   var init_LayoutGroupContext = __esm({
     "node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs"() {
       "use client";
-      import_react = __toESM(require_react(), 1);
-      LayoutGroupContext = (0, import_react.createContext)({});
+      import_react3 = __toESM(require_react(), 1);
+      LayoutGroupContext = (0, import_react3.createContext)({});
     }
   });
 
   // node_modules/framer-motion/dist/es/utils/use-constant.mjs
   function useConstant(init) {
-    const ref = (0, import_react2.useRef)(null);
+    const ref = (0, import_react4.useRef)(null);
     if (ref.current === null) {
       ref.current = init();
     }
     return ref.current;
   }
-  var import_react2;
+  var import_react4;
   var init_use_constant = __esm({
     "node_modules/framer-motion/dist/es/utils/use-constant.mjs"() {
       "use client";
-      import_react2 = __toESM(require_react(), 1);
+      import_react4 = __toESM(require_react(), 1);
     }
   });
 
@@ -21772,23 +21874,23 @@
   });
 
   // node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs
-  var import_react3, useIsomorphicLayoutEffect;
+  var import_react5, useIsomorphicLayoutEffect;
   var init_use_isomorphic_effect = __esm({
     "node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs"() {
       "use client";
-      import_react3 = __toESM(require_react(), 1);
+      import_react5 = __toESM(require_react(), 1);
       init_is_browser();
-      useIsomorphicLayoutEffect = isBrowser ? import_react3.useLayoutEffect : import_react3.useEffect;
+      useIsomorphicLayoutEffect = isBrowser ? import_react5.useLayoutEffect : import_react5.useEffect;
     }
   });
 
   // node_modules/framer-motion/dist/es/context/PresenceContext.mjs
-  var import_react4, PresenceContext;
+  var import_react6, PresenceContext;
   var init_PresenceContext = __esm({
     "node_modules/framer-motion/dist/es/context/PresenceContext.mjs"() {
       "use client";
-      import_react4 = __toESM(require_react(), 1);
-      PresenceContext = /* @__PURE__ */ (0, import_react4.createContext)(null);
+      import_react6 = __toESM(require_react(), 1);
+      PresenceContext = /* @__PURE__ */ (0, import_react6.createContext)(null);
     }
   });
 
@@ -29755,12 +29857,12 @@
   });
 
   // node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs
-  var import_react5, MotionConfigContext;
+  var import_react7, MotionConfigContext;
   var init_MotionConfigContext = __esm({
     "node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs"() {
       "use client";
-      import_react5 = __toESM(require_react(), 1);
-      MotionConfigContext = (0, import_react5.createContext)({
+      import_react7 = __toESM(require_react(), 1);
+      MotionConfigContext = (0, import_react7.createContext)({
         transformPagePoint: (p) => p,
         isStatic: false,
         reducedMotion: "never"
@@ -29801,20 +29903,20 @@
     };
   }
   function useComposedRefs(...refs) {
-    return React.useCallback(composeRefs(...refs), refs);
+    return React3.useCallback(composeRefs(...refs), refs);
   }
-  var React;
+  var React3;
   var init_use_composed_ref = __esm({
     "node_modules/framer-motion/dist/es/utils/use-composed-ref.mjs"() {
-      React = __toESM(require_react(), 1);
+      React3 = __toESM(require_react(), 1);
     }
   });
 
   // node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs
   function PopChild({ children, isPresent, anchorX, anchorY, root, pop }) {
-    const id3 = (0, import_react6.useId)();
-    const ref = (0, import_react6.useRef)(null);
-    const size = (0, import_react6.useRef)({
+    const id3 = (0, import_react8.useId)();
+    const ref = (0, import_react8.useRef)(null);
+    const size = (0, import_react8.useRef)({
       width: 0,
       height: 0,
       top: 0,
@@ -29823,10 +29925,10 @@
       bottom: 0,
       direction: "ltr"
     });
-    const { nonce } = (0, import_react6.useContext)(MotionConfigContext);
+    const { nonce } = (0, import_react8.useContext)(MotionConfigContext);
     const childRef = pop !== false ? children.props?.ref ?? children?.ref : void 0;
     const composedRef = useComposedRefs(ref, childRef);
-    (0, import_react6.useInsertionEffect)(() => {
+    (0, import_react8.useInsertionEffect)(() => {
       const { width, height, top, left, right, bottom, direction } = size.current;
       if (isPresent || pop === false || !ref.current || !width || !height)
         return;
@@ -29857,19 +29959,19 @@
         }
       };
     }, [isPresent]);
-    return (0, import_jsx_runtime.jsx)(PopChildMeasure, { isPresent, childRef: ref, sizeRef: size, pop, children: pop === false ? children : React2.cloneElement(children, { ref: composedRef }) });
+    return (0, import_jsx_runtime3.jsx)(PopChildMeasure, { isPresent, childRef: ref, sizeRef: size, pop, children: pop === false ? children : React4.cloneElement(children, { ref: composedRef }) });
   }
-  var import_jsx_runtime, React2, import_react6, PopChildMeasure;
+  var import_jsx_runtime3, React4, import_react8, PopChildMeasure;
   var init_PopChild = __esm({
     "node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs"() {
       "use client";
-      import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+      import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
       init_es2();
-      React2 = __toESM(require_react(), 1);
-      import_react6 = __toESM(require_react(), 1);
+      React4 = __toESM(require_react(), 1);
+      import_react8 = __toESM(require_react(), 1);
       init_MotionConfigContext();
       init_use_composed_ref();
-      PopChildMeasure = class extends React2.Component {
+      PopChildMeasure = class extends React4.Component {
         getSnapshotBeforeUpdate(prevProps) {
           const element = this.props.childRef.current;
           if (isHTMLElement(element) && prevProps.isPresent && !this.props.isPresent && this.props.pop !== false) {
@@ -29904,28 +30006,28 @@
   function newChildrenMap() {
     return /* @__PURE__ */ new Map();
   }
-  var import_jsx_runtime2, React3, import_react7, PresenceChild;
+  var import_jsx_runtime4, React5, import_react9, PresenceChild;
   var init_PresenceChild = __esm({
     "node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs"() {
       "use client";
-      import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-      React3 = __toESM(require_react(), 1);
-      import_react7 = __toESM(require_react(), 1);
+      import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+      React5 = __toESM(require_react(), 1);
+      import_react9 = __toESM(require_react(), 1);
       init_PresenceContext();
       init_use_constant();
       init_use_isomorphic_effect();
       init_PopChild();
       PresenceChild = ({ children, initial, isPresent, onExitComplete, custom, presenceAffectsLayout, mode, anchorX, anchorY, root }) => {
         const presenceChildren = useConstant(newChildrenMap);
-        const id3 = (0, import_react7.useId)();
-        const isPresentRef = (0, import_react7.useRef)(isPresent);
-        const onExitCompleteRef = (0, import_react7.useRef)(onExitComplete);
+        const id3 = (0, import_react9.useId)();
+        const isPresentRef = (0, import_react9.useRef)(isPresent);
+        const onExitCompleteRef = (0, import_react9.useRef)(onExitComplete);
         useIsomorphicLayoutEffect(() => {
           isPresentRef.current = isPresent;
           onExitCompleteRef.current = onExitComplete;
         });
         let isReusedContext = true;
-        let context = (0, import_react7.useMemo)(() => {
+        let context = (0, import_react9.useMemo)(() => {
           isReusedContext = false;
           return {
             id: id3,
@@ -29952,38 +30054,38 @@
         if (presenceAffectsLayout && isReusedContext) {
           context = { ...context };
         }
-        (0, import_react7.useMemo)(() => {
+        (0, import_react9.useMemo)(() => {
           presenceChildren.forEach((_, key) => presenceChildren.set(key, false));
         }, [isPresent]);
-        React3.useEffect(() => {
+        React5.useEffect(() => {
           !isPresent && !presenceChildren.size && onExitComplete && onExitComplete();
         }, [isPresent]);
-        children = (0, import_jsx_runtime2.jsx)(PopChild, { pop: mode === "popLayout", isPresent, anchorX, anchorY, root, children });
-        return (0, import_jsx_runtime2.jsx)(PresenceContext.Provider, { value: context, children });
+        children = (0, import_jsx_runtime4.jsx)(PopChild, { pop: mode === "popLayout", isPresent, anchorX, anchorY, root, children });
+        return (0, import_jsx_runtime4.jsx)(PresenceContext.Provider, { value: context, children });
       };
     }
   });
 
   // node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs
   function usePresence(subscribe = true) {
-    const context = (0, import_react8.useContext)(PresenceContext);
+    const context = (0, import_react10.useContext)(PresenceContext);
     if (context === null)
       return [true, null];
     const { isPresent, onExitComplete, register } = context;
-    const id3 = (0, import_react8.useId)();
-    (0, import_react8.useEffect)(() => {
+    const id3 = (0, import_react10.useId)();
+    (0, import_react10.useEffect)(() => {
       if (subscribe) {
         return register(id3);
       }
     }, [subscribe]);
-    const safeToRemove = (0, import_react8.useCallback)(() => subscribe && onExitComplete && onExitComplete(id3), [id3, onExitComplete, subscribe]);
+    const safeToRemove = (0, import_react10.useCallback)(() => subscribe && onExitComplete && onExitComplete(id3), [id3, onExitComplete, subscribe]);
     return !isPresent && onExitComplete ? [false, safeToRemove] : [true];
   }
-  var import_react8;
+  var import_react10;
   var init_use_presence = __esm({
     "node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs"() {
       "use client";
-      import_react8 = __toESM(require_react(), 1);
+      import_react10 = __toESM(require_react(), 1);
       init_PresenceContext();
     }
   });
@@ -29991,27 +30093,27 @@
   // node_modules/framer-motion/dist/es/components/AnimatePresence/utils.mjs
   function onlyElements(children) {
     const filtered = [];
-    import_react9.Children.forEach(children, (child) => {
-      if ((0, import_react9.isValidElement)(child))
+    import_react11.Children.forEach(children, (child) => {
+      if ((0, import_react11.isValidElement)(child))
         filtered.push(child);
     });
     return filtered;
   }
-  var import_react9, getChildKey;
+  var import_react11, getChildKey;
   var init_utils3 = __esm({
     "node_modules/framer-motion/dist/es/components/AnimatePresence/utils.mjs"() {
-      import_react9 = __toESM(require_react(), 1);
+      import_react11 = __toESM(require_react(), 1);
       getChildKey = (child) => child.key || "";
     }
   });
 
   // node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs
-  var import_jsx_runtime3, import_react10, AnimatePresence;
+  var import_jsx_runtime5, import_react12, AnimatePresence;
   var init_AnimatePresence = __esm({
     "node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs"() {
       "use client";
-      import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-      import_react10 = __toESM(require_react(), 1);
+      import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+      import_react12 = __toESM(require_react(), 1);
       init_LayoutGroupContext();
       init_use_constant();
       init_use_isomorphic_effect();
@@ -30020,14 +30122,14 @@
       init_utils3();
       AnimatePresence = ({ children, custom, initial = true, onExitComplete, presenceAffectsLayout = true, mode = "sync", propagate = false, anchorX = "left", anchorY = "top", root }) => {
         const [isParentPresent, safeToRemove] = usePresence(propagate);
-        const presentChildren = (0, import_react10.useMemo)(() => onlyElements(children), [children]);
+        const presentChildren = (0, import_react12.useMemo)(() => onlyElements(children), [children]);
         const presentKeys = propagate && !isParentPresent ? [] : presentChildren.map(getChildKey);
-        const isInitialRender = (0, import_react10.useRef)(true);
-        const pendingPresentChildren = (0, import_react10.useRef)(presentChildren);
+        const isInitialRender = (0, import_react12.useRef)(true);
+        const pendingPresentChildren = (0, import_react12.useRef)(presentChildren);
         const exitComplete = useConstant(() => /* @__PURE__ */ new Map());
-        const exitingComponents = (0, import_react10.useRef)(/* @__PURE__ */ new Set());
-        const [diffedChildren, setDiffedChildren] = (0, import_react10.useState)(presentChildren);
-        const [renderedChildren, setRenderedChildren] = (0, import_react10.useState)(presentChildren);
+        const exitingComponents = (0, import_react12.useRef)(/* @__PURE__ */ new Set());
+        const [diffedChildren, setDiffedChildren] = (0, import_react12.useState)(presentChildren);
+        const [renderedChildren, setRenderedChildren] = (0, import_react12.useState)(presentChildren);
         useIsomorphicLayoutEffect(() => {
           isInitialRender.current = false;
           pendingPresentChildren.current = presentChildren;
@@ -30064,8 +30166,8 @@
         if (mode === "wait" && renderedChildren.length > 1) {
           console.warn(`You're attempting to animate multiple children within AnimatePresence, but its mode is set to "wait". This will lead to odd visual behaviour.`);
         }
-        const { forceRender } = (0, import_react10.useContext)(LayoutGroupContext);
-        return (0, import_jsx_runtime3.jsx)(import_jsx_runtime3.Fragment, { children: renderedChildren.map((child) => {
+        const { forceRender } = (0, import_react12.useContext)(LayoutGroupContext);
+        return (0, import_jsx_runtime5.jsx)(import_jsx_runtime5.Fragment, { children: renderedChildren.map((child) => {
           const key = getChildKey(child);
           const isPresent = propagate && !isParentPresent ? false : presentChildren === renderedChildren || presentKeys.includes(key);
           const onExit = () => {
@@ -30090,19 +30192,19 @@
               onExitComplete && onExitComplete();
             }
           };
-          return (0, import_jsx_runtime3.jsx)(PresenceChild, { isPresent, initial: !isInitialRender.current || initial ? void 0 : false, custom, presenceAffectsLayout, mode, root, onExitComplete: isPresent ? void 0 : onExit, anchorX, anchorY, children: child }, key);
+          return (0, import_jsx_runtime5.jsx)(PresenceChild, { isPresent, initial: !isInitialRender.current || initial ? void 0 : false, custom, presenceAffectsLayout, mode, root, onExitComplete: isPresent ? void 0 : onExit, anchorX, anchorY, children: child }, key);
         }) });
       };
     }
   });
 
   // node_modules/framer-motion/dist/es/context/LazyContext.mjs
-  var import_react11, LazyContext;
+  var import_react13, LazyContext;
   var init_LazyContext = __esm({
     "node_modules/framer-motion/dist/es/context/LazyContext.mjs"() {
       "use client";
-      import_react11 = __toESM(require_react(), 1);
-      LazyContext = (0, import_react11.createContext)({ strict: false });
+      import_react13 = __toESM(require_react(), 1);
+      LazyContext = (0, import_react13.createContext)({ strict: false });
     }
   });
 
@@ -30247,12 +30349,12 @@
   });
 
   // node_modules/framer-motion/dist/es/context/MotionContext/index.mjs
-  var import_react12, MotionContext;
+  var import_react14, MotionContext;
   var init_MotionContext = __esm({
     "node_modules/framer-motion/dist/es/context/MotionContext/index.mjs"() {
       "use client";
-      import_react12 = __toESM(require_react(), 1);
-      MotionContext = /* @__PURE__ */ (0, import_react12.createContext)({});
+      import_react14 = __toESM(require_react(), 1);
+      MotionContext = /* @__PURE__ */ (0, import_react14.createContext)({});
     }
   });
 
@@ -30275,17 +30377,17 @@
 
   // node_modules/framer-motion/dist/es/context/MotionContext/create.mjs
   function useCreateMotionContext(props) {
-    const { initial, animate } = getCurrentTreeVariants(props, (0, import_react13.useContext)(MotionContext));
-    return (0, import_react13.useMemo)(() => ({ initial, animate }), [variantLabelsAsDependency(initial), variantLabelsAsDependency(animate)]);
+    const { initial, animate } = getCurrentTreeVariants(props, (0, import_react15.useContext)(MotionContext));
+    return (0, import_react15.useMemo)(() => ({ initial, animate }), [variantLabelsAsDependency(initial), variantLabelsAsDependency(animate)]);
   }
   function variantLabelsAsDependency(prop) {
     return Array.isArray(prop) ? prop.join(" ") : prop;
   }
-  var import_react13;
+  var import_react15;
   var init_create = __esm({
     "node_modules/framer-motion/dist/es/context/MotionContext/create.mjs"() {
       "use client";
-      import_react13 = __toESM(require_react(), 1);
+      import_react15 = __toESM(require_react(), 1);
       init_MotionContext();
       init_utils4();
     }
@@ -30313,7 +30415,7 @@
     }
   }
   function useInitialMotionValues({ transformTemplate }, visualState) {
-    return (0, import_react14.useMemo)(() => {
+    return (0, import_react16.useMemo)(() => {
       const state = createHtmlRenderState();
       buildHTMLStyles(state, visualState, transformTemplate);
       return Object.assign({}, state.vars, state.style);
@@ -30340,12 +30442,12 @@
     htmlProps.style = style;
     return htmlProps;
   }
-  var import_react14;
+  var import_react16;
   var init_use_props = __esm({
     "node_modules/framer-motion/dist/es/render/html/use-props.mjs"() {
       "use client";
       init_es2();
-      import_react14 = __toESM(require_react(), 1);
+      import_react16 = __toESM(require_react(), 1);
       init_create_render_state();
     }
   });
@@ -30364,7 +30466,7 @@
 
   // node_modules/framer-motion/dist/es/render/svg/use-props.mjs
   function useSVGProps(props, visualState, _isStatic, Component3) {
-    const visualProps = (0, import_react15.useMemo)(() => {
+    const visualProps = (0, import_react17.useMemo)(() => {
       const state = createSvgRenderState();
       buildSVGAttrs(state, visualState, isSVGTag(Component3), props.transformTemplate, props.style);
       return {
@@ -30379,12 +30481,12 @@
     }
     return visualProps;
   }
-  var import_react15;
+  var import_react17;
   var init_use_props2 = __esm({
     "node_modules/framer-motion/dist/es/render/svg/use-props.mjs"() {
       "use client";
       init_es2();
-      import_react15 = __toESM(require_react(), 1);
+      import_react17 = __toESM(require_react(), 1);
       init_use_props();
       init_create_render_state2();
     }
@@ -30461,20 +30563,20 @@
     const useVisualProps = isSVG ?? isSVGComponent(Component3) ? useSVGProps : useHTMLProps;
     const visualProps = useVisualProps(props, latestValues, isStatic, Component3);
     const filteredProps = filterProps(props, typeof Component3 === "string", forwardMotionProps);
-    const elementProps = Component3 !== import_react16.Fragment ? { ...filteredProps, ...visualProps, ref } : {};
+    const elementProps = Component3 !== import_react18.Fragment ? { ...filteredProps, ...visualProps, ref } : {};
     const { children } = props;
-    const renderedChildren = (0, import_react16.useMemo)(() => isMotionValue(children) ? children.get() : children, [children]);
-    return (0, import_react16.createElement)(Component3, {
+    const renderedChildren = (0, import_react18.useMemo)(() => isMotionValue(children) ? children.get() : children, [children]);
+    return (0, import_react18.createElement)(Component3, {
       ...elementProps,
       children: renderedChildren
     });
   }
-  var import_react16;
+  var import_react18;
   var init_use_render = __esm({
     "node_modules/framer-motion/dist/es/render/dom/use-render.mjs"() {
       "use client";
       init_es2();
-      import_react16 = __toESM(require_react(), 1);
+      import_react18 = __toESM(require_react(), 1);
       init_use_props();
       init_use_props2();
       init_filter_props();
@@ -30532,18 +30634,18 @@
     }
     return values;
   }
-  var import_react17, makeUseVisualState;
+  var import_react19, makeUseVisualState;
   var init_use_visual_state = __esm({
     "node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs"() {
       "use client";
       init_es2();
-      import_react17 = __toESM(require_react(), 1);
+      import_react19 = __toESM(require_react(), 1);
       init_MotionContext();
       init_PresenceContext();
       init_use_constant();
       makeUseVisualState = (config) => (props, isStatic) => {
-        const context = (0, import_react17.useContext)(MotionContext);
-        const presenceContext = (0, import_react17.useContext)(PresenceContext);
+        const context = (0, import_react19.useContext)(MotionContext);
+        const presenceContext = (0, import_react19.useContext)(PresenceContext);
         const make = () => makeState(config, props, context, presenceContext);
         return isStatic ? make() : useConstant(make);
       };
@@ -30590,12 +30692,12 @@
 
   // node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs
   function useMotionRef(visualState, visualElement, externalRef) {
-    const externalRefContainer = (0, import_react18.useRef)(externalRef);
-    (0, import_react18.useInsertionEffect)(() => {
+    const externalRefContainer = (0, import_react20.useRef)(externalRef);
+    (0, import_react20.useInsertionEffect)(() => {
       externalRefContainer.current = externalRef;
     });
-    const refCleanup = (0, import_react18.useRef)(null);
-    return (0, import_react18.useCallback)((instance) => {
+    const refCleanup = (0, import_react20.useRef)(null);
+    return (0, import_react20.useCallback)((instance) => {
       if (instance) {
         visualState.onMount?.(instance);
       }
@@ -30620,21 +30722,21 @@
       }
     }, [visualElement]);
   }
-  var import_react18;
+  var import_react20;
   var init_use_motion_ref = __esm({
     "node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs"() {
       "use client";
-      import_react18 = __toESM(require_react(), 1);
+      import_react20 = __toESM(require_react(), 1);
     }
   });
 
   // node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs
-  var import_react19, SwitchLayoutGroupContext;
+  var import_react21, SwitchLayoutGroupContext;
   var init_SwitchLayoutGroupContext = __esm({
     "node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs"() {
       "use client";
-      import_react19 = __toESM(require_react(), 1);
-      SwitchLayoutGroupContext = (0, import_react19.createContext)({});
+      import_react21 = __toESM(require_react(), 1);
+      SwitchLayoutGroupContext = (0, import_react21.createContext)({});
     }
   });
 
@@ -30649,14 +30751,14 @@
 
   // node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs
   function useVisualElement(Component3, visualState, props, createVisualElement, ProjectionNodeConstructor, isSVG) {
-    const { visualElement: parent } = (0, import_react20.useContext)(MotionContext);
-    const lazyContext = (0, import_react20.useContext)(LazyContext);
-    const presenceContext = (0, import_react20.useContext)(PresenceContext);
-    const motionConfig = (0, import_react20.useContext)(MotionConfigContext);
+    const { visualElement: parent } = (0, import_react22.useContext)(MotionContext);
+    const lazyContext = (0, import_react22.useContext)(LazyContext);
+    const presenceContext = (0, import_react22.useContext)(PresenceContext);
+    const motionConfig = (0, import_react22.useContext)(MotionConfigContext);
     const reducedMotionConfig = motionConfig.reducedMotion;
     const skipAnimations = motionConfig.skipAnimations;
-    const visualElementRef = (0, import_react20.useRef)(null);
-    const hasMountedOnce = (0, import_react20.useRef)(false);
+    const visualElementRef = (0, import_react22.useRef)(null);
+    const hasMountedOnce = (0, import_react22.useRef)(false);
     createVisualElement = createVisualElement || lazyContext.renderer;
     if (!visualElementRef.current && createVisualElement) {
       visualElementRef.current = createVisualElement(Component3, {
@@ -30674,18 +30776,18 @@
       }
     }
     const visualElement = visualElementRef.current;
-    const initialLayoutGroupConfig = (0, import_react20.useContext)(SwitchLayoutGroupContext);
+    const initialLayoutGroupConfig = (0, import_react22.useContext)(SwitchLayoutGroupContext);
     if (visualElement && !visualElement.projection && ProjectionNodeConstructor && (visualElement.type === "html" || visualElement.type === "svg")) {
       createProjectionNode2(visualElementRef.current, props, ProjectionNodeConstructor, initialLayoutGroupConfig);
     }
-    const isMounted = (0, import_react20.useRef)(false);
-    (0, import_react20.useInsertionEffect)(() => {
+    const isMounted = (0, import_react22.useRef)(false);
+    (0, import_react22.useInsertionEffect)(() => {
       if (visualElement && isMounted.current) {
         visualElement.update(props, presenceContext);
       }
     });
     const optimisedAppearId = props[optimizedAppearDataAttribute];
-    const wantsHandoff = (0, import_react20.useRef)(Boolean(optimisedAppearId) && typeof window !== "undefined" && !window.MotionHandoffIsComplete?.(optimisedAppearId) && window.MotionHasOptimisedAnimation?.(optimisedAppearId));
+    const wantsHandoff = (0, import_react22.useRef)(Boolean(optimisedAppearId) && typeof window !== "undefined" && !window.MotionHandoffIsComplete?.(optimisedAppearId) && window.MotionHasOptimisedAnimation?.(optimisedAppearId));
     useIsomorphicLayoutEffect(() => {
       hasMountedOnce.current = true;
       if (!visualElement)
@@ -30698,7 +30800,7 @@
         visualElement.animationState.animateChanges();
       }
     });
-    (0, import_react20.useEffect)(() => {
+    (0, import_react22.useEffect)(() => {
       if (!visualElement)
         return;
       if (!wantsHandoff.current && visualElement.animationState) {
@@ -30742,12 +30844,12 @@
       return void 0;
     return visualElement.options.allowProjection !== false ? visualElement.projection : getClosestProjectingNode(visualElement.parent);
   }
-  var import_react20;
+  var import_react22;
   var init_use_visual_element = __esm({
     "node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs"() {
       "use client";
       init_es2();
-      import_react20 = __toESM(require_react(), 1);
+      import_react22 = __toESM(require_react(), 1);
       init_LazyContext();
       init_MotionConfigContext();
       init_MotionContext();
@@ -30766,7 +30868,7 @@
     function MotionDOMComponent(props, externalRef) {
       let MeasureLayout2;
       const configAndProps = {
-        ...(0, import_react21.useContext)(MotionConfigContext),
+        ...(0, import_react23.useContext)(MotionConfigContext),
         ...props,
         layoutId: useLayoutId(props)
       };
@@ -30779,19 +30881,19 @@
         MeasureLayout2 = layoutProjection.MeasureLayout;
         context.visualElement = useVisualElement(Component3, visualState, configAndProps, createVisualElement, layoutProjection.ProjectionNode, isSVG);
       }
-      return (0, import_jsx_runtime4.jsxs)(MotionContext.Provider, { value: context, children: [MeasureLayout2 && context.visualElement ? (0, import_jsx_runtime4.jsx)(MeasureLayout2, { visualElement: context.visualElement, ...configAndProps }) : null, useRender(Component3, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, forwardMotionProps, isSVG)] });
+      return (0, import_jsx_runtime6.jsxs)(MotionContext.Provider, { value: context, children: [MeasureLayout2 && context.visualElement ? (0, import_jsx_runtime6.jsx)(MeasureLayout2, { visualElement: context.visualElement, ...configAndProps }) : null, useRender(Component3, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, forwardMotionProps, isSVG)] });
     }
     MotionDOMComponent.displayName = `motion.${typeof Component3 === "string" ? Component3 : `create(${Component3.displayName ?? Component3.name ?? ""})`}`;
-    const ForwardRefMotionComponent = (0, import_react21.forwardRef)(MotionDOMComponent);
+    const ForwardRefMotionComponent = (0, import_react23.forwardRef)(MotionDOMComponent);
     ForwardRefMotionComponent[motionComponentSymbol] = Component3;
     return ForwardRefMotionComponent;
   }
   function useLayoutId({ layoutId }) {
-    const layoutGroupId = (0, import_react21.useContext)(LayoutGroupContext).id;
+    const layoutGroupId = (0, import_react23.useContext)(LayoutGroupContext).id;
     return layoutGroupId && layoutId !== void 0 ? layoutGroupId + "-" + layoutId : layoutId;
   }
   function useStrictMode(configAndProps, preloadedFeatures) {
-    const isStrict = (0, import_react21.useContext)(LazyContext).strict;
+    const isStrict = (0, import_react23.useContext)(LazyContext).strict;
     if (preloadedFeatures && isStrict) {
       const strictMessage = "You have rendered a `motion` component within a `LazyMotion` component. This will break tree shaking. Import and render a `m` component instead.";
       configAndProps.ignoreStrict ? warning(false, strictMessage, "lazy-strict-mode") : invariant(false, strictMessage, "lazy-strict-mode");
@@ -30808,13 +30910,13 @@
       ProjectionNode: combined.ProjectionNode
     };
   }
-  var import_jsx_runtime4, import_react21;
+  var import_jsx_runtime6, import_react23;
   var init_motion = __esm({
     "node_modules/framer-motion/dist/es/motion/index.mjs"() {
       "use client";
-      import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+      import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
       init_es();
-      import_react21 = __toESM(require_react(), 1);
+      import_react23 = __toESM(require_react(), 1);
       init_LayoutGroupContext();
       init_LazyContext();
       init_MotionConfigContext();
@@ -30871,16 +30973,16 @@
   });
 
   // node_modules/framer-motion/dist/es/render/dom/create-visual-element.mjs
-  var import_react22, createDomVisualElement;
+  var import_react24, createDomVisualElement;
   var init_create_visual_element = __esm({
     "node_modules/framer-motion/dist/es/render/dom/create-visual-element.mjs"() {
       init_es2();
-      import_react22 = __toESM(require_react(), 1);
+      import_react24 = __toESM(require_react(), 1);
       init_is_svg_component();
       createDomVisualElement = (Component3, options) => {
         const isSVG = options.isSVG ?? isSVGComponent(Component3);
         return isSVG ? new SVGVisualElement(options) : new HTMLVisualElement(options, {
-          allowProjection: Component3 !== import_react22.Fragment
+          allowProjection: Component3 !== import_react24.Fragment
         });
       };
     }
@@ -31882,21 +31984,21 @@
   // node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs
   function MeasureLayout(props) {
     const [isPresent, safeToRemove] = usePresence();
-    const layoutGroup = (0, import_react23.useContext)(LayoutGroupContext);
-    return (0, import_jsx_runtime5.jsx)(MeasureLayoutWithContext, { ...props, layoutGroup, switchLayoutGroup: (0, import_react23.useContext)(SwitchLayoutGroupContext), isPresent, safeToRemove });
+    const layoutGroup = (0, import_react25.useContext)(LayoutGroupContext);
+    return (0, import_jsx_runtime7.jsx)(MeasureLayoutWithContext, { ...props, layoutGroup, switchLayoutGroup: (0, import_react25.useContext)(SwitchLayoutGroupContext), isPresent, safeToRemove });
   }
-  var import_jsx_runtime5, import_react23, hasTakenAnySnapshot, MeasureLayoutWithContext;
+  var import_jsx_runtime7, import_react25, hasTakenAnySnapshot, MeasureLayoutWithContext;
   var init_MeasureLayout = __esm({
     "node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs"() {
       "use client";
-      import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+      import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
       init_es2();
-      import_react23 = __toESM(require_react(), 1);
+      import_react25 = __toESM(require_react(), 1);
       init_use_presence();
       init_LayoutGroupContext();
       init_SwitchLayoutGroupContext();
       hasTakenAnySnapshot = false;
-      MeasureLayoutWithContext = class extends import_react23.Component {
+      MeasureLayoutWithContext = class extends import_react25.Component {
         /**
          * This only mounts projection nodes for components that
          * need measuring, we might want to do it for all components
@@ -32322,9 +32424,9 @@
 
   // src/pages/app/InteractiveTimeline/components/AmbientBackground.tsx
   function AmbientBackground({ imageKey, imageUrl }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: AmbientBackground_default.fallback }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AnimatePresence, { mode: "wait", children: imageUrl && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: AmbientBackground_default.fallback }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(AnimatePresence, { mode: "wait", children: imageUrl && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
         motion.div,
         {
           initial: { opacity: 0, scale: 1.08 },
@@ -32336,16 +32438,16 @@
         },
         imageKey
       ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: AmbientBackground_default.veil })
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: AmbientBackground_default.veil })
     ] });
   }
-  var import_jsx_runtime6;
+  var import_jsx_runtime8;
   var init_AmbientBackground2 = __esm({
     "src/pages/app/InteractiveTimeline/components/AmbientBackground.tsx"() {
       "use strict";
       init_es3();
       init_AmbientBackground();
-      import_jsx_runtime6 = __toESM(require_jsx_runtime());
+      import_jsx_runtime8 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -32367,7 +32469,7 @@
 
   // src/pages/app/InteractiveTimeline/components/MemoryPhotoPanel.tsx
   function MemoryPhotoPanel({ memory, floatingEmojis }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       motion.div,
       {
         initial: { opacity: 0, y: 40, scale: 0.96 },
@@ -32375,13 +32477,13 @@
         exit: { opacity: 0, y: -20, scale: 0.97 },
         transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
         className: MemoryPhotoPanel_default.wrapper,
-        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: MemoryPhotoPanel_default.photoFrame, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("img", { src: memory.imageUrl, alt: memory.title, className: MemoryPhotoPanel_default.photo }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: MemoryPhotoPanel_default.badgeRow, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: MemoryPhotoPanel_default.yearBadge, children: memory.year }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: MemoryPhotoPanel_default.catalogBadge, children: memory.catalogCode })
+        children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: MemoryPhotoPanel_default.photoFrame, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: memory.imageUrl, alt: memory.title, className: MemoryPhotoPanel_default.photo }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: MemoryPhotoPanel_default.badgeRow, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: MemoryPhotoPanel_default.yearBadge, children: memory.year }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: MemoryPhotoPanel_default.catalogBadge, children: memory.catalogCode })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(AnimatePresence, { children: floatingEmojis.map((item) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AnimatePresence, { children: floatingEmojis.map((item) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
             motion.span,
             {
               initial: { opacity: 1, y: 520, scale: 0.8 },
@@ -32397,13 +32499,13 @@
       }
     );
   }
-  var import_jsx_runtime7;
+  var import_jsx_runtime9;
   var init_MemoryPhotoPanel2 = __esm({
     "src/pages/app/InteractiveTimeline/components/MemoryPhotoPanel.tsx"() {
       "use strict";
       init_es3();
       init_MemoryPhotoPanel();
-      import_jsx_runtime7 = __toESM(require_jsx_runtime());
+      import_jsx_runtime9 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -32490,8 +32592,8 @@
     size = "default"
   }) {
     const isCompact = size === "compact";
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: ReactionBar_default.wrapper, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(AnimatePresence, { children: showReactionPicker && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: ReactionBar_default.wrapper, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AnimatePresence, { children: showReactionPicker && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
         motion.div,
         {
           initial: { opacity: 0, y: 10, scale: 0.95 },
@@ -32500,7 +32602,7 @@
           transition: { duration: 0.2 },
           className: isCompact ? `${ReactionBar_default.picker} ${ReactionBar_default.pickerCompact}` : ReactionBar_default.picker,
           role: "menu",
-          children: AVAILABLE_REACTIONS.map((emoji) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+          children: AVAILABLE_REACTIONS.map((emoji) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
             motion.button,
             {
               type: "button",
@@ -32515,8 +32617,8 @@
           ))
         }
       ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: ReactionBar_default.actions, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: ReactionBar_default.actions, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
           "button",
           {
             type: "button",
@@ -32524,12 +32626,12 @@
             className: `${isCompact ? ReactionBar_default.reactButtonCompact : ReactionBar_default.reactButton} ${userReaction ? ReactionBar_default.reactButtonActive : ""}`,
             "aria-label": pickerButtonAriaLabel,
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: userReaction ?? defaultEmoji }),
-              !isCompact && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: userReaction ? reactedLabel : reactLabel })
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: userReaction ?? defaultEmoji }),
+              !isCompact && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: userReaction ? reactedLabel : reactLabel })
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: isCompact ? ReactionBar_default.countCompact : ReactionBar_default.count, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("span", { className: isCompact ? ReactionBar_default.countCompact : ReactionBar_default.count, children: [
           likesCount,
           " ",
           isCompact ? "" : countSuffix
@@ -32537,7 +32639,7 @@
       ] })
     ] });
   }
-  var import_jsx_runtime8, reactedLabel, reactLabel, defaultEmoji, pickerButtonAriaLabel, countSuffix;
+  var import_jsx_runtime10, reactedLabel, reactLabel, defaultEmoji, pickerButtonAriaLabel, countSuffix;
   var init_ReactionBar2 = __esm({
     "src/shared/Post/component/ReactionBar.tsx"() {
       "use strict";
@@ -32545,23 +32647,23 @@
       init_constant();
       init_content2();
       init_ReactionBar();
-      import_jsx_runtime8 = __toESM(require_jsx_runtime());
+      import_jsx_runtime10 = __toESM(require_jsx_runtime());
       ({ reactedLabel, reactLabel, defaultEmoji, pickerButtonAriaLabel, countSuffix } = REACTIONS_CONTENT);
     }
   });
 
   // src/shared/Post/useReactions.ts
   function useReactions(selectedId) {
-    const [userReaction, setUserReaction] = (0, import_react24.useState)(null);
-    const [showReactionPicker, setShowReactionPicker] = (0, import_react24.useState)(false);
-    const [floatingEmojis, setFloatingEmojis] = (0, import_react24.useState)([]);
-    const timeoutsRef = (0, import_react24.useRef)(/* @__PURE__ */ new Set());
-    (0, import_react24.useEffect)(() => {
+    const [userReaction, setUserReaction] = (0, import_react26.useState)(null);
+    const [showReactionPicker, setShowReactionPicker] = (0, import_react26.useState)(false);
+    const [floatingEmojis, setFloatingEmojis] = (0, import_react26.useState)([]);
+    const timeoutsRef = (0, import_react26.useRef)(/* @__PURE__ */ new Set());
+    (0, import_react26.useEffect)(() => {
       setUserReaction(null);
       setShowReactionPicker(false);
       setFloatingEmojis([]);
     }, [selectedId]);
-    (0, import_react24.useEffect)(() => {
+    (0, import_react26.useEffect)(() => {
       const timeouts = timeoutsRef.current;
       return () => {
         timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
@@ -32598,18 +32700,42 @@
       toggleReactionPicker
     };
   }
-  var import_react24;
+  var import_react26;
   var init_useReactions = __esm({
     "src/shared/Post/useReactions.ts"() {
       "use strict";
-      import_react24 = __toESM(require_react());
+      import_react26 = __toESM(require_react());
     }
   });
 
-  // src/shared/Post/CommentRow.module.css
+  // src/shared/Post/component/CommentContext.tsx
+  function CommentsProvider({
+    children,
+    onAddReply
+  }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(CommentsContext.Provider, { value: { onAddReply }, children });
+  }
+  function useCommentsContext() {
+    const context = (0, import_react27.useContext)(CommentsContext);
+    if (!context) {
+      throw new Error("useCommentsContext deve essere usato dentro un <CommentsProvider>");
+    }
+    return context;
+  }
+  var import_react27, import_jsx_runtime11, CommentsContext;
+  var init_CommentContext = __esm({
+    "src/shared/Post/component/CommentContext.tsx"() {
+      "use strict";
+      import_react27 = __toESM(require_react());
+      import_jsx_runtime11 = __toESM(require_jsx_runtime());
+      CommentsContext = (0, import_react27.createContext)(void 0);
+    }
+  });
+
+  // src/shared/Post/component/CommentRow.module.css
   var CommentRow_default;
   var init_CommentRow = __esm({
-    "src/shared/Post/CommentRow.module.css"() {
+    "src/shared/Post/component/CommentRow.module.css"() {
       CommentRow_default = {
         container: "CommentRow_container",
         row: "CommentRow_row",
@@ -32633,12 +32759,13 @@
     }
   });
 
-  // src/shared/Post/CommentRow.tsx
-  function CommentRow({ comment, onAddReply }) {
+  // src/shared/Post/component/CommentRow.tsx
+  function CommentRow({ comment }) {
+    const { onAddReply } = useCommentsContext();
     const { userReaction, showReactionPicker, toggleReaction, toggleReactionPicker } = useReactions(comment.id);
-    const [isReplying, setIsReplying] = (0, import_react25.useState)(false);
-    const [replyText, setReplyText] = (0, import_react25.useState)("");
-    const [showReplies, setShowReplies] = (0, import_react25.useState)(true);
+    const [isReplying, setIsReplying] = (0, import_react28.useState)(false);
+    const [replyText, setReplyText] = (0, import_react28.useState)("");
+    const [showReplies, setShowReplies] = (0, import_react28.useState)(true);
     const handleReplySubmit = (e) => {
       e.preventDefault();
       if (!replyText.trim()) return;
@@ -32648,30 +32775,30 @@
       setShowReplies(true);
     };
     const hasReplies = comment.replies && comment.replies.length > 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.container, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.row, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: comment.avatar, alt: comment.author, className: CommentRow_default.avatar }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.body, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.bubble, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.header, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: CommentRow_default.author, children: comment.author }),
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: CommentRow_default.date, children: comment.date })
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: CommentRow_default.container, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: CommentRow_default.row, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: comment.avatar, alt: comment.author, className: CommentRow_default.avatar }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: CommentRow_default.body, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: CommentRow_default.bubble, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: CommentRow_default.header, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: CommentRow_default.author, children: comment.author }),
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: CommentRow_default.date, children: comment.date })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: CommentRow_default.text, children: comment.text })
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("p", { className: CommentRow_default.text, children: comment.text })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.actionsBar, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: CommentRow_default.actionsBar, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
               ReactionBar,
               {
                 size: "compact",
                 userReaction,
                 showReactionPicker,
-                likesCount: comment.likesCount + (userReaction ? 1 : 0),
+                likesCount: (comment.likesCount ?? 0) + (userReaction ? 1 : 0),
                 onTogglePicker: toggleReactionPicker,
                 onToggleReaction: toggleReaction
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
               "button",
               {
                 type: "button",
@@ -32681,16 +32808,17 @@
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AnimatePresence, { children: isReplying && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(AnimatePresence, { children: isReplying && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
             motion.form,
             {
               initial: { opacity: 0, y: -8, height: 0 },
               animate: { opacity: 1, y: 0, height: "auto" },
               exit: { opacity: 0, y: -8, height: 0 },
+              style: { overflow: "hidden" },
               className: CommentRow_default.replyForm,
               onSubmit: handleReplySubmit,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
                   "input",
                   {
                     type: "text",
@@ -32701,55 +32829,49 @@
                     className: CommentRow_default.replyInput
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "submit", className: CommentRow_default.replySubmit, children: "Invia" })
+                /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "submit", className: CommentRow_default.replySubmit, children: "Invia" })
               ]
             }
           ) })
         ] })
       ] }),
-      hasReplies && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: CommentRow_default.repliesWrapper, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+      hasReplies && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: CommentRow_default.repliesWrapper, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
           "button",
           {
             type: "button",
             onClick: () => setShowReplies(!showReplies),
             className: CommentRow_default.toggleRepliesBtn,
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: CommentRow_default.lineConnector }),
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: CommentRow_default.lineConnector }),
               showReplies ? "Nascondi risposte" : `Mostra ${comment.replies.length} risposte`
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AnimatePresence, { children: showReplies && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(AnimatePresence, { children: showReplies && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           motion.div,
           {
             initial: { opacity: 0 },
             animate: { opacity: 1 },
             exit: { opacity: 0 },
             className: CommentRow_default.repliesThread,
-            children: comment.replies.map((reply) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-              CommentRow,
-              {
-                comment: reply,
-                onAddReply
-              },
-              reply.id
-            ))
+            children: comment.replies.map((reply) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(CommentRow, { comment: reply }, reply.id))
           }
         ) })
       ] })
     ] });
   }
-  var import_react25, import_jsx_runtime9;
+  var import_react28, import_jsx_runtime12;
   var init_CommentRow2 = __esm({
-    "src/shared/Post/CommentRow.tsx"() {
+    "src/shared/Post/component/CommentRow.tsx"() {
       "use strict";
-      import_react25 = __toESM(require_react());
+      import_react28 = __toESM(require_react());
       init_es3();
       init_useReactions();
       init_ReactionBar2();
+      init_CommentContext();
       init_CommentRow();
-      import_jsx_runtime9 = __toESM(require_jsx_runtime());
+      import_jsx_runtime12 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -32778,22 +32900,38 @@
   });
 
   // src/pages/app/InteractiveTimeline/components/Comment.tsx
+  function countTotalComments(comments = []) {
+    return comments.reduce(
+      (acc, comment) => acc + 1 + (comment.replies ? countTotalComments(comment.replies) : 0),
+      0
+    );
+  }
   function CommentSection({
     isOpen,
     onClose,
-    comments,
+    comments = [],
     newCommentText,
     onChangeText,
-    onSubmit,
-    onAddReply
-    // 👈 2. Ricevuta nelle props
+    onSubmit
   }) {
-    const listRef = (0, import_react26.useRef)(null);
-    (0, import_react26.useEffect)(() => {
+    const listRef = (0, import_react29.useRef)(null);
+    const totalCommentsCount = (0, import_react29.useMemo)(() => countTotalComments(comments), [comments]);
+    const prevIsOpenRef = (0, import_react29.useRef)(isOpen);
+    const prevCommentsLengthRef = (0, import_react29.useRef)(comments.length);
+    (0, import_react29.useEffect)(() => {
       if (!isOpen || !listRef.current) return;
-      listRef.current.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+      const isJustOpened = isOpen && !prevIsOpenRef.current;
+      const hasNewTopLevelComment = comments.length > prevCommentsLengthRef.current;
+      if (isJustOpened || hasNewTopLevelComment) {
+        listRef.current.scrollTo({
+          top: listRef.current.scrollHeight,
+          behavior: "smooth"
+        });
+      }
+      prevIsOpenRef.current = isOpen;
+      prevCommentsLengthRef.current = comments.length;
     }, [isOpen, comments.length]);
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AnimatePresence, { children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(AnimatePresence, { children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
       motion.div,
       {
         initial: { y: "100%" },
@@ -32802,23 +32940,23 @@
         transition: { type: "tween", duration: 0.32, ease: [0.16, 1, 0.3, 1] },
         className: Comment_default.overlay,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: Comment_default.header, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "button", onClick: onClose, className: Comment_default.backButton, "aria-label": "Torna al post", children: "\u2190" }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("h4", { className: Comment_default.headerTitle, children: [
-              comments.length,
-              " Commenti"
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: Comment_default.header, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", onClick: onClose, className: Comment_default.backButton, "aria-label": "Torna al post", children: "\u2190" }),
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("h4", { className: Comment_default.headerTitle, children: [
+              totalCommentsCount,
+              " ",
+              totalCommentsCount === 1 ? "Commento" : "Commenti"
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { ref: listRef, className: Comment_default.list, children: comments.map((comment) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { ref: listRef, className: Comment_default.list, children: comments.map((comment) => /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
             CommentRow,
             {
-              comment,
-              onAddReply
+              comment
             },
             comment.id
           )) }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("form", { onSubmit, className: Comment_default.form, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("form", { onSubmit, className: Comment_default.form, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               "input",
               {
                 type: "text",
@@ -32828,22 +32966,22 @@
                 className: Comment_default.input
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "submit", className: Comment_default.submitButton, children: submitLabel })
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "submit", className: Comment_default.submitButton, children: submitLabel })
           ] })
         ]
       }
     ) });
   }
-  var import_react26, import_jsx_runtime10, inputPlaceholder, submitLabel;
+  var import_react29, import_jsx_runtime13, inputPlaceholder, submitLabel;
   var init_Comment2 = __esm({
     "src/pages/app/InteractiveTimeline/components/Comment.tsx"() {
       "use strict";
-      import_react26 = __toESM(require_react());
+      import_react29 = __toESM(require_react());
       init_es3();
       init_content();
       init_CommentRow2();
       init_Comment();
-      import_jsx_runtime10 = __toESM(require_jsx_runtime());
+      import_jsx_runtime13 = __toESM(require_jsx_runtime());
       ({ inputPlaceholder, submitLabel } = MEMORIES_PAGE_CONTENT.comments);
     }
   });
@@ -32872,6 +33010,12 @@
   });
 
   // src/pages/app/InteractiveTimeline/components/MemoryDetailsPanel.tsx
+  function countTotalComments2(comments) {
+    return comments.reduce(
+      (acc, comment) => acc + 1 + (comment.replies ? countTotalComments2(comment.replies) : 0),
+      0
+    );
+  }
   function MemoryDetailsPanel({
     memory,
     onClose,
@@ -32879,7 +33023,8 @@
     comments
   }) {
     const totalLikes = memory.likesCount + (reactionBar.userReaction ? 1 : 0);
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
+    const totalCommentsCount = countTotalComments2(memory.comments || []);
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
       motion.div,
       {
         initial: { opacity: 0, y: -40 },
@@ -32888,10 +33033,10 @@
         transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
         className: MemoryDetailsPanel_default.wrapper,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: MemoryDetailsPanel_default.authorRow, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: MemoryDetailsPanel_default.authorInfo, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: MemoryDetailsPanel_default.authorRow, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: MemoryDetailsPanel_default.authorInfo, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
                   "img",
                   {
                     src: memory.authorAvatar,
@@ -32899,16 +33044,16 @@
                     className: MemoryDetailsPanel_default.authorAvatar
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h4", { className: MemoryDetailsPanel_default.authorName, children: memory.authorName }),
-                  /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("span", { className: MemoryDetailsPanel_default.publishedDate, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h4", { className: MemoryDetailsPanel_default.authorName, children: memory.authorName }),
+                  /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { className: MemoryDetailsPanel_default.publishedDate, children: [
                     publishedLabel,
                     " \u2022 ",
                     memory.dateStr
                   ] })
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
                 "button",
                 {
                   type: "button",
@@ -32919,16 +33064,16 @@
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("hr", { className: MemoryDetailsPanel_default.divider }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: MemoryDetailsPanel_default.eyebrow, children: detailsEyebrow }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h2", { className: MemoryDetailsPanel_default.title, children: memory.title })
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("hr", { className: MemoryDetailsPanel_default.divider }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: MemoryDetailsPanel_default.eyebrow, children: detailsEyebrow }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { className: MemoryDetailsPanel_default.title, children: memory.title })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { className: MemoryDetailsPanel_default.story, children: memory.story })
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: MemoryDetailsPanel_default.story, children: memory.story })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: MemoryDetailsPanel_default.interactionRow, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: MemoryDetailsPanel_default.interactionRow, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
                 ReactionBar,
                 {
                   userReaction: reactionBar.userReaction,
@@ -32938,7 +33083,7 @@
                   onToggleReaction: reactionBar.onToggleReaction
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
                 "button",
                 {
                   type: "button",
@@ -32946,14 +33091,14 @@
                   className: `${MemoryDetailsPanel_default.commentsToggle} ${comments.showComments ? MemoryDetailsPanel_default.commentsToggleActive : ""}`,
                   children: [
                     "\u{1F4AC} ",
-                    memory.comments.length,
+                    totalCommentsCount,
                     " ",
                     toggleAriaLabel
                   ]
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
               CommentSection,
               {
                 isOpen: comments.showComments,
@@ -32961,9 +33106,7 @@
                 comments: memory.comments,
                 newCommentText: comments.newCommentText,
                 onChangeText: comments.onChangeText,
-                onSubmit: comments.onSubmit,
-                onAddReply: comments.onAddReply ?? (() => {
-                })
+                onSubmit: comments.onSubmit
               }
             )
           ] })
@@ -32971,7 +33114,7 @@
       }
     );
   }
-  var import_jsx_runtime11, closeButtonAriaLabel, detailsEyebrow, publishedLabel, toggleAriaLabel;
+  var import_jsx_runtime14, closeButtonAriaLabel, detailsEyebrow, publishedLabel, toggleAriaLabel;
   var init_MemoryDetailsPanel2 = __esm({
     "src/pages/app/InteractiveTimeline/components/MemoryDetailsPanel.tsx"() {
       "use strict";
@@ -32980,7 +33123,7 @@
       init_ReactionBar2();
       init_Comment2();
       init_MemoryDetailsPanel();
-      import_jsx_runtime11 = __toESM(require_jsx_runtime());
+      import_jsx_runtime14 = __toESM(require_jsx_runtime());
       ({ closeButtonAriaLabel, detailsEyebrow, publishedLabel } = MEMORIES_PAGE_CONTENT.spotlight);
       ({ toggleAriaLabel } = MEMORIES_PAGE_CONTENT.comments);
     }
@@ -33009,12 +33152,11 @@
     onToggleComments,
     newCommentText,
     onChangeCommentText,
-    onSubmitComment,
-    onAddReply
+    onSubmitComment
   }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(AnimatePresence, { mode: "wait", children: memory && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: MemorySpotlight_default.grid, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MemoryPhotoPanel, { memory, floatingEmojis }),
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(AnimatePresence, { mode: "wait", children: memory && /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: MemorySpotlight_default.grid, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(MemoryPhotoPanel, { memory, floatingEmojis }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
         MemoryDetailsPanel,
         {
           memory,
@@ -33030,14 +33172,13 @@
             onToggleComments,
             newCommentText,
             onChangeText: onChangeCommentText,
-            onSubmit: onSubmitComment,
-            onAddReply
+            onSubmit: onSubmitComment
           }
         }
       )
     ] }, memory.id) }) });
   }
-  var import_jsx_runtime12;
+  var import_jsx_runtime15;
   var init_MemorySpotlight2 = __esm({
     "src/pages/app/InteractiveTimeline/sections/MemorySpotlight.tsx"() {
       "use strict";
@@ -33045,7 +33186,7 @@
       init_MemoryPhotoPanel2();
       init_MemoryDetailsPanel2();
       init_MemorySpotlight();
-      import_jsx_runtime12 = __toESM(require_jsx_runtime());
+      import_jsx_runtime15 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -33067,7 +33208,7 @@
 
   // src/pages/app/InteractiveTimeline/components/FilmstripCard.tsx
   function FilmstripCard({ item, isSelected, onSelect }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
       "div",
       {
         className: `${FilmstripCard_default.card} ${isSelected ? FilmstripCard_default.cardSelected : ""}`,
@@ -33078,21 +33219,21 @@
           if (e.key === "Enter" || e.key === " ") onSelect(item.id);
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: FilmstripCard_default.photoWrapper, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: item.imageUrl, alt: item.title, className: FilmstripCard_default.photo }),
-            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: FilmstripCard_default.yearBadge, children: item.year })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: FilmstripCard_default.photoWrapper, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("img", { src: item.imageUrl, alt: item.title, className: FilmstripCard_default.photo }),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: FilmstripCard_default.yearBadge, children: item.year })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: FilmstripCard_default.caption, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h4", { className: FilmstripCard_default.title, children: item.title }) })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: FilmstripCard_default.caption, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h4", { className: FilmstripCard_default.title, children: item.title }) })
         ]
       }
     );
   }
-  var import_jsx_runtime13;
+  var import_jsx_runtime16;
   var init_FilmstripCard2 = __esm({
     "src/pages/app/InteractiveTimeline/components/FilmstripCard.tsx"() {
       "use strict";
       init_FilmstripCard();
-      import_jsx_runtime13 = __toESM(require_jsx_runtime());
+      import_jsx_runtime16 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -33114,14 +33255,14 @@
 
   // src/pages/app/InteractiveTimeline/sections/MemoryFilmstrip.tsx
   function MemoryFilmstrip({ memories, selectedId, onSelect }) {
-    const trackRef = (0, import_react27.useRef)(null);
+    const trackRef = (0, import_react30.useRef)(null);
     function scrollByAmount(direction) {
       trackRef.current?.scrollBy({ left: direction * SCROLL_AMOUNT_PX, behavior: "smooth" });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: MemoryFilmstrip_default.section, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { className: MemoryFilmstrip_default.heading, children: title }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: MemoryFilmstrip_default.rail, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: MemoryFilmstrip_default.section, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h3", { className: MemoryFilmstrip_default.heading, children: title }),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: MemoryFilmstrip_default.rail, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
           "button",
           {
             type: "button",
@@ -33131,7 +33272,7 @@
             children: "\u25C0"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { ref: trackRef, className: MemoryFilmstrip_default.track, children: memories.map((item) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { ref: trackRef, className: MemoryFilmstrip_default.track, children: memories.map((item) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
           FilmstripCard,
           {
             item,
@@ -33140,7 +33281,7 @@
           },
           item.id
         )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
           "button",
           {
             type: "button",
@@ -33153,15 +33294,15 @@
       ] })
     ] });
   }
-  var import_react27, import_jsx_runtime14, title, previousAriaLabel, nextAriaLabel, SCROLL_AMOUNT_PX;
+  var import_react30, import_jsx_runtime17, title, previousAriaLabel, nextAriaLabel, SCROLL_AMOUNT_PX;
   var init_MemoryFilmstrip2 = __esm({
     "src/pages/app/InteractiveTimeline/sections/MemoryFilmstrip.tsx"() {
       "use strict";
-      import_react27 = __toESM(require_react());
+      import_react30 = __toESM(require_react());
       init_content();
       init_FilmstripCard2();
       init_MemoryFilmstrip();
-      import_jsx_runtime14 = __toESM(require_jsx_runtime());
+      import_jsx_runtime17 = __toESM(require_jsx_runtime());
       ({ title, previousAriaLabel, nextAriaLabel } = MEMORIES_PAGE_CONTENT.filmstrip);
       SCROLL_AMOUNT_PX = 350;
     }
@@ -33292,9 +33433,9 @@
 
   // src/pages/app/InteractiveTimeline/hooks/useMemories.ts
   function useMemories() {
-    const [memories, setMemories] = (0, import_react28.useState)(TIMELINE_MEMORIES);
-    const [selectedId, setSelectedId] = (0, import_react28.useState)(memories[0]?.id ?? null);
-    const selectedMemory = (0, import_react28.useMemo)(
+    const [memories, setMemories] = (0, import_react31.useState)(TIMELINE_MEMORIES);
+    const [selectedId, setSelectedId] = (0, import_react31.useState)(memories[0]?.id ?? null);
+    const selectedMemory = (0, import_react31.useMemo)(
       () => memories.find((memory) => memory.id === selectedId) ?? null,
       [memories, selectedId]
     );
@@ -33310,7 +33451,7 @@
     }
     function addReplyToComment(comments, parentId, newReply) {
       return comments.map((comment) => {
-        if (comment.id === parentId) {
+        if (String(comment.id) === String(parentId)) {
           return {
             ...comment,
             replies: [...comment.replies || [], newReply]
@@ -33325,15 +33466,22 @@
         return comment;
       });
     }
-    function addReply(memoryId, parentId, newReply) {
+    function addReply(parentId, text) {
+      const newReply = {
+        id: Date.now().toString(),
+        author: "Tu",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80",
+        date: "Ora",
+        text,
+        likesCount: 0,
+        parentId,
+        replies: []
+      };
       setMemories(
-        (prev) => prev.map((memory) => {
-          if (memory.id !== memoryId) return memory;
-          return {
-            ...memory,
-            comments: addReplyToComment(memory.comments, parentId, newReply)
-          };
-        })
+        (prev) => prev.map((memory) => ({
+          ...memory,
+          comments: addReplyToComment(memory.comments || [], parentId, newReply)
+        }))
       );
     }
     return {
@@ -33343,23 +33491,22 @@
       selectMemory,
       addComment,
       addReply
-      // 👈 Esportiamo la funzione qui!
     };
   }
-  var import_react28;
+  var import_react31;
   var init_useMemories = __esm({
     "src/pages/app/InteractiveTimeline/hooks/useMemories.ts"() {
       "use strict";
-      import_react28 = __toESM(require_react());
+      import_react31 = __toESM(require_react());
       init_memoriesMock();
     }
   });
 
   // src/shared/Post/useComments.ts
   function useComments(selectedId, onAddComment, onAddReplyToMemory) {
-    const [showComments, setShowComments] = (0, import_react29.useState)(false);
-    const [newCommentText, setNewCommentText] = (0, import_react29.useState)("");
-    (0, import_react29.useEffect)(() => {
+    const [showComments, setShowComments] = (0, import_react32.useState)(false);
+    const [newCommentText, setNewCommentText] = (0, import_react32.useState)("");
+    (0, import_react32.useEffect)(() => {
       setShowComments(false);
       setNewCommentText("");
     }, [selectedId]);
@@ -33407,11 +33554,11 @@
       // 👈 Esportiamo questa funzione!
     };
   }
-  var import_react29;
+  var import_react32;
   var init_useComments = __esm({
     "src/shared/Post/useComments.ts"() {
       "use strict";
-      import_react29 = __toESM(require_react());
+      import_react32 = __toESM(require_react());
       init_content();
     }
   });
@@ -33481,9 +33628,9 @@
   // src/shared/Navbar/Navbar.tsx
   function Navbar(props) {
     const { activeHref, ctaLabel, onCtaClick, avatarUrl, avatarAlt } = props;
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("nav", { className: Navbar_default.nav, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Navbar_default.brand, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("nav", { className: Navbar_default.nav, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: Navbar_default.brand, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
           "img",
           {
             src: Logo_default,
@@ -33491,36 +33638,36 @@
             className: Navbar_default.brandMark
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("span", { className: Navbar_default.brandName, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.brandPrefix, children: NAV_BRAND.namePrefix }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.brandAccent, children: NAV_BRAND.nameAccent })
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("span", { className: Navbar_default.brandName, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: Navbar_default.brandPrefix, children: NAV_BRAND.namePrefix }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: Navbar_default.brandAccent, children: NAV_BRAND.nameAccent })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: Navbar_default.links, children: NAV_ITEMS.map((item) => {
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: Navbar_default.links, children: NAV_ITEMS.map((item) => {
         const isActive = item.href === activeHref;
-        return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("a", { href: item.href, className: isActive ? Navbar_default.linkActive : Navbar_default.link, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.linkIcon, children: item.icon }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { children: item.label })
+        return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("a", { href: item.href, className: isActive ? Navbar_default.linkActive : Navbar_default.link, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: Navbar_default.linkIcon, children: item.icon }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: item.label })
         ] }, item.href);
       }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: Navbar_default.actions, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("button", { type: "button", onClick: onCtaClick, className: Navbar_default.cta, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: Navbar_default.ctaPlus, children: "+" }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: Navbar_default.actions, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("button", { type: "button", onClick: onCtaClick, className: Navbar_default.cta, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: Navbar_default.ctaPlus, children: "+" }),
           " ",
           ctaLabel
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("img", { src: avatarUrl, alt: avatarAlt, className: Navbar_default.avatar })
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("img", { src: avatarUrl, alt: avatarAlt, className: Navbar_default.avatar })
       ] })
     ] });
   }
-  var import_jsx_runtime15;
+  var import_jsx_runtime18;
   var init_Navbar2 = __esm({
     "src/shared/Navbar/Navbar.tsx"() {
       "use strict";
       init_NavConfig();
       init_Navbar();
       init_Logo();
-      import_jsx_runtime15 = __toESM(require_jsx_runtime());
+      import_jsx_runtime18 = __toESM(require_jsx_runtime());
     }
   });
 
@@ -33528,17 +33675,17 @@
   function MemoriesPage() {
     const { memories, selectedMemory, selectedId, selectMemory, addComment, addReply } = useMemories();
     const { userReaction, showReactionPicker, floatingEmojis, toggleReaction, toggleReactionPicker } = useReactions(selectedId);
-    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment, submitReply } = useComments(selectedId, addComment, addReply);
+    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment } = useComments(selectedId, addComment, addReply);
     const userAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80";
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: Memoriespage_default.page, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: Memoriespage_default.page, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         AmbientBackground,
         {
           imageKey: selectedMemory?.id ?? "none",
           imageUrl: selectedMemory?.imageUrl
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         Navbar,
         {
           activeHref: "/",
@@ -33549,12 +33696,12 @@
           avatarAlt: "Il tuo profilo"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: Memoriespage_default.content, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: Memoriespage_default.hero, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: Memoriespage_default.heroEyebrow, children: MEMORIES_PAGE_CONTENT.hero.eyebrow }),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h1", { className: Memoriespage_default.heroTitle, children: MEMORIES_PAGE_CONTENT.hero.title })
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: Memoriespage_default.content, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: Memoriespage_default.hero, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { className: Memoriespage_default.heroEyebrow, children: MEMORIES_PAGE_CONTENT.hero.eyebrow }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("h1", { className: Memoriespage_default.heroTitle, children: MEMORIES_PAGE_CONTENT.hero.title })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(CommentsProvider, { onAddReply: addReply, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           MemorySpotlight,
           {
             memory: selectedMemory,
@@ -33568,11 +33715,10 @@
             onToggleComments: toggleComments,
             newCommentText,
             onChangeCommentText: setNewCommentText,
-            onSubmitComment: submitComment,
-            onAddReply: submitReply
+            onSubmitComment: submitComment
           }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           MemoryFilmstrip,
           {
             memories,
@@ -33583,7 +33729,7 @@
       ] })
     ] });
   }
-  var import_jsx_runtime16;
+  var import_jsx_runtime19;
   var init_MemoriesPage = __esm({
     "src/pages/app/InteractiveTimeline/MemoriesPage.tsx"() {
       "use strict";
@@ -33596,27 +33742,26 @@
       init_content();
       init_Memoriespage();
       init_Navbar2();
-      import_jsx_runtime16 = __toESM(require_jsx_runtime());
-    }
-  });
-
-  // src/styles/global.css
-  var init_global = __esm({
-    "src/styles/global.css"() {
+      init_CommentContext();
+      import_jsx_runtime19 = __toESM(require_jsx_runtime());
     }
   });
 
   // src/pages/app/App.tsx
   var require_App = __commonJS({
     "src/pages/app/App.tsx"() {
+      init_AccessibilityDial2();
+      init_SpeechContext();
       var import_client = __toESM(require_client());
-      init_MemoriesPage();
       init_global();
-      var import_jsx_runtime17 = __toESM(require_jsx_runtime());
+      init_MemoriesPage();
+      var import_jsx_runtime20 = __toESM(require_jsx_runtime());
       var container = document.getElementById("root");
       if (container) {
         const root = (0, import_client.createRoot)(container);
-        root.render(/* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MemoriesPage, {}));
+        root.render(
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(AccessibilityProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(SpeechProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(MemoriesPage, {}) }) })
+        );
       }
     }
   });
@@ -33624,10 +33769,10 @@
 })();
 /*! Bundled license information:
 
-scheduler/cjs/scheduler.development.js:
+react/cjs/react.development.js:
   (**
    * @license React
-   * scheduler.development.js
+   * react.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *
@@ -33635,10 +33780,21 @@ scheduler/cjs/scheduler.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react/cjs/react.development.js:
+react/cjs/react-jsx-runtime.development.js:
   (**
    * @license React
-   * react.development.js
+   * react-jsx-runtime.development.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
+scheduler/cjs/scheduler.development.js:
+  (**
+   * @license React
+   * scheduler.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *
@@ -33661,17 +33817,6 @@ react-dom/cjs/react-dom-client.development.js:
   (**
    * @license React
    * react-dom-client.development.js
-   *
-   * Copyright (c) Meta Platforms, Inc. and affiliates.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *)
-
-react/cjs/react-jsx-runtime.development.js:
-  (**
-   * @license React
-   * react-jsx-runtime.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *

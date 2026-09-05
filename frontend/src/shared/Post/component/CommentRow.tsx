@@ -1,17 +1,18 @@
 // @/shared/Post/CommentRow.tsx
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Comment } from './types';
-import { useReactions } from './useReactions';
-import { ReactionBar } from './component/ReactionBar';
+import type { Comment } from '../types';
+import { useReactions } from '../useReactions';
+import { ReactionBar } from './ReactionBar';
+import { useCommentsContext } from '@/shared/Post/component/CommentContext';
 import styles from './CommentRow.module.css';
 
 interface CommentRowProps {
     comment: Comment;
-    onAddReply: (parentId: string, text: string) => void;
 }
 
-export function CommentRow({ comment, onAddReply }: CommentRowProps) {
+export function CommentRow({ comment }: CommentRowProps) {
+    const { onAddReply } = useCommentsContext();
     const { userReaction, showReactionPicker, toggleReaction, toggleReactionPicker } =
         useReactions(comment.id);
 
@@ -50,7 +51,7 @@ export function CommentRow({ comment, onAddReply }: CommentRowProps) {
                             size="compact"
                             userReaction={userReaction}
                             showReactionPicker={showReactionPicker}
-                            likesCount={comment.likesCount + (userReaction ? 1 : 0)}
+                            likesCount={(comment.likesCount ?? 0) + (userReaction ? 1 : 0)} // 👈 Previene il bug NaN
                             onTogglePicker={toggleReactionPicker}
                             onToggleReaction={toggleReaction}
                         />
@@ -63,13 +64,14 @@ export function CommentRow({ comment, onAddReply }: CommentRowProps) {
                         </button>
                     </div>
 
-                    {/* Form Inline Animato per inviare la risposta */}
+                    {/* Form Inline Animato */}
                     <AnimatePresence>
                         {isReplying && (
                             <motion.form
                                 initial={{ opacity: 0, y: -8, height: 0 }}
                                 animate={{ opacity: 1, y: 0, height: 'auto' }}
                                 exit={{ opacity: 0, y: -8, height: 0 }}
+                                style={{ overflow: 'hidden' }} // 👈 Evita scatti di layout nell'animazione
                                 className={styles.replyForm}
                                 onSubmit={handleReplySubmit}
                             >
@@ -90,7 +92,7 @@ export function CommentRow({ comment, onAddReply }: CommentRowProps) {
                 </div>
             </div>
 
-            {/* Gestione Risposte Nested con Linea Connettore Visiva */}
+            {/* Risposte Nested */}
             {hasReplies && (
                 <div className={styles.repliesWrapper}>
                     <button
@@ -111,11 +113,7 @@ export function CommentRow({ comment, onAddReply }: CommentRowProps) {
                                 className={styles.repliesThread}
                             >
                                 {comment.replies!.map((reply) => (
-                                    <CommentRow
-                                        key={reply.id}
-                                        comment={reply}
-                                        onAddReply={onAddReply}
-                                    />
+                                    <CommentRow key={reply.id} comment={reply} />
                                 ))}
                             </motion.div>
                         )}

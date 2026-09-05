@@ -7,18 +7,19 @@ import { useComments } from '@/shared/Post/useComments';
 import { MEMORIES_PAGE_CONTENT } from './content';
 import styles from './Memoriespage.module.css';
 import { Navbar } from '@/shared/Navbar/Navbar';
+import { CommentsProvider } from '@/shared/Post/component/CommentContext';
 
 export default function MemoriesPage() {
-    const { memories, selectedMemory, selectedId, selectMemory, addComment, addReply} = useMemories();
+    // 1. Prendi addReply direttamente da useMemories
+    const { memories, selectedMemory, selectedId, selectMemory, addComment, addReply } = useMemories();
 
     const { userReaction, showReactionPicker, floatingEmojis, toggleReaction, toggleReactionPicker } =
         useReactions(selectedId);
 
-    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment,submitReply } =
+    // 2. Rimosso submitReply da useComments per evitare confusione
+    const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment } =
         useComments(selectedId, addComment, addReply);
 
-
-    // TODO: sostituire con l'avatar reale dell'utente loggato, quando il sistema auth sarà collegato
     const userAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
 
     return (
@@ -31,7 +32,7 @@ export default function MemoriesPage() {
             <Navbar
                 activeHref="/"
                 ctaLabel="Aggiungi Ricordo"
-                onCtaClick={() => {/* apri modale creazione */}}
+                onCtaClick={() => {}}
                 avatarUrl={userAvatarUrl}
                 avatarAlt="Il tuo profilo"
             />
@@ -42,21 +43,23 @@ export default function MemoriesPage() {
                     <h1 className={styles.heroTitle}>{MEMORIES_PAGE_CONTENT.hero.title}</h1>
                 </div>
 
-                <MemorySpotlight
-                    memory={selectedMemory}
-                    floatingEmojis={floatingEmojis}
-                    onClose={() => selectMemory(null)}
-                    userReaction={userReaction}
-                    showReactionPicker={showReactionPicker}
-                    onTogglePicker={toggleReactionPicker}
-                    onToggleReaction={toggleReaction}
-                    showComments={showComments}
-                    onToggleComments={toggleComments}
-                    newCommentText={newCommentText}
-                    onChangeCommentText={setNewCommentText}
-                    onSubmitComment={submitComment}
-                    onAddReply={submitReply}
-                />
+                {/* 3. Passa addReply (quella di useMemories) a CommentsProvider */}
+                <CommentsProvider onAddReply={addReply}>
+                    <MemorySpotlight
+                        memory={selectedMemory}
+                        floatingEmojis={floatingEmojis}
+                        onClose={() => selectMemory(null)}
+                        userReaction={userReaction}
+                        showReactionPicker={showReactionPicker}
+                        onTogglePicker={toggleReactionPicker}
+                        onToggleReaction={toggleReaction}
+                        showComments={showComments}
+                        onToggleComments={toggleComments}
+                        newCommentText={newCommentText}
+                        onChangeCommentText={setNewCommentText}
+                        onSubmitComment={submitComment}
+                    />
+                </CommentsProvider>
 
                 <MemoryFilmstrip
                     memories={memories}

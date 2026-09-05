@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+// @/shared/Post/component/CommentSection.tsx (o il percorso del tuo file CommentSection)
+import { useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Comment } from '@/shared/Post/types';
 import { MEMORIES_PAGE_CONTENT } from '../content';
-import { CommentRow } from '@/shared/Post/CommentRow';
+import { CommentRow } from '@/shared/Post/component/CommentRow';
 import styles from './Comment.module.css';
 
 const { inputPlaceholder, submitLabel } = MEMORIES_PAGE_CONTENT.comments;
@@ -14,23 +15,50 @@ interface CommentSectionProps {
     newCommentText: string;
     onChangeText: (text: string) => void;
     onSubmit: (e: React.FormEvent) => void;
-    onAddReply: (parentId: string, text: string) => void; // 👈 1. Dichiarata la callback per le risposte
+}
+
+// Helper per contare ricorsivamente commenti + risposte
+function countTotalComments(comments: Comment[] = []): number {
+    return comments.reduce(
+        (acc, comment) => acc + 1 + (comment.replies ? countTotalComments(comment.replies) : 0),
+        0
+    );
 }
 
 export function CommentSection({
                                    isOpen,
                                    onClose,
-                                   comments,
+                                   comments = [],
                                    newCommentText,
                                    onChangeText,
                                    onSubmit,
-                                   onAddReply, // 👈 2. Ricevuta nelle props
                                }: CommentSectionProps) {
     const listRef = useRef<HTMLDivElement>(null);
 
+    // Conteggio totale per l'intestazione "X Commenti"
+    const totalCommentsCount = useMemo(() => countTotalComments(comments), [comments]);
+
+    // Tracciamo lo stato precedente di apertura e il numero di commenti principali
+    const prevIsOpenRef = useRef(isOpen);
+    const prevCommentsLengthRef = useRef(comments.length);
+
     useEffect(() => {
         if (!isOpen || !listRef.current) return;
-        listRef.current.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
+
+        const isJustOpened = isOpen && !prevIsOpenRef.current;
+        const hasNewTopLevelComment = comments.length > prevCommentsLengthRef.current;
+
+        // Scrolla in fondo SOLO se la modale si è appena aperta
+        // OPPURE se è stato creato un nuovo commento di primo livello dal form in basso
+        if (isJustOpened || hasNewTopLevelComment) {
+            listRef.current.scrollTo({
+                top: listRef.current.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
+
+        prevIsOpenRef.current = isOpen;
+        prevCommentsLengthRef.current = comments.length;
     }, [isOpen, comments.length]);
 
     return (
@@ -47,7 +75,9 @@ export function CommentSection({
                         <button type="button" onClick={onClose} className={styles.backButton} aria-label="Torna al post">
                             ←
                         </button>
-                        <h4 className={styles.headerTitle}>{comments.length} Commenti</h4>
+                        <h4 className={styles.headerTitle}>
+                            {totalCommentsCount} {totalCommentsCount === 1 ? 'Commento' : 'Commenti'}
+                        </h4>
                     </div>
 
                     <div ref={listRef} className={styles.list}>
@@ -55,7 +85,6 @@ export function CommentSection({
                             <CommentRow
                                 key={comment.id}
                                 comment={comment}
-                                onAddReply={onAddReply} // 👈 3. Inoltrata al singolo CommentRow
                             />
                         ))}
                     </div>

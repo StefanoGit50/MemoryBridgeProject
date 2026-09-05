@@ -21,7 +21,6 @@ interface CommentsState {
     newCommentText: string;
     onChangeText: (text: string) => void;
     onSubmit: (e: React.FormEvent) => void;
-    onAddReply?: (parentId: string, text: string) => void; // 👈 1. Aggiunta la prop facoltativa
 }
 
 interface MemoryDetailsPanelProps {
@@ -31,6 +30,14 @@ interface MemoryDetailsPanelProps {
     comments: CommentsState;
 }
 
+// Helper per contare ricorsivamente commenti + risposte
+function countTotalComments(comments: Comment[]): number {
+    return comments.reduce(
+        (acc, comment) => acc + 1 + (comment.replies ? countTotalComments(comment.replies) : 0),
+        0
+    );
+}
+
 export function MemoryDetailsPanel({
                                        memory,
                                        onClose,
@@ -38,6 +45,8 @@ export function MemoryDetailsPanel({
                                        comments,
                                    }: MemoryDetailsPanelProps) {
     const totalLikes = memory.likesCount + (reactionBar.userReaction ? 1 : 0);
+    // Calcolo del totale reale comprensivo di tutte le risposte ricorsive
+    const totalCommentsCount = countTotalComments(memory.comments || []);
 
     return (
         <motion.div
@@ -100,7 +109,8 @@ export function MemoryDetailsPanel({
                             comments.showComments ? styles.commentsToggleActive : ''
                         }`}
                     >
-                        💬 {memory.comments.length} {toggleAriaLabel}
+                        {/* 👈 Utilizzato totalCommentsCount al posto di memory.comments.length */}
+                        💬 {totalCommentsCount} {toggleAriaLabel}
                     </button>
                 </div>
 
@@ -111,7 +121,6 @@ export function MemoryDetailsPanel({
                     newCommentText={comments.newCommentText}
                     onChangeText={comments.onChangeText}
                     onSubmit={comments.onSubmit}
-                    onAddReply={comments.onAddReply ?? (() => {})} // 👈 2. Passata a CommentSection
                 />
             </div>
         </motion.div>

@@ -3,9 +3,10 @@ import { useHomeFeed } from './hooks/useHomeFeed';
 import { MemoryFeed } from './Section/MemoryFeed';
 import { AccessibilityDial } from "@/shared/Accessibility/AccessibilityDial";
 import styles from './HomePage.module.css';
+import {CommentsProvider} from "@/shared/Post/component/CommentContext";
 
 export default function HomePage() {
-    const { posts, addComment } = useHomeFeed();
+    const { posts, addComment ,addReply} = useHomeFeed();
     const userAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
 
     const handleOpenChat = () => {
@@ -14,21 +15,23 @@ export default function HomePage() {
     };
 
     return (
-        <div className={styles.page}>
-            <Navbar
-                activeHref="/"
-                ctaLabel="Nuovo Ricordo"
-                onCtaClick={() => {/* apre il box di creazione */}}
-                avatarUrl={userAvatarUrl}
-                avatarAlt="Il tuo profilo"
-            />
+        <CommentsProvider onAddReply={addReply}>
+            <div className={styles.page}>
+                <Navbar
+                    activeHref="/"
+                    ctaLabel="Nuovo Ricordo"
+                    onCtaClick={() => {/* apre il box di creazione */}}
+                    avatarUrl={userAvatarUrl}
+                    avatarAlt="Il tuo profilo"
+                />
 
-            <main className={styles.main}>
-                <MemoryFeed posts={posts} onAddComment={addComment} />
-            </main>
+                <main className={styles.main}>
+                    <MemoryFeed posts={posts} onAddComment={addComment} />
+                </main>
 
-            {/* Menu accessibilità flottante */}
-            <AccessibilityDial onOpenChat={handleOpenChat} />
-        </div>
+                {/* Menu accessibilità flottante */}
+                <AccessibilityDial onOpenChat={handleOpenChat} />
+            </div>
+        </CommentsProvider>
     );
 }

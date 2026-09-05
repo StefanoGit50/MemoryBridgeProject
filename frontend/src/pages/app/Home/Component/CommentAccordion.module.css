@@ -1,7 +1,10 @@
 .wrapper {
-    overflow: hidden;
     margin-top: 1.25rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--color-border);
-    max-height: 320px;
+
+    /* Rimossi max-height e overflow: hidden */
+    height: auto;
+    max-height: none;
+    overflow: visible;
 }
