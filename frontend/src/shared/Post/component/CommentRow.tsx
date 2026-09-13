@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Comment } from '../types';
-import { useReactions } from '../useReactions';
+import { useReactions } from '../hook/useReactions';
 import { ReactionBar } from './ReactionBar';
 import { useCommentsContext } from '@/shared/Post/component/CommentContext';
 import styles from './CommentRow.module.css';

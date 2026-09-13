@@ -1,6 +1,6 @@
 .section {
-    background: linear-gradient(135deg, var(--color-primary-tint) 0%, #eef2ff 100%);
-    border: 2px solid var(--color-accent-purple);
+    background: linear-gradient(135deg, #fff7ed 0%, #fff1e0 100%);
+    border: 2px solid #ffcc80;
     border-radius: var(--radius-xl);
     padding: 16px 20px;
     margin-bottom: 20px;
@@ -21,8 +21,8 @@
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    border: 2px solid var(--color-accent-purple);
-    box-shadow: 0 2px 6px rgba(139, 92, 246, 0.35);
+    border: 2px solid #ffb74d;
+    box-shadow: 0 2px 6px rgba(255, 140, 0, 0.25);
 }
 
 :global(.high-contrast) .avatar {
@@ -43,7 +43,7 @@
 .label {
     font-size: 0.875rem;
     font-weight: bold;
-    color: var(--color-accent-purple);
+    color: #c2680a;
 }
 
 :global(.high-contrast) .label {
@@ -53,8 +53,8 @@
 .badge {
     font-size: 0.625rem;
     font-weight: bold;
-    background-color: #ede9fe;
-    color: #6d28d9;
+    background-color: #fff1de;
+    color: #b35c00;
     padding: 1px 6px;
     border-radius: var(--radius-sm);
     letter-spacing: 0.5px;
@@ -74,7 +74,7 @@
 .button {
     padding: 10px 18px;
     min-height: 44px;
-    background-color: var(--color-accent-purple);
+    background-color: #ff9f1c;
     color: #ffffff;
     border: none;
     border-radius: var(--radius-md);

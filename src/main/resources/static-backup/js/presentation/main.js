@@ -32488,9 +32488,9 @@
     }
   });
 
-  // src/styles/tokens.css
-  var init_tokens = __esm({
-    "src/styles/tokens.css"() {
+  // src/styles/global.css
+  var init_global = __esm({
+    "src/styles/global.css"() {
     }
   });
 
@@ -32499,7 +32499,7 @@
     "src/pages/presentation/main.tsx"() {
       var import_client = __toESM(require_client());
       init_Presentazione2();
-      init_tokens();
+      init_global();
       var import_jsx_runtime11 = __toESM(require_jsx_runtime());
       var container = document.getElementById("root");
       if (container) {

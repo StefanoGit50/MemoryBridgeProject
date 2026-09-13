@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { MemoryItem, Comment } from '@/shared/Post/types';
-import { useReactions } from '@/shared/Post/useReactions';
+import { useReactions } from '@/shared/Post/hook/useReactions';
 import { ReactionBar } from '@/shared/Post/component/ReactionBar';
 import { SpeechButton } from "@/shared/Accessibility/SpeechButton";
 import { CommentAccordion } from './CommentAccordion';

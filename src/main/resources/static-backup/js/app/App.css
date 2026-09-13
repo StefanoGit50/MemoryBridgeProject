@@ -1,93 +1,321 @@
-/* src/pages/app/InteractiveTimeline/components/AmbientBackground.module.css */
-.AmbientBackground_backdrop {
+/* src/shared/Accessibility/AccessibilityDial.module.css */
+.AccessibilityDial_wrapper {
   position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(14px) brightness(0.85);
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.28s ease;
+}
+.AccessibilityDial_wrapper.AccessibilityDial_dismissed {
+  opacity: 0.2;
+}
+.AccessibilityDial_welcomeBubble {
+  position: absolute;
+  bottom: 76px;
+  right: 0px;
+  background-color: #ffffff;
+  color: #0f172a;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e2e8f0;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.AccessibilityDial_tooltip {
+  position: absolute;
+  bottom: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+}
+.AccessibilityDial_dismissButton {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  z-index: 10;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.AccessibilityDial_iconWrapper {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.3);
+}
+.AccessibilityDial_iconWrapper.AccessibilityDial_open {
+  pointer-events: auto;
+  opacity: 1;
+  transform: scale(1);
+}
+.AccessibilityDial_contrastWrapper {
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.AccessibilityDial_contrastWrapper.AccessibilityDial_open {
+  bottom: 92px;
+  right: 8px;
+}
+.AccessibilityDial_fontWrapper {
+  transition: all 0.30s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.AccessibilityDial_fontWrapper.AccessibilityDial_open {
+  bottom: 68px;
+  right: 68px;
+}
+.AccessibilityDial_chatWrapper {
+  transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.AccessibilityDial_chatWrapper.AccessibilityDial_open {
+  bottom: 8px;
+  right: 92px;
+}
+.AccessibilityDial_circleButton {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.AccessibilityDial_circleButton.AccessibilityDial_contrastActive {
+  background-color: #ffff00;
+  color: #000000;
+}
+.AccessibilityDial_circleButton.AccessibilityDial_fontActive {
+  background-color: #f97316;
+  color: #ffffff;
+}
+.AccessibilityDial_mainButton {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  background-color: #ffffff;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border 0.2s ease, transform 0.2s ease;
+  transform: scale(1);
+}
+.AccessibilityDial_mainButton.AccessibilityDial_open {
+  border-color: #f97316;
   transform: scale(1.05);
 }
-.AmbientBackground_veil {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(248, 250, 252, 0.65) 0%,
-      rgba(248, 250, 252, 0.82) 100%);
-  pointer-events: none;
-}
-.AmbientBackground_fallback {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-color: var(--color-bg-muted);
-}
-
-/* src/pages/app/InteractiveTimeline/components/MemoryPhotoPanel.module.css */
-.MemoryPhotoPanel_wrapper {
-  position: relative;
-  background-color: var(--color-bg-surface-translucent-strong);
-  padding: 0.5rem;
-  backdrop-filter: blur(20px);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding-top: 2rem;
-  height: 100%;
-}
-.MemoryPhotoPanel_photoFrame {
-  position: relative;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  height: 750px;
-  background-color: var(--color-bg-image-fallback);
-}
-.MemoryPhotoPanel_photo {
+.AccessibilityDial_mainImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  display: block;
-}
-.MemoryPhotoPanel_badgeRow {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  display: flex;
-  gap: 0.6rem;
-  align-items: center;
-}
-.MemoryPhotoPanel_yearBadge {
-  background-color: var(--color-primary);
-  color: var(--color-bg-surface);
-  font-weight: 800;
-  font-size: 0.85rem;
-  padding: 0.45rem 1rem;
-  border-radius: var(--radius-pill);
-  box-shadow: 0 4px 15px var(--color-primary-shadow-soft);
-}
-.MemoryPhotoPanel_catalogBadge {
-  background-color: rgba(15, 23, 42, 0.65);
-  color: var(--color-bg-surface);
-  font-weight: 600;
-  font-size: 0.75rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: var(--radius-pill);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-.MemoryPhotoPanel_floatingEmoji {
-  position: absolute;
-  top: 0;
-  font-size: 2.8rem;
-  pointer-events: none;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
-/* src/pages/app/InteractiveTimeline/components/ReactionBar.module.css */
+/* src/shared/Accessibility/SpeechButton.module.css */
+.SpeechButton_button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  min-height: 40px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #2563eb;
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+.SpeechButton_button.SpeechButton_highContrast {
+  border-color: #ffff00;
+  background-color: #ffff00;
+  color: #000000;
+}
+.SpeechButton_button.SpeechButton_speaking {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+/* src/shared/Navbar/Navbar.module.css */
+.Navbar_nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-bg-surface-translucent-strong);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0.6rem 2.5rem;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Inter,
+    sans-serif;
+}
+.Navbar_brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+}
+.Navbar_brandMark {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+.Navbar_brandName {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Inter,
+    sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+.Navbar_brandPrefix {
+  color: #78716c;
+}
+.Navbar_brandAccent {
+  color: #4378EE;
+}
+.Navbar_links {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  margin-top: 6px;
+}
+.Navbar_link,
+.Navbar_linkActive {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin-top: 6px;
+}
+.Navbar_link {
+  color: var(--color-text-body);
+  font-weight: 100;
+}
+.Navbar_linkActive {
+  color: #4378EE;
+  font-weight: 600;
+}
+.Navbar_linkIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+.Navbar_actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.Navbar_cta {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+.Navbar_ctaPlus {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.Navbar_avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #3b82f6;
+  cursor: pointer;
+  object-fit: cover;
+}
+html.high-contrast .Navbar_nav {
+  background-color: #000000 !important;
+  border-bottom: 2px solid #ffffff !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+html.high-contrast .Navbar_brandPrefix,
+html.high-contrast .Navbar_link {
+  color: #ffffff !important;
+}
+html.high-contrast .Navbar_brandAccent,
+html.high-contrast .Navbar_linkActive {
+  color: #ffff00 !important;
+}
+html.high-contrast .Navbar_cta {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 2px solid #ffff00 !important;
+}
+html.high-contrast .Navbar_avatar {
+  border-color: #ffff00 !important;
+}
+
+/* src/shared/Post/component/ReactionBar.module.css */
 .ReactionBar_wrapper {
   position: relative;
   display: flex;
@@ -142,97 +370,186 @@
   color: var(--color-text-subtle);
   font-weight: 600;
 }
+.ReactionBar_wrapper button,
+.ReactionBar_actions button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+}
 
-/* src/pages/app/InteractiveTimeline/components/Comment.module.css */
-.Comment_overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 15;
-  background-color: var(--color-bg-surface);
+/* src/shared/Post/component/CommentRow.module.css */
+.CommentRow_container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
 }
-.Comment_header {
+.CommentRow_container:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.CommentRow_row {
   display: flex;
-  align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--color-border);
-  flex-shrink: 0;
+  align-items: flex-start;
+  background-color: var(--color-bg-muted, #f8fafc);
+  border-radius: 14px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--color-border-soft, #f1f5f9);
 }
-.Comment_backButton {
-  background: var(--color-bg-muted);
-  border: none;
-  color: var(--color-text-heading);
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-.Comment_headerTitle {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-text-heading);
-}
-.Comment_list {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1.25rem;
-}
-.Comment_commentRow {
-  display: flex;
-  gap: 0.7rem;
-}
-.Comment_avatar {
+.CommentRow_avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
 }
-.Comment_bubble {
-  background-color: var(--color-bg-muted);
-  border-radius: 10px;
-  padding: 0.6rem 0.9rem;
+.CommentRow_body {
   flex: 1;
-  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
-.Comment_bubbleHeader {
+.CommentRow_header {
   display: flex;
   justify-content: space-between;
-  font-size: 0.78rem;
-  margin-bottom: 0.15rem;
+  align-items: center;
+  margin-bottom: 0.2rem;
 }
-.Comment_author {
-  font-weight: 700;
-  color: var(--color-text-heading);
+.CommentRow_author {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-text-heading, #1e293b);
 }
-.Comment_date {
-  color: var(--color-text-faint);
+.CommentRow_date {
+  font-size: 0.75rem;
+  color: var(--color-text-faint, #94a3b8);
 }
-.Comment_text {
+.CommentRow_text {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--color-text-body);
-  line-height: 1.5;
+  color: var(--color-text-body, #334155);
+  line-height: 1.4;
 }
-.Comment_form {
+.CommentRow_actionsBar {
   display: flex;
-  gap: 0.4rem;
   align-items: center;
-  border-top: 1px solid var(--color-border);
-  padding: 1rem 1.25rem;
+  gap: 1rem;
+  padding-left: 0.5rem;
+  margin-top: 0.35rem;
 }
-.Comment_input {
+.CommentRow_replyButton {
+  background: transparent;
+  border: none;
+  color: var(--color-text-subtle, #4a5568);
+  font-size: 0.75rem;
+  font-weight: 740;
+  -webkit-text-stroke: 0.10px currentColor;
+  cursor: pointer;
+  padding: 0;
+}
+.CommentRow_replyButton:hover {
+  color: var(--color-primary, #4378EE);
+}
+.CommentRow_replyForm {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+.CommentRow_replyInput {
+  flex: 1;
+  background: var(--color-bg-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 18px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+  outline: none;
+  color: var(--color-text-body);
+}
+.CommentRow_replyInput:focus {
+  border-color: var(--color-primary, #4378EE);
+}
+.CommentRow_replySubmit {
+  background: var(--color-primary, #4378EE);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.CommentRow_repliesWrapper {
+  margin-left: 1.5rem;
+  padding-left: 0.8rem;
+  border-left: 1px solid var(--color-border, #e2e8f0);
+  margin-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.CommentRow_repliesThread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.CommentRow_toggleRepliesBtn {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--color-text-subtle, #64748b);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.CommentRow_toggleRepliesBtn:hover {
+  color: var(--color-primary, #4378EE);
+  text-decoration: underline;
+}
+.CommentRow_lineConnector {
+  display: inline-block;
+  width: 12px;
+  height: 1px;
+  background-color: var(--color-border, #e2e8f0);
+}
+
+/* src/shared/Post/component/CommentThread.module.css */
+.CommentThread_thread {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+.CommentThread_list {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.CommentThread_form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  background-color: var(--color-bg-surface, #ffffff);
+  width: 100%;
+}
+.CommentThread_input {
   flex: 1;
   background-color: var(--color-bg-muted);
   border: 1px solid var(--color-border);
@@ -242,7 +559,7 @@
   color: var(--color-text-heading);
   outline: none;
 }
-.Comment_submitButton {
+.CommentThread_submitButton {
   background: transparent;
   border: none;
   color: var(--color-primary);
@@ -252,374 +569,1101 @@
   padding: 0.5rem 0.4rem;
 }
 
-/* src/pages/app/InteractiveTimeline/components/MemoryDetailsPanel.module.css */
-.MemoryDetailsPanel_wrapper {
-  background-color: var(--color-bg-surface-translucent);
-  padding: 2.5rem;
-  backdrop-filter: blur(20px);
-  border-left: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-  min-height: 750px;
-  justify-content: space-between;
+/* src/pages/app/Home/Component/CommentAccordion.module.css */
+.CommentAccordion_wrapper {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  height: auto;
+  max-height: none;
+  overflow: visible;
 }
-.MemoryDetailsPanel_authorRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-.MemoryDetailsPanel_authorInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-}
-.MemoryDetailsPanel_authorAvatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--color-bg-surface);
+
+/* src/pages/app/Home/Component/PostCard.module.css */
+.PostCard_card {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
   box-shadow: var(--shadow-sm);
 }
-.MemoryDetailsPanel_authorName {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--color-text-heading);
-}
-.MemoryDetailsPanel_publishedDate {
-  font-size: 0.78rem;
-  color: var(--color-text-subtle);
-}
-.MemoryDetailsPanel_closeButton {
-  background: rgba(241, 245, 249, 0.9);
-  border: none;
-  color: var(--color-text-subtle);
-  width: 34px;
-  height: 34px;
+.PostCard_authorAvatar {
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  cursor: pointer;
-  font-weight: bold;
+  background-color: var(--color-bg-muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 1.75rem;
+  border: 2px solid var(--color-primary);
 }
-.MemoryDetailsPanel_divider {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: 0 0 1.75rem 0;
-}
-.MemoryDetailsPanel_eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  font-weight: 800;
-}
-.MemoryDetailsPanel_title {
-  font-size: 2.1rem;
+.PostCard_authorName {
+  margin: 0;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-text-heading);
-  margin: 0.4rem 0 1.25rem 0;
-  line-height: 1.2;
-  font-family: var(--font-family-serif);
 }
-.MemoryDetailsPanel_story {
-  font-size: 1.1rem;
-  line-height: 1.85;
-  color: var(--color-text-body);
+.PostCard_meta {
   margin: 0;
-  font-family: var(--font-family-serif);
+  font-size: 0.8rem;
+  color: var(--color-text-faint);
 }
-.MemoryDetailsPanel_interactionRow {
+.PostCard_body {
+  margin-bottom: 1rem;
+}
+.PostCard_story {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  margin: 0 0 0.75rem 0;
+}
+.PostCard_speechButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  background-color: var(--color-primary-tint);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.PostCard_speechButtonActive {
+  background-color: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+.PostCard_photoFrame {
   position: relative;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid var(--color-border);
+}
+.PostCard_photo {
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+.PostCard_footer {
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+}
+.PostCard_actionsRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.MemoryDetailsPanel_commentsToggle {
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border-strong);
-  color: var(--color-text-muted);
-  padding: 0.55rem 1.2rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
+.PostCard_commentsToggle {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: var(--radius-md);
-}
-.MemoryDetailsPanel_commentsToggleActive {
-  background: var(--color-border-soft);
-}
-
-/* src/pages/app/InteractiveTimeline/sections/MemorySpotlight.module.css */
-.MemorySpotlight_grid {
-  display: grid;
-  grid-template-columns: 2.6fr 1fr;
-  gap: 0;
-  align-items: stretch;
-  margin-bottom: 3.5rem;
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-}
-
-/* src/pages/app/InteractiveTimeline/components/FilmstripCard.module.css */
-.FilmstripCard_card {
-  min-width: 340px;
-  max-width: 340px;
-  flex-shrink: 0;
-  background-color: var(--color-bg-surface);
-  border-radius: var(--radius-xl);
-  padding: 14px;
-  cursor: pointer;
-  box-shadow: var(--shadow-md);
-  border: 2px solid transparent;
-  transition: all 0.2s ease;
-}
-.FilmstripCard_cardSelected {
-  border-color: var(--color-primary);
-}
-.FilmstripCard_photoWrapper {
-  position: relative;
-  height: 240px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background-color: var(--color-bg-filmstrip-image-fallback);
-}
-.FilmstripCard_photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.FilmstripCard_yearBadge {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: var(--color-primary);
-  color: var(--color-bg-surface);
-  font-weight: 700;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.7rem;
-  border-radius: var(--radius-md);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-.FilmstripCard_caption {
-  padding: 8px 2px 2px 2px;
-}
-.FilmstripCard_title {
-  font-size: 0.9rem;
-  font-weight: 700;
+  min-height: 46px;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  background-color: transparent;
   color: var(--color-text-heading);
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 700;
+  cursor: pointer;
 }
-
-/* src/pages/app/InteractiveTimeline/sections/MemoryFilmstrip.module.css */
-.MemoryFilmstrip_section {
-  width: 100%;
-  margin-top: 3rem;
+.PostCard_header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
 }
-.MemoryFilmstrip_heading {
-  font-size: 0.96rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #4F77E6;
-  font-weight: 1000;
-  margin-bottom: 1rem;
-  font-family: inherit;
-}
-.MemoryFilmstrip_rail {
-  position: relative;
+.PostCard_headerMain {
   display: flex;
   align-items: center;
-  width: 100%;
+  gap: 14px;
 }
-.MemoryFilmstrip_track {
+.PostCard_authorAvatar {
+  border: 2px solid var(--color-primary);
+}
+.PostCard_authorName {
+  margin: 0;
+  font-size: 1.125rem;
+}
+.PostCard_relationBadge {
+  flex-shrink: 0;
+  background-color: #dbeafe;
+  color: #1e40af;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.high-contrast .PostCard_relationBadge {
+  background-color: #ffff00;
+  color: #000000;
+}
+.PostCard_withLine {
+  margin: 2px 0 0 0;
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+}
+.PostCard_spouseName {
+  color: var(--color-primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+.PostCard_meta {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+/* src/pages/app/Home/Section/MemoryFeed.module.css */
+.MemoryFeed_feed {
   display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  overflow-x: auto;
-  padding: 1rem 0.5rem;
-  width: 100%;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
-.MemoryFilmstrip_track::-webkit-scrollbar {
-  display: none;
+
+/* src/pages/app/Home/HomePage.module.css */
+.HomePage_page {
+  min-height: 100vh;
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-heading);
+  font-family: var(--font-family-base);
 }
-.MemoryFilmstrip_arrowButton {
-  position: absolute;
-  z-index: 20;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.HomePage_main {
+  max-width: 720px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* src/shared/Iris/IrisDailySuggestion.module.css */
+.IrisDailySuggestion_section {
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-primary-tint) 0%,
+      #eef2ff 100%);
+  border: 2px solid var(--color-accent-purple);
+  border-radius: var(--radius-xl);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.high-contrast .IrisDailySuggestion_section {
+  background: #000000;
+  border-color: #ffff00;
+}
+.IrisDailySuggestion_avatar {
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--color-accent-purple);
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.35);
+}
+.high-contrast .IrisDailySuggestion_avatar {
+  border-color: #ffff00;
+}
+.IrisDailySuggestion_textWrap {
+  flex: 1;
+  min-width: 240px;
+}
+.IrisDailySuggestion_labelRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.IrisDailySuggestion_label {
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: var(--color-accent-purple);
+}
+.high-contrast .IrisDailySuggestion_label {
+  color: #ffff00;
+}
+.IrisDailySuggestion_badge {
+  font-size: 0.625rem;
+  font-weight: bold;
+  background-color: #ede9fe;
+  color: #6d28d9;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.5px;
+}
+.high-contrast .IrisDailySuggestion_badge {
+  background-color: #ffff00;
+  color: #000000;
+}
+.IrisDailySuggestion_quote {
+  margin: 4px 0 0 0;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.IrisDailySuggestion_button {
+  padding: 10px 18px;
+  min-height: 44px;
+  background-color: var(--color-accent-purple);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.high-contrast .IrisDailySuggestion_button {
+  background-color: #ffff00;
+  color: #000000;
+}
+
+/* src/pages/app/Home/Component/Creatememoryscreen.module.css */
+.Creatememoryscreen_modalOverlay {
+  position: fixed;
+  top: 83px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.Creatememoryscreen_fullPageLayout {
+  width: 90vw;
+  height: 85vh;
+  max-width: 1600px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  overflow: hidden;
+}
+.Creatememoryscreen_topHeader {
+  height: 64px;
+  padding: 0 32px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  flex-shrink: 0;
+  border-radius: 24px 24px 0 0;
+}
+.Creatememoryscreen_stepIndicator {
+  font-size: 15px;
+}
+.Creatememoryscreen_stepLabel {
+  color: #94a3b8;
+  font-weight: 400;
+}
+.Creatememoryscreen_stepLabelActive {
+  color: #0284c7;
+  font-weight: 700;
+}
+.Creatememoryscreen_stepLabelActiveIris {
+  color: #ff8c00;
+  font-weight: 700;
+}
+.Creatememoryscreen_stepSeparator {
+  color: #cbd5e1;
+}
+.Creatememoryscreen_exitBtn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+}
+.Creatememoryscreen_bodyContainer {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+.Creatememoryscreen_step1CenterBox {
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Creatememoryscreen_titleText {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2563eb;
+  text-align: center;
+  margin-bottom: 40px;
+  font-family: serif, system-ui;
+}
+.Creatememoryscreen_iconGroup {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 36px;
+}
+.Creatememoryscreen_optionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.Creatememoryscreen_roundIconBtn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1.2rem;
+}
+.Creatememoryscreen_roundIconBtnAudio {
+  background-color: #4db6ac;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.Creatememoryscreen_roundIconBtnVideo {
+  background-color: #e91e63;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.Creatememoryscreen_roundIconBtnImage {
+  background-color: #ffffff;
+  border: 2px solid #2563eb;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.Creatememoryscreen_roundIconBtnSelected {
+  box-shadow: 0 0 0 4px #0284c7;
+}
+.Creatememoryscreen_recBadgeText {
+  background-color: #ffffff;
+  color: #e91e63;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.Creatememoryscreen_iconText {
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+.Creatememoryscreen_iconTextActive {
+  color: #0284c7;
+}
+.Creatememoryscreen_blueLine {
+  width: 90%;
+  border: none;
+  border-top: 2px solid #93c5fd;
+  margin: 0 auto 32px auto;
+}
+.Creatememoryscreen_dynamicSection {
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Creatememoryscreen_actionBoxInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Creatememoryscreen_actionPrompt {
+  font-size: 16px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 14px;
+}
+.Creatememoryscreen_startRecordMicBtn {
+  padding: 16px 36px;
+  border-radius: 30px;
+  border: none;
+  background-color: #4db6ac;
   color: #ffffff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-.MemoryFilmstrip_arrowButton:hover {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: var(--color-primary);
-}
-.MemoryFilmstrip_arrowButtonLeft {
-  left: -20px;
-}
-.MemoryFilmstrip_arrowButtonRight {
-  right: -20px;
-}
-
-/* src/pages/app/InteractiveTimeline/Memoriespage.module.css */
-.Memoriespage_page {
-  position: relative;
-  min-height: 100vh;
-  background-color: var(--color-bg-page);
-  color: var(--color-text-heading);
-  font-family: var(--font-family-base);
-  padding-bottom: 5rem;
-  overflow-x: hidden;
-}
-.Memoriespage_content {
-  position: relative;
-  z-index: 10;
-  max-width: 1800px;
-  margin: 0 auto;
-  padding: 3rem 9rem 0 9rem;
-}
-.Memoriespage_hero {
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
-.Memoriespage_heroEyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  font-weight: 800;
-  display: block;
-  margin-bottom: 0.4rem;
-}
-.Memoriespage_heroTitle {
-  font-size: 2.4rem;
   font-weight: 700;
-  color: var(--color-text-heading);
-  margin: 0;
-  font-family: var(--font-family-base);
+  font-size: 17px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(77, 182, 172, 0.4);
 }
-
-/* src/shared/Navbar/Navbar.module.css */
-.Navbar_nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background-color: var(--color-bg-surface-translucent-strong);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--color-border);
-  padding: 0.85rem 3rem;
+.Creatememoryscreen_voiceRecordContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: #4db6ac;
+  padding: 12px 24px;
+  border-radius: 40px;
+  box-shadow: 0 8px 20px rgba(77, 182, 172, 0.35);
+}
+.Creatememoryscreen_recordingRedDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #ff4d4d;
+  border: 2px solid #ffffff;
+}
+.Creatememoryscreen_timerText {
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  min-width: 50px;
+}
+.Creatememoryscreen_waveformBox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 0 10px;
+}
+.Creatememoryscreen_waveBar {
+  width: 4px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+.Creatememoryscreen_stopRecordBtn {
+  background-color: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.Creatememoryscreen_recordedAudioBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background-color: #e6f4f1;
+  padding: 16px 24px;
+  border-radius: 20px;
+  border: 1px solid #4db6ac;
+}
+.Creatememoryscreen_recordedAudioLabel {
+  color: #0d9488;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+.Creatememoryscreen_audioPlayerStyle {
+  height: 40px;
+  outline: none;
+}
+.Creatememoryscreen_reRecordBtn {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 4px;
+}
+.Creatememoryscreen_blueUploadBtn {
+  display: inline-block;
+  padding: 14px 28px;
+  background-color: #0284c7;
+  color: #ffffff;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+.Creatememoryscreen_selectedFileLabel {
+  color: #0284c7;
+  font-size: 15px;
+  margin-top: 10px;
+}
+.Creatememoryscreen_imagePreview {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 14px;
+}
+.Creatememoryscreen_bottomNextWrapper {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.Creatememoryscreen_blueNextBtn {
+  background-color: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+.Creatememoryscreen_blueNextBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.Creatememoryscreen_step2FullGrid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 48px;
+  width: 100%;
+  max-width: 1300px;
+  height: 100%;
+  max-height: 750px;
+}
+.Creatememoryscreen_previewPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Creatememoryscreen_mediaContainer {
+  width: 100%;
+  height: 100%;
+  max-height: 500px;
+  border-radius: 20px;
+  border: 2px dashed #93c5fd;
+  padding: 16px;
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Creatememoryscreen_fullMediaImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+.Creatememoryscreen_placeholderMediaText {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0284c7;
+}
+.Creatememoryscreen_editorPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+.Creatememoryscreen_leftTitleText {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2563eb;
+  font-family: serif, system-ui;
+  margin-bottom: 8px;
+}
+.Creatememoryscreen_inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.Creatememoryscreen_descriptionInputGroup {
+  flex: 1;
+}
+.Creatememoryscreen_fieldLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  letter-spacing: 0.5px;
+}
+.Creatememoryscreen_textInput {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+}
+.Creatememoryscreen_customPersonInput {
+  margin-top: 8px;
+}
+.Creatememoryscreen_tagCloudRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.Creatememoryscreen_personChip {
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #f1f5f9;
+  color: #334155;
+}
+.Creatememoryscreen_personChipActive {
+  background-color: #0284c7;
+  color: #ffffff;
+}
+.Creatememoryscreen_giganticTextArea {
+  width: 100%;
+  flex: 1;
+  min-height: 180px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  font-size: 16px;
+  line-height: 1.6;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+.Creatememoryscreen_actionFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: var(--shadow-sm);
+  margin-top: auto;
+  padding-top: 16px;
 }
-.Navbar_brandMark {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-}
-.Navbar_brandName {
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-.Navbar_brandPrefix {
-  color: #78716c;
-}
-.Navbar_brandAccent {
-  color: var(--color-primary);
-}
-.Navbar_links {
-  display: flex;
-  gap: 2.5rem;
-  align-items: center;
-}
-.Navbar_link,
-.Navbar_linkActive {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-.Navbar_link {
-  color: var(--color-text-body);
-  font-weight: 500;
-}
-.Navbar_linkActive {
-  color: var(--color-primary);
-  font-weight: 600;
-}
-.Navbar_linkIcon {
-  font-size: 1rem;
-  line-height: 1;
-}
-.Navbar_actions {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-.Navbar_cta {
-  background-color: var(--color-primary);
-  color: var(--color-bg-surface);
+.Creatememoryscreen_grayBackBtn {
+  background-color: #f1f5f9;
+  color: #475569;
   border: none;
-  padding: 0.55rem 1.2rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  padding: 14px 24px;
+  border-radius: 12px;
   font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
+}
+.Creatememoryscreen_orangeIrisNextBtn {
+  background-color: #ff8c00;
+  color: #ffffff;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+}
+.Creatememoryscreen_processingFullWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.Creatememoryscreen_processingIcon {
+  font-size: 70px;
+  margin-bottom: 20px;
+}
+.Creatememoryscreen_processingTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+.Creatememoryscreen_processingSub {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+}
+.Creatememoryscreen_step3LayoutFull {
+  flex: 1;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+.Creatememoryscreen_gridThreeColumns {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 1.0fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+.Creatememoryscreen_columnCard {
+  background-color: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+.Creatememoryscreen_irisColumnCard {
+  border: 2px solid #ffb74d;
+  background-color: #fffcf7;
+}
+.Creatememoryscreen_columnHeader {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  box-shadow: 0 4px 12px var(--color-primary-shadow-soft);
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
 }
-.Navbar_ctaPlus {
-  font-size: 1.1rem;
-  line-height: 1;
+.Creatememoryscreen_columnHeaderTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #2563eb;
+  letter-spacing: 0.5px;
 }
-.Navbar_avatar {
-  width: 38px;
-  height: 38px;
+.Creatememoryscreen_irisColumnHeaderTitle {
+  color: #ff8c00;
+}
+.Creatememoryscreen_columnSubtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 0;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.Creatememoryscreen_postCardOuter {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  flex: 1;
+  min-width: 0;
+}
+.Creatememoryscreen_postHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: #ffffff;
+}
+.Creatememoryscreen_userAvatar {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 2px solid var(--color-primary);
-  cursor: pointer;
+  background-color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.Creatememoryscreen_postAuthorName {
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f172a;
+}
+.Creatememoryscreen_postAuthorLocation {
+  font-size: 13px;
+  color: #0284c7;
+}
+.Creatememoryscreen_postImageContainer {
+  width: 100%;
+  min-height: 220px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px 0;
+}
+.Creatememoryscreen_postImage {
+  width: 100%;
+  height: 100%;
+  max-height: 260px;
   object-fit: cover;
 }
+.Creatememoryscreen_videoPreviewLabel {
+  font-size: 15px;
+  color: #0284c7;
+  font-weight: 600;
+}
+.Creatememoryscreen_noMediaLabel {
+  font-size: 14px;
+  color: #94a3b8;
+}
+.Creatememoryscreen_audioWireframeContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  gap: 24px;
+}
+.Creatememoryscreen_staticWaveformRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  height: 45px;
+}
+.Creatememoryscreen_waveformBarItem {
+  width: 3px;
+  background-color: #1e293b;
+  border-radius: 2px;
+}
+.Creatememoryscreen_playAudioBigBtn {
+  background-color: #0091ff;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 145, 255, 0.3);
+  transition: transform 0.1s ease;
+}
+.Creatememoryscreen_postTagsRow {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0284c7;
+  background-color: #f0f9ff;
+}
+.Creatememoryscreen_postDescriptionArea {
+  padding: 14px 16px;
+  background-color: #ffffff;
+}
+.Creatememoryscreen_postTextContent {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #334155;
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.Creatememoryscreen_postTextPlaceholder {
+  font-size: 13px;
+  color: #94a3b8;
+  font-style: italic;
+  margin: 0;
+}
+.Creatememoryscreen_postFooterBar {
+  display: flex;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid #f1f5f9;
+  background-color: #fafafa;
+}
+.Creatememoryscreen_postFooterIcon {
+  font-size: 18px;
+  cursor: pointer;
+}
+.Creatememoryscreen_bigColumnTextArea {
+  width: 100%;
+  flex: 1;
+  min-height: 320px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 2px solid #3b82f6;
+  font-size: 15px;
+  line-height: 1.6;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.Creatememoryscreen_irisAvatarTitle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ff8c00;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.Creatememoryscreen_irisTipsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.Creatememoryscreen_tipCardStatic {
+  border: 1px solid #fed7aa;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.Creatememoryscreen_tipIcon {
+  font-size: 18px;
+  color: #ff8c00;
+}
+.Creatememoryscreen_tipText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.4;
+}
+.Creatememoryscreen_bottomBarGlobal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+}
+.Creatememoryscreen_publishBtnHuge {
+  background-color: #0099ff;
+  color: #ffffff;
+  border: none;
+  padding: 16px 48px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 153, 255, 0.35);
+}
+.Creatememoryscreen_personSearchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+}
+.Creatememoryscreen_personSearchIcon {
+  font-size: 15px;
+  opacity: 0.5;
+}
+.Creatememoryscreen_personSearchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 14px 0;
+  font-size: 15px;
+  background: transparent;
+}
+.Creatememoryscreen_personSuggestionsDropdown {
+  position: absolute;
+  top: 74px;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  z-index: 20;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 6px;
+}
+.Creatememoryscreen_personResultRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+.Creatememoryscreen_personResultRow:hover {
+  background-color: #eff6ff;
+}
+.Creatememoryscreen_personResultAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.Creatememoryscreen_personResultName {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+.Creatememoryscreen_personResultAdd {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2563eb;
+}
+.Creatememoryscreen_personNoResults {
+  padding: 16px 12px;
+  font-size: 13px;
+  color: #94a3b8;
+  text-align: center;
+}
+.Creatememoryscreen_personChipSelected {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 20px;
+  border: 1px solid #2563eb;
+  background-color: #eff6ff;
+  color: #1e40af;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.Creatememoryscreen_personChipAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #dbeafe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.Creatememoryscreen_personChipRemove {
+  font-size: 11px;
+  opacity: 0.6;
+}
 
-/* src/styles/token2.css */
+/* src/styles/global.css */
 :root {
   --color-primary: #4378EE;
   --color-primary-shadow: rgba(67, 120, 238, 0.35);
   --color-primary-shadow-soft: rgba(67, 120, 238, 0.3);
   --color-primary-tint: #eff6ff;
+  --color-accent-cyan: #06b6d4;
+  --color-accent-cyan-glow: rgba(6, 182, 212, 0.6);
+  --color-accent-purple: #8b5cf6;
+  --color-accent-amber: #f59e0b;
+  --color-eye-light: #38bdf8;
   --color-bg-page: #090d16;
   --color-bg-surface: #ffffff;
   --color-bg-surface-translucent: rgba(255, 255, 255, 0.92);
   --color-bg-surface-translucent-strong: rgba(255, 255, 255, 0.95);
   --color-bg-muted: #f8fafc;
+  --color-bg-dark: #030712;
+  --color-bg-panel: #0f172a;
   --color-bg-image-fallback: #0b1329;
   --color-bg-filmstrip-image-fallback: #000000;
   --color-text-heading: #0f172a;
@@ -627,9 +1671,12 @@
   --color-text-muted: #475569;
   --color-text-subtle: #64748b;
   --color-text-faint: #94a3b8;
+  --color-text-primary: #ffffff;
   --color-border: #e2e8f0;
   --color-border-soft: #f1f5f9;
   --color-border-strong: #cbd5e1;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-subtle-strong: rgba(255, 255, 255, 0.12);
   --font-family-base:
     system-ui,
     -apple-system,
@@ -649,4 +1696,17 @@
   --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.12);
   --shadow-popover: 0 10px 30px rgba(0, 0, 0, 0.12);
   --shadow-button-primary: 0 4px 12px var(--color-primary-shadow-soft);
+}
+html.high-contrast {
+  --color-bg-surface: #000000 !important;
+  --color-text-body: #ffffff !important;
+  --color-text-heading: #ffff00 !important;
+  --color-border: #ffffff !important;
+  --color-bg-muted: #1a1a1a !important;
+  --color-primary: #ffff00 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+html.large-font {
+  font-size: 125% !important;
 }

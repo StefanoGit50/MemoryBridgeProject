@@ -2,166 +2,271 @@
     position: fixed;
     bottom: 24px;
     right: 24px;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 0.28s ease;
+    z-index: 200;
+    font-family: system-ui, -apple-system, sans-serif;
+    transition: opacity 0.25s ease;
 }
 
 .wrapper.dismissed {
-    opacity: 0.2;
+    opacity: 0.35;
+}
+
+.buttonAnchor {
+    position: relative;
+    width: 64px;
+    height: 64px;
 }
 
 .welcomeBubble {
     position: absolute;
-    bottom: 76px;
-    right: 0px;
+    top: 50%;
+    right: 76px;
+    transform: translateY(-50%);
     background-color: #ffffff;
-    color: #0f172a;
-    padding: 8px 14px;
-    border-radius: 16px;
-    font-size: 13px;
-    font-weight: 700;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     border: 1px solid #e2e8f0;
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-}
-
-.tooltip {
-    position: absolute;
-    bottom: 58px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #0f172a;
-    color: #ffffff;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 12px;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 13px;
     font-weight: 600;
+    color: #334155;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     white-space: nowrap;
-    pointer-events: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 20;
 }
 
 .dismissButton {
     position: absolute;
-    top: -4px;
-    right: -4px;
-    z-index: 10;
+    top: -8px;
+    right: -8px;
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background-color: #ef4444;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    font-size: 11px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* --- Wrapper posizionati dei sotto-pulsanti --- */
-
-.iconWrapper {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    opacity: 0;
-    transform: scale(0.3);
-}
-
-.iconWrapper.open {
-    pointer-events: auto;
-    opacity: 1;
-    transform: scale(1);
-}
-
-.contrastWrapper {
-    transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.contrastWrapper.open {
-    bottom: 92px;
-    right: 8px;
-}
-
-.fontWrapper {
-    transition: all 0.30s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.fontWrapper.open {
-    bottom: 68px;
-    right: 68px;
-}
-
-.chatWrapper {
-    transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.chatWrapper.open {
-    bottom: 8px;
-    right: 92px;
-}
-
-/* --- Pulsanti circolari --- */
-
-.circleButton {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
+    border: 1px solid #e2e8f0;
     background-color: #ffffff;
-    color: #0f172a;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-    font-size: 20px;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
 
-.circleButton.contrastActive {
-    background-color: #ffff00;
-    color: #000000;
-}
-
-.circleButton.fontActive {
-    background-color: #f97316;
+.dismissButton:hover {
     color: #ffffff;
+    background-color: #dc2626;
+    border-color: #dc2626;
 }
-
-/* --- Pulsante principale (gufo) --- */
-
 .mainButton {
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    border: 3px solid #ffffff;
+    border: 3px solid #ff8c00;
     background-color: #ffffff;
-    padding: 0;
-    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.25);
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: border 0.2s ease, transform 0.2s ease;
-    transform: scale(1);
+    padding: 0;
+    transition: transform 0.15s ease;
+}
+
+.mainButton:hover {
+    transform: scale(1.06);
 }
 
 .mainButton.open {
-    border-color: #f97316;
-    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.25), 0 6px 20px rgba(255, 140, 0, 0.25);
 }
 
 .mainImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+}
+
+.panel {
+    position: absolute;
+    bottom: 76px;
+    right: 0;
+    width: 380px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.panelHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ff8c00;
+    color: #ffffff;
+    padding: 16px 18px;
+}
+
+.panelTitle {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.panelClose {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.fontRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 20px 22px 10px 22px;
+}
+
+.fontRowLabel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.fontRowIcon {
+    font-weight: 800;
+}
+
+.resetButton {
+    background-color: #fff4e5;
+    color: #ff8c00;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.fontSlider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 22px 22px 22px;
+}
+.sliderBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.sliderBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.sliderInput {
+    flex: 1;
+    accent-color: #ff8c00;
+}
+
+.sliderValue {
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+    min-width: 40px;
+    text-align: right;
+}
+
+.optionsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 4px 22px 22px 22px;
+}
+
+.optionCard {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    text-align: left;
+}
+
+.optionCard:hover {
+    background-color: #fff8f0;
+}
+
+.optionCardActive {
+    background-color: #fff4e5;
+    border-color: #ff8c00;
+    color: #b35c00;
+}
+
+.optionIcon {
+    font-size: 18px;
+}
+
+.colorblindBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+}
+
+.colorblindLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.colorblindChips {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.colorblindChip {
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+}
+
+.colorblindChip:hover {
+    background-color: #fff8f0;
+}
+
+.colorblindChipActive {
+    background-color: #ff8c00;
+    border-color: #ff8c00;
+    color: #ffffff;
 }

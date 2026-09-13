@@ -4,7 +4,7 @@ import IrisAvatar from "@/shared/Iris/Iris.png"
 import { SpeechProvider } from "@/shared/Accessibility/SpeechContext";
 import { SpeechButton } from "@/shared/Accessibility/SpeechButton";
 import { AccessibilityDial, useAccessibilitySettings, AccessibilityProvider } from "@/shared/Accessibility/AccessibilityDial";
-import HomePage from "@/pages/app/Home/HomePage";
+import HomePage from "@/pages/app/Home/Component/HomePage";
 import "@/styles/global.css"
 // ============================================================================
 // MEMORYBRIDGE - INTERFACCIA ED ELEMENTI CARATTERISTICI BANNER IA - DIAL - SPEECH

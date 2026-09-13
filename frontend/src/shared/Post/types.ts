@@ -33,3 +33,24 @@ export interface FloatingEmoji {
     emoji: string;
     leftOffset: number;
 }
+
+// TIPI MULTIMEDIALI
+
+export type ContentType = 'audio' | 'video' | 'immagine' | null;
+
+export type WizardStep = 1 | 2 | 3;
+
+export interface MemoryDraft {
+    type: ContentType;
+    file: File | null;
+    previewUrl: string | null;
+    location: string;
+    people: string[];
+    description: string;
+    createdAt: string;
+}
+
+export interface CreateMemoryScreenProps {
+    onClose?: () => void;
+    onSave?: (memoryData: MemoryDraft) => void;
+}

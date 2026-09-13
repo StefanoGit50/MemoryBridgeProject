@@ -23,7 +23,7 @@ export default function IrisDailySuggestion({ quote, onCreateMemory }: IrisDaily
             </div>
 
             <button className={styles.button} onClick={onCreateMemory}>
-                ✨ Crea Ricordo
+                 Crea Ricordo
             </button>
         </section>
     );

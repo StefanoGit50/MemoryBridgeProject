@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MEMORIES_PAGE_CONTENT } from '@/pages/app/InteractiveTimeline/content';
-import type { Comment } from './types';
+import type { Comment } from '../types';
 
 export function useComments(
     selectedId: string | null,
