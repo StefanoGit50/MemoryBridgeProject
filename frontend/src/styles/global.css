@@ -59,6 +59,7 @@
     --shadow-button-primary: 0 4px 12px var(--color-primary-shadow-soft);
 }
 
+/* accessibilità */
 html.high-contrast {
     --color-bg-surface: #000000 !important;
     --color-text-body: #ffffff !important;

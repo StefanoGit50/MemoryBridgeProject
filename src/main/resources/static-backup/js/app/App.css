@@ -3,147 +3,248 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 9999;
-  opacity: 1;
-  transition: opacity 0.28s ease;
+  z-index: 200;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  transition: opacity 0.25s ease;
 }
 .AccessibilityDial_wrapper.AccessibilityDial_dismissed {
-  opacity: 0.2;
+  opacity: 0.35;
+}
+.AccessibilityDial_buttonAnchor {
+  position: relative;
+  width: 64px;
+  height: 64px;
 }
 .AccessibilityDial_welcomeBubble {
   position: absolute;
-  bottom: 76px;
-  right: 0px;
+  top: 50%;
+  right: 76px;
+  transform: translateY(-50%);
   background-color: #ffffff;
-  color: #0f172a;
-  padding: 8px 14px;
-  border-radius: 16px;
-  font-size: 13px;
-  font-weight: 700;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   border: 1px solid #e2e8f0;
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-}
-.AccessibilityDial_tooltip {
-  position: absolute;
-  bottom: 58px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #0f172a;
-  color: #ffffff;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 12px;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 13px;
   font-weight: 600;
+  color: #334155;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   white-space: nowrap;
-  pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 20;
 }
 .AccessibilityDial_dismissButton {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  z-index: 10;
+  top: -8px;
+  right: -8px;
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background-color: #ef4444;
-  color: #ffffff;
-  border: 2px solid #ffffff;
-  font-size: 11px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-.AccessibilityDial_iconWrapper {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  opacity: 0;
-  transform: scale(0.3);
-}
-.AccessibilityDial_iconWrapper.AccessibilityDial_open {
-  pointer-events: auto;
-  opacity: 1;
-  transform: scale(1);
-}
-.AccessibilityDial_contrastWrapper {
-  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.AccessibilityDial_contrastWrapper.AccessibilityDial_open {
-  bottom: 92px;
-  right: 8px;
-}
-.AccessibilityDial_fontWrapper {
-  transition: all 0.30s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.AccessibilityDial_fontWrapper.AccessibilityDial_open {
-  bottom: 68px;
-  right: 68px;
-}
-.AccessibilityDial_chatWrapper {
-  transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.AccessibilityDial_chatWrapper.AccessibilityDial_open {
-  bottom: 8px;
-  right: 92px;
-}
-.AccessibilityDial_circleButton {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
+  border: 1px solid #e2e8f0;
   background-color: #ffffff;
-  color: #0f172a;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-  font-size: 20px;
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
 }
-.AccessibilityDial_circleButton.AccessibilityDial_contrastActive {
-  background-color: #ffff00;
-  color: #000000;
-}
-.AccessibilityDial_circleButton.AccessibilityDial_fontActive {
-  background-color: #f97316;
+.AccessibilityDial_dismissButton:hover {
   color: #ffffff;
+  background-color: #dc2626;
+  border-color: #dc2626;
 }
 .AccessibilityDial_mainButton {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  border: 3px solid #ffffff;
+  border: 3px solid #ff8c00;
   background-color: #ffffff;
-  padding: 0;
-  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(255, 140, 0, 0.25);
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border 0.2s ease, transform 0.2s ease;
-  transform: scale(1);
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+.AccessibilityDial_mainButton:hover {
+  transform: scale(1.06);
 }
 .AccessibilityDial_mainButton.AccessibilityDial_open {
-  border-color: #f97316;
-  transform: scale(1.05);
+  box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.25), 0 6px 20px rgba(255, 140, 0, 0.25);
 }
 .AccessibilityDial_mainImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+}
+.AccessibilityDial_panel {
+  position: absolute;
+  bottom: 76px;
+  right: 0;
+  width: 380px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+.AccessibilityDial_panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ff8c00;
+  color: #ffffff;
+  padding: 16px 18px;
+}
+.AccessibilityDial_panelTitle {
+  font-weight: 700;
+  font-size: 16px;
+}
+.AccessibilityDial_panelClose {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+.AccessibilityDial_fontRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px 22px 10px 22px;
+}
+.AccessibilityDial_fontRowLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+.AccessibilityDial_fontRowIcon {
+  font-weight: 800;
+}
+.AccessibilityDial_resetButton {
+  background-color: #fff4e5;
+  color: #ff8c00;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.AccessibilityDial_fontSlider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 22px 22px 22px;
+}
+.AccessibilityDial_sliderBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.AccessibilityDial_sliderBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.AccessibilityDial_sliderInput {
+  flex: 1;
+  accent-color: #ff8c00;
+}
+.AccessibilityDial_sliderValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  min-width: 40px;
+  text-align: right;
+}
+.AccessibilityDial_optionsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 22px 22px 22px;
+}
+.AccessibilityDial_optionCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  text-align: left;
+}
+.AccessibilityDial_optionCard:hover {
+  background-color: #fff8f0;
+}
+.AccessibilityDial_optionCardActive {
+  background-color: #fff4e5;
+  border-color: #ff8c00;
+  color: #b35c00;
+}
+.AccessibilityDial_optionIcon {
+  font-size: 18px;
+}
+.AccessibilityDial_colorblindBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+}
+.AccessibilityDial_colorblindLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+.AccessibilityDial_colorblindChips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.AccessibilityDial_colorblindChip {
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+}
+.AccessibilityDial_colorblindChip:hover {
+  background-color: #fff8f0;
+}
+.AccessibilityDial_colorblindChipActive {
+  background-color: #ff8c00;
+  border-color: #ff8c00;
+  color: #ffffff;
 }
 
 /* src/shared/Accessibility/SpeechButton.module.css */
@@ -741,14 +842,14 @@ html.high-contrast .Navbar_avatar {
   padding: 0 16px;
 }
 
-/* src/shared/Iris/IrisDailySuggestion.module.css */
+/* src/pages/app/Home/Component/IrisDailySuggestion.module.css */
 .IrisDailySuggestion_section {
   background:
     linear-gradient(
       135deg,
-      var(--color-primary-tint) 0%,
-      #eef2ff 100%);
-  border: 2px solid var(--color-accent-purple);
+      #fff7ed 0%,
+      #fff1e0 100%);
+  border: 2px solid #ffcc80;
   border-radius: var(--radius-xl);
   padding: 16px 20px;
   margin-bottom: 20px;
@@ -767,8 +868,8 @@ html.high-contrast .Navbar_avatar {
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 2px solid var(--color-accent-purple);
-  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.35);
+  border: 2px solid #ffb74d;
+  box-shadow: 0 2px 6px rgba(255, 140, 0, 0.25);
 }
 .high-contrast .IrisDailySuggestion_avatar {
   border-color: #ffff00;
@@ -785,7 +886,7 @@ html.high-contrast .Navbar_avatar {
 .IrisDailySuggestion_label {
   font-size: 0.875rem;
   font-weight: bold;
-  color: var(--color-accent-purple);
+  color: #c2680a;
 }
 .high-contrast .IrisDailySuggestion_label {
   color: #ffff00;
@@ -793,8 +894,8 @@ html.high-contrast .Navbar_avatar {
 .IrisDailySuggestion_badge {
   font-size: 0.625rem;
   font-weight: bold;
-  background-color: #ede9fe;
-  color: #6d28d9;
+  background-color: #fff1de;
+  color: #b35c00;
   padding: 1px 6px;
   border-radius: var(--radius-sm);
   letter-spacing: 0.5px;
@@ -811,7 +912,7 @@ html.high-contrast .Navbar_avatar {
 .IrisDailySuggestion_button {
   padding: 10px 18px;
   min-height: 44px;
-  background-color: var(--color-accent-purple);
+  background-color: #ff9f1c;
   color: #ffffff;
   border: none;
   border-radius: var(--radius-md);

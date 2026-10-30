@@ -277,17 +277,16 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: var(--color-bg-surface-translucent-strong);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.12);
   padding: 0.6rem 2.5rem;
   height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   font-family:
-    system-ui,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
@@ -300,9 +299,14 @@
   flex-direction: row;
   align-items: center;
   gap: 0.6rem;
+  padding: 0.4rem 1rem 0.4rem 0.5rem;
+  background-color: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 .Navbar_brandMark {
-  height: 72px;
+  height: 52px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -316,13 +320,12 @@
     Roboto,
     Inter,
     sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
   display: flex;
   align-items: center;
-  margin-top: 8px;
 }
 .Navbar_brandPrefix {
   color: #78716c;
@@ -332,34 +335,47 @@
 }
 .Navbar_links {
   display: flex;
-  gap: 2.5rem;
+  gap: 0.8rem;
   align-items: center;
-  margin-top: 6px;
 }
 .Navbar_link,
 .Navbar_linkActive {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-family:
     "Inter",
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  margin-top: 6px;
+  padding: 0.55rem 1.15rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease-in-out;
 }
 .Navbar_link {
-  color: var(--color-text-body);
-  font-weight: 100;
+  color: #1f2937;
+  font-weight: 600;
+  background-color: #ffffff;
+  border: 1.5px solid #d1d5db;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.Navbar_link:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .Navbar_linkActive {
-  color: #4378EE;
+  color: #ffffff;
   font-weight: 600;
+  background-color: #4378EE;
+  border: 1.5px solid #2563eb;
+  box-shadow: 0 4px 12px rgba(67, 120, 238, 0.35);
 }
 .Navbar_linkIcon {
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1;
 }
 .Navbar_actions {
