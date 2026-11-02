@@ -1,0 +1,29 @@
+.scroller {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: linear-gradient(#fffdfa, #ffffff);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  max-width: 58rem;
+  margin: 0 auto;
+  padding: 1.75rem var(--iris-gut, 2rem) 2.25rem;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .column,
+  .messages {
+    gap: 1.3rem;
+  }
+}

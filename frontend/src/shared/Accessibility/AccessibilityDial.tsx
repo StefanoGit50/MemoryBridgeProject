@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {createContext, useContext, useState, ReactNode, useRef} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import owlMascot from "@/shared/Iris/Iris.png";
 import styles from "./AccessibilityDial.module.css";
+import { IrisChat } from '@/shared/Accessibility/IrisOpenChat/IrisChat';
 
 type ColorblindMode = 'none' | 'protanopia' | 'deuteranopia' | 'tritanopia';
 
@@ -89,6 +90,9 @@ export function AccessibilityDial({ onOpenChat }: AccessibilityDialProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isDismissed, setIsDismissed] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    /** per aprire e chiudere la chat con Iris **/
+    const [chatOpen, setChatOpen] = useState(false);
+    const dialRef = useRef<HTMLButtonElement>(null);
 
     const { highContrast, fontScale, colorblindMode, setHighContrast, setFontScale, setColorblindMode } = useAccessibilitySettings();
 
@@ -103,7 +107,7 @@ export function AccessibilityDial({ onOpenChat }: AccessibilityDialProps) {
         >
             {!isOpen && !isDismissed && (
                 <div className={styles.welcomeBubble}>
-                    Come Posso Aiutarti? 🦉
+                    Come Posso Aiutarti?   🦉
                 </div>
             )}
 
@@ -199,7 +203,7 @@ export function AccessibilityDial({ onOpenChat }: AccessibilityDialProps) {
 
                             <button
                                 onClick={() => {
-                                    onOpenChat?.();
+                                    setChatOpen(true);
                                     setIsOpen(false);
                                 }}
                                 className={styles.optionCard}
@@ -228,6 +232,7 @@ export function AccessibilityDial({ onOpenChat }: AccessibilityDialProps) {
                 )}
 
                 <button
+                    ref={dialRef}
                     onClick={() => setIsOpen(!isOpen)}
                     title="Opzioni di Accessibilità"
                     aria-label="Apri menu accessibilità"
@@ -235,6 +240,8 @@ export function AccessibilityDial({ onOpenChat }: AccessibilityDialProps) {
                 >
                     <img src={owlMascot} alt="Mascotte Gufo Iris" className={styles.mainImage} />
                 </button>
+
+                <IrisChat open={chatOpen} onClose={() => setChatOpen(false)} anchorRef={dialRef} />
             </div>
         </div>
     );

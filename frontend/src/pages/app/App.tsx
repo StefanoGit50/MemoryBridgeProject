@@ -6,10 +6,16 @@ import { SpeechButton } from "@/shared/Accessibility/SpeechButton";
 import { AccessibilityDial, useAccessibilitySettings, AccessibilityProvider } from "@/shared/Accessibility/AccessibilityDial";
 import HomePage from "@/pages/app/Home/Component/HomePage";
 import "@/styles/global.css"
+
+import { BrowserRouter, Routes, Route,Navigate } from 'react-router-dom';
+import {Navbar} from "@/shared/Navbar/Navbar";
+import {MemoryDraft} from "@/shared/Post/types";
+
+
 // ============================================================================
 // MEMORYBRIDGE - INTERFACCIA ED ELEMENTI CARATTERISTICI BANNER IA - DIAL - SPEECH
 // ============================================================================
-
+/*
 function MemoryBridgeApp() {
     // --- STATO ACCESSIBILITÀ (ISO 9241 & WCAG) ---
     const { highContrast, largeFont } = useAccessibilitySettings();
@@ -81,7 +87,7 @@ function MemoryBridgeApp() {
         }}>
 
 
-            {/* 2. HEADER / BRANDING MEMORYBRIDGE */}
+            // 2. HEADER / BRANDING MEMORYBRIDGE
             <header style={{
                 backgroundColor: theme.cardBg,
                 borderBottom: `2px solid ${theme.border}`,
@@ -91,7 +97,7 @@ function MemoryBridgeApp() {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
             }}>
                 <div style={{
-                    maxWidth: '1200px', /* Aumentato da 1000px per distanziare Logo e Menu */
+                    maxWidth: '1200px', // Aumentato da 1000px per distanziare Logo e Menu
                     margin: '0 auto',
                     padding: '12px 20px',
                     display: 'flex',
@@ -100,7 +106,7 @@ function MemoryBridgeApp() {
                     flexWrap: 'wrap',
                     gap: '16px'
                 }}>
-                    {/* LOGO */}
+                    // LOGO
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div style={{
                             width: '46px',
@@ -125,9 +131,9 @@ function MemoryBridgeApp() {
                     <AccessibilityDial />
 
 
-                    {/* NAVIGAZIONE CARATTERISTICA */}
+                    // NAVIGAZIONE CARATTERISTICA
                     <nav>
-                        <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, gap: '28px' }}> {/* Aumentato gap da 6px a 28px per distanziare le voci tra loro */}
+                        <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, gap: '28px' }}>
                             {[
                                 { label: 'Ricordi', icon: '🏠', active: true },
                                 { label: 'Albero Genealogico', icon: '🌳', active: false },
@@ -158,10 +164,10 @@ function MemoryBridgeApp() {
                 </div>
             </header>
 
-            {/* 3. CONTENUTO PRINCIPALE */}
+            // 3. CONTENUTO PRINCIPALE
             <main style={{ maxWidth: '720px', margin: '24px auto', padding: '0 16px' }}>
 
-                {/* SPUNTO DEL GIORNO — a cura di IRIS IA */}
+                // SPUNTO DEL GIORNO — a cura di IRIS IA
                 <section style={{
                     background: highContrast ? '#1a1a1a' : 'linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%)',
                     borderRadius: '16px',
@@ -226,7 +232,7 @@ function MemoryBridgeApp() {
                     </button>
                 </section>
 
-                {/* BOX DI CREAZIONE / INTERVISTA */}
+                // BOX DI CREAZIONE / INTERVISTA
                 <section style={{
                     backgroundColor: theme.cardBg,
                     borderRadius: '16px',
@@ -309,7 +315,7 @@ function MemoryBridgeApp() {
                     </div>
                 </section>
 
-                {/* FEED CARD RICORDO */}
+                // FEED CARD RICORDO
                 <article style={{
                     backgroundColor: theme.cardBg,
                     borderRadius: '20px',
@@ -317,7 +323,7 @@ function MemoryBridgeApp() {
                     padding: '24px',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.04)'
                 }}>
-                    {/* HEADER POST — STILE INSTAGRAM: nome + "con..." sotto, niente badge separati */}
+                    // HEADER POST — STILE INSTAGRAM: nome + "con..." sotto, niente badge separati
                     <header style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
                         <div style={{
                             width: '54px',
@@ -347,7 +353,7 @@ function MemoryBridgeApp() {
                   👵 Ramo Materno
                                 </span>
                             </div>
-                            {/* Riga "con..." in stile Instagram, al posto dei tag a pillola */}
+                            // Riga "con..." in stile Instagram, al posto dei tag a pillola
                             <p style={{ margin: '2px 0 0 0', fontSize: '17px', color: theme.textMuted }}>
                                 con{' '}
                                 <span style={{ color: theme.primary, fontWeight: '700', cursor: 'pointer' }}>
@@ -361,7 +367,7 @@ function MemoryBridgeApp() {
                         </div>
                     </header>
 
-                    {/* TESTO DEL RICORDO + SINTESI VOCALE */}
+                    // TESTO DEL RICORDO + SINTESI VOCALE
                     <div style={{ marginBottom: '16px' }}>
                         <p style={{ fontSize: `${17 * theme.fontSizeMultiplier}px`, margin: '0 0 12px 0', lineHeight: '1.6' }}>
                             {sampleStoryText}
@@ -370,7 +376,7 @@ function MemoryBridgeApp() {
                         <SpeechButton id="story-orazio-matrimonio" text={sampleStoryText} />
                     </div>
 
-                    {/* FOTO STORICA (con tag persone in overlay, stile Instagram) */}
+                    //FOTO STORICA (con tag persone in overlay, stile Instagram)
                     <div style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
                         <img
                             src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&auto=format&fit=crop&q=80"
@@ -393,7 +399,7 @@ function MemoryBridgeApp() {
                         </span>
                     </div>
 
-                    {/* AUDIOPLAYER NOTA VOCALE ORIGINALE */}
+                    // AUDIOPLAYER NOTA VOCALE ORIGINALE
                     <div style={{
                         backgroundColor: theme.bg,
                         padding: '12px 16px',
@@ -427,7 +433,7 @@ function MemoryBridgeApp() {
                         </div>
                     </div>
 
-                    {/* AZIONI POST */}
+                    // AZIONI POST
                     <footer style={{ borderTop: `1px solid ${theme.border}`, paddingTop: '16px' }}>
                         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                             <button
@@ -469,7 +475,7 @@ function MemoryBridgeApp() {
                             </button>
                         </div>
 
-                        {/* SEZIONE COMMENTI */}
+                        // SEZIONE COMMENTI
                         {showComments && (
                             <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: `1px dashed ${theme.border}` }}>
                                 <h4 style={{ margin: '0 0 12px 0', fontSize: '15px' }}>💬 Commenti dei Nipoti e della Famiglia</h4>
@@ -521,7 +527,7 @@ function MemoryBridgeApp() {
 
             </main>
 
-            {/* 4. MODALE INTERVISTA GUIDATA PER GLI ANZIANI */}
+            //4. MODALE INTERVISTA GUIDATA PER GLI ANZIANI
             {isInterviewOpen && (
                 <div style={{
                     position: 'fixed',
@@ -688,15 +694,59 @@ function MemoryBridgeApp() {
         </div>
     );
 }
+*/
 
+
+import {CreateMemoryScreen} from "@/pages/app/Home/Component/Creatememoryscreen";
+import MemoriesPage from "@/pages/app/InteractiveTimeline/MemoriesPage";
+
+export default function App() {
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const userAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
+
+    function handleSaveMemory(memoryData: any) {
+        console.log('Salva ricordo:', memoryData);
+        setIsCreateOpen(false);
+    }
+
+    return (
+        <BrowserRouter>
+            <AccessibilityProvider>
+                <SpeechProvider>
+                    <Navbar
+                        activeHref="/"
+                        ctaLabel="Nuovo Ricordo"
+                        onCtaClick={() => setIsCreateOpen(true)}
+                        avatarUrl={userAvatarUrl}
+                        avatarAlt="Il tuo profilo"
+                    />
+                    {isCreateOpen ? (
+                        <CreateMemoryScreen
+                            onClose={() => setIsCreateOpen(false)}
+                            onSave={handleSaveMemory}
+                        />
+                    ) : (
+                        <main>
+                            <Routes>
+                                <Route
+                                    path="/"
+                                    element={<HomePage onOpenCreate={() => setIsCreateOpen(true)} />}
+                                />
+                                <Route path="/timeline/:userId" element={<MemoriesPage />} />
+                                {/* Fallback: Qualsiasi URL non riconosciuto viene reindirizzato alla Home */}
+                                <Route path="*" element={<Navigate to="/" replace />} />
+                            </Routes>
+                        </main>
+                    )}
+                </SpeechProvider>
+            </AccessibilityProvider>
+        </BrowserRouter>
+    );
+}
+
+// 2. MONTAGGIO NEL DOM (Fuori dal componente, chiama <App />)
 const container = document.getElementById('root');
 if (container) {
     const root = createRoot(container);
-    root.render(
-        <AccessibilityProvider>
-            <SpeechProvider>
-                <HomePage />
-            </SpeechProvider>
-        </AccessibilityProvider>
-    );
+    root.render(<App />);
 }

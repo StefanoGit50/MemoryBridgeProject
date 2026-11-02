@@ -1,0 +1,73 @@
+/*
+ * Token locali: ogni --iris-* legge la variabile globale --color-* dell'app (così alto contrasto
+ * e temi funzionano) e ha un valore di ripiego uguale a quello del prototipo.
+ */
+.scrim {
+  --iris-surface: var(--color-surface, #ffffff);
+  --iris-line: var(--color-line, #e2e8f0);
+  --iris-text: var(--color-text, #1e293b);
+  --iris-text-soft: var(--color-text-soft, #64748b);
+  --iris-primary: var(--color-primary, #ff8c00);
+  --iris-primary-ink: var(--color-primary-ink, #ffffff);
+  --iris-on-primary-ui: var(--color-on-primary-ui, #1e293b);
+  --iris-cta: var(--color-cta, #ff9f1c);
+  --iris-cta-ink: var(--color-cta-ink, #1e293b);
+  --iris-soft: var(--color-soft, #fff6eb);
+  --iris-soft-line: var(--color-soft-line, #ffcc80);
+  --iris-brown: var(--color-brown, #b45309);
+  --iris-link: var(--color-link, #2563eb);
+  --iris-blue-soft: var(--color-blue-soft, #dbeafe);
+  --iris-blue-ink: var(--color-blue-ink, #1e3a8a);
+  --iris-user-line: var(--color-user-line, #bfdbfe);
+  --iris-me-ring: var(--color-me-ring, #3b82f6);
+  --iris-ease: cubic-bezier(0.22, 0.9, 0.3, 1);
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.window {
+  --iris-ava: 3.5rem;
+  --iris-fs: 1.1rem;
+  --iris-gut: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  width: min(68rem, calc(100vw - 3rem));
+  height: min(54rem, calc(100dvh - 2.5rem));
+  overflow: hidden;
+  color: var(--iris-text);
+  background: var(--iris-surface);
+  border-radius: 1.75rem;
+  box-shadow:
+    0 28px 60px -20px rgba(15, 23, 42, 0.4),
+    0 0 0 1px rgba(15, 23, 42, 0.05);
+}
+
+.window :focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 0.4rem;
+}
+
+@media (max-width: 700px) {
+  .window {
+    --iris-ava: 2.6rem;
+    --iris-fs: 0.96rem;
+    --iris-gut: 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .window {
+    width: calc(100vw - 1rem);
+    height: calc(100dvh - 1rem);
+  }
+}

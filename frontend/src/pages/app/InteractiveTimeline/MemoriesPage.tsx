@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom'; // 1. Import per leggere l'URL
 import { AmbientBackground } from './components/AmbientBackground';
 import { MemorySpotlight } from './sections/MemorySpotlight';
 import { MemoryFilmstrip } from './sections/MemoryFilmstrip';
@@ -10,6 +11,8 @@ import { Navbar } from '@/shared/Navbar/Navbar';
 import { CommentsProvider } from '@/shared/Post/component/CommentContext';
 
 export default function MemoriesPage() {
+    const { userId } = useParams<{ userId: string }>();
+
     // 1. Prendi addReply direttamente da useMemories
     const { memories, selectedMemory, selectedId, selectMemory, addComment, addReply } = useMemories();
 
@@ -20,7 +23,6 @@ export default function MemoriesPage() {
     const { showComments, toggleComments, newCommentText, setNewCommentText, submitComment } =
         useComments(selectedId, addComment, addReply);
 
-    const userAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
 
     return (
         <div className={styles.page}>
@@ -29,13 +31,6 @@ export default function MemoriesPage() {
                 imageUrl={selectedMemory?.imageUrl}
             />
 
-            <Navbar
-                activeHref="/"
-                ctaLabel="Aggiungi Ricordo"
-                onCtaClick={() => {}}
-                avatarUrl={userAvatarUrl}
-                avatarAlt="Il tuo profilo"
-            />
 
             <div className={styles.content}>
                 <div className={styles.hero}>

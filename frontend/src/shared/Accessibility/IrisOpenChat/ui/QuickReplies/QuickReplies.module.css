@@ -1,0 +1,57 @@
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+}
+
+.animate {
+  animation: rise 0.5s var(--iris-ease, ease) 0.6s both;
+}
+
+.used {
+  opacity: 0.4;
+}
+
+.chip {
+  padding: 0.55rem 1.1rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--iris-text);
+  background: #fff;
+  border: 1.5px solid var(--iris-soft-line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip:hover:not(:disabled) {
+  background: var(--iris-soft);
+  border-color: var(--iris-primary);
+  transform: translateY(-1px);
+}
+
+.chip:disabled {
+  cursor: default;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate {
+    animation: none;
+  }
+  .chip {
+    transition: none;
+  }
+}

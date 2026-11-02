@@ -11,6 +11,7 @@ export interface Comment {
 
 export interface MemoryItem {
     id: string;
+    authorId: string;
     year: number;
     catalogCode: string;
     dateStr: string;

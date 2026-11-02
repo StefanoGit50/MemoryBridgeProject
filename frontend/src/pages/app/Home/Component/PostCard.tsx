@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { MemoryItem, Comment } from '@/shared/Post/types';
 import { useReactions } from '@/shared/Post/hook/useReactions';
 import { ReactionBar } from '@/shared/Post/component/ReactionBar';
@@ -46,17 +47,27 @@ export function PostCard({ post, onAddComment }: PostCardProps) {
                 <div className={styles.headerMain}>
                     <div className={styles.authorAvatar}>👵</div>
                     <div className={styles.authorInfo}>
-                        <h3 className={styles.authorName}>{post.authorName}</h3>
+                        {/* Link al profilo dell'autore tramite post.authorId */}
+                        <h3 className={styles.authorName}>
+                            <Link to={`/timeline/${post.authorId}`} className={styles.authorLink}>
+                                {post.authorName}
+                            </Link>
+                        </h3>
 
                         {post.spouseName && (
                             <p className={styles.withLine}>
                                 con{' '}
-                                <span
-                                    className={styles.spouseName}
-                                    onClick={() => handleOpenPersonProfile(post.spousePersonId)}
-                                >
-                                    {post.spouseName}
-                                </span>
+                                {/* Link al profilo del coniuge/persona associata */}
+                                {post.spousePersonId ? (
+                                    <Link
+                                        to={`/timeline/${post.spousePersonId}`}
+                                        className={styles.spouseName}
+                                    >
+                                        {post.spouseName}
+                                    </Link>
+                                ) : (
+                                    <span className={styles.spouseName}>{post.spouseName}</span>
+                                )}
                                 {post.eventLabel && <> · {post.eventLabel}</>}
                             </p>
                         )}
@@ -75,8 +86,6 @@ export function PostCard({ post, onAddComment }: PostCardProps) {
 
             <div className={styles.body}>
                 <p className={styles.story}>{post.story}</p>
-
-                {/* Nuovo componente integrato con lo SpeechContext */}
                 <SpeechButton id={post.id} text={post.story} />
             </div>
 

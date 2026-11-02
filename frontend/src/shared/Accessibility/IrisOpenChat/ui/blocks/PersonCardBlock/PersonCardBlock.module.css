@@ -1,0 +1,57 @@
+.person {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--iris-soft-line);
+}
+
+.name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.meta {
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: var(--iris-text-soft);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  margin-top: 0.45rem;
+}
+
+.link {
+  padding: 0;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--iris-link);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.link::after {
+  content: ' →';
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.link:hover::after {
+  transform: translateX(3px);
+}
+
+.soft {
+  font-weight: 600;
+  color: var(--iris-text-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link::after {
+    transition: none;
+  }
+}

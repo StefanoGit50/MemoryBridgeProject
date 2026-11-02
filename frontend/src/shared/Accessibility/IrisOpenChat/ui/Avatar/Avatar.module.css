@@ -1,0 +1,124 @@
+.avatar {
+  --size: var(--avatar-size, var(--iris-ava, 3.5rem));
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  border: 2.5px solid var(--iris-primary);
+  background: #fff;
+  box-shadow: 0 6px 14px -6px rgba(180, 83, 9, 0.6);
+}
+
+.avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.iris {
+}
+
+.me {
+  overflow: hidden;
+  border-color: var(--iris-me-ring);
+  background: var(--iris-blue-soft);
+  color: var(--iris-blue-ink);
+  font-size: calc(var(--size) * 0.34);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 14px -6px rgba(37, 99, 235, 0.55);
+}
+
+.person {
+  border-width: 1px;
+  border-color: var(--iris-user-line);
+  background: var(--iris-blue-soft);
+  color: var(--iris-link);
+  box-shadow: none;
+}
+
+.person svg {
+  width: 52%;
+  height: 52%;
+}
+
+.muted {
+  background: #f1f5f9;
+}
+
+.header {
+  border-color: #fff;
+  box-shadow: none;
+}
+
+.hop {
+  animation: hop 0.55s var(--iris-ease, ease) both;
+}
+
+.think {
+  animation: tilt 1s ease-in-out infinite;
+}
+
+.listening::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  opacity: 0;
+  animation: ripple 1.3s ease-out infinite;
+}
+
+@keyframes hop {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-0.5rem) rotate(-6deg);
+  }
+  70% {
+    transform: translateY(0) rotate(3deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes tilt {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(-9deg);
+  }
+  70% {
+    transform: rotate(9deg);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hop,
+  .think,
+  .listening::after {
+    animation: none;
+  }
+}

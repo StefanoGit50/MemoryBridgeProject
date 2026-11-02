@@ -1,0 +1,598 @@
+@import "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap";
+
+/* src/provaTree2/Components/GuidedTour.module.css */
+.GuidedTour_backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  z-index: 9998;
+  backdrop-filter: blur(2px);
+}
+.GuidedTour_highlighted {
+  position: relative !important;
+  z-index: 9999 !important;
+  box-shadow: 0 0 0 4px var(--amber-primary, #b45309), 0 0 30px rgba(180, 83, 9, 0.6) !important;
+  background-color: var(--card, #ffffff) !important;
+  border-radius: var(--radius-m, 16px);
+  transition: all 0.3s ease;
+}
+.GuidedTour_dialogBox {
+  position: fixed;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: 400px;
+  width: calc(100% - 30px);
+  transition: top 0.3s ease, left 0.3s ease;
+}
+.GuidedTour_avatarWrap {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #fef3c7;
+  border: 3px solid var(--amber-primary, #b45309);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.GuidedTour_avatarWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.GuidedTour_bubble {
+  background: var(--card, #ffffff);
+  border: 2px solid #fde68a;
+  border-radius: 20px;
+  padding: 1rem 1.15rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+  position: relative;
+  width: 100%;
+}
+.GuidedTour_bubble::after {
+  content: "";
+  position: absolute;
+  bottom: 15px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 12px solid var(--card, #ffffff);
+}
+.GuidedTour_headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+.GuidedTour_title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--amber-primary, #b45309);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.GuidedTour_closeBtn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--ink-soft, #64748b);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.GuidedTour_closeBtn:hover {
+  color: var(--ink, #1e293b);
+}
+.GuidedTour_text {
+  font-size: 0.88rem;
+  color: var(--ink, #1e293b);
+  line-height: 1.4;
+  margin-bottom: 0.7rem;
+}
+.GuidedTour_footerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line, #e2e8f0);
+  padding-top: 0.5rem;
+}
+.GuidedTour_counter {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink-soft, #64748b);
+}
+.GuidedTour_buttonsGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* src/provaTree2/Components/Buttons.module.css */
+.Buttons_button {
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid #cbd5e1;
+  background: var(--card, #ffffff);
+  color: var(--ink, #1e293b);
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.Buttons_button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(37, 99, 235, .4);
+  background: var(--moss, #2563eb);
+  color: #ffffff;
+  border-color: var(--moss, #2563eb);
+}
+.Buttons_primary {
+  background: var(--moss, #2563eb);
+  color: #ffffff;
+  border-color: var(--moss, #2563eb);
+}
+.Buttons_secondary {
+  background: var(--card, #ffffff);
+}
+.Buttons_small {
+  padding: .5rem .85rem;
+  font-size: .85rem;
+}
+.Buttons_normal {
+  padding: .6rem 1.1rem;
+  font-size: .9rem;
+}
+.Buttons_button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* src/provaTree2/Panels/PersonDetail.module.css */
+.PersonDetail_detailPanel {
+  flex: 0 0 320px;
+  background: var(--card, #ffffff);
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: var(--radius-m, 16px);
+  padding: 1.4rem;
+  position: sticky;
+  top: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+.PersonDetail_detailPerson {
+  display: flex;
+  gap: .85rem;
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+}
+.PersonDetail_detailPerson h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink, #1e293b);
+}
+.PersonDetail_detailYears {
+  color: var(--ink-soft, #64748b);
+  font-size: .86rem;
+  margin-top: .15rem;
+}
+.PersonDetail_jobBadge {
+  margin-top: .4rem;
+}
+.PersonDetail_detailActions {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+.PersonDetail_detailActions button {
+  width: 100%;
+}
+.PersonDetail_bioBlock {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+}
+.PersonDetail_bioBlock summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: .92rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .15rem 0;
+  color: var(--amber-primary, #b45309);
+}
+.PersonDetail_bioBlock summary::-webkit-details-marker {
+  display: none;
+}
+.PersonDetail_bioBlock summary .PersonDetail_chev {
+  width: 16px;
+  height: 16px;
+  color: var(--amber-primary, #b45309);
+  transition: transform .18s ease;
+  flex-shrink: 0;
+}
+.PersonDetail_bioBlock[open] summary .PersonDetail_chev {
+  transform: rotate(180deg);
+}
+.PersonDetail_bioBlock p {
+  margin-top: .6rem;
+  font-size: .88rem;
+  line-height: 1.55;
+  color: var(--ink, #1e293b);
+}
+.PersonDetail_profileLinkAccent {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--amber-primary, #b45309);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+.PersonDetail_profileLinkAccent:hover {
+  opacity: 0.8;
+}
+.PersonDetail_closeFamily {
+  padding-top: 1rem;
+}
+.PersonDetail_closeFamily h3 {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--amber-primary, #b45309);
+  margin-bottom: .55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.PersonDetail_closeFamily ul {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.PersonDetail_closeFamily button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  background: var(--paper, #f8fafc);
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: var(--radius-s, 8px);
+  padding: .5rem .75rem;
+  font-size: .85rem;
+  color: var(--ink, #1e293b);
+  cursor: pointer;
+  text-align: left;
+}
+.PersonDetail_closeFamily button:hover {
+  border-color: var(--moss, #2563eb);
+}
+.PersonDetail_relTag {
+  font-size: .72rem;
+  color: var(--ink-soft, #64748b);
+  background: var(--card, #ffffff);
+  padding: .1rem .45rem;
+  border-radius: 999px;
+  border: 1px solid var(--line, #e2e8f0);
+  flex-shrink: 0;
+}
+
+/* src/provaTree2/Components/avatar.module.css */
+.avatar_avatar {
+  border-radius: 50%;
+  background: var(--moss-soft, #eff6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.avatar_sm {
+  width: 32px;
+  height: 32px;
+}
+.avatar_md {
+  width: 50px;
+  height: 50px;
+}
+.avatar_lg {
+  width: 58px;
+  height: 58px;
+}
+.avatar_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar_icon {
+  width: 50%;
+  height: 50%;
+  color: var(--moss-dark, #1d4ed8);
+}
+
+/* src/provaTree2/Components/Badge.module.css */
+.Badge_badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink, #1e293b);
+  background: var(--paper-alt, #f1f5f9);
+  border: 1px solid var(--line, #e2e8f0);
+  padding: .2rem .65rem;
+  border-radius: 999px;
+}
+
+/* src/provaTree2/App.module.css */
+.App_appContainer {
+  min-height: 100vh;
+  background: var(--paper, #f8fafc);
+  color: var(--ink, #1e293b);
+  display: flex;
+  flex-direction: column;
+}
+.App_topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.0rem 2rem;
+  background: var(--card, #ffffff);
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+.App_brand {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+}
+.App_brandMark {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--moss-soft, #eff6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.App_brandMark svg {
+  width: 20px;
+  height: 20px;
+  color: var(--moss-dark, #1d4ed8);
+}
+.App_brandName {
+  font-family: "Source Serif 4", serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.App_brandName em {
+  font-style: italic;
+  color: var(--moss-dark, #1d4ed8);
+  font-weight: 500;
+}
+.App_navLinks {
+  display: flex;
+  gap: 1.9rem;
+  flex-wrap: wrap;
+}
+.App_navLinks a {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  text-decoration: none;
+  color: var(--ink-soft, #64748b);
+  font-size: .94rem;
+  font-weight: 500;
+  padding: .35rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease;
+}
+.App_navLinks a svg {
+  width: 17px;
+  height: 17px;
+}
+.App_navLinks a:hover {
+  color: var(--ink, #1e293b);
+}
+.App_navLinks a[aria-current=page] {
+  color: var(--moss-dark, #1d4ed8);
+  border-bottom-color: var(--moss, #2563eb);
+}
+.App_headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.App_tourBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.App_profileChip {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  color: var(--ink-soft, #64748b);
+  font-size: .9rem;
+  font-weight: 500;
+}
+.App_avatarSm {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--moss-soft, #eff6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--moss-dark, #1d4ed8);
+}
+.App_hero {
+  position: relative;
+  overflow: hidden;
+  padding: 2.6rem 2rem 2.4rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  background:
+    linear-gradient(
+      135deg,
+      #fffbf5 0%,
+      #fef3c7 100%);
+  border-bottom: 1px solid #fde68a;
+}
+.App_heroRings {
+  position: absolute;
+  right: -40px;
+  top: -80px;
+  width: 340px;
+  height: 340px;
+  opacity: .2;
+  pointer-events: none;
+}
+.App_heroText {
+  max-width: 34rem;
+  position: relative;
+}
+.App_heroText h1 {
+  font-family: "Source Serif 4", serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2.1rem;
+  line-height: 1.25;
+  color: var(--amber-primary, #b45309);
+}
+.App_heroText p {
+  margin-top: .6rem;
+  color: #78350f;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 32ch;
+}
+.App_heroActions {
+  display: flex;
+  gap: .7rem;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+.App_searchField {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--card, #ffffff);
+  border: 1.5px solid #fde68a;
+  border-radius: 999px;
+  padding: .55rem .9rem;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.05);
+}
+.App_searchField svg {
+  width: 16px;
+  height: 16px;
+  color: #d97706;
+  flex-shrink: 0;
+}
+.App_searchField input {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: .9rem;
+  color: var(--ink, #1e293b);
+  width: 190px;
+}
+.App_searchField input::placeholder {
+  color: var(--ink-soft, #64748b);
+}
+.App_workspace {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+.App_treeAreaPlaceholder {
+  flex: 1;
+  min-height: 500px;
+  background: var(--card, #ffffff);
+  border: 1px dashed var(--line, #e2e8f0);
+  border-radius: var(--radius-m, 16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.App_placeholderCard {
+  text-align: center;
+  color: var(--ink-soft, #64748b);
+  font-size: 0.95rem;
+  font-family: "Inter", sans-serif;
+}
+
+/* src/provaTree2/index.css */
+:root {
+  --ink: #1e293b;
+  --ink-soft: #64748b;
+  --paper: #f8fafc;
+  --paper-alt: #f1f5f9;
+  --card: #ffffff;
+  --line: #e2e8f0;
+  --moss: #2563eb;
+  --moss-dark: #1d4ed8;
+  --moss-soft: #eff6ff;
+  --brass: #d97706;
+  --brass-soft: #fef3c7;
+  --amber-primary: #b45309;
+  --focus: #2563eb;
+  --radius-s: 8px;
+  --radius-m: 16px;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family:
+    "Inter",
+    system-ui,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+button {
+  font-family: inherit;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

@@ -1,0 +1,87 @@
+.bubble {
+  position: relative;
+  max-width: 100%;
+  font-size: var(--iris-fs, 1.1rem);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.iris {
+  display: inline-block;
+  padding: 1rem 1.3rem;
+  background: var(--iris-soft);
+  color: var(--iris-text);
+  border: 1.5px solid var(--iris-soft-line);
+  border-radius: 0.4rem 1.4rem 1.4rem 1.4rem;
+}
+
+.iris::before {
+  content: '';
+  position: absolute;
+  left: -0.52rem;
+  top: 1.1rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  background: var(--iris-soft);
+  border-left: 1.5px solid var(--iris-soft-line);
+  border-bottom: 1.5px solid var(--iris-soft-line);
+  border-radius: 0 0 0 0.18rem;
+  transform: rotate(45deg);
+}
+
+.user {
+  padding: 0.85rem 1.3rem;
+  background: var(--iris-blue-soft);
+  color: var(--iris-blue-ink);
+  border: 1.5px solid var(--iris-user-line);
+  border-radius: 1.4rem 0.4rem 1.4rem 1.4rem;
+  white-space: pre-wrap;
+}
+
+.user::after {
+  content: '';
+  position: absolute;
+  right: -0.52rem;
+  top: 1.1rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  background: var(--iris-blue-soft);
+  border-right: 1.5px solid var(--iris-user-line);
+  border-top: 1.5px solid var(--iris-user-line);
+  border-radius: 0 0.18rem 0 0;
+  transform: rotate(45deg);
+}
+
+.live {
+  opacity: 0.92;
+  border-style: dashed;
+}
+
+.live::after {
+  border-right-style: dashed;
+  border-top-style: dashed;
+}
+
+.word {
+  display: inline-block;
+  animation: wordin 0.45s ease both;
+}
+
+@keyframes wordin {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    animation: none;
+  }
+}

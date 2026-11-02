@@ -5,6 +5,7 @@ import fotoFamiglia from '@/images/0014314705.jpg';
 
 export const TIMELINE_MEMORIES: MemoryItem[] = [
     {
+        authorId:'123',
         id: 'm1',
         year: 1965,
         catalogCode: 'EXHIBIT 1965-01 / ARCHIVIO HAN',
@@ -42,6 +43,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         ],
     },
     {
+        authorId:'234',
         id: 'm2',
         year: 1978,
         catalogCode: 'EXHIBIT 1978-04 / ARCHIVIO ROSSI',
@@ -72,6 +74,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         ],
     },
     {
+        authorId:'566',
         id: 'm3',
         year: 1984,
         catalogCode: 'EXHIBIT 1984-09 / ARCHIVIO BIANCHI',
@@ -90,6 +93,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         comments: [],
     },
     {
+        authorId:'564',
         id: 'm4',
         year: 1992,
         catalogCode: 'EXHIBIT 1992-12 / ARCHIVIO VERDI',
@@ -108,6 +112,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         comments: [],
     },
     {
+        authorId:'562',
         id: 'm5',
         year: 1995,
         catalogCode: 'EXHIBIT 1995-03 / ARCHIVIO NERI',
@@ -126,6 +131,7 @@ export const TIMELINE_MEMORIES: MemoryItem[] = [
         comments: [],
     },
     {
+        authorId:'561',
         id: 'm6',
         year: 2001,
         catalogCode: 'EXHIBIT 2001-08 / ARCHIVIO CONTI',

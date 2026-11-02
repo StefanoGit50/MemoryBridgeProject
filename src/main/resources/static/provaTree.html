@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryBridge — Albero Genealogico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --ink: #1e293b;
+            --ink-soft: #64748b;
+            --paper: #f8fafc;
+            --paper-alt: #f1f5f9;
+            --card: #ffffff;
+            --line: #e2e8f0;
+            --moss: #2563eb;
+            --moss-dark: #1d4ed8;
+            --moss-soft: #eff6ff;
+            --brass: #d97706;
+            --brass-soft: #fef3c7;
+            --amber-primary: #b45309;
+            --focus: #2563eb;
+            --radius-s: 8px;
+            --radius-m: 16px;
+        }
+
+        *{box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            margin:0;
+            background:var(--paper);
+            color:var(--ink);
+            font-family:'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing:antialiased;
+        }
+        h1,h2,h3{margin:0;}
+        p{margin:0;}
+        ul{list-style:none;margin:0;padding:0;}
+        button{font-family:inherit;}
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        summary:focus-visible{
+            outline:3px solid var(--focus);
+            outline-offset:2px;
+            border-radius:4px;
+        }
+
+        @media (prefers-reduced-motion: reduce){
+            *{transition:none !important; animation:none !important; scroll-behavior:auto !important;}
+        }
+
+        /* ---------- Header ---------- */
+        .topbar{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:1.5rem;
+            padding:1.0rem 2rem;
+            background:var(--card);
+            border-bottom:1px solid var(--line);
+            flex-wrap:wrap;
+        }
+        .brand{display:flex; align-items:center; gap:.65rem;}
+        .brand-mark{
+            width:38px;height:38px;border-radius:50%;
+            background:var(--moss-soft);
+            display:flex;align-items:center;justify-content:center;flex-shrink:0;
+        }
+        .brand-mark svg{width:20px;height:20px;color:var(--moss-dark);}
+        .brand-name{
+            font-family:'Source Serif 4', serif;
+            font-size:1.3rem;
+        }
+        .brand-name em{font-style:italic; color:var(--moss-dark); font-weight:500;}
+
+        .nav-links{
+            display:flex;
+            gap:1.9rem;
+            flex-wrap:wrap;
+        }
+        .nav-links a{
+            display:flex; align-items:center; gap:.4rem;
+            text-decoration:none;
+            color:var(--ink-soft);
+            font-size:.94rem;
+            font-weight:500;
+            padding:.35rem 0;
+            border-bottom:2px solid transparent;
+        }
+        .nav-links a svg{width:17px;height:17px;}
+        .nav-links a:hover{color:var(--ink);}
+        .nav-links a[aria-current="page"]{
+            color:var(--moss-dark);
+            border-bottom-color:var(--moss);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-chip{
+            display:flex; align-items:center; gap:.55rem;
+            color:var(--ink-soft);
+            font-size:.9rem;
+            font-weight:500;
+        }
+        .profile-chip .avatar-sm{
+            width:32px;height:32px;border-radius:50%;
+            background:var(--moss-soft);
+            display:flex;align-items:center;justify-content:center;
+            color:var(--moss-dark);
+        }
+        .profile-chip .avatar-sm svg{width:17px;height:17px;}
+
+        /* ---------- Hero ---------- */
+        .hero{
+            position:relative;
+            overflow:hidden;
+            padding:2.6rem 2rem 2.4rem;
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:2rem;
+            flex-wrap:wrap;
+            background: linear-gradient(135deg, #fffbf5 0%, #fef3c7 100%);
+            border-bottom:1px solid #fde68a;
+        }
+        .hero-rings{
+            position:absolute; right:-40px; top:-80px;
+            width:340px; height:340px;
+            opacity:.2;
+            pointer-events:none;
+        }
+        .hero-text{max-width:34rem; position:relative;}
+        .hero-text h1{
+            font-family:'Source Serif 4', serif;
+            font-style:italic;
+            font-weight:500;
+            font-size:2.1rem;
+            line-height:1.25;
+            color: var(--amber-primary);
+        }
+        .hero-text p{
+            margin-top:.6rem;
+            color:#78350f;
+            font-size:1rem;
+            line-height:1.5;
+            max-width:32ch;
+        }
+        .hero-actions{
+            display:flex;
+            gap:.7rem;
+            align-items:center;
+            flex-wrap:wrap;
+            position:relative;
+        }
+        .search-field{
+            display:flex; align-items:center; gap:.5rem;
+            background:var(--card);
+            border:1.5px solid #fde68a;
+            border-radius:999px;
+            padding:.55rem .9rem;
+            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.05);
+        }
+        .search-field svg{width:16px;height:16px;color:#d97706; flex-shrink:0;}
+        .search-field input{
+            border:none; background:none; outline:none;
+            font-size:.9rem; color:var(--ink); width:190px;
+        }
+        .search-field input::placeholder{color:var(--ink-soft);}
+
+        /* STILE BOTTONI */
+        .btn-primary, .btn-secondary{
+            border-radius:999px;
+            padding:.6rem 1.1rem;
+            font-size:.9rem;
+            font-weight:600;
+            cursor:pointer;
+            border: 1.5px solid #cbd5e1;
+            background: var(--card);
+            color: var(--ink);
+            white-space:nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover, .btn-secondary:hover{
+            transform:translateY(-2px);
+            box-shadow:0 8px 20px -6px rgba(37,99,235,.4);
+            background: var(--moss);
+            color: #ffffff;
+            border-color: var(--moss);
+        }
+        .btn-secondary.small, .btn-primary.small{padding:.5rem .85rem; font-size:.85rem;}
+
+        /* ---------- Workspace ---------- */
+        .workspace{
+            display:flex;
+            align-items:flex-start;
+            gap:1.5rem;
+            padding:1.5rem 2rem 3rem;
+        }
+
+        /* ----- Detail panel ----- */
+        .detail-panel{
+            flex:0 0 320px;
+            background:var(--card);
+            border:1px solid var(--line);
+            border-radius:var(--radius-m);
+            padding:1.4rem;
+            position:sticky;
+            top:1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+        }
+        .detail-person{
+            display:flex;
+            gap:.85rem;
+            align-items:flex-start;
+            padding-bottom:1rem;
+            border-bottom:1px solid var(--line);
+        }
+        .avatar-lg{
+            width:58px;height:58px;border-radius:50%;
+            background:var(--moss-soft);
+            display:flex;align-items:center;justify-content:center;
+            flex-shrink:0;
+        }
+        .avatar-lg svg{width:30px;height:30px;color:var(--moss);}
+
+        .detail-person h2{
+            font-size:1.15rem;
+            font-weight:600;
+            color: var(--ink);
+        }
+        .detail-years{color:var(--ink-soft); font-size:.86rem; margin-top:.15rem;}
+
+        .job-pill{
+            display:inline-block;
+            margin-top:.4rem;
+            font-size:.75rem;
+            font-weight:600;
+            color: var(--ink);
+            background: var(--paper-alt);
+            border: 1px solid var(--line);
+            padding:.2rem .65rem;
+            border-radius:999px;
+        }
+
+        .detail-actions{
+            display:flex;
+            flex-direction:column;
+            gap:.5rem;
+            margin:1rem 0;
+        }
+        .detail-actions button { width: 100%; }
+
+        .bio-block{
+            padding-bottom:1rem;
+            border-bottom:1px solid var(--line);
+        }
+        .bio-block summary{
+            cursor:pointer;
+            font-weight:600;
+            font-size:.92rem;
+            list-style:none;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:.15rem 0;
+            color: var(--amber-primary);
+        }
+        .bio-block summary::-webkit-details-marker{display:none;}
+        .bio-block summary .chev{
+            width:16px;height:16px;
+            color:var(--amber-primary);
+            transition:transform .18s ease;
+            flex-shrink:0;
+        }
+        .bio-block[open] summary .chev{transform:rotate(180deg);}
+
+        .bio-block p{
+            margin-top:.6rem;
+            font-size:.88rem;
+            line-height:1.55;
+            color: var(--ink);
+        }
+        .profile-link-accent {
+            display: block;
+            margin-top: 0.75rem;
+            color: var(--amber-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: underline;
+        }
+        .profile-link-accent:hover { opacity: 0.8; }
+
+        .close-family{padding-top:1rem;}
+        .close-family h3{
+            font-size:.82rem;
+            font-weight:600;
+            color: var(--amber-primary);
+            margin-bottom:.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .close-family ul{display:flex; flex-direction:column; gap:.4rem;}
+        .close-family button{
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:.5rem;
+            background:var(--paper);
+            border:1px solid var(--line);
+            border-radius:var(--radius-s);
+            padding:.5rem .75rem;
+            font-size:.85rem;
+            color:var(--ink);
+            cursor:pointer;
+            text-align:left;
+        }
+        .close-family button:hover{border-color:var(--moss);}
+        .close-family button span{
+            font-size:.72rem;
+            color:var(--ink-soft);
+            background:var(--card);
+            padding:.1rem .45rem;
+            border-radius:999px;
+            border:1px solid var(--line);
+            flex-shrink:0;
+        }
+
+        /* ----- Tree canvas ----- */
+        .tree-canvas-wrap{
+            flex:1;
+            min-width:0;
+            background:var(--card);
+            border:1px solid var(--line);
+            border-radius:var(--radius-m);
+            padding:1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+        }
+        .canvas-header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:1rem;
+            flex-wrap:wrap;
+            padding-bottom:1rem;
+            margin-bottom:1.5rem;
+            border-bottom:1px solid var(--line);
+        }
+        .canvas-header p{font-size:.85rem; color:var(--ink-soft);}
+        .legend{
+            display:flex;
+            gap:1.3rem;
+            flex-wrap:wrap;
+            font-size:.8rem;
+            color:var(--ink-soft);
+        }
+        .legend-item{display:flex; align-items:center; gap:.4rem;}
+        .legend-swatch{width:22px; height:0; border-top:2px solid var(--line); flex-shrink:0;}
+        .legend-swatch.partner{border-top:2px dashed var(--brass);}
+        .legend-dot{
+            width:12px;height:12px;border-radius:50%;
+            background:var(--paper-alt);
+            border:1px solid var(--line);
+            flex-shrink:0;
+        }
+
+        .tree-scroll{overflow-x:auto; padding:.5rem 0 1rem;}
+
+        .tree, .tree ul{
+            display:flex;
+            list-style:none; margin:0; padding:0;
+        }
+        .tree{justify-content:center; min-width:max-content;}
+        .tree li{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            position:relative;
+            padding:44px 22px 0;
+        }
+        .tree li::before, .tree li::after{
+            content:'';
+            position:absolute; top:0; right:50%;
+            border-top:2px solid var(--line);
+            width:50%; height:24px;
+        }
+        .tree li::after{right:auto; left:50%; border-left:2px solid var(--line);}
+        .tree li:only-child::before, .tree li:only-child::after{display:none;}
+        .tree li:only-child{padding-top:0;}
+        .tree li:first-child::before, .tree li:last-child::after{border:0 none;}
+        .tree li:last-child::before{border-right:2px solid var(--line); border-radius:0 6px 0 0;}
+        .tree li:first-child::after{border-radius:6px 0 0 0;}
+        .tree > li{padding-top:0;}
+        .tree > li::before, .tree > li::after{display:none;}
+        .tree ul::before{
+            content:'';
+            position:absolute; top:-24px; left:50%;
+            border-left:2px solid var(--line);
+            width:0; height:24px;
+        }
+        .tree ul{position:relative; padding-top:44px;}
+
+        .couple{display:flex; align-items:center;}
+        .couple-link{display:flex; align-items:center; width:26px; flex-shrink:0;}
+        .couple-line{flex:1; border-top:2px dashed var(--brass);}
+        .couple-diamond{
+            width:8px;height:8px; background:var(--brass);
+            transform:rotate(45deg); flex-shrink:0; border-radius:1px;
+        }
+
+        .person-card{
+            width:130px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:.3rem;
+            background:var(--card);
+            border:1.5px solid var(--line);
+            border-radius:var(--radius-m);
+            padding:.85rem .5rem .7rem;
+            cursor:pointer;
+            color:var(--ink);
+            text-align:center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease, opacity .15s ease;
+        }
+        .person-card:hover{transform:translateY(-2px); box-shadow:0 8px 16px -10px rgba(0,0,0,0.1); border-color:var(--moss);}
+        .person-card.is-selected{border-color:var(--moss); box-shadow:0 0 0 3px var(--moss-soft); background:var(--paper-alt);}
+        .person-card.is-dimmed{opacity:.3;}
+        .person-card .avatar{
+            width:50px;height:50px;border-radius:50%;
+            background:var(--moss-soft);
+            display:flex;align-items:center;justify-content:center;
+        }
+        .person-card.deceased .avatar{background:var(--paper-alt);}
+        .person-card .avatar svg{width:26px;height:26px; color:var(--moss);}
+        .p-name{font-weight:600; font-size:.87rem; line-height:1.2;}
+        .p-years{font-size:.74rem; color:var(--ink-soft);}
+        .p-memory{font-size:.7rem; font-style:italic; color:var(--ink-soft);}
+
+        .p-job{
+            font-size:.68rem; font-weight:600; color: var(--ink);
+            background: var(--paper-alt); border: 1px solid var(--line);
+            padding:.1rem .5rem; border-radius:999px; margin-top:.1rem;
+        }
+
+        /* ---------- Tutorial Overlay & IRIS IA Styles ---------- */
+        .tutorial-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            z-index: 9998;
+            backdrop-filter: blur(2px);
+            display: none;
+        }
+        .tutorial-backdrop.active { display: block; }
+
+        .iris-highlighted {
+            position: relative !important;
+            z-index: 9999 !important;
+            box-shadow: 0 0 0 4px var(--amber-primary), 0 0 30px rgba(180, 83, 9, 0.6) !important;
+            background-color: var(--card) !important;
+            border-radius: var(--radius-m);
+            transition: all 0.3s ease;
+        }
+
+        .iris-dialog-box {
+            position: fixed;
+            z-index: 10000;
+            display: none;
+            align-items: flex-end;
+            gap: 12px;
+            max-width: 400px;
+            width: calc(100% - 30px);
+            transition: top 0.3s ease, left 0.3s ease;
+        }
+        .iris-dialog-box.active { display: flex; }
+
+        .iris-avatar-wrap {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #fef3c7;
+            border: 3px solid var(--amber-primary);
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .iris-avatar-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .iris-bubble {
+            background: var(--card);
+            border: 2px solid #fde68a;
+            border-radius: 20px;
+            padding: 1rem 1.15rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+            position: relative;
+            width: 100%;
+        }
+
+        .iris-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: 15px;
+            left: -10px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 12px solid var(--card);
+        }
+
+        .iris-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.35rem;
+        }
+        .iris-title {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--amber-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .iris-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--ink-soft);
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+        .iris-close-btn:hover { color: var(--ink); }
+
+        .iris-text {
+            font-size: 0.88rem;
+            color: var(--ink);
+            line-height: 1.4;
+            margin-bottom: 0.7rem;
+        }
+
+        .iris-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--line);
+            padding-top: 0.5rem;
+        }
+        .iris-counter {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+        .iris-buttons-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 860px){
+            .workspace{flex-direction:column;}
+            .detail-panel{position:static; width:100%; flex:none;}
+            .hero{align-items:flex-start;}
+        }
+        @media (max-width: 560px){
+            .topbar{padding:.8rem 1rem;}
+            .nav-links{gap:1.1rem; font-size:.85rem;}
+            .hero, .workspace{padding-left:1rem; padding-right:1rem;}
+            .search-field input{width:130px;}
+        }
+    </style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11c0-3 2-4 5-5"/><path d="M12 14c0-2.5-1.8-3.4-4.5-4.2"/><circle cx="17" cy="5" r="1.4"/><circle cx="7.5" cy="9" r="1.4"/><circle cx="12" cy="21" r="1.4"/></svg>
+    </span>
+        <span class="brand-name">Memory<em>Bridge</em></span>
+    </div>
+
+    <nav class="nav-links" aria-label="Navigazione principale">
+        <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9"/></svg>
+            Home
+        </a>
+        <a href="#" aria-current="page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11c0-3 2-4 5-5"/><path d="M12 14c0-2.5-1.8-3.4-4.5-4.2"/><circle cx="17" cy="5" r="1.4"/><circle cx="7.5" cy="9" r="1.4"/></svg>
+            Albero Genealogico
+        </a>
+        <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            Ricerca
+        </a>
+        <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-9.5-8.4C1 8.5 2.4 5 6 5c2 0 3.3 1 4.5 2.6C11.7 6 13 5 15 5c3.6 0 5 3.5 3.5 6.6C16 16.7 12 20 12 20z"/></svg>
+            Racconta un ricordo
+        </a>
+    </nav>
+
+    <div class="header-right">
+        <button id="startTutorialBtn" class="btn-secondary small" style="display: flex; align-items: center; gap: 0.35rem;">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Guida IRIS
+        </button>
+        <div class="profile-chip">
+      <span class="avatar-sm" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>
+      </span>
+            Arianna Han
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <svg class="hero-rings" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="94" fill="none" stroke="#f59e0b" stroke-width="1"/>
+        <circle cx="100" cy="100" r="74" fill="none" stroke="#f59e0b" stroke-width="1"/>
+        <circle cx="100" cy="100" r="54" fill="none" stroke="#f59e0b" stroke-width="1"/>
+        <circle cx="100" cy="100" r="34" fill="none" stroke="#f59e0b" stroke-width="1"/>
+    </svg>
+    <div class="hero-text">
+        <h1>Storie di famiglia, radicate nel tempo</h1>
+        <p>Tocca una persona nell'albero per leggere la sua storia e scoprire chi le sta accanto.</p>
+    </div>
+    <div class="hero-actions">
+        <div class="search-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input id="searchInput" type="search" placeholder="Cerca un familiare per nome" aria-label="Cerca un familiare per nome">
+        </div>
+        <button class="btn-primary">Aggiungi familiare</button>
+    </div>
+</section>
+
+<main class="workspace">
+
+    <aside class="detail-panel" aria-live="polite" aria-label="Dettagli della persona selezionata">
+        <div class="detail-person">
+      <span class="avatar-lg" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg>
+      </span>
+            <div>
+                <h2 id="detailName">Orazio Han</h2>
+                <p class="detail-years" id="detailYears">Nato nel 1960</p>
+                <span class="job-pill" id="detailJob">Artigiano</span>
+            </div>
+        </div>
+
+        <div class="detail-actions">
+            <button class="btn-primary small">Racconta un ricordo</button>
+            <button class="btn-secondary small">Vedi profilo completo</button>
+        </div>
+
+        <details class="bio-block" open>
+            <summary>La sua storia
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <p id="detailBio">Orazio è cresciuto in una famiglia umile, senza mai perdere la voglia di lavorare con le mani. Ha imparato il mestiere di falegname da suo padre e non lo ha più lasciato. Ha incontrato Clara al mercato del paese: si sono sposati due anni dopo.</p>
+            <a href="#profilo" class="profile-link-accent" onclick="event.preventDefault()">vedi profilo per scoprire di più</a>
+        </details>
+
+        <div class="close-family">
+            <h3>Familiari stretti</h3>
+            <ul id="closeFamilyList"></ul>
+        </div>
+    </aside>
+
+    <div class="tree-canvas-wrap">
+        <div class="canvas-header">
+            <p>3 generazioni, 6 persone in famiglia</p>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-swatch" aria-hidden="true"></span> Genitore e figlio</span>
+                <span class="legend-item"><span class="legend-swatch partner" aria-hidden="true"></span> Coppia</span>
+                <span class="legend-item"><span class="legend-dot" aria-hidden="true"></span> In memoria</span>
+            </div>
+        </div>
+
+        <div class="tree-scroll">
+            <ul class="tree">
+                <li>
+                    <div class="couple">
+                        <button class="person-card" data-id="orazio" aria-pressed="true">
+                            <span class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg></span>
+                            <span class="p-name">Orazio Han</span>
+                            <span class="p-years">1960</span>
+                            <span class="p-job">Artigiano</span>
+                        </button>
+                        <span class="couple-link" aria-hidden="true"><span class="couple-line"></span><span class="couple-diamond"></span><span class="couple-line"></span></span>
+                        <button class="person-card deceased" data-id="clara" aria-pressed="false">
+                            <span class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg></span>
+                            <span class="p-name">Clara Shin</span>
+                            <span class="p-years">1950–2020</span>
+                            <span class="p-memory">In memoria</span>
+                            <span class="p-job">Sarta</span>
+                        </button>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <button class="person-card" data-id="shila" aria-pressed="false">
+                                <span class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg></span>
+                                <span class="p-name">Shila Han</span>
+                                <span class="p-years">1980</span>
+                                <span class="p-job">Designer</span>
+                            </button>
+                        </li>
+                        <li>
+                            <div class="couple">
+                                <button class="person-card" data-id="mario" aria-pressed="false">
+                                    <span class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg></span>
+                                    <span class="p-name">Mario Han</span>
+                                    <span class="p-years">1988</span>
+                                    <span class="p-job">Designer</span>
+                                </button>
+                                <span class="couple-link" aria-hidden="true"><span class="couple-line"></span><span class="couple-diamond"></span><span class="couple-line"></span></span>
+                                <button class="person-card" data-id="lucia" aria-pressed="false">
+                                    <span class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg></span>
+                                    <span class="p-name">Lucia Rossi</span>
+                                    <span class="p-years">1999</span>
+                                    <span class="p-job">Bancaria</span>
+                                </button>
+                            </div>
+                            <ul>
+                                <li>
+                                    <button class="person-card" data-id="arianna" aria-pressed="false">
+                                        <span class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5"/></svg></span>
+                                        <span class="p-name">Arianna Han</span>
+                                        <span class="p-years">2004</span>
+                                        <span class="p-job">Studentessa</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<!-- Tutorial IRIS Elements -->
+<div id="tutorialBackdrop" class="tutorial-backdrop"></div>
+<div id="irisDialogBox" class="iris-dialog-box">
+    <div class="iris-avatar-wrap">
+        <img src="image 228 (1).png" alt="IRIS IA">
+    </div>
+    <div class="iris-bubble">
+        <div class="iris-header-row">
+            <span class="iris-title">🦉 IRIS IA</span>
+            <button id="irisCloseBtn" class="iris-close-btn">&times;</button>
+        </div>
+        <p id="irisText" class="iris-text">Ciao! Sono IRIS, la tua guida personale. Ti mostrerò come usare al meglio MemoryBridge.</p>
+        <div class="iris-footer-row">
+            <span id="irisCounter" class="iris-counter">1 / 5</span>
+            <div class="iris-buttons-group">
+                <button id="irisPrevBtn" class="btn-secondary small" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;" disabled>Indietro</button>
+                <button id="irisNextBtn" class="btn-primary small" style="padding: 0.3rem 0.7rem; font-size: 0.8rem;">Avanti</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const PEOPLE = {
+        orazio: {
+            name: 'Orazio Han', years: 'Nato nel 1960', job: 'Artigiano',
+            bio: "Orazio è cresciuto in una famiglia umile, senza mai perdere la voglia di lavorare con le mani. Ha imparato il mestiere di falegname da suo padre e non lo ha più lasciato. Ha incontrato Clara al mercato del paese: si sono sposati due anni dopo.",
+            family: [['clara','Moglie'], ['shila','Figlia'], ['mario','Figlio']]
+        },
+        clara: {
+            name: 'Clara Shin', years: 'Vissuta dal 1950 al 2020', job: 'Sarta',
+            bio: "Clara cuciva già a dieci anni, seduta accanto a sua nonna. Ha aperto la sua prima sartoria a ventitré anni ed è diventata un punto di riferimento per tutto il quartiere. È mancata nel 2020, ma i suoi abiti sono ancora custoditi con cura dalla famiglia.",
+            family: [['orazio','Marito'], ['shila','Figlia'], ['mario','Figlio']]
+        },
+        shila: {
+            name: 'Shila Han', years: 'Nata nel 1980', job: 'Designer',
+            bio: "Shila ha ereditato il senso estetico della madre e la pazienza del padre. Ha studiato design a Milano e oggi lavora come art director in un piccolo studio indipendente.",
+            family: [['orazio','Padre'], ['clara','Madre'], ['mario','Fratello']]
+        },
+        mario: {
+            name: 'Mario Han', years: 'Nato nel 1988', job: 'Designer',
+            bio: "Mario ha sempre disegnato tutto ciò che vedeva. Dopo l'università ha aperto uno studio con Shila, sua sorella, prima di specializzarsi nel product design. Ha conosciuto Lucia durante un progetto per una banca.",
+            family: [['orazio','Padre'], ['clara','Madre'], ['shila','Sorella'], ['lucia','Moglie'], ['arianna','Figlia']]
+        },
+        lucia: {
+            name: 'Lucia Rossi', years: 'Nata nel 1999', job: 'Bancaria',
+            bio: "Lucia lavora in banca da quando si è laureata in economia. Ama i numeri quasi quanto ama sua figlia Arianna, a cui insegna a fare i conti con le dita.",
+            family: [['mario','Marito'], ['arianna','Figlia']]
+        },
+        arianna: {
+            name: 'Arianna Han', years: 'Nata l\'11 maggio 2004', job: 'Studentessa',
+            bio: "Arianna studia design industriale, proprio come suo padre e sua zia prima di lei. Sta raccogliendo le storie di famiglia per un progetto universitario: è lei che ha iniziato questo albero.",
+            family: [['mario','Padre'], ['lucia','Madre']]
+        }
+    };
+
+    const cards = Array.from(document.querySelectorAll('.person-card'));
+
+    function renderDetail(id){
+        const p = PEOPLE[id];
+        if(!p) return;
+        document.getElementById('detailName').textContent = p.name;
+        document.getElementById('detailYears').textContent = p.years;
+        document.getElementById('detailJob').textContent = p.job;
+        document.getElementById('detailBio').textContent = p.bio;
+
+        const list = document.getElementById('closeFamilyList');
+        list.innerHTML = '';
+        p.family.forEach(([relId, relLabel]) => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.dataset.id = relId;
+            btn.innerHTML = `<span>${PEOPLE[relId].name}</span><span>${relLabel}</span>`;
+            btn.addEventListener('click', () => selectPerson(relId));
+            li.appendChild(btn);
+            list.appendChild(li);
+        });
+    }
+
+    function selectPerson(id){
+        cards.forEach(c => {
+            const active = c.dataset.id === id;
+            c.classList.toggle('is-selected', active);
+            c.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        renderDetail(id);
+    }
+
+    cards.forEach(c => c.addEventListener('click', () => selectPerson(c.dataset.id)));
+    renderDetail('orazio');
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        cards.forEach(c => {
+            const name = c.querySelector('.p-name').textContent.toLowerCase();
+            c.classList.toggle('is-dimmed', q.length > 0 && !name.includes(q));
+        });
+    });
+
+    /* ---------- Tutorial Script ---------- */
+    const steps = [
+        {
+            element: document.querySelector('.topbar'),
+            text: "Questa è la barra principale di navigazione. Da qui puoi muoverti tra le sezioni del sito o controllare il tuo profilo."
+        },
+        {
+            element: document.querySelector('.hero'),
+            text: "Qui trovi il titolo della pagina, una barra di ricerca per trovare velocemente i familiari e il tasto per aggiungerne di nuovi!"
+        },
+        {
+            element: document.querySelector('.detail-panel'),
+            text: "Questo è il pannello di dettaglio. Cliccando su Orazio Han vedrai la sua biografia completa, la sua storia e l'elenco dei familiari stretti."
+        },
+        {
+            element: document.querySelector('.tree-canvas-wrap'),
+            text: "Questo è l'albero genealogico interattivo! Puoi scorrere tra le generazioni e cliccare sulle card dei membri per esplorare le relazioni familiari."
+        },
+        {
+            element: document.querySelector('.workspace'),
+            text: "Perfetto! Cliccando su qualsiasi persona nell'albero, vedrai aggiornarsi in sincrono sia la selezione grafica nell'albero che il pannello laterale con la storia."
+        }
+    ];
+
+    let currentStep = 0;
+    const startBtn = document.getElementById('startTutorialBtn');
+    const backdrop = document.getElementById('tutorialBackdrop');
+    const dialogBox = document.getElementById('irisDialogBox');
+    const irisText = document.getElementById('irisText');
+    const irisCounter = document.getElementById('irisCounter');
+    const prevBtn = document.getElementById('irisPrevBtn');
+    const nextBtn = document.getElementById('irisNextBtn');
+    const closeBtn = document.getElementById('irisCloseBtn');
+
+    function showStep(index) {
+        steps.forEach(s => s.element.classList.remove('iris-highlighted'));
+
+        const step = steps[index];
+        step.element.classList.add('iris-highlighted');
+        step.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        irisText.textContent = step.text;
+        irisCounter.textContent = `${index + 1} / ${steps.length}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.textContent = index === steps.length - 1 ? 'Fine' : 'Avanti';
+
+        setTimeout(() => {
+            const rect = step.element.getBoundingClientRect();
+            let top, left;
+
+            if (index === 0) {
+                top = rect.bottom + 15;
+                left = rect.left + 20;
+            } else if (index === 1) {
+                top = rect.bottom + 15;
+                left = rect.left + 20;
+            } else if (index === 2) {
+                left = rect.right + 20;
+                top = rect.top + 100;
+            } else if (index === 3) {
+                const detailRect = document.querySelector('.detail-panel').getBoundingClientRect();
+                left = detailRect.left;
+                top = detailRect.top + 20;
+            } else if (index === 4) {
+                // Step 5: posizionato in alto a sinistra nell'area canvas, fuori dalle card
+                const detailRect = document.querySelector('.detail-panel').getBoundingClientRect();
+                top = detailRect.top;
+                left = detailRect.right + 25;
+            }
+
+            // Sicurezza confini schermo
+            if (top + 200 > window.innerHeight) top = window.innerHeight - 210;
+            if (top < 10) top = 10;
+            if (left + 400 > window.innerWidth - 20) left = window.innerWidth - 420;
+            if (left < 10) left = 10;
+
+            dialogBox.style.top = `${top}px`;
+            dialogBox.style.left = `${left}px`;
+        }, 150);
+    }
+
+    function startTutorial() {
+        currentStep = 0;
+        backdrop.classList.add('active');
+        dialogBox.classList.add('active');
+        showStep(currentStep);
+    }
+
+    function closeTutorial() {
+        steps.forEach(s => s.element.classList.remove('iris-highlighted'));
+        backdrop.classList.remove('active');
+        dialogBox.classList.remove('active');
+    }
+
+    startBtn.addEventListener('click', startTutorial);
+    closeBtn.addEventListener('click', closeTutorial);
+    backdrop.addEventListener('click', closeTutorial);
+
+    nextBtn.addEventListener('click', () => {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            showStep(currentStep);
+        } else {
+            closeTutorial();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+</script>
+
+</body>
+</html>

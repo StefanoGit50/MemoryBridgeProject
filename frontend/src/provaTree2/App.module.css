@@ -1,0 +1,123 @@
+.appContainer {
+    min-height: 100vh;
+    background: var(--paper, #f8fafc);
+    color: var(--ink, #1e293b);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Topbar originale */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.0rem 2rem;
+    background: var(--card, #ffffff);
+    border-bottom: 1px solid var(--line, #e2e8f0);
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.brand { display: flex; align-items: center; gap: .65rem; }
+.brandMark {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--moss-soft, #eff6ff);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.brandMark svg { width: 20px; height: 20px; color: var(--moss-dark, #1d4ed8); }
+.brandName { font-family: 'Source Serif 4', serif; font-size: 1.3rem; font-weight: 600; color: var(--ink); }
+.brandName em { font-style: italic; color: var(--moss-dark, #1d4ed8); font-weight: 500; }
+
+.navLinks { display: flex; gap: 1.9rem; flex-wrap: wrap; }
+.navLinks a {
+    display: flex; align-items: center; gap: .4rem;
+    text-decoration: none; color: var(--ink-soft, #64748b);
+    font-size: .94rem; font-weight: 500; padding: .35rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease;
+}
+.navLinks a svg { width: 17px; height: 17px; }
+.navLinks a:hover { color: var(--ink, #1e293b); }
+.navLinks a[aria-current="page"] {
+    color: var(--moss-dark, #1d4ed8); border-bottom-color: var(--moss, #2563eb);
+}
+
+.headerRight { display: flex; align-items: center; gap: 1rem; }
+.tourBtn { display: flex; align-items: center; gap: 0.35rem; }
+
+.profileChip {
+    display: flex; align-items: center; gap: .55rem;
+    color: var(--ink-soft, #64748b); font-size: .9rem; font-weight: 500;
+}
+.avatarSm {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--moss-soft, #eff6ff); display: flex; align-items: center; justify-content: center;
+    color: var(--moss-dark, #1d4ed8);
+}
+
+/* Hero originale con anelli geometrici */
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 2.6rem 2rem 2.4rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, #fffbf5 0%, #fef3c7 100%);
+    border-bottom: 1px solid #fde68a;
+}
+.heroRings {
+    position: absolute; right: -40px; top: -80px;
+    width: 340px; height: 340px; opacity: .2; pointer-events: none;
+}
+.heroText { max-width: 34rem; position: relative; }
+.heroText h1 {
+    font-family: 'Source Serif 4', serif; font-style: italic;
+    font-weight: 500; font-size: 2.1rem; line-height: 1.25; color: var(--amber-primary, #b45309);
+}
+.heroText p { margin-top: .6rem; color: #78350f; font-size: 1rem; line-height: 1.5; max-width: 32ch; }
+
+.heroActions { display: flex; gap: .7rem; align-items: center; flex-wrap: wrap; position: relative; }
+.searchField {
+    display: flex; align-items: center; gap: .5rem; background: var(--card, #ffffff);
+    border: 1.5px solid #fde68a; border-radius: 999px; padding: .55rem .9rem;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.05);
+}
+.searchField svg { width: 16px; height: 16px; color: #d97706; flex-shrink: 0; }
+.searchField input { border: none; background: none; outline: none; font-size: .9rem; color: var(--ink, #1e293b); width: 190px; }
+.searchField input::placeholder { color: var(--ink-soft, #64748b); }
+
+/* Workspace strutturato */
+.workspace {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.treeAreaPlaceholder {
+    flex: 1;
+    min-height: 500px;
+    background: var(--card, #ffffff);
+    border: 1px dashed var(--line, #e2e8f0);
+    border-radius: var(--radius-m, 16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.placeholderCard {
+    text-align: center;
+    color: var(--ink-soft, #64748b);
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+}

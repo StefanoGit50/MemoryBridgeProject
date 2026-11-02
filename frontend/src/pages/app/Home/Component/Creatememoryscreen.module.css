@@ -1,9 +1,9 @@
 .modalOverlay {
     position: fixed;
-    top: 83px;      /* altezza della navbar */
+    top: 97px;      /* altezza del modal rispetto alla navbar */
     left: 0;
     right: 0;
-    bottom: 0;
+    /*bottom: 0;*/
     background-color: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(2px);
     z-index: 50;    /* basta che sia sopra il contenuto della pagina, non serve competere con la navbar */
