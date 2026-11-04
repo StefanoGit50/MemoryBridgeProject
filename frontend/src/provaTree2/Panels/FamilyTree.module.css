@@ -1,0 +1,133 @@
+/* Contenitore e legenda */
+.treeCanvasWrap {
+    flex: 1;
+    min-width: 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+.canvasHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+}
+.canvasHeader p { margin: 0; font-size: 0.85rem; color: var(--ink-soft); }
+.legend { display: flex; gap: 1.3rem; flex-wrap: wrap; font-size: 0.8rem; color: var(--ink-soft); }
+.legendItem { display: flex; align-items: center; gap: 0.4rem; }
+.legendSwatch { width: 22px; height: 0; border-top: 2px solid var(--line); flex-shrink: 0; }
+.legendSwatch.partner { border-top: 2px dashed var(--brass); }
+.legendDot {
+    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+    background: var(--paper-alt); border: 1px solid var(--line);
+}
+.legendDotAcquired {
+    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+    background: color-mix(in srgb, var(--brass-soft) 55%, var(--card));
+    border: 1px dashed color-mix(in srgb, var(--brass) 45%, var(--line));
+}
+
+/* Albero */
+.treeScroll { overflow-x: auto; padding: 0.5rem 0 1rem; }
+
+.tree, .tree ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.tree { justify-content: center; min-width: max-content; }
+.tree li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 44px 22px 0;
+}
+.tree li::before, .tree li::after {
+    content: '';
+    position: absolute; top: 0; right: 50%;
+    border-top: 2px solid var(--line);
+    width: 50%; height: 24px;
+}
+.tree li::after { right: auto; left: 50%; border-left: 2px solid var(--line); }
+.tree li:only-child::before, .tree li:only-child::after { display: none; }
+.tree li:only-child { padding-top: 0; }
+.tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
+.tree li:last-child::before { border-right: 2px solid var(--line); border-radius: 0 6px 0 0; }
+.tree li:first-child::after { border-radius: 6px 0 0 0; }
+.tree > li { padding-top: 0; }
+.tree > li::before, .tree > li::after { display: none; }
+.tree ul::before {
+    content: '';
+    position: absolute; top: -24px; left: 50%;
+    border-left: 2px solid var(--line);
+    width: 0; height: 24px;
+}
+.tree ul { position: relative; padding-top: 44px; }
+
+/* Coppia */
+.couple { display: flex; align-items: center; }
+.coupleLink { display: flex; align-items: center; width: 26px; flex-shrink: 0; }
+.coupleLine { flex: 1; border-top: 2px dashed var(--brass); }
+.coupleDiamond {
+    width: 8px; height: 8px; flex-shrink: 0;
+    background: var(--brass);
+    transform: rotate(45deg); border-radius: 1px;
+}
+
+/* Card persona */
+.personCard {
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-m);
+    padding: 0.85rem 0.5rem 0.7rem;
+    cursor: pointer;
+    color: var(--ink);
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.personCard:hover { transform: translateY(-2px); box-shadow: 0 8px 16px -10px rgba(0, 0, 0, 0.1); border-color: var(--moss); }
+.personCard.isSelected { border-color: var(--moss); box-shadow: 0 0 0 3px var(--moss-soft); background: var(--paper-alt); }
+.personCard.isDimmed { opacity: 0.3; }
+
+/* Famiglia acquisita: bordo tratteggiato + sfondo caldo (non solo il colore) */
+.personCard.acquired { border-style: dashed; }
+.personCard.acquired:not(.isSelected) {
+    background: color-mix(in srgb, var(--brass-soft) 55%, var(--card));
+    border-color: color-mix(in srgb, var(--brass) 45%, var(--line));
+}
+
+.avatar {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--moss-soft);
+    display: flex; align-items: center; justify-content: center;
+}
+.personCard.deceased .avatar { background: var(--paper-alt); }
+.avatar svg { width: 26px; height: 26px; color: var(--moss); }
+
+.pName { font-weight: 600; font-size: 0.87rem; line-height: 1.2; }
+.pYears { font-size: 0.74rem; color: var(--ink-soft); }
+.pMemory { font-size: 0.7rem; font-style: italic; color: var(--ink-soft); }
+.pJob {
+    font-size: 0.68rem; font-weight: 600; color: var(--ink);
+    background: var(--paper-alt); border: 1px solid var(--line);
+    padding: 0.1rem 0.5rem; border-radius: 999px; margin-top: 0.1rem;
+}
+
+.srOnly {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+}

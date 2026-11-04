@@ -1131,7 +1131,7 @@ select {
   background: var(--color-accent-soft);
 }
 
-/* src/shared/Navbar/Navbar.module.css */
+/* src/shared/Navbar/Navbar2.module.css */
 .Navbar_nav {
   position: sticky;
   top: 0;

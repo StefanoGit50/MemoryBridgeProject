@@ -1342,7 +1342,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React3 = require_react(), Internals = {
+        var React6 = require_react(), Internals = {
           d: {
             f: noop,
             r: function() {
@@ -1360,7 +1360,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React3.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React6.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2895,7 +2895,7 @@
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React3.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React6.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -17192,20 +17192,20 @@
           (9 === container.nodeType ? container.body : "HTML" === container.nodeName ? container.ownerDocument.body : container).removeChild(child);
         }
         function clearHydrationBoundary(parentInstance, hydrationInstance) {
-          var node = hydrationInstance, depth = 0;
+          var node = hydrationInstance, depth2 = 0;
           do {
             var nextNode = node.nextSibling;
             parentInstance.removeChild(node);
             if (nextNode && 8 === nextNode.nodeType)
               if (node = nextNode.data, node === SUSPENSE_END_DATA || node === ACTIVITY_END_DATA) {
-                if (0 === depth) {
+                if (0 === depth2) {
                   parentInstance.removeChild(nextNode);
                   retryIfBlockedOn(hydrationInstance);
                   return;
                 }
-                depth--;
+                depth2--;
               } else if (node === SUSPENSE_START_DATA || node === SUSPENSE_PENDING_START_DATA || node === SUSPENSE_QUEUED_START_DATA || node === SUSPENSE_FALLBACK_START_DATA || node === ACTIVITY_START_DATA)
-                depth++;
+                depth2++;
               else if (node === PREAMBLE_CONTRIBUTION_HTML)
                 releaseSingletonInstance(
                   parentInstance.ownerDocument.documentElement
@@ -17392,15 +17392,15 @@
         }
         function getNextHydratableInstanceAfterHydrationBoundary(hydrationInstance) {
           hydrationInstance = hydrationInstance.nextSibling;
-          for (var depth = 0; hydrationInstance; ) {
+          for (var depth2 = 0; hydrationInstance; ) {
             if (8 === hydrationInstance.nodeType) {
               var data = hydrationInstance.data;
               if (data === SUSPENSE_END_DATA || data === ACTIVITY_END_DATA) {
-                if (0 === depth)
+                if (0 === depth2)
                   return getNextHydratable(hydrationInstance.nextSibling);
-                depth--;
+                depth2--;
               } else
-                data !== SUSPENSE_START_DATA && data !== SUSPENSE_FALLBACK_START_DATA && data !== SUSPENSE_PENDING_START_DATA && data !== SUSPENSE_QUEUED_START_DATA && data !== ACTIVITY_START_DATA || depth++;
+                data !== SUSPENSE_START_DATA && data !== SUSPENSE_FALLBACK_START_DATA && data !== SUSPENSE_PENDING_START_DATA && data !== SUSPENSE_QUEUED_START_DATA && data !== ACTIVITY_START_DATA || depth2++;
             }
             hydrationInstance = hydrationInstance.nextSibling;
           }
@@ -17408,14 +17408,14 @@
         }
         function getParentHydrationBoundary(targetInstance) {
           targetInstance = targetInstance.previousSibling;
-          for (var depth = 0; targetInstance; ) {
+          for (var depth2 = 0; targetInstance; ) {
             if (8 === targetInstance.nodeType) {
               var data = targetInstance.data;
               if (data === SUSPENSE_START_DATA || data === SUSPENSE_FALLBACK_START_DATA || data === SUSPENSE_PENDING_START_DATA || data === SUSPENSE_QUEUED_START_DATA || data === ACTIVITY_START_DATA) {
-                if (0 === depth) return targetInstance;
-                depth--;
+                if (0 === depth2) return targetInstance;
+                depth2--;
               } else
-                data !== SUSPENSE_END_DATA && data !== ACTIVITY_END_DATA || depth++;
+                data !== SUSPENSE_END_DATA && data !== ACTIVITY_END_DATA || depth2++;
             }
             targetInstance = targetInstance.previousSibling;
           }
@@ -18527,14 +18527,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React3 = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React6 = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React3.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React6.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21322,7 +21322,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React3.version;
+          var isomorphicReactPackageVersion = React6.version;
           if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21789,18 +21789,18 @@
         function isValidElement(object) {
           return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
         }
-        var React3 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React3.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+        var React6 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React6.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
           return null;
         };
-        React3 = {
+        React6 = {
           react_stack_bottom_frame: function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React3.react_stack_bottom_frame.bind(
-          React3,
+        var unknownOwnerDebugStack = React6.react_stack_bottom_frame.bind(
+          React6,
           UnknownOwner
         )();
         var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -22125,8 +22125,500 @@
         searchField: "App_searchField",
         workspace: "App_workspace",
         treeAreaPlaceholder: "App_treeAreaPlaceholder",
-        placeholderCard: "App_placeholderCard"
+        placeholderCard: "App_placeholderCard",
+        personCard: "App_personCard",
+        acquired: "App_acquired",
+        isSelected: "App_isSelected",
+        srOnly: "App_srOnly"
       };
+    }
+  });
+
+  // src/provaTree2/Panels/AddRelative.module.css
+  var AddRelative_default;
+  var init_AddRelative = __esm({
+    "src/provaTree2/Panels/AddRelative.module.css"() {
+      AddRelative_default = {
+        dialog: "AddRelative_dialog",
+        pop: "AddRelative_pop",
+        form: "AddRelative_form",
+        header: "AddRelative_header",
+        title: "AddRelative_title",
+        subtitle: "AddRelative_subtitle",
+        close: "AddRelative_close",
+        body: "AddRelative_body",
+        note: "AddRelative_note",
+        row: "AddRelative_row",
+        field: "AddRelative_field",
+        label: "AddRelative_label",
+        req: "AddRelative_req",
+        opt: "AddRelative_opt",
+        input: "AddRelative_input",
+        textarea: "AddRelative_textarea",
+        hint: "AddRelative_hint",
+        error: "AddRelative_error",
+        meta: "AddRelative_meta",
+        counter: "AddRelative_counter",
+        group: "AddRelative_group",
+        legend: "AddRelative_legend",
+        chips: "AddRelative_chips",
+        chip: "AddRelative_chip",
+        check: "AddRelative_check",
+        footer: "AddRelative_footer",
+        btn: "AddRelative_btn",
+        primary: "AddRelative_primary",
+        secondary: "AddRelative_secondary",
+        combo: "AddRelative_combo",
+        comboIcon: "AddRelative_comboIcon",
+        comboInput: "AddRelative_comboInput",
+        list: "AddRelative_list",
+        option: "AddRelative_option",
+        optionMeta: "AddRelative_optionMeta",
+        empty: "AddRelative_empty"
+      };
+    }
+  });
+
+  // src/provaTree2/Panels/AddRelative.tsx
+  function validate(v) {
+    const e = {};
+    if (!v.relatedId) e.relatedId = "Scegli un familiare dall\u2019elenco.";
+    if (!v.firstName.trim()) e.firstName = "Inserisci il nome.";
+    if (!v.lastName.trim()) e.lastName = "Inserisci il cognome.";
+    if (!v.sex) e.sex = "Indica il sesso.";
+    if (!v.relation) e.relation = "Scegli il legame di parentela.";
+    const by = Number(v.birthYear);
+    if (v.birthYear && (v.birthYear.length !== 4 || by < 1800 || by > THIS_YEAR)) {
+      e.birthYear = `Inserisci un anno tra 1800 e ${THIS_YEAR}.`;
+    }
+    if (!v.isLiving && v.deathYear) {
+      const dy = Number(v.deathYear);
+      if (v.deathYear.length !== 4 || dy > THIS_YEAR) e.deathYear = `Inserisci un anno valido, al massimo ${THIS_YEAR}.`;
+      else if (v.birthYear && !e.birthYear && dy < by) e.deathYear = "L\u2019anno di morte non pu\xF2 precedere quello di nascita.";
+    }
+    return e;
+  }
+  function AddRelativeModal({ isOpen, people, initialRelatedId, relationBlockers, onClose, onSubmit }) {
+    const uid = (0, import_react4.useId)();
+    const dialogRef = (0, import_react4.useRef)(null);
+    const downOnBackdrop = (0, import_react4.useRef)(false);
+    const initial = () => {
+      const p = people.find((x) => x.id === initialRelatedId);
+      return { values: { ...EMPTY, relatedId: p?.id ?? "" }, query: p?.name ?? "" };
+    };
+    const [values, setValues] = (0, import_react4.useState)(EMPTY);
+    const [query, setQuery] = (0, import_react4.useState)("");
+    const [listOpen, setListOpen] = (0, import_react4.useState)(false);
+    const [active, setActive] = (0, import_react4.useState)(0);
+    const [touched, setTouched] = (0, import_react4.useState)({});
+    const [submitted, setSubmitted] = (0, import_react4.useState)(false);
+    const errors = validate(values);
+    const init = initial();
+    const dirty = JSON.stringify(values) !== JSON.stringify(init.values) || query !== init.query;
+    const showError = (k) => touched[k] || submitted ? errors[k] : void 0;
+    const related = people.find((p) => p.id === values.relatedId);
+    const blockers = values.relatedId ? relationBlockers?.(values.relatedId) ?? {} : {};
+    const matches = people.filter((p) => norm(p.name).includes(values.relatedId ? "" : norm(query.trim())));
+    const activeIdx = Math.min(active, matches.length - 1);
+    const optId = (id) => `${uid}-opt-${id}`;
+    const sexIdx = values.sex === "donna" ? 1 : values.sex === "uomo" ? 2 : 0;
+    (0, import_react4.useEffect)(() => {
+      const d = dialogRef.current;
+      if (!d) return;
+      if (isOpen && !d.open) {
+        const i = initial();
+        setValues(i.values);
+        setQuery(i.query);
+        setListOpen(false);
+        setTouched({});
+        setSubmitted(false);
+        d.showModal();
+      } else if (!isOpen && d.open) {
+        d.close();
+      }
+    }, [isOpen]);
+    const requestClose = () => {
+      if (dirty && !window.confirm("Vuoi chiudere? Le informazioni inserite andranno perse.")) return;
+      onClose();
+    };
+    const set = (k, v) => setValues((p) => ({ ...p, [k]: v }));
+    const blur = (k) => setTouched((p) => ({ ...p, [k]: true }));
+    const digits = (k) => (e) => set(k, e.target.value.replace(/\D/g, ""));
+    const pick = (p) => {
+      setValues((v) => ({
+        ...v,
+        relatedId: p.id,
+        relation: v.relation && relationBlockers?.(p.id)[v.relation] ? "" : v.relation
+      }));
+      setQuery(p.name);
+      setListOpen(false);
+      blur("relatedId");
+    };
+    const onComboKeyDown = (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setListOpen(true);
+        setActive(Math.min(activeIdx + 1, matches.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActive(Math.max(activeIdx - 1, 0));
+      } else if (e.key === "Enter" && listOpen && matches[activeIdx]) {
+        e.preventDefault();
+        pick(matches[activeIdx]);
+      } else if (e.key === "Escape" && listOpen) {
+        e.preventDefault();
+        setListOpen(false);
+      }
+    };
+    const field = (k) => ({
+      id: `${uid}-${k}`,
+      "aria-invalid": showError(k) ? true : void 0,
+      "aria-describedby": `${uid}-${k}-msg`,
+      onBlur: () => blur(k)
+    });
+    const msg = (k, hint) => {
+      const err = showError(k);
+      if (!err && !hint) return null;
+      return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { id: `${uid}-${k}-msg`, className: err ? AddRelative_default.error : AddRelative_default.hint, role: err ? "alert" : void 0, children: err ?? hint });
+    };
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      setSubmitted(true);
+      const order = ["relatedId", "firstName", "lastName", "sex", "relation", "birthYear", "deathYear"];
+      const firstInvalid = order.find((k) => errors[k]);
+      if (firstInvalid) {
+        document.getElementById(`${uid}-${firstInvalid}`)?.focus();
+        return;
+      }
+      onSubmit({
+        relatedId: values.relatedId,
+        relation: values.relation,
+        firstName: values.firstName.trim(),
+        lastName: values.lastName.trim(),
+        sex: values.sex,
+        birthYear: values.birthYear ? Number(values.birthYear) : void 0,
+        deathYear: !values.isLiving && values.deathYear ? Number(values.deathYear) : void 0,
+        job: values.job.trim() || void 0,
+        bio: values.bio.trim() || void 0
+      });
+      onClose();
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      "dialog",
+      {
+        ref: dialogRef,
+        className: AddRelative_default.dialog,
+        "aria-labelledby": `${uid}-title`,
+        onCancel: (e) => {
+          e.preventDefault();
+          requestClose();
+        },
+        onMouseDown: (e) => {
+          downOnBackdrop.current = e.target === e.currentTarget;
+        },
+        onClick: (e) => {
+          if (downOnBackdrop.current && e.target === e.currentTarget) requestClose();
+        },
+        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("form", { className: AddRelative_default.form, onSubmit: handleSubmit, noValidate: true, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("header", { className: AddRelative_default.header, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h2", { id: `${uid}-title`, className: AddRelative_default.title, children: "Aggiungi un familiare" }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: AddRelative_default.subtitle, children: "Scegli a chi collegarlo e inserisci i suoi dati." }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", { type: "button", className: AddRelative_default.close, onClick: requestClose, "aria-label": "Chiudi", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M6 6l12 12M18 6L6 18" }) }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.body, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: AddRelative_default.note, children: [
+              "I campi con ",
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.req, children: "*" }),
+              " sono obbligatori."
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.field, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.label, htmlFor: `${uid}-relatedId`, children: [
+                "Collega a",
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.req, "aria-hidden": "true", children: "*" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.combo, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { className: AddRelative_default.comboIcon, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "11", cy: "11", r: "7" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M21 21l-4.3-4.3" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                  "input",
+                  {
+                    className: `${AddRelative_default.input} ${AddRelative_default.comboInput}`,
+                    ...field("relatedId"),
+                    role: "combobox",
+                    "aria-expanded": listOpen,
+                    "aria-controls": `${uid}-list`,
+                    "aria-autocomplete": "list",
+                    "aria-activedescendant": listOpen && matches[activeIdx] ? optId(matches[activeIdx].id) : void 0,
+                    autoComplete: "off",
+                    placeholder: "Cerca un familiare per nome",
+                    value: query,
+                    onChange: (e) => {
+                      setQuery(e.target.value);
+                      set("relatedId", "");
+                      setActive(0);
+                      setListOpen(true);
+                    },
+                    onFocus: () => setListOpen(true),
+                    onBlur: () => {
+                      setListOpen(false);
+                      blur("relatedId");
+                    },
+                    onKeyDown: onComboKeyDown
+                  }
+                ),
+                listOpen && (matches.length ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ul", { id: `${uid}-list`, role: "listbox", className: AddRelative_default.list, children: matches.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+                  "li",
+                  {
+                    id: optId(p.id),
+                    role: "option",
+                    "aria-selected": i === activeIdx,
+                    className: AddRelative_default.option,
+                    onMouseDown: (e) => e.preventDefault(),
+                    onClick: () => pick(p),
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: p.name }),
+                      p.meta && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.optionMeta, children: p.meta })
+                    ]
+                  },
+                  p.id
+                )) }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: `${AddRelative_default.list} ${AddRelative_default.empty}`, role: "status", children: "Nessun familiare trovato." }))
+              ] }),
+              msg("relatedId", "Cerca tra i familiari gi\xE0 presenti nell\u2019albero.")
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.row, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.field, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.label, htmlFor: `${uid}-firstName`, children: [
+                  "Nome",
+                  /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.req, "aria-hidden": "true", children: "*" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                  "input",
+                  {
+                    className: AddRelative_default.input,
+                    ...field("firstName"),
+                    required: true,
+                    autoComplete: "off",
+                    placeholder: "Es. Clara",
+                    value: values.firstName,
+                    onChange: (e) => set("firstName", e.target.value)
+                  }
+                ),
+                msg("firstName")
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.field, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.label, htmlFor: `${uid}-lastName`, children: [
+                  "Cognome",
+                  /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.req, "aria-hidden": "true", children: "*" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                  "input",
+                  {
+                    className: AddRelative_default.input,
+                    ...field("lastName"),
+                    required: true,
+                    autoComplete: "off",
+                    placeholder: "Es. Shin",
+                    value: values.lastName,
+                    onChange: (e) => set("lastName", e.target.value)
+                  }
+                ),
+                msg("lastName")
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("fieldset", { className: AddRelative_default.group, "aria-describedby": `${uid}-sex-msg`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("legend", { className: AddRelative_default.legend, children: [
+                "Sesso",
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.req, "aria-hidden": "true", children: "*" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: AddRelative_default.chips, children: SEXES.map((s, i) => /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.chip, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                  "input",
+                  {
+                    type: "radio",
+                    name: `${uid}-sex`,
+                    id: i === 0 ? `${uid}-sex` : void 0,
+                    value: s.value,
+                    checked: values.sex === s.value,
+                    onChange: () => {
+                      set("sex", s.value);
+                      blur("sex");
+                    }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: s.label })
+              ] }, s.value)) }),
+              msg("sex")
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("fieldset", { className: AddRelative_default.group, "aria-describedby": `${uid}-relation-msg`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("legend", { className: AddRelative_default.legend, children: [
+                "Chi \xE8 ",
+                values.firstName.trim() || "il nuovo familiare",
+                " per ",
+                related?.name ?? "il familiare scelto",
+                "?",
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.req, "aria-hidden": "true", children: "*" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: AddRelative_default.chips, children: Object.keys(RELATIONS).map((r, i) => /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.chip, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                  "input",
+                  {
+                    type: "radio",
+                    name: `${uid}-relation`,
+                    id: i === 0 ? `${uid}-relation` : void 0,
+                    value: r,
+                    checked: values.relation === r,
+                    disabled: !!blockers[r],
+                    onChange: () => {
+                      set("relation", r);
+                      blur("relation");
+                    }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: RELATIONS[r][sexIdx] })
+              ] }, r)) }),
+              msg("relation", Object.values(blockers).join(" ") || (values.sex ? void 0 : "Indica il sesso per vedere il legame esatto (es. Madre o Padre)."))
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.row, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.field, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.label, htmlFor: `${uid}-birthYear`, children: [
+                  "Anno di nascita",
+                  /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.opt, children: "facoltativo" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                  "input",
+                  {
+                    className: AddRelative_default.input,
+                    ...field("birthYear"),
+                    inputMode: "numeric",
+                    maxLength: 4,
+                    autoComplete: "off",
+                    placeholder: "Es. 1962",
+                    value: values.birthYear,
+                    onChange: digits("birthYear")
+                  }
+                ),
+                msg("birthYear")
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.field, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.label, htmlFor: `${uid}-deathYear`, children: [
+                  "Anno di morte",
+                  /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.opt, children: "facoltativo" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                  "input",
+                  {
+                    className: AddRelative_default.input,
+                    ...field("deathYear"),
+                    inputMode: "numeric",
+                    maxLength: 4,
+                    autoComplete: "off",
+                    placeholder: "Es. 2019",
+                    disabled: values.isLiving,
+                    value: values.deathYear,
+                    onChange: digits("deathYear")
+                  }
+                ),
+                msg("deathYear", values.isLiving ? "Disattivato: la persona \xE8 in vita." : void 0)
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.check, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                "input",
+                {
+                  type: "checkbox",
+                  checked: values.isLiving,
+                  onChange: (e) => setValues((p) => ({ ...p, isLiving: e.target.checked, deathYear: e.target.checked ? "" : p.deathYear }))
+                }
+              ),
+              "\xC8 ancora in vita"
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.field, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.label, htmlFor: `${uid}-job`, children: [
+                "Professione",
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.opt, children: "facoltativo" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                "input",
+                {
+                  className: AddRelative_default.input,
+                  id: `${uid}-job`,
+                  autoComplete: "off",
+                  placeholder: "Es. Insegnante",
+                  value: values.job,
+                  onChange: (e) => set("job", e.target.value)
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.field, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { className: AddRelative_default.label, htmlFor: `${uid}-bio`, children: [
+                "La sua storia",
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: AddRelative_default.opt, children: "facoltativo" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+                "textarea",
+                {
+                  className: AddRelative_default.textarea,
+                  id: `${uid}-bio`,
+                  maxLength: BIO_MAX,
+                  "aria-describedby": `${uid}-bio-msg`,
+                  placeholder: "Qualche riga sulla sua vita, i luoghi, le passioni\u2026",
+                  value: values.bio,
+                  onChange: (e) => set("bio", e.target.value)
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: AddRelative_default.meta, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { id: `${uid}-bio-msg`, className: AddRelative_default.hint, children: "Potrai completarla pi\xF9 tardi dal profilo." }),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("span", { className: AddRelative_default.counter, "aria-hidden": "true", children: [
+                  values.bio.length,
+                  "/",
+                  BIO_MAX
+                ] })
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("footer", { className: AddRelative_default.footer, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", { type: "button", className: `${AddRelative_default.btn} ${AddRelative_default.secondary}`, onClick: requestClose, children: "Annulla" }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", { type: "submit", className: `${AddRelative_default.btn} ${AddRelative_default.primary}`, children: "Salva familiare" })
+          ] })
+        ] })
+      }
+    );
+  }
+  var import_react4, import_jsx_runtime7, RELATIONS, SEXES, BIO_MAX, THIS_YEAR, norm, EMPTY, AddRelative_default2;
+  var init_AddRelative2 = __esm({
+    "src/provaTree2/Panels/AddRelative.tsx"() {
+      "use strict";
+      import_react4 = __toESM(require_react());
+      init_AddRelative();
+      import_jsx_runtime7 = __toESM(require_jsx_runtime());
+      RELATIONS = {
+        coniuge: ["Coniuge", "Moglie", "Marito"],
+        figlio: ["Figlio/a", "Figlia", "Figlio"],
+        genitore: ["Genitore", "Madre", "Padre"],
+        fratello: ["Fratello/sorella", "Sorella", "Fratello"]
+      };
+      SEXES = [
+        { value: "donna", label: "Donna" },
+        { value: "uomo", label: "Uomo" }
+      ];
+      BIO_MAX = 400;
+      THIS_YEAR = (/* @__PURE__ */ new Date()).getFullYear();
+      norm = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      EMPTY = {
+        relatedId: "",
+        firstName: "",
+        lastName: "",
+        sex: "",
+        relation: "",
+        birthYear: "",
+        isLiving: true,
+        deathYear: "",
+        job: "",
+        bio: ""
+      };
+      AddRelative_default2 = AddRelativeModal;
     }
   });
 
@@ -22205,29 +22697,29 @@
   });
 
   // node_modules/lucide-react/dist/esm/context.mjs
-  var import_react4, LucideContext, useLucideContext;
+  var import_react5, LucideContext, useLucideContext;
   var init_context = __esm({
     "node_modules/lucide-react/dist/esm/context.mjs"() {
       "use strict";
       "use client";
-      import_react4 = __toESM(require_react(), 1);
-      LucideContext = (0, import_react4.createContext)({});
-      useLucideContext = () => (0, import_react4.useContext)(LucideContext);
+      import_react5 = __toESM(require_react(), 1);
+      LucideContext = (0, import_react5.createContext)({});
+      useLucideContext = () => (0, import_react5.useContext)(LucideContext);
     }
   });
 
   // node_modules/lucide-react/dist/esm/Icon.mjs
-  var import_react5, Icon;
+  var import_react6, Icon;
   var init_Icon = __esm({
     "node_modules/lucide-react/dist/esm/Icon.mjs"() {
       "use strict";
       "use client";
-      import_react5 = __toESM(require_react(), 1);
+      import_react6 = __toESM(require_react(), 1);
       init_defaultAttributes();
       init_hasA11yProp();
       init_mergeClasses();
       init_context();
-      Icon = (0, import_react5.forwardRef)(
+      Icon = (0, import_react6.forwardRef)(
         ({ color, size, strokeWidth, absoluteStrokeWidth, className = "", children, iconNode, ...rest }, ref) => {
           const {
             size: contextSize = 24,
@@ -22237,7 +22729,7 @@
             className: contextClass = ""
           } = useLucideContext() ?? {};
           const calculatedStrokeWidth = absoluteStrokeWidth ?? contextAbsoluteStrokeWidth ? Number(strokeWidth ?? contextStrokeWidth) * 24 / Number(size ?? contextSize) : strokeWidth ?? contextStrokeWidth;
-          return (0, import_react5.createElement)(
+          return (0, import_react6.createElement)(
             "svg",
             {
               ref,
@@ -22251,7 +22743,7 @@
               ...rest
             },
             [
-              ...iconNode.map(([tag, attrs]) => (0, import_react5.createElement)(tag, attrs)),
+              ...iconNode.map(([tag, attrs]) => (0, import_react6.createElement)(tag, attrs)),
               ...Array.isArray(children) ? children : [children]
             ]
           );
@@ -22261,17 +22753,17 @@
   });
 
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
-  var import_react6, createLucideIcon;
+  var import_react7, createLucideIcon;
   var init_createLucideIcon = __esm({
     "node_modules/lucide-react/dist/esm/createLucideIcon.mjs"() {
-      import_react6 = __toESM(require_react(), 1);
+      import_react7 = __toESM(require_react(), 1);
       init_mergeClasses();
       init_toKebabCase();
       init_toPascalCase();
       init_Icon();
       createLucideIcon = (iconName, iconNode) => {
-        const Component = (0, import_react6.forwardRef)(
-          ({ className, ...props }, ref) => (0, import_react6.createElement)(Icon, {
+        const Component = (0, import_react7.forwardRef)(
+          ({ className, ...props }, ref) => (0, import_react7.createElement)(Icon, {
             ref,
             iconNode,
             className: mergeClasses(
@@ -22309,117 +22801,454 @@
     }
   });
 
-  // src/provaTree2/App.tsx
+  // src/provaTree2/Panels/FamilyTree.module.css
+  var FamilyTree_default;
+  var init_FamilyTree = __esm({
+    "src/provaTree2/Panels/FamilyTree.module.css"() {
+      FamilyTree_default = {
+        treeCanvasWrap: "FamilyTree_treeCanvasWrap",
+        canvasHeader: "FamilyTree_canvasHeader",
+        legend: "FamilyTree_legend",
+        legendItem: "FamilyTree_legendItem",
+        legendSwatch: "FamilyTree_legendSwatch",
+        partner: "FamilyTree_partner",
+        legendDot: "FamilyTree_legendDot",
+        legendDotAcquired: "FamilyTree_legendDotAcquired",
+        treeScroll: "FamilyTree_treeScroll",
+        tree: "FamilyTree_tree",
+        couple: "FamilyTree_couple",
+        coupleLink: "FamilyTree_coupleLink",
+        coupleLine: "FamilyTree_coupleLine",
+        coupleDiamond: "FamilyTree_coupleDiamond",
+        personCard: "FamilyTree_personCard",
+        isSelected: "FamilyTree_isSelected",
+        isDimmed: "FamilyTree_isDimmed",
+        acquired: "FamilyTree_acquired",
+        avatar: "FamilyTree_avatar",
+        deceased: "FamilyTree_deceased",
+        pName: "FamilyTree_pName",
+        pYears: "FamilyTree_pYears",
+        pMemory: "FamilyTree_pMemory",
+        pJob: "FamilyTree_pJob",
+        srOnly: "FamilyTree_srOnly"
+      };
+    }
+  });
+
+  // src/provaTree2/Panels/types.ts
+  function buildTree(people) {
+    const byId = new Map(people.map((p) => [p.id, p]));
+    const order = new Map(people.map((p, i) => [p.id, i]));
+    const partnerOf = (p) => p.partnerId ? byId.get(p.partnerId) : void 0;
+    const startsNode = (p) => {
+      const s = partnerOf(p);
+      if (!s) return true;
+      if (p.parentIds.length !== s.parentIds.length) return p.parentIds.length > 0;
+      return order.get(p.id) < order.get(s.id);
+    };
+    const build = (p) => {
+      const s = partnerOf(p);
+      const kids = people.filter((c) => c.parentIds.some((id) => id === p.id || id === s?.id));
+      return { person: p, partner: s, children: kids.map(build) };
+    };
+    return people.filter((p) => p.parentIds.length === 0 && startsNode(p)).map(build);
+  }
+  function getRelationBlockers(people, relatedId) {
+    const rel = people.find((p) => p.id === relatedId);
+    const b = {};
+    if (!rel) return b;
+    if (rel.partnerId) b.coniuge = `Coniuge non disponibile: ${rel.firstName} ha gi\xE0 un coniuge.`;
+    if (rel.parentIds.length >= 2) b.genitore = `Genitore non disponibile: ${rel.firstName} ha gi\xE0 entrambi i genitori.`;
+    else if (rel.parentIds.length === 1 && people.find((p) => p.id === rel.parentIds[0])?.partnerId) {
+      b.genitore = "Genitore non disponibile: l\u2019altro genitore \xE8 gi\xE0 collegato a un altro coniuge.";
+    }
+    if (rel.parentIds.length === 0) b.fratello = `Fratello/sorella non disponibile: aggiungi prima un genitore di ${rel.firstName}.`;
+    return b;
+  }
+  function addRelative(people, d) {
+    const rel = people.find((p) => p.id === d.relatedId);
+    if (!rel) return { people, newId: "" };
+    const { relatedId, relation, ...info } = d;
+    const created = { id: crypto.randomUUID(), ...info, parentIds: [] };
+    let next = people;
+    const patch = (id, changes) => {
+      next = next.map((p) => p.id === id ? { ...p, ...changes } : p);
+    };
+    switch (relation) {
+      case "coniuge":
+        created.partnerId = rel.id;
+        patch(rel.id, { partnerId: created.id });
+        break;
+      case "figlio":
+        created.parentIds = rel.partnerId ? [rel.id, rel.partnerId] : [rel.id];
+        break;
+      case "fratello":
+        created.parentIds = [...rel.parentIds];
+        break;
+      case "genitore": {
+        const other = rel.parentIds[0];
+        if (other) {
+          created.partnerId = other;
+          patch(other, { partnerId: created.id });
+        }
+        patch(rel.id, { parentIds: [...rel.parentIds, created.id] });
+        break;
+      }
+    }
+    return { people: [...next, created], newId: created.id };
+  }
+  function toPersonData(people, id) {
+    const p = people.find((x) => x.id === id);
+    if (!p) return void 0;
+    const f = p.sex === "donna";
+    const years = p.deathYear ? `Vissut${f ? "a" : "o"} dal ${p.birthYear ?? "?"} al ${p.deathYear}` : p.birthYear ? `Nat${f ? "a" : "o"} nel ${p.birthYear}` : "";
+    const label = (x, [m, w]) => x.sex === "donna" ? w : m;
+    const family = [];
+    const add = (x, rel) => x && family.push({ id: x.id, name: fullName(x), relation: label(x, rel) });
+    add(people.find((x) => x.id === p.partnerId), ["Marito", "Moglie"]);
+    p.parentIds.forEach((pid) => add(people.find((x) => x.id === pid), ["Padre", "Madre"]));
+    people.filter((x) => x.parentIds.includes(p.id)).forEach((x) => add(x, ["Figlio", "Figlia"]));
+    people.filter((x) => x.id !== p.id && x.parentIds.some((pid) => p.parentIds.includes(pid))).forEach((x) => add(x, ["Fratello", "Sorella"]));
+    return { name: fullName(p), years, job: p.job ?? "", bio: p.bio ?? "", family };
+  }
+  var fullName, norm2, matchesQuery, isAcquired, toOptions;
+  var init_types = __esm({
+    "src/provaTree2/Panels/types.ts"() {
+      "use strict";
+      fullName = (p) => `${p.firstName} ${p.lastName}`;
+      norm2 = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      matchesQuery = (p, q) => norm2(fullName(p)).includes(norm2(q.trim()));
+      isAcquired = (p, familyName) => norm2(p.lastName) !== norm2(familyName);
+      toOptions = (people) => people.map((p) => ({ id: p.id, name: fullName(p), meta: p.birthYear ? String(p.birthYear) : void 0 }));
+    }
+  });
+
+  // src/provaTree2/Panels/FamilyTree.tsx
+  function FamilyTree({ people, familyName, selectedId, query, onSelect }) {
+    const ref = (0, import_react8.useRef)(null);
+    const q = query.trim();
+    const tree = buildTree(people);
+    (0, import_react8.useEffect)(() => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      ref.current?.querySelector(`[data-id="${selectedId}"]`)?.scrollIntoView({ block: "nearest", inline: "center", behavior: reduce ? "auto" : "smooth" });
+    }, [selectedId, people.length]);
+    const card = (p) => {
+      const acquired = isAcquired(p, familyName);
+      const dimmed = q !== "" && !matchesQuery(p, q);
+      const cls = [
+        FamilyTree_default.personCard,
+        p.deathYear && FamilyTree_default.deceased,
+        acquired && FamilyTree_default.acquired,
+        p.id === selectedId && FamilyTree_default.isSelected,
+        dimmed && FamilyTree_default.isDimmed
+      ].filter(Boolean).join(" ");
+      return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("button", { type: "button", "data-id": p.id, className: cls, "aria-pressed": p.id === selectedId, onClick: () => onSelect(p.id), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.avatar, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(User, { width: 26, height: 26 }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.pName, children: fullName(p) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.pYears, children: p.deathYear ? `${p.birthYear ?? "?"}\u2013${p.deathYear}` : p.birthYear }),
+        p.deathYear && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.pMemory, children: "In memoria" }),
+        p.job && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.pJob, children: p.job }),
+        acquired && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.srOnly, children: ", famiglia acquisita" })
+      ] });
+    };
+    const branch = (nodes, isRoot = false) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("ul", { className: isRoot ? FamilyTree_default.tree : void 0, children: nodes.map((n) => /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("li", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: FamilyTree_default.couple, children: [
+        card(n.person),
+        n.partner && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: FamilyTree_default.coupleLink, "aria-hidden": "true", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.coupleLine }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.coupleDiamond }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.coupleLine })
+          ] }),
+          card(n.partner)
+        ] })
+      ] }),
+      n.children.length > 0 && branch(n.children)
+    ] }, n.person.id)) });
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: FamilyTree_default.treeCanvasWrap, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: FamilyTree_default.canvasHeader, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { children: [
+          depth(tree),
+          " generazioni, ",
+          people.length,
+          " persone in famiglia"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: FamilyTree_default.legend, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: FamilyTree_default.legendItem, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.legendSwatch, "aria-hidden": "true" }),
+            " Genitore e figlio"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: FamilyTree_default.legendItem, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: `${FamilyTree_default.legendSwatch} ${FamilyTree_default.partner}`, "aria-hidden": "true" }),
+            " Coppia"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: FamilyTree_default.legendItem, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.legendDot, "aria-hidden": "true" }),
+            " In memoria"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: FamilyTree_default.legendItem, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: FamilyTree_default.legendDotAcquired, "aria-hidden": "true" }),
+            " Famiglia acquisita"
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { ref, className: FamilyTree_default.treeScroll, children: branch(tree, true) })
+    ] });
+  }
+  var import_react8, import_jsx_runtime8, depth;
+  var init_FamilyTree2 = __esm({
+    "src/provaTree2/Panels/FamilyTree.tsx"() {
+      "use strict";
+      import_react8 = __toESM(require_react());
+      init_lucide_react();
+      init_FamilyTree();
+      init_types();
+      import_jsx_runtime8 = __toESM(require_jsx_runtime());
+      depth = (nodes) => nodes.length ? 1 + Math.max(...nodes.map((n) => depth(n.children))) : 0;
+    }
+  });
+
+  // src/provaTree2/Panels/Navbar2.module.css
+  var Navbar_default;
+  var init_Navbar = __esm({
+    "src/provaTree2/Panels/Navbar.module.css"() {
+      Navbar_default = {
+        topbar: "Navbar_topbar",
+        brand: "Navbar_brand",
+        brandMark: "Navbar_brandMark",
+        brandName: "Navbar_brandName",
+        navLinks: "Navbar_navLinks",
+        navLink: "Navbar_navLink",
+        headerRight: "Navbar_headerRight",
+        tourBtn: "Navbar_tourBtn",
+        profileChip: "Navbar_profileChip",
+        avatarSm: "Navbar_avatarSm"
+      };
+    }
+  });
+
+  // src/shared/Navbar/Logo.png
+  var Logo_default;
+  var init_Logo = __esm({
+    "src/shared/Navbar/Logo.png"() {
+      Logo_default = "data:image/png;base64,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";
+    }
+  });
+
+  // src/provaTree2/Panels/Navbar.tsx
+  var import_react9, import_jsx_runtime9, svgProps, HomeIcon, TreeIcon, SearchIcon, HeartIcon, HelpIcon, DEFAULT_NAV_ITEMS, Navbar, Navbar_default2;
+  var init_Navbar2 = __esm({
+    "src/provaTree2/Panels/Navbar.tsx"() {
+      "use strict";
+      import_react9 = __toESM(require_react());
+      init_Navbar();
+      init_Buttons2();
+      init_lucide_react();
+      init_Logo();
+      import_jsx_runtime9 = __toESM(require_jsx_runtime());
+      svgProps = {
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.7,
+        strokeLinecap: "round",
+        strokeLinejoin: "round"
+      };
+      HomeIcon = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("svg", { ...svgProps, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M3 11l9-7 9 7" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9" })
+      ] });
+      TreeIcon = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("svg", { ...svgProps, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M12 21V11" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M12 11c0-3 2-4 5-5" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M12 14c0-2.5-1.8-3.4-4.5-4.2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("circle", { cx: "17", cy: "5", r: "1.4" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("circle", { cx: "7.5", cy: "9", r: "1.4" })
+      ] });
+      SearchIcon = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("svg", { ...svgProps, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("circle", { cx: "11", cy: "11", r: "7" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M21 21l-4.3-4.3" })
+      ] });
+      HeartIcon = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("svg", { ...svgProps, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M12 20s-7-4.3-9.5-8.4C1 8.5 2.4 5 6 5c2 0 3.3 1 4.5 2.6C11.7 6 13 5 15 5c3.6 0 5 3.5 3.5 6.6C16 16.7 12 20 12 20z" }) });
+      HelpIcon = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+        "svg",
+        {
+          viewBox: "0 0 24 24",
+          width: "15",
+          height: "15",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("circle", { cx: "12", cy: "12", r: "10" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
+          ]
+        }
+      );
+      DEFAULT_NAV_ITEMS = [
+        { key: "home", label: "Home", href: "/", icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HomeIcon, {}) },
+        { key: "tree", label: "Albero Genealogico", href: "/albero", icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(TreeIcon, {}) },
+        { key: "search", label: "Ricerca", href: "/ricerca", icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SearchIcon, {}) },
+        { key: "memory", label: "Racconta un ricordo", href: "/ricordo", icon: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HeartIcon, {}) }
+      ];
+      Navbar = (0, import_react9.forwardRef)(function Navbar2({
+        activeKey,
+        items = DEFAULT_NAV_ITEMS,
+        userName = "Arianna Han",
+        onStartTour,
+        className
+      }, ref) {
+        const rootClass = [Navbar_default.topbar, className].filter(Boolean).join(" ");
+        return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("header", { ref, className: rootClass, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: Navbar_default.brand, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: Navbar_default.brandMark, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+              "img",
+              {
+                src: Logo_default,
+                alt: "Logo",
+                className: Navbar_default.brandMark
+              }
+            ) }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("span", { className: Navbar_default.brandName, children: [
+              "Memory",
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("em", { children: "Bridge" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("nav", { className: Navbar_default.navLinks, "aria-label": "Navigazione principale", children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+            "a",
+            {
+              href: item.href,
+              className: Navbar_default.navLink,
+              "aria-current": item.key === activeKey ? "page" : void 0,
+              children: [
+                item.icon,
+                item.label
+              ]
+            },
+            item.key
+          )) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: Navbar_default.headerRight, children: [
+            onStartTour && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+              Button,
+              {
+                variant: "secondary",
+                size: "small",
+                onClick: onStartTour,
+                className: Navbar_default.tourBtn,
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HelpIcon, {}),
+                  "Guida IRIS"
+                ]
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: Navbar_default.profileChip, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: Navbar_default.avatarSm, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(User, { width: 17, height: 17 }) }),
+              userName
+            ] })
+          ] })
+        ] });
+      });
+      Navbar_default2 = Navbar;
+    }
+  });
+
+  // src/provaTree2/Tree.tsx
   function App() {
     const { isOpen, stepIndex, steps, startTour, closeTour, nextStep, prevStep, refs } = useIrisTour();
-    const mockPerson = {
-      name: "Orazio Han",
-      years: "Nato nel 1960",
-      job: "Artigiano",
-      bio: "Orazio \xE8 cresciuto in una famiglia umile, senza mai perdere la voglia di lavorare con le mani. Ha imparato il mestiere di falegname da suo padre e non lo ha pi\xF9 lasciato. Ha incontrato Clara al mercato del paese: si sono sposati due anni dopo.",
-      family: [
-        { id: "clara", name: "Clara Shin", relation: "Moglie" },
-        { id: "shila", name: "Shila Han", relation: "Figlia" },
-        { id: "mario", name: "Mario Han", relation: "Figlio" }
-      ]
+    const [isAddOpen, setIsAddOpen] = import_react10.default.useState(false);
+    const [people, setPeople] = import_react10.default.useState(INITIAL_PEOPLE);
+    const [selectedId, setSelectedId] = import_react10.default.useState("orazio");
+    const [query, setQuery] = import_react10.default.useState("");
+    const selectedPerson = toPersonData(people, selectedId);
+    const handleAddRelative = (data) => {
+      const res = addRelative(people, data);
+      setPeople(res.people);
+      setSelectedId(res.newId);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: App_default.appContainer, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("header", { ref: refs.topbarRef, className: App_default.topbar, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: App_default.brand, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: App_default.brandMark, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M12 21V11" }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M12 11c0-3 2-4 5-5" }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M12 14c0-2.5-1.8-3.4-4.5-4.2" }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "17", cy: "5", r: "1.4" }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "7.5", cy: "9", r: "1.4" }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "12", cy: "21", r: "1.4" })
-          ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("span", { className: App_default.brandName, children: [
-            "Memory",
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("em", { children: "Bridge" })
-          ] })
+    const handleSearchKeyDown = (e) => {
+      if (e.key !== "Enter") return;
+      const first = people.find((p) => matchesQuery(p, query));
+      if (first) setSelectedId(first.id);
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: App_default.appContainer, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+        Navbar_default2,
+        {
+          ref: refs.topbarRef,
+          activeKey: "tree",
+          userName: "Arianna Han",
+          onStartTour: startTour
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("section", { ref: refs.heroRef, className: App_default.hero, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("svg", { className: App_default.heroRings, viewBox: "0 0 200 200", "aria-hidden": "true", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("circle", { cx: "100", cy: "100", r: "94", fill: "none", stroke: "#f59e0b", strokeWidth: "1" }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("circle", { cx: "100", cy: "100", r: "74", fill: "none", stroke: "#f59e0b", strokeWidth: "1" }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("circle", { cx: "100", cy: "100", r: "54", fill: "none", stroke: "#f59e0b", strokeWidth: "1" }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("circle", { cx: "100", cy: "100", r: "34", fill: "none", stroke: "#f59e0b", strokeWidth: "1" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("nav", { className: App_default.navLinks, "aria-label": "Navigazione principale", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("a", { href: "#", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M3 11l9-7 9 7" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9" })
-            ] }),
-            "Home"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("a", { href: "#", "aria-current": "page", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M12 21V11" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M12 11c0-3 2-4 5-5" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M12 14c0-2.5-1.8-3.4-4.5-4.2" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "17", cy: "5", r: "1.4" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "7.5", cy: "9", r: "1.4" })
-            ] }),
-            "Albero Genealogico"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("a", { href: "#", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "11", cy: "11", r: "7" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M21 21l-4.3-4.3" })
-            ] }),
-            "Ricerca"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("a", { href: "#", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M12 20s-7-4.3-9.5-8.4C1 8.5 2.4 5 6 5c2 0 3.3 1 4.5 2.6C11.7 6 13 5 15 5c3.6 0 5 3.5 3.5 6.6C16 16.7 12 20 12 20z" }) }),
-            "Racconta un ricordo"
-          ] })
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: App_default.heroText, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("h1", { children: "Storie di famiglia, radicate nel tempo" }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { children: "Tocca una persona nell'albero per leggere la sua storia e scoprire chi le sta accanto." })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: App_default.headerRight, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Button, { variant: "secondary", size: "small", onClick: startTour, className: App_default.tourBtn, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { viewBox: "0 0 24 24", width: "15", height: "15", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", style: { marginRight: "4px" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "12", cy: "12", r: "10" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: App_default.heroActions, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: App_default.searchField, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("circle", { cx: "11", cy: "11", r: "7" }),
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("path", { d: "M21 21l-4.3-4.3" })
             ] }),
-            "Guida IRIS"
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+              "input",
+              {
+                type: "search",
+                placeholder: "Cerca un familiare per nome",
+                "aria-label": "Cerca un familiare per nome",
+                value: query,
+                onChange: (e) => setQuery(e.target.value),
+                onKeyDown: handleSearchKeyDown
+              }
+            )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: App_default.profileChip, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: App_default.avatarSm, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(User, { width: 17, height: 17 }) }),
-            "Arianna Han"
-          ] })
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Button, { variant: "primary", onClick: () => setIsAddOpen(true), children: "Aggiungi familiare" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("section", { ref: refs.heroRef, className: App_default.hero, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { className: App_default.heroRings, viewBox: "0 0 200 200", "aria-hidden": "true", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "100", cy: "100", r: "94", fill: "none", stroke: "#f59e0b", strokeWidth: "1" }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "100", cy: "100", r: "74", fill: "none", stroke: "#f59e0b", strokeWidth: "1" }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "100", cy: "100", r: "54", fill: "none", stroke: "#f59e0b", strokeWidth: "1" }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "100", cy: "100", r: "34", fill: "none", stroke: "#f59e0b", strokeWidth: "1" })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: App_default.heroText, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h1", { children: "Storie di famiglia, radicate nel tempo" }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "Tocca una persona nell'albero per leggere la sua storia e scoprire chi le sta accanto." })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: App_default.heroActions, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: App_default.searchField, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "11", cy: "11", r: "7" }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M21 21l-4.3-4.3" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { type: "search", placeholder: "Cerca un familiare per nome", "aria-label": "Cerca un familiare per nome" })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Button, { variant: "primary", children: "Aggiungi familiare" })
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("main", { className: App_default.workspace, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("main", { className: App_default.workspace, children: [
+        selectedPerson && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
           PersonDetailPanel,
           {
             ref: refs.detailPanelRef,
-            person: mockPerson,
-            onSelectFamilyMember: (id) => console.log("Selezionato:", id),
+            person: selectedPerson,
+            onSelectFamilyMember: setSelectedId,
             onOpenMemoryModal: () => console.log("Ricordo"),
             onOpenFullProfile: () => console.log("Profilo")
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: App_default.treeAreaPlaceholder, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: App_default.placeholderCard, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "Seleziona un profilo per visualizzare la mappa delle connessioni." }) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+          FamilyTree,
+          {
+            people,
+            familyName: FAMILY_NAME,
+            selectedId,
+            query,
+            onSelect: setSelectedId
+          }
+        )
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+        AddRelative_default2,
+        {
+          isOpen: isAddOpen,
+          people: toOptions(people),
+          initialRelatedId: selectedId,
+          relationBlockers: (id) => getRelationBlockers(people, id),
+          onClose: () => setIsAddOpen(false),
+          onSubmit: handleAddRelative
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
         GuidedTour,
         {
           isOpen,
@@ -22433,17 +23262,88 @@
       )
     ] });
   }
-  var import_jsx_runtime7, App_default2;
+  var import_react10, import_jsx_runtime10, FAMILY_NAME, INITIAL_PEOPLE, App_default2;
   var init_App2 = __esm({
     "src/provaTree2/App.tsx"() {
       "use strict";
+      import_react10 = __toESM(require_react());
       init_useIrisTour();
       init_GuidedTour2();
       init_PersonDetailPanel();
       init_Buttons2();
       init_App();
-      init_lucide_react();
-      import_jsx_runtime7 = __toESM(require_jsx_runtime());
+      init_AddRelative2();
+      init_FamilyTree2();
+      init_types();
+      init_Navbar2();
+      import_jsx_runtime10 = __toESM(require_jsx_runtime());
+      FAMILY_NAME = "Han";
+      INITIAL_PEOPLE = [
+        {
+          id: "giuseppe",
+          firstName: "Giuseppe",
+          lastName: "Han",
+          sex: "uomo",
+          birthYear: 1932,
+          job: "Falegname",
+          bio: "Giuseppe \xE8 stato il padre di Orazio e un artigiano molto conosciuto nel paese. Ha trascorso gran parte della sua vita nella propria bottega, realizzando mobili e oggetti in legno. Ha insegnato a Orazio il mestiere di falegname.",
+          parentIds: [],
+          partnerId: "maria"
+        },
+        {
+          id: "maria",
+          firstName: "Maria",
+          lastName: "Rossi",
+          sex: "donna",
+          birthYear: 1935,
+          job: "Sarta",
+          bio: "Maria \xE8 stata una donna forte e laboriosa. Ha lavorato per molti anni come sarta, realizzando abiti per le famiglie del paese. Ha cresciuto Orazio insegnandogli il valore della pazienza, dell'umilt\xE0 e dell'indipendenza.",
+          parentIds: [],
+          partnerId: "giuseppe"
+        },
+        {
+          id: "orazio",
+          firstName: "Orazio",
+          lastName: "Han",
+          sex: "uomo",
+          birthYear: 1960,
+          job: "Artigiano",
+          bio: "Orazio \xE8 cresciuto in una famiglia umile, senza mai perdere la voglia di lavorare con le mani. Ha imparato il mestiere di falegname da suo padre e non lo ha pi\xF9 lasciato. Ha incontrato Clara al mercato del paese: si sono sposati due anni dopo.",
+          parentIds: ["giuseppe", "maria"],
+          partnerId: "clara"
+        },
+        {
+          id: "clara",
+          firstName: "Clara",
+          lastName: "Shin",
+          sex: "donna",
+          birthYear: 1962,
+          job: "Insegnante",
+          bio: "Clara \xE8 cresciuta in una famiglia numerosa. Ha conosciuto Orazio al mercato del paese e si \xE8 innamorata della sua semplicit\xE0 e determinazione. Dopo il matrimonio ha continuato a dedicarsi all'insegnamento e alla famiglia.",
+          parentIds: [],
+          partnerId: "orazio"
+        },
+        {
+          id: "shila",
+          firstName: "Shila",
+          lastName: "Han",
+          sex: "donna",
+          birthYear: 1985,
+          job: "Architetta",
+          bio: "Shila \xE8 la primogenita di Orazio e Clara. Fin da piccola ha mostrato una particolare attenzione per il disegno e la progettazione. Dopo gli studi universitari \xE8 diventata architetta, specializzandosi nella ristrutturazione di edifici storici.",
+          parentIds: ["orazio", "clara"]
+        },
+        {
+          id: "mario",
+          firstName: "Mario",
+          lastName: "Han",
+          sex: "uomo",
+          birthYear: 1989,
+          job: "Ingegnere informatico",
+          bio: "Mario \xE8 il secondogenito di Orazio e Clara. Fin da ragazzo ha mostrato una forte curiosit\xE0 per la tecnologia e il funzionamento dei computer. Dopo la laurea in informatica ha iniziato a lavorare come ingegnere informatico.",
+          parentIds: ["orazio", "clara"]
+        }
+      ];
       App_default2 = App;
     }
   });
@@ -22457,13 +23357,13 @@
   // src/provaTree2/mainDOM.tsx
   var require_mainDOM = __commonJS({
     "src/provaTree2/mainDOM.tsx"() {
-      var import_react7 = __toESM(require_react());
+      var import_react11 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_App2();
       init_provaTree2();
-      var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+      var import_jsx_runtime11 = __toESM(require_jsx_runtime());
       import_client.default.createRoot(document.getElementById("root")).render(
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_react7.default.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(App_default2, {}) })
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react11.default.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(App_default2, {}) })
       );
     }
   });

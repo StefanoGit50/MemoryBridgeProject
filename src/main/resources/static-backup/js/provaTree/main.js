@@ -23481,7 +23481,7 @@
     }
   });
 
-  // src/shared/Navbar/Navbar.module.css
+  // src/shared/Navbar/Navbar2.module.css
   var Navbar_default;
   var init_Navbar = __esm({
     "src/shared/Navbar/Navbar.module.css"() {
@@ -23591,7 +23591,7 @@
     }
   });
 
-  // src/provaTree/App.tsx
+  // src/provaTree/Tree.tsx
   function boundsFromPositions(positions) {
     if (positions.length === 0) return null;
     let minX = Infinity;

@@ -1,0 +1,220 @@
+/* ---------- Topbar (identica all'HTML originale, in più sticky) ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap');
+
+.topbar {
+    /* Token con i valori esatti del :root dell'HTML: la navbar non dipende da quelli dell'app */
+    --ink: #1e293b;
+    --ink-soft: #64748b;
+    --paper-alt: #f1f5f9;
+    --card: #ffffff;
+    --line: #e2e8f0;
+    --moss: #2563eb;
+    --moss-dark: #1d4ed8;
+    --moss-soft: #eff6ff;
+    --focus: #2563eb;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.0rem 2rem;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+
+    /* ereditati dal body dell'HTML */
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.topbar,
+.topbar * {
+    box-sizing: border-box;
+}
+
+.topbar button {
+    font-family: inherit;
+}
+
+.topbar a:focus-visible,
+.topbar button:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ---------- Brand ---------- */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+}
+
+/* <img> del logo (Logo.png) al posto del cerchio con l'icona */
+.brandMark {
+    display: block;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--moss-soft);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.brandName {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.3rem;
+}
+
+.brandName em {
+    font-style: italic;
+    color: var(--moss-dark);
+    font-weight: 500;
+}
+
+/* ---------- Link di navigazione ---------- */
+.navLinks {
+    display: flex;
+    gap: 1.9rem;
+    flex-wrap: wrap;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: .94rem;
+    font-weight: 500;
+    padding: .35rem 0;
+    border-bottom: 2px solid transparent;
+}
+
+.navLink svg {
+    width: 17px;
+    height: 17px;
+}
+
+.navLink:hover {
+    color: var(--ink);
+}
+
+.navLink[aria-current="page"] {
+    color: var(--moss-dark);
+    border-bottom-color: var(--moss);
+}
+
+/* ---------- Destra ---------- */
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* .btn-secondary.small dell'HTML (+ lo stile inline del bottone Guida IRIS) */
+.tourBtn,
+.cta {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    border-radius: 999px;
+    padding: .5rem .85rem;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid #cbd5e1;
+    background: var(--card);
+    color: var(--ink);
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tourBtn:hover,
+.cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -6px rgba(37, 99, 235, .4);
+    background: var(--moss);
+    color: #ffffff;
+    border-color: var(--moss);
+}
+
+.ctaPlus {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.profileChip {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    color: var(--ink-soft);
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.avatarSm {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--moss-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--moss-dark);
+    overflow: hidden;
+}
+
+.avatarSm svg {
+    width: 17px;
+    height: 17px;
+}
+
+.avatarImg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+    .topbar {
+        padding: .8rem 1rem;
+    }
+
+    .navLinks {
+        gap: 1.1rem;
+        font-size: .85rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .topbar * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+.left { display: flex; align-items: center; }
+
+/* "Ricerca" ora è un <button>: stessi stili dei link */
+button.navLink {
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    font-family: inherit;
+    cursor: pointer;
+}
+.navLink[aria-expanded='true'] { color: var(--moss-dark); border-bottom-color: var(--moss); }
+
+/* Con la barra aperta su schermi medi restano solo le icone, per far stare tutto in una riga */
+@media (max-width: 1280px) {
+    .searching .navLabel { display: none; }
+}

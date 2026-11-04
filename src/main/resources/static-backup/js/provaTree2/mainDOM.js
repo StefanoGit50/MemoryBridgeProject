@@ -22309,7 +22309,7 @@
     }
   });
 
-  // src/provaTree2/App.tsx
+  // src/provaTree2/Tree.tsx
   function App() {
     const { isOpen, stepIndex, steps, startTour, closeTour, nextStep, prevStep, refs } = useIrisTour();
     const mockPerson = {

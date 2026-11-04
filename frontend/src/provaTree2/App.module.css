@@ -98,7 +98,7 @@
     align-items: flex-start;
     gap: 1.5rem;
     padding: 1.5rem 2rem 3rem;
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
     width: 100%;
 }
@@ -120,4 +120,18 @@
     color: var(--ink-soft, #64748b);
     font-size: 0.95rem;
     font-family: 'Inter', sans-serif;
+}
+.personCard.acquired { border-style: dashed; }
+.personCard.acquired:not(.isSelected) {
+    background: color-mix(in srgb, var(--brass-soft) 55%, var(--card));
+    border-color: color-mix(in srgb, var(--brass) 45%, var(--line));
+}
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.searchField input:focus-visible {
+    outline: none; /* nasconde il rettangolo blu sul solo input */
+}
+.searchField:focus-within {
+    border-color: var(--moss);
+    box-shadow: 0 0 0 3px var(--moss-soft);
 }

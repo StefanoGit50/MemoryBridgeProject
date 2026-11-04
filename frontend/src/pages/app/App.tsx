@@ -8,7 +8,7 @@ import HomePage from "@/pages/app/Home/Component/HomePage";
 import "@/styles/global.css"
 
 import { BrowserRouter, Routes, Route,Navigate } from 'react-router-dom';
-import {Navbar} from "@/shared/Navbar/Navbar";
+import Navbar from "@/provaTree2/Panels/Navbar";
 import {MemoryDraft} from "@/shared/Post/types";
 
 
@@ -699,11 +699,27 @@ function MemoryBridgeApp() {
 
 import {CreateMemoryScreen} from "@/pages/app/Home/Component/Creatememoryscreen";
 import MemoriesPage from "@/pages/app/InteractiveTimeline/MemoriesPage";
+import Tree from "@/provaTree2/Tree";
+
+import type { UserResult } from '@/shared/Navbar/NavbarSearch'; // adatta il percorso
+
+// Versione di prova, sostituiscila con la tua API
+const USERS: UserResult[] = [
+    { id: 'orazio', name: 'Orazio Han', subtitle: 'Nato nel 1960' },
+    { id: 'clara', name: 'Clara Shin', subtitle: 'Nata nel 1962' },
+    { id: 'shila', name: 'Shila Han', subtitle: 'Nata nel 1985' },
+];
+const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+const searchUsers = async (query: string): Promise<UserResult[]> => {
+    await new Promise((r) => setTimeout(r, 200)); // finta attesa di rete
+    return USERS.filter((u) => norm(u.name).includes(norm(query)));
+};
 
 export default function App() {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const userAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
-
+    const currentUserId = 'abc123'
     function handleSaveMemory(memoryData: any) {
         console.log('Salva ricordo:', memoryData);
         setIsCreateOpen(false);
@@ -714,11 +730,12 @@ export default function App() {
             <AccessibilityProvider>
                 <SpeechProvider>
                     <Navbar
-                        activeHref="/"
+                        userId={currentUserId}
                         ctaLabel="Nuovo Ricordo"
                         onCtaClick={() => setIsCreateOpen(true)}
                         avatarUrl={userAvatarUrl}
                         avatarAlt="Il tuo profilo"
+                        onSearchUsers={searchUsers}
                     />
                     {isCreateOpen ? (
                         <CreateMemoryScreen
@@ -733,6 +750,7 @@ export default function App() {
                                     element={<HomePage onOpenCreate={() => setIsCreateOpen(true)} />}
                                 />
                                 <Route path="/timeline/:userId" element={<MemoriesPage />} />
+                                <Route path="/familyTree/:userId" element={<Tree/>} />
                                 {/* Fallback: Qualsiasi URL non riconosciuto viene reindirizzato alla Home */}
                                 <Route path="*" element={<Navigate to="/" replace />} />
                             </Routes>

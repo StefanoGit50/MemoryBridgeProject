@@ -32696,7 +32696,7 @@
     }
   });
 
-  // src/shared/Navbar/Navbar.module.css
+  // src/shared/Navbar/Navbar2.module.css
   var Navbar_default;
   var init_Navbar = __esm({
     "src/shared/Navbar/Navbar.module.css"() {
@@ -34665,7 +34665,7 @@
     }
   });
 
-  // src/pages/app/App.tsx
+  // src/pages/app/Tree.tsx
   var require_App = __commonJS({
     "src/pages/app/App.tsx"() {
       var import_react38 = __toESM(require_react());
